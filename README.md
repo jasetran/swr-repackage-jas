@@ -1,6 +1,8 @@
-# ROAR v3.0 Development
+# ROAR3 (v3.x)
 
-Development repo for javascript version of ROAR-LDT. Versions and their dependencies are packaged within folders to ensure continued functionality as new test versions are deployed.
+Development for jsPsych  version of ROAR-LDT. 
+Versions and their dependencies are packaged within
+ folders to ensure continued functionality as new test versions are deployed.
 
 ## Organization 
 ### Working Content Code 

@@ -1,0 +1,1124 @@
+{
+  "subj" : {
+    "4eOUnIAsnLOV2JdB" : [ {
+      "internal_node_id" : "0.0-0.0",
+      "success" : true,
+      "time_elapsed" : 51,
+      "timeout" : false,
+      "trial_index" : 0,
+      "trial_type" : "preload"
+    }, {
+      "internal_node_id" : "0.0-1.0",
+      "response" : "m",
+      "rt" : 3724.800000011921,
+      "stimulus" : "<h1>Welcome to the world of Lexicality!</h1>\n      <p>You are searching for the gate that will return you to your home on Earth.</p>\n      <p>To reach it, you must cross <strong>five</strong> valleys guarded by magical creatures.</p>\n      <p>To convince them to let you pass through, you must be able to tell the difference\n      between the magic words of Lexicality and English.</p>\n      <p>Press any key to see how!</p>\n      ",
+      "time_elapsed" : 3800,
+      "trial_index" : 1,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-2.0",
+      "response" : "l",
+      "rt" : 14852.5,
+      "stimulus" : "\n        <p>The magic words sound like fake, made-up words.\n        They might look like English words, but they don't\n        mean anything in English. For example, <i> laip, bove,</i> and <i>\n        cigbert</i> are magic words.\n        If you see a magic word, press the <strong>LEFT ARROW KEY</strong></p>\n        <p>The other words will be onese you recognize.\n        They are real English words like <i>is, basket,</i> and <i>lion.</i>\n        If you see a real word, hit the <strong>RIGHT ARROW KEY</strong></p>\n        </div>\n        <p>Press any key to begin practice!</p>\n      ",
+      "time_elapsed" : 18660,
+      "trial_index" : 2,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.0",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 21674,
+      "trial_index" : 3,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.0",
+      "response" : "arrowright",
+      "rt" : 962.4000000357628,
+      "stimulus" : "<div style=\"font-size:60px;\">deliberate</div>",
+      "task" : "response",
+      "time_elapsed" : 22644,
+      "trial_index" : 4,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.1",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 23646,
+      "trial_index" : 5,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.1",
+      "response" : "arrowright",
+      "rt" : 679.7999999523163,
+      "stimulus" : "<div style=\"font-size:60px;\">sweet</div>",
+      "task" : "response",
+      "time_elapsed" : 24329,
+      "trial_index" : 6,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.2",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 25333,
+      "trial_index" : 7,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.2",
+      "response" : "arrowleft",
+      "rt" : 534.3999999761581,
+      "stimulus" : "<div style=\"font-size:60px;\">pweef</div>",
+      "task" : "response",
+      "time_elapsed" : 25868,
+      "trial_index" : 8,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.3",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 26874,
+      "trial_index" : 9,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.3",
+      "response" : "arrowleft",
+      "rt" : 955.1000000238419,
+      "stimulus" : "<div style=\"font-size:60px;\">throomba</div>",
+      "task" : "response",
+      "time_elapsed" : 27832,
+      "trial_index" : 10,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.4",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 28838,
+      "trial_index" : 11,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.4",
+      "response" : "arrowleft",
+      "rt" : 707.8000000119209,
+      "stimulus" : "<div style=\"font-size:60px;\">baf</div>",
+      "task" : "response",
+      "time_elapsed" : 29547,
+      "trial_index" : 12,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.5",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 30553,
+      "trial_index" : 13,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.5",
+      "response" : "arrowright",
+      "rt" : 545.6000000238419,
+      "stimulus" : "<div style=\"font-size:60px;\">hat</div>",
+      "task" : "response",
+      "time_elapsed" : 31099,
+      "trial_index" : 14,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-4.0",
+      "response" : "arrowleft",
+      "rt" : 12675.300000011921,
+      "stimulus" : "<p>You responded correctly on 100% of the trials.</p>\n          <p>Your average response time on correct trials was 731ms.</p>\n          <p>Your average response time on incorrect trials was NaNms.</p>\n          <p>Press any key to complete the experiment. Thank you!</p>",
+      "time_elapsed" : 43787,
+      "trial_index" : 15,
+      "trial_type" : "html-keyboard-response"
+    } ],
+    "CIJCCS2dQnHo0apT" : [ {
+      "internal_node_id" : "0.0-0.0",
+      "success" : true,
+      "time_elapsed" : 14,
+      "timeout" : false,
+      "trial_index" : 0,
+      "trial_type" : "preload"
+    }, {
+      "internal_node_id" : "0.0-1.0",
+      "response" : "arrowright",
+      "rt" : 1745,
+      "stimulus" : "<h1>Welcome to the world of Lexicality!</h1>\n      <p>You are searching for the gate that will return you to your home on Earth.</p>\n      <p>To reach it, you must cross <strong>five</strong> valleys guarded by magical creatures.</p>\n      <p>To convince them to let you pass through, you must be able to tell the difference\n      between the magic words of Lexicality and English.</p>\n      <p>Press any key to see how!</p>\n      ",
+      "time_elapsed" : 1770,
+      "trial_index" : 1,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-2.0",
+      "response" : "arrowright",
+      "rt" : 1451.9000000357628,
+      "stimulus" : "\n        <p>The magic words sound like fake, made-up words.\n        They might look like English words, but they don't\n        mean anything in English. For example, <i> laip, bove,</i> and <i>\n        cigbert</i> are magic words.\n        If you see a magic word, press the <strong>LEFT ARROW KEY</strong></p>\n        <p>The other words will be onese you recognize.\n        They are real English words like <i>is, basket,</i> and <i>lion.</i>\n        If you see a real word, hit the <strong>RIGHT ARROW KEY</strong></p>\n        </div>\n        <p>Press any key to begin practice!</p>\n      ",
+      "time_elapsed" : 3224,
+      "trial_index" : 2,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.0",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 6247,
+      "trial_index" : 3,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.0",
+      "response" : "arrowright",
+      "rt" : 621.9000000357628,
+      "stimulus" : "<div style=\"font-size:60px;\">deliberate</div>",
+      "task" : "response",
+      "time_elapsed" : 6881,
+      "trial_index" : 4,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.1",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 7893,
+      "trial_index" : 5,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.1",
+      "response" : "arrowleft",
+      "rt" : 636.8000000119209,
+      "stimulus" : "<div style=\"font-size:60px;\">throomba</div>",
+      "task" : "response",
+      "time_elapsed" : 8540,
+      "trial_index" : 6,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.2",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 9550,
+      "trial_index" : 7,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.2",
+      "response" : "arrowleft",
+      "rt" : 802.0999999642372,
+      "stimulus" : "<div style=\"font-size:60px;\">baf</div>",
+      "task" : "response",
+      "time_elapsed" : 10359,
+      "trial_index" : 8,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.3",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 11370,
+      "trial_index" : 9,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.3",
+      "response" : "arrowright",
+      "rt" : 983.1999999880791,
+      "stimulus" : "<div style=\"font-size:60px;\">sweet</div>",
+      "task" : "response",
+      "time_elapsed" : 12364,
+      "trial_index" : 10,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.4",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 13370,
+      "trial_index" : 11,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.4",
+      "response" : "arrowleft",
+      "rt" : 617.0999999642372,
+      "stimulus" : "<div style=\"font-size:60px;\">pweef</div>",
+      "task" : "response",
+      "time_elapsed" : 13991,
+      "trial_index" : 12,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.5",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 14997,
+      "trial_index" : 13,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.5",
+      "response" : "arrowright",
+      "rt" : 1045.3999999761581,
+      "stimulus" : "<div style=\"font-size:60px;\">hat</div>",
+      "task" : "response",
+      "time_elapsed" : 16044,
+      "trial_index" : 14,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-4.0",
+      "response" : "arrowright",
+      "rt" : 2187.5,
+      "stimulus" : "<p>You responded correctly on 100% of the trials.</p>\n          <p>Your average response time on correct trials was 784ms.</p>\n          <p>Your average response time on incorrect trials was NaNms.</p>\n          <p>Press any key to complete the experiment. Thank you!</p>",
+      "time_elapsed" : 18239,
+      "trial_index" : 15,
+      "trial_type" : "html-keyboard-response"
+    } ],
+    "G4sD7Tbrzw7xSad6" : [ {
+      "internal_node_id" : "0.0-0.0",
+      "success" : true,
+      "time_elapsed" : 1,
+      "timeout" : false,
+      "trial_index" : 0,
+      "trial_type" : "preload"
+    }, {
+      "internal_node_id" : "0.0-1.0",
+      "response" : " ",
+      "rt" : 32263,
+      "stimulus" : "<h1>Welcome to the world of Lexicality!</h1>\n      <p>You are searching for the gate that will return you to your home on Earth.</p>\n      <p>To reach it, you must cross <strong>five</strong> valleys guarded by magical creatures.</p>\n      <p>To convince them to let you pass through, you must be able to tell the difference\n      between the magic words of Lexicality and English.</p>\n      <p>Press any key to see how!</p>\n      ",
+      "time_elapsed" : 32264,
+      "trial_index" : 1,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-2.0",
+      "response" : "arrowleft",
+      "rt" : 1519.300000011921,
+      "stimulus" : "\n        <p>The magic words sound like fake, made-up words.\n        They might look like English words, but they don't\n        mean anything in English. For example, <i> laip, bove,</i> and <i>\n        cigbert</i> are magic words.\n        If you see a magic word, press the <strong>LEFT ARROW KEY</strong></p>\n        <p>The other words will be onese you recognize.\n        They are real English words like <i>is, basket,</i> and <i>lion.</i>\n        If you see a real word, hit the <strong>RIGHT ARROW KEY</strong></p>\n        </div>\n        <p>Press any key to begin practice!</p>\n      ",
+      "time_elapsed" : 33787,
+      "trial_index" : 2,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.0",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 36797,
+      "trial_index" : 3,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.0",
+      "response" : "arrowright",
+      "rt" : 735.3999999761581,
+      "stimulus" : "<div style=\"font-size:60px;\">deliberate</div>",
+      "task" : "response",
+      "time_elapsed" : 37535,
+      "trial_index" : 4,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.1",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 38537,
+      "trial_index" : 5,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.1",
+      "response" : "arrowleft",
+      "rt" : 691.8000000119209,
+      "stimulus" : "<div style=\"font-size:60px;\">baf</div>",
+      "task" : "response",
+      "time_elapsed" : 39230,
+      "trial_index" : 6,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.2",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 40235,
+      "trial_index" : 7,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : false,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.2",
+      "response" : "arrowleft",
+      "rt" : 753.1000000238419,
+      "stimulus" : "<div style=\"font-size:60px;\">sweet</div>",
+      "task" : "response",
+      "time_elapsed" : 40990,
+      "trial_index" : 8,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.3",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 41993,
+      "trial_index" : 9,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.3",
+      "response" : "arrowright",
+      "rt" : 770.8999999761581,
+      "stimulus" : "<div style=\"font-size:60px;\">hat</div>",
+      "task" : "response",
+      "time_elapsed" : 42766,
+      "trial_index" : 10,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.4",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 43771,
+      "trial_index" : 11,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.4",
+      "response" : "arrowleft",
+      "rt" : 573.8999999761581,
+      "stimulus" : "<div style=\"font-size:60px;\">pweef</div>",
+      "task" : "response",
+      "time_elapsed" : 44346,
+      "trial_index" : 12,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.5",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 45348,
+      "trial_index" : 13,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.5",
+      "response" : "arrowleft",
+      "rt" : 547.5,
+      "stimulus" : "<div style=\"font-size:60px;\">throomba</div>",
+      "task" : "response",
+      "time_elapsed" : 45897,
+      "trial_index" : 14,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-4.0",
+      "response" : " ",
+      "rt" : 1891.1000000238419,
+      "stimulus" : "<p>You responded correctly on 83% of the trials.</p>\n          <p>Your average response time on correct trials was 664ms.</p>\n          <p>Your average response time on incorrect trials was 753ms.</p>\n          <p>Press any key to complete the experiment. Thank you!</p>",
+      "time_elapsed" : 47790,
+      "trial_index" : 15,
+      "trial_type" : "html-keyboard-response"
+    } ],
+    "I3Q4TRngf23pYq8B" : [ {
+      "internal_node_id" : "0.0-0.0",
+      "success" : true,
+      "time_elapsed" : 2,
+      "timeout" : false,
+      "trial_index" : 0,
+      "trial_type" : "preload"
+    }, {
+      "internal_node_id" : "0.0-1.0",
+      "response" : " ",
+      "rt" : 2280.800000011921,
+      "stimulus" : "<h1>Welcome to the world of Lexicality!</h1>\n      <p>You are searching for the gate that will return you to your home on Earth.</p>\n      <p>To reach it, you must cross <strong>five</strong> valleys guarded by magical creatures.</p>\n      <p>To convince them to let you pass through, you must be able to tell the difference\n      between the magic words of Lexicality and English.</p>\n      <p>Press any key to see how!</p>\n      ",
+      "time_elapsed" : 2284,
+      "trial_index" : 1,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-2.0",
+      "response" : "arrowleft",
+      "rt" : 2644.300000011921,
+      "stimulus" : "\n        <p>The magic words sound like fake, made-up words.\n        They might look like English words, but they don't\n        mean anything in English. For example, <i> laip, bove,</i> and <i>\n        cigbert</i> are magic words.\n        If you see a magic word, press the <strong>LEFT ARROW KEY</strong></p>\n        <p>The other words will be onese you recognize.\n        They are real English words like <i>is, basket,</i> and <i>lion.</i>\n        If you see a real word, hit the <strong>RIGHT ARROW KEY</strong></p>\n        </div>\n        <p>Press any key to begin practice!</p>\n      ",
+      "time_elapsed" : 4930,
+      "trial_index" : 2,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.0",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 7940,
+      "trial_index" : 3,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.0",
+      "response" : "arrowright",
+      "rt" : 949.6000000238419,
+      "stimulus" : "<div style=\"font-size:60px;\">deliberate</div>",
+      "task" : "response",
+      "time_elapsed" : 8893,
+      "trial_index" : 4,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.1",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 9897,
+      "trial_index" : 5,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.1",
+      "response" : "arrowright",
+      "rt" : 736.6000000238419,
+      "stimulus" : "<div style=\"font-size:60px;\">hat</div>",
+      "task" : "response",
+      "time_elapsed" : 10636,
+      "trial_index" : 6,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.2",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 11640,
+      "trial_index" : 7,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.2",
+      "response" : "arrowleft",
+      "rt" : 628,
+      "stimulus" : "<div style=\"font-size:60px;\">throomba</div>",
+      "task" : "response",
+      "time_elapsed" : 12269,
+      "trial_index" : 8,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.3",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 13274,
+      "trial_index" : 9,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.3",
+      "response" : "arrowleft",
+      "rt" : 618.5999999642372,
+      "stimulus" : "<div style=\"font-size:60px;\">pweef</div>",
+      "task" : "response",
+      "time_elapsed" : 13894,
+      "trial_index" : 10,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.4",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 14900,
+      "trial_index" : 11,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.4",
+      "response" : "arrowleft",
+      "rt" : 745.7000000476837,
+      "stimulus" : "<div style=\"font-size:60px;\">baf</div>",
+      "task" : "response",
+      "time_elapsed" : 15647,
+      "trial_index" : 12,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.5",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 16652,
+      "trial_index" : 13,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.5",
+      "response" : "arrowright",
+      "rt" : 745,
+      "stimulus" : "<div style=\"font-size:60px;\">sweet</div>",
+      "task" : "response",
+      "time_elapsed" : 17398,
+      "trial_index" : 14,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-4.0",
+      "response" : " ",
+      "rt" : 12977.5,
+      "stimulus" : "<p>You responded correctly on 100% of the trials.</p>\n          <p>Your average response time on correct trials was 737ms.</p>\n          <p>Your average response time on incorrect trials was NaNms.</p>\n          <p>Press any key to complete the experiment. Thank you!</p>",
+      "time_elapsed" : 30377,
+      "trial_index" : 15,
+      "trial_type" : "html-keyboard-response"
+    } ],
+    "MOiBPgSI8uyNj1BN" : [ {
+      "internal_node_id" : "0.0-0.0",
+      "success" : true,
+      "time_elapsed" : 2,
+      "timeout" : false,
+      "trial_index" : 0,
+      "trial_type" : "preload"
+    }, {
+      "internal_node_id" : "0.0-1.0",
+      "response" : "arrowright",
+      "rt" : 768,
+      "stimulus" : "<h1>Welcome to the world of Lexicality!</h1>\n      <p>You are searching for the gate that will return you to your home on Earth.</p>\n      <p>To reach it, you must cross <strong>five</strong> valleys guarded by magical creatures.</p>\n      <p>To convince them to let you pass through, you must be able to tell the difference\n      between the magic words of Lexicality and English.</p>\n      <p>Press any key to see how!</p>\n      ",
+      "time_elapsed" : 770,
+      "trial_index" : 1,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-2.0",
+      "response" : "arrowright",
+      "rt" : 1897,
+      "stimulus" : "\n        <p>The magic words sound like fake, made-up words.\n        They might look like English words, but they don't\n        mean anything in English. For example, <i> laip, bove,</i> and <i>\n        cigbert</i> are magic words.\n        If you see a magic word, press the <strong>LEFT ARROW KEY</strong></p>\n        <p>The other words will be onese you recognize.\n        They are real English words like <i>is, basket,</i> and <i>lion.</i>\n        If you see a real word, hit the <strong>RIGHT ARROW KEY</strong></p>\n        </div>\n        <p>Press any key to begin practice!</p>\n      ",
+      "time_elapsed" : 2668,
+      "trial_index" : 2,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.0",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 5669,
+      "trial_index" : 3,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.0",
+      "response" : "arrowright",
+      "rt" : 133,
+      "stimulus" : "<div style=\"font-size:60px;\">sweet</div>",
+      "task" : "response",
+      "time_elapsed" : 5804,
+      "trial_index" : 4,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.1",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 6804,
+      "trial_index" : 5,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.1",
+      "response" : "arrowright",
+      "rt" : 82,
+      "stimulus" : "<div style=\"font-size:60px;\">deliberate</div>",
+      "task" : "response",
+      "time_elapsed" : 6886,
+      "trial_index" : 6,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.2",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 7887,
+      "trial_index" : 7,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : false,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.2",
+      "response" : "arrowright",
+      "rt" : 63,
+      "stimulus" : "<div style=\"font-size:60px;\">baf</div>",
+      "task" : "response",
+      "time_elapsed" : 7951,
+      "trial_index" : 8,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.3",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 8952,
+      "trial_index" : 9,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : false,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.3",
+      "response" : "arrowright",
+      "rt" : 79,
+      "stimulus" : "<div style=\"font-size:60px;\">throomba</div>",
+      "task" : "response",
+      "time_elapsed" : 9033,
+      "trial_index" : 10,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.4",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 10033,
+      "trial_index" : 11,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.4",
+      "response" : "arrowright",
+      "rt" : 113,
+      "stimulus" : "<div style=\"font-size:60px;\">hat</div>",
+      "task" : "response",
+      "time_elapsed" : 10147,
+      "trial_index" : 12,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.5",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 11147,
+      "trial_index" : 13,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : false,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.5",
+      "response" : "arrowright",
+      "rt" : 114,
+      "stimulus" : "<div style=\"font-size:60px;\">pweef</div>",
+      "task" : "response",
+      "time_elapsed" : 11262,
+      "trial_index" : 14,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-4.0",
+      "response" : "arrowright",
+      "rt" : 165,
+      "stimulus" : "<p>You responded correctly on 50% of the trials.</p>\n          <p>Your average response time on correct trials was 109ms.</p>\n          <p>Your average response time on incorrect trials was 85ms.</p>\n          <p>Press any key to complete the experiment. Thank you!</p>",
+      "time_elapsed" : 11427,
+      "trial_index" : 15,
+      "trial_type" : "html-keyboard-response"
+    } ],
+    "RMTh7E7cpCrCckwt" : [ {
+      "internal_node_id" : "0.0-0.0",
+      "success" : true,
+      "time_elapsed" : 3,
+      "timeout" : false,
+      "trial_index" : 0,
+      "trial_type" : "preload"
+    }, {
+      "internal_node_id" : "0.0-1.0",
+      "response" : " ",
+      "rt" : 4387.900000095367,
+      "stimulus" : "<h1>Welcome to the world of Lexicality!</h1>\n      <p>You are searching for the gate that will return you to your home on Earth.</p>\n      <p>To reach it, you must cross <strong>five</strong> valleys guarded by magical creatures.</p>\n      <p>To convince them to let you pass through, you must be able to tell the difference\n      between the magic words of Lexicality and English.</p>\n      <p>Press any key to see how!</p>\n      ",
+      "time_elapsed" : 4391,
+      "trial_index" : 1,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-2.0",
+      "response" : " ",
+      "rt" : 4853.399999976158,
+      "stimulus" : "\n        <p>The magic words sound like fake, made-up words.\n        They might look like English words, but they don't\n        mean anything in English. For example, <i> laip, bove,</i> and <i>\n        cigbert</i> are magic words.\n        If you see a magic word, press the <strong>LEFT ARROW KEY</strong></p>\n        <p>The other words will be onese you recognize.\n        They are real English words like <i>is, basket,</i> and <i>lion.</i>\n        If you see a real word, hit the <strong>RIGHT ARROW KEY</strong></p>\n        </div>\n        <p>Press any key to begin practice!</p>\n      ",
+      "time_elapsed" : 9246,
+      "trial_index" : 2,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.0",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 12254,
+      "trial_index" : 3,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.0",
+      "response" : "arrowright",
+      "rt" : 2494.600000023842,
+      "stimulus" : "<div style=\"font-size:60px;\">sweet</div>",
+      "task" : "response",
+      "time_elapsed" : 14751,
+      "trial_index" : 4,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.1",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 15754,
+      "trial_index" : 5,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.1",
+      "response" : "arrowleft",
+      "rt" : 844,
+      "stimulus" : "<div style=\"font-size:60px;\">pweef</div>",
+      "task" : "response",
+      "time_elapsed" : 16600,
+      "trial_index" : 6,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.2",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 17606,
+      "trial_index" : 7,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.2",
+      "response" : "arrowright",
+      "rt" : 785.3999999761581,
+      "stimulus" : "<div style=\"font-size:60px;\">deliberate</div>",
+      "task" : "response",
+      "time_elapsed" : 18393,
+      "trial_index" : 8,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.3",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 19400,
+      "trial_index" : 9,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.3",
+      "response" : "arrowleft",
+      "rt" : 1016.7999999523163,
+      "stimulus" : "<div style=\"font-size:60px;\">baf</div>",
+      "task" : "response",
+      "time_elapsed" : 20418,
+      "trial_index" : 10,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.4",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 21420,
+      "trial_index" : 11,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.4",
+      "response" : "arrowleft",
+      "rt" : 490,
+      "stimulus" : "<div style=\"font-size:60px;\">throomba</div>",
+      "task" : "response",
+      "time_elapsed" : 21911,
+      "trial_index" : 12,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.5",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 22917,
+      "trial_index" : 13,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.5",
+      "response" : "arrowright",
+      "rt" : 547,
+      "stimulus" : "<div style=\"font-size:60px;\">hat</div>",
+      "task" : "response",
+      "time_elapsed" : 23466,
+      "trial_index" : 14,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-4.0",
+      "response" : " ",
+      "rt" : 7835.299999952316,
+      "stimulus" : "<p>You responded correctly on 100% of the trials.</p>\n          <p>Your average response time on correct trials was 1030ms.</p>\n          <p>Your average response time on incorrect trials was NaNms.</p>\n          <p>Press any key to complete the experiment. Thank you!</p>",
+      "time_elapsed" : 31302,
+      "trial_index" : 15,
+      "trial_type" : "html-keyboard-response"
+    } ],
+    "T0ftchMGVCmRQRox" : [ {
+      "internal_node_id" : "0.0-0.0",
+      "success" : true,
+      "time_elapsed" : 2,
+      "timeout" : false,
+      "trial_index" : 0,
+      "trial_type" : "preload"
+    }, {
+      "internal_node_id" : "0.0-1.0",
+      "response" : "arrowright",
+      "rt" : 3112,
+      "stimulus" : "<h1>Welcome to the world of Lexicality!</h1>\n      <p>You are searching for the gate that will return you to your home on Earth.</p>\n      <p>To reach it, you must cross <strong>five</strong> valleys guarded by magical creatures.</p>\n      <p>To convince them to let you pass through, you must be able to tell the difference\n      between the magic words of Lexicality and English.</p>\n      <p>Press any key to see how!</p>\n      ",
+      "time_elapsed" : 3114,
+      "trial_index" : 1,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-2.0",
+      "response" : "arrowright",
+      "rt" : 2457,
+      "stimulus" : "\n        <p>The magic words sound like fake, made-up words.\n        They might look like English words, but they don't\n        mean anything in English. For example, <i> laip, bove,</i> and <i>\n        cigbert</i> are magic words.\n        If you see a magic word, press the <strong>LEFT ARROW KEY</strong></p>\n        <p>The other words will be onese you recognize.\n        They are real English words like <i>is, basket,</i> and <i>lion.</i>\n        If you see a real word, hit the <strong>RIGHT ARROW KEY</strong></p>\n        </div>\n        <p>Press any key to begin practice!</p>\n      ",
+      "time_elapsed" : 5572,
+      "trial_index" : 2,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.0",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 8574,
+      "trial_index" : 3,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.0",
+      "response" : "arrowright",
+      "rt" : 284,
+      "stimulus" : "<div style=\"font-size:60px;\">sweet</div>",
+      "task" : "response",
+      "time_elapsed" : 8860,
+      "trial_index" : 4,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.1",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 9861,
+      "trial_index" : 5,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.1",
+      "response" : "arrowright",
+      "rt" : 402,
+      "stimulus" : "<div style=\"font-size:60px;\">deliberate</div>",
+      "task" : "response",
+      "time_elapsed" : 10263,
+      "trial_index" : 6,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.2",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 11263,
+      "trial_index" : 7,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : false,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.2",
+      "response" : "arrowright",
+      "rt" : 274,
+      "stimulus" : "<div style=\"font-size:60px;\">pweef</div>",
+      "task" : "response",
+      "time_elapsed" : 11537,
+      "trial_index" : 8,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.3",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 12538,
+      "trial_index" : 9,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : false,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.3",
+      "response" : "arrowright",
+      "rt" : 423,
+      "stimulus" : "<div style=\"font-size:60px;\">throomba</div>",
+      "task" : "response",
+      "time_elapsed" : 12962,
+      "trial_index" : 10,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.4",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 13962,
+      "trial_index" : 11,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : false,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.4",
+      "response" : "arrowright",
+      "rt" : 447,
+      "stimulus" : "<div style=\"font-size:60px;\">baf</div>",
+      "task" : "response",
+      "time_elapsed" : 14410,
+      "trial_index" : 12,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.5",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 15411,
+      "trial_index" : 13,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.5",
+      "response" : "arrowright",
+      "rt" : 408,
+      "stimulus" : "<div style=\"font-size:60px;\">hat</div>",
+      "task" : "response",
+      "time_elapsed" : 15820,
+      "trial_index" : 14,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-4.0",
+      "response" : "arrowright",
+      "rt" : 1068,
+      "stimulus" : "<p>You responded correctly on 50% of the trials.</p>\n          <p>Your average response time on correct trials was 365ms.</p>\n          <p>Your average response time on incorrect trials was 381ms.</p>\n          <p>Press any key to complete the experiment. Thank you!</p>",
+      "time_elapsed" : 16889,
+      "trial_index" : 15,
+      "trial_type" : "html-keyboard-response"
+    } ],
+    "hB2M9Klc0KFBVIAJ" : [ {
+      "internal_node_id" : "0.0-0.0",
+      "success" : true,
+      "time_elapsed" : 1,
+      "timeout" : false,
+      "trial_index" : 0,
+      "trial_type" : "preload"
+    }, {
+      "internal_node_id" : "0.0-1.0",
+      "response" : " ",
+      "rt" : 949.1000000238419,
+      "stimulus" : "<h1>Welcome to the world of Lexicality!</h1>\n      <p>You are searching for the gate that will return you to your home on Earth.</p>\n      <p>To reach it, you must cross <strong>five</strong> valleys guarded by magical creatures.</p>\n      <p>To convince them to let you pass through, you must be able to tell the difference\n      between the magic words of Lexicality and English.</p>\n      <p>Press any key to see how!</p>\n      ",
+      "time_elapsed" : 951,
+      "trial_index" : 1,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-2.0",
+      "response" : " ",
+      "rt" : 766.5999999642372,
+      "stimulus" : "\n        <p>The magic words sound like fake, made-up words.\n        They might look like English words, but they don't\n        mean anything in English. For example, <i> laip, bove,</i> and <i>\n        cigbert</i> are magic words.\n        If you see a magic word, press the <strong>LEFT ARROW KEY</strong></p>\n        <p>The other words will be onese you recognize.\n        They are real English words like <i>is, basket,</i> and <i>lion.</i>\n        If you see a real word, hit the <strong>RIGHT ARROW KEY</strong></p>\n        </div>\n        <p>Press any key to begin practice!</p>\n      ",
+      "time_elapsed" : 1719,
+      "trial_index" : 2,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.0",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 4729,
+      "trial_index" : 3,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.0",
+      "response" : "arrowleft",
+      "rt" : 614.5,
+      "stimulus" : "<div style=\"font-size:60px;\">throomba</div>",
+      "task" : "response",
+      "time_elapsed" : 5346,
+      "trial_index" : 4,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.1",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 6349,
+      "trial_index" : 5,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.1",
+      "response" : "arrowright",
+      "rt" : 825.5,
+      "stimulus" : "<div style=\"font-size:60px;\">hat</div>",
+      "task" : "response",
+      "time_elapsed" : 7176,
+      "trial_index" : 6,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.2",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 8178,
+      "trial_index" : 7,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.2",
+      "response" : "arrowleft",
+      "rt" : 673.8999999761581,
+      "stimulus" : "<div style=\"font-size:60px;\">baf</div>",
+      "task" : "response",
+      "time_elapsed" : 8853,
+      "trial_index" : 8,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.3",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 9860,
+      "trial_index" : 9,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.3",
+      "response" : "arrowright",
+      "rt" : 696.8999999761581,
+      "stimulus" : "<div style=\"font-size:60px;\">sweet</div>",
+      "task" : "response",
+      "time_elapsed" : 10558,
+      "trial_index" : 10,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.4",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 11561,
+      "trial_index" : 11,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowRight",
+      "internal_node_id" : "0.0-3.0-1.4",
+      "response" : "arrowright",
+      "rt" : 783.1999999880791,
+      "stimulus" : "<div style=\"font-size:60px;\">deliberate</div>",
+      "task" : "response",
+      "time_elapsed" : 12345,
+      "trial_index" : 12,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-3.0-0.5",
+      "stimulus" : "<div style=\"font-size:60px;\">+</div>",
+      "task" : "fixation",
+      "time_elapsed" : 13349,
+      "trial_index" : 13,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "correct" : true,
+      "correct_response" : "ArrowLeft",
+      "internal_node_id" : "0.0-3.0-1.5",
+      "response" : "arrowleft",
+      "rt" : 546.8000000119209,
+      "stimulus" : "<div style=\"font-size:60px;\">pweef</div>",
+      "task" : "response",
+      "time_elapsed" : 13897,
+      "trial_index" : 14,
+      "trial_type" : "html-keyboard-response"
+    }, {
+      "internal_node_id" : "0.0-4.0",
+      "response" : " ",
+      "rt" : 4528.199999988079,
+      "stimulus" : "<p>You responded correctly on 100% of the trials.</p>\n          <p>Your average response time on correct trials was 690ms.</p>\n          <p>Your average response time on incorrect trials was NaNms.</p>\n          <p>Press any key to complete the experiment. Thank you!</p>",
+      "time_elapsed" : 18427,
+      "trial_index" : 15,
+      "trial_type" : "html-keyboard-response"
+    } ]
+  }
+}

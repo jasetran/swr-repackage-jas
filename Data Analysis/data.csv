@@ -1,0 +1,1145 @@
+,user,trial,node,response
+0,4eOUnIAsnLOV2JdB,0,internal_node_id,0.0-0.0
+1,4eOUnIAsnLOV2JdB,0,success,True
+2,4eOUnIAsnLOV2JdB,0,time_elapsed,51
+3,4eOUnIAsnLOV2JdB,0,timeout,False
+4,4eOUnIAsnLOV2JdB,0,trial_index,0
+5,4eOUnIAsnLOV2JdB,0,trial_type,preload
+6,4eOUnIAsnLOV2JdB,1,internal_node_id,0.0-1.0
+7,4eOUnIAsnLOV2JdB,1,response,m
+8,4eOUnIAsnLOV2JdB,1,rt,3724.800000011921
+9,4eOUnIAsnLOV2JdB,1,stimulus,"<h1>Welcome to the world of Lexicality!</h1>
+      <p>You are searching for the gate that will return you to your home on Earth.</p>
+      <p>To reach it, you must cross <strong>five</strong> valleys guarded by magical creatures.</p>
+      <p>To convince them to let you pass through, you must be able to tell the difference
+      between the magic words of Lexicality and English.</p>
+      <p>Press any key to see how!</p>
+      "
+10,4eOUnIAsnLOV2JdB,1,time_elapsed,3800
+11,4eOUnIAsnLOV2JdB,1,trial_index,1
+12,4eOUnIAsnLOV2JdB,1,trial_type,html-keyboard-response
+13,4eOUnIAsnLOV2JdB,2,internal_node_id,0.0-2.0
+14,4eOUnIAsnLOV2JdB,2,response,l
+15,4eOUnIAsnLOV2JdB,2,rt,14852.5
+16,4eOUnIAsnLOV2JdB,2,stimulus,"
+        <p>The magic words sound like fake, made-up words.
+        They might look like English words, but they don't
+        mean anything in English. For example, <i> laip, bove,</i> and <i>
+        cigbert</i> are magic words.
+        If you see a magic word, press the <strong>LEFT ARROW KEY</strong></p>
+        <p>The other words will be onese you recognize.
+        They are real English words like <i>is, basket,</i> and <i>lion.</i>
+        If you see a real word, hit the <strong>RIGHT ARROW KEY</strong></p>
+        </div>
+        <p>Press any key to begin practice!</p>
+      "
+17,4eOUnIAsnLOV2JdB,2,time_elapsed,18660
+18,4eOUnIAsnLOV2JdB,2,trial_index,2
+19,4eOUnIAsnLOV2JdB,2,trial_type,html-keyboard-response
+20,4eOUnIAsnLOV2JdB,3,internal_node_id,0.0-3.0-0.0
+21,4eOUnIAsnLOV2JdB,3,stimulus,"<div style=""font-size:60px;"">+</div>"
+22,4eOUnIAsnLOV2JdB,3,task,fixation
+23,4eOUnIAsnLOV2JdB,3,time_elapsed,21674
+24,4eOUnIAsnLOV2JdB,3,trial_index,3
+25,4eOUnIAsnLOV2JdB,3,trial_type,html-keyboard-response
+26,4eOUnIAsnLOV2JdB,4,correct,True
+27,4eOUnIAsnLOV2JdB,4,correct_response,ArrowRight
+28,4eOUnIAsnLOV2JdB,4,internal_node_id,0.0-3.0-1.0
+29,4eOUnIAsnLOV2JdB,4,response,arrowright
+30,4eOUnIAsnLOV2JdB,4,rt,962.4000000357628
+31,4eOUnIAsnLOV2JdB,4,stimulus,"<div style=""font-size:60px;"">deliberate</div>"
+32,4eOUnIAsnLOV2JdB,4,task,response
+33,4eOUnIAsnLOV2JdB,4,time_elapsed,22644
+34,4eOUnIAsnLOV2JdB,4,trial_index,4
+35,4eOUnIAsnLOV2JdB,4,trial_type,html-keyboard-response
+36,4eOUnIAsnLOV2JdB,5,internal_node_id,0.0-3.0-0.1
+37,4eOUnIAsnLOV2JdB,5,stimulus,"<div style=""font-size:60px;"">+</div>"
+38,4eOUnIAsnLOV2JdB,5,task,fixation
+39,4eOUnIAsnLOV2JdB,5,time_elapsed,23646
+40,4eOUnIAsnLOV2JdB,5,trial_index,5
+41,4eOUnIAsnLOV2JdB,5,trial_type,html-keyboard-response
+42,4eOUnIAsnLOV2JdB,6,correct,True
+43,4eOUnIAsnLOV2JdB,6,correct_response,ArrowRight
+44,4eOUnIAsnLOV2JdB,6,internal_node_id,0.0-3.0-1.1
+45,4eOUnIAsnLOV2JdB,6,response,arrowright
+46,4eOUnIAsnLOV2JdB,6,rt,679.7999999523163
+47,4eOUnIAsnLOV2JdB,6,stimulus,"<div style=""font-size:60px;"">sweet</div>"
+48,4eOUnIAsnLOV2JdB,6,task,response
+49,4eOUnIAsnLOV2JdB,6,time_elapsed,24329
+50,4eOUnIAsnLOV2JdB,6,trial_index,6
+51,4eOUnIAsnLOV2JdB,6,trial_type,html-keyboard-response
+52,4eOUnIAsnLOV2JdB,7,internal_node_id,0.0-3.0-0.2
+53,4eOUnIAsnLOV2JdB,7,stimulus,"<div style=""font-size:60px;"">+</div>"
+54,4eOUnIAsnLOV2JdB,7,task,fixation
+55,4eOUnIAsnLOV2JdB,7,time_elapsed,25333
+56,4eOUnIAsnLOV2JdB,7,trial_index,7
+57,4eOUnIAsnLOV2JdB,7,trial_type,html-keyboard-response
+58,4eOUnIAsnLOV2JdB,8,correct,True
+59,4eOUnIAsnLOV2JdB,8,correct_response,ArrowLeft
+60,4eOUnIAsnLOV2JdB,8,internal_node_id,0.0-3.0-1.2
+61,4eOUnIAsnLOV2JdB,8,response,arrowleft
+62,4eOUnIAsnLOV2JdB,8,rt,534.3999999761581
+63,4eOUnIAsnLOV2JdB,8,stimulus,"<div style=""font-size:60px;"">pweef</div>"
+64,4eOUnIAsnLOV2JdB,8,task,response
+65,4eOUnIAsnLOV2JdB,8,time_elapsed,25868
+66,4eOUnIAsnLOV2JdB,8,trial_index,8
+67,4eOUnIAsnLOV2JdB,8,trial_type,html-keyboard-response
+68,4eOUnIAsnLOV2JdB,9,internal_node_id,0.0-3.0-0.3
+69,4eOUnIAsnLOV2JdB,9,stimulus,"<div style=""font-size:60px;"">+</div>"
+70,4eOUnIAsnLOV2JdB,9,task,fixation
+71,4eOUnIAsnLOV2JdB,9,time_elapsed,26874
+72,4eOUnIAsnLOV2JdB,9,trial_index,9
+73,4eOUnIAsnLOV2JdB,9,trial_type,html-keyboard-response
+74,4eOUnIAsnLOV2JdB,10,correct,True
+75,4eOUnIAsnLOV2JdB,10,correct_response,ArrowLeft
+76,4eOUnIAsnLOV2JdB,10,internal_node_id,0.0-3.0-1.3
+77,4eOUnIAsnLOV2JdB,10,response,arrowleft
+78,4eOUnIAsnLOV2JdB,10,rt,955.1000000238419
+79,4eOUnIAsnLOV2JdB,10,stimulus,"<div style=""font-size:60px;"">throomba</div>"
+80,4eOUnIAsnLOV2JdB,10,task,response
+81,4eOUnIAsnLOV2JdB,10,time_elapsed,27832
+82,4eOUnIAsnLOV2JdB,10,trial_index,10
+83,4eOUnIAsnLOV2JdB,10,trial_type,html-keyboard-response
+84,4eOUnIAsnLOV2JdB,11,internal_node_id,0.0-3.0-0.4
+85,4eOUnIAsnLOV2JdB,11,stimulus,"<div style=""font-size:60px;"">+</div>"
+86,4eOUnIAsnLOV2JdB,11,task,fixation
+87,4eOUnIAsnLOV2JdB,11,time_elapsed,28838
+88,4eOUnIAsnLOV2JdB,11,trial_index,11
+89,4eOUnIAsnLOV2JdB,11,trial_type,html-keyboard-response
+90,4eOUnIAsnLOV2JdB,12,correct,True
+91,4eOUnIAsnLOV2JdB,12,correct_response,ArrowLeft
+92,4eOUnIAsnLOV2JdB,12,internal_node_id,0.0-3.0-1.4
+93,4eOUnIAsnLOV2JdB,12,response,arrowleft
+94,4eOUnIAsnLOV2JdB,12,rt,707.8000000119209
+95,4eOUnIAsnLOV2JdB,12,stimulus,"<div style=""font-size:60px;"">baf</div>"
+96,4eOUnIAsnLOV2JdB,12,task,response
+97,4eOUnIAsnLOV2JdB,12,time_elapsed,29547
+98,4eOUnIAsnLOV2JdB,12,trial_index,12
+99,4eOUnIAsnLOV2JdB,12,trial_type,html-keyboard-response
+100,4eOUnIAsnLOV2JdB,13,internal_node_id,0.0-3.0-0.5
+101,4eOUnIAsnLOV2JdB,13,stimulus,"<div style=""font-size:60px;"">+</div>"
+102,4eOUnIAsnLOV2JdB,13,task,fixation
+103,4eOUnIAsnLOV2JdB,13,time_elapsed,30553
+104,4eOUnIAsnLOV2JdB,13,trial_index,13
+105,4eOUnIAsnLOV2JdB,13,trial_type,html-keyboard-response
+106,4eOUnIAsnLOV2JdB,14,correct,True
+107,4eOUnIAsnLOV2JdB,14,correct_response,ArrowRight
+108,4eOUnIAsnLOV2JdB,14,internal_node_id,0.0-3.0-1.5
+109,4eOUnIAsnLOV2JdB,14,response,arrowright
+110,4eOUnIAsnLOV2JdB,14,rt,545.6000000238419
+111,4eOUnIAsnLOV2JdB,14,stimulus,"<div style=""font-size:60px;"">hat</div>"
+112,4eOUnIAsnLOV2JdB,14,task,response
+113,4eOUnIAsnLOV2JdB,14,time_elapsed,31099
+114,4eOUnIAsnLOV2JdB,14,trial_index,14
+115,4eOUnIAsnLOV2JdB,14,trial_type,html-keyboard-response
+116,4eOUnIAsnLOV2JdB,15,internal_node_id,0.0-4.0
+117,4eOUnIAsnLOV2JdB,15,response,arrowleft
+118,4eOUnIAsnLOV2JdB,15,rt,12675.300000011921
+119,4eOUnIAsnLOV2JdB,15,stimulus,"<p>You responded correctly on 100% of the trials.</p>
+          <p>Your average response time on correct trials was 731ms.</p>
+          <p>Your average response time on incorrect trials was NaNms.</p>
+          <p>Press any key to complete the experiment. Thank you!</p>"
+120,4eOUnIAsnLOV2JdB,15,time_elapsed,43787
+121,4eOUnIAsnLOV2JdB,15,trial_index,15
+122,4eOUnIAsnLOV2JdB,15,trial_type,html-keyboard-response
+123,CIJCCS2dQnHo0apT,0,internal_node_id,0.0-0.0
+124,CIJCCS2dQnHo0apT,0,success,True
+125,CIJCCS2dQnHo0apT,0,time_elapsed,14
+126,CIJCCS2dQnHo0apT,0,timeout,False
+127,CIJCCS2dQnHo0apT,0,trial_index,0
+128,CIJCCS2dQnHo0apT,0,trial_type,preload
+129,CIJCCS2dQnHo0apT,1,internal_node_id,0.0-1.0
+130,CIJCCS2dQnHo0apT,1,response,arrowright
+131,CIJCCS2dQnHo0apT,1,rt,1745
+132,CIJCCS2dQnHo0apT,1,stimulus,"<h1>Welcome to the world of Lexicality!</h1>
+      <p>You are searching for the gate that will return you to your home on Earth.</p>
+      <p>To reach it, you must cross <strong>five</strong> valleys guarded by magical creatures.</p>
+      <p>To convince them to let you pass through, you must be able to tell the difference
+      between the magic words of Lexicality and English.</p>
+      <p>Press any key to see how!</p>
+      "
+133,CIJCCS2dQnHo0apT,1,time_elapsed,1770
+134,CIJCCS2dQnHo0apT,1,trial_index,1
+135,CIJCCS2dQnHo0apT,1,trial_type,html-keyboard-response
+136,CIJCCS2dQnHo0apT,2,internal_node_id,0.0-2.0
+137,CIJCCS2dQnHo0apT,2,response,arrowright
+138,CIJCCS2dQnHo0apT,2,rt,1451.9000000357628
+139,CIJCCS2dQnHo0apT,2,stimulus,"
+        <p>The magic words sound like fake, made-up words.
+        They might look like English words, but they don't
+        mean anything in English. For example, <i> laip, bove,</i> and <i>
+        cigbert</i> are magic words.
+        If you see a magic word, press the <strong>LEFT ARROW KEY</strong></p>
+        <p>The other words will be onese you recognize.
+        They are real English words like <i>is, basket,</i> and <i>lion.</i>
+        If you see a real word, hit the <strong>RIGHT ARROW KEY</strong></p>
+        </div>
+        <p>Press any key to begin practice!</p>
+      "
+140,CIJCCS2dQnHo0apT,2,time_elapsed,3224
+141,CIJCCS2dQnHo0apT,2,trial_index,2
+142,CIJCCS2dQnHo0apT,2,trial_type,html-keyboard-response
+143,CIJCCS2dQnHo0apT,3,internal_node_id,0.0-3.0-0.0
+144,CIJCCS2dQnHo0apT,3,stimulus,"<div style=""font-size:60px;"">+</div>"
+145,CIJCCS2dQnHo0apT,3,task,fixation
+146,CIJCCS2dQnHo0apT,3,time_elapsed,6247
+147,CIJCCS2dQnHo0apT,3,trial_index,3
+148,CIJCCS2dQnHo0apT,3,trial_type,html-keyboard-response
+149,CIJCCS2dQnHo0apT,4,correct,True
+150,CIJCCS2dQnHo0apT,4,correct_response,ArrowRight
+151,CIJCCS2dQnHo0apT,4,internal_node_id,0.0-3.0-1.0
+152,CIJCCS2dQnHo0apT,4,response,arrowright
+153,CIJCCS2dQnHo0apT,4,rt,621.9000000357628
+154,CIJCCS2dQnHo0apT,4,stimulus,"<div style=""font-size:60px;"">deliberate</div>"
+155,CIJCCS2dQnHo0apT,4,task,response
+156,CIJCCS2dQnHo0apT,4,time_elapsed,6881
+157,CIJCCS2dQnHo0apT,4,trial_index,4
+158,CIJCCS2dQnHo0apT,4,trial_type,html-keyboard-response
+159,CIJCCS2dQnHo0apT,5,internal_node_id,0.0-3.0-0.1
+160,CIJCCS2dQnHo0apT,5,stimulus,"<div style=""font-size:60px;"">+</div>"
+161,CIJCCS2dQnHo0apT,5,task,fixation
+162,CIJCCS2dQnHo0apT,5,time_elapsed,7893
+163,CIJCCS2dQnHo0apT,5,trial_index,5
+164,CIJCCS2dQnHo0apT,5,trial_type,html-keyboard-response
+165,CIJCCS2dQnHo0apT,6,correct,True
+166,CIJCCS2dQnHo0apT,6,correct_response,ArrowLeft
+167,CIJCCS2dQnHo0apT,6,internal_node_id,0.0-3.0-1.1
+168,CIJCCS2dQnHo0apT,6,response,arrowleft
+169,CIJCCS2dQnHo0apT,6,rt,636.8000000119209
+170,CIJCCS2dQnHo0apT,6,stimulus,"<div style=""font-size:60px;"">throomba</div>"
+171,CIJCCS2dQnHo0apT,6,task,response
+172,CIJCCS2dQnHo0apT,6,time_elapsed,8540
+173,CIJCCS2dQnHo0apT,6,trial_index,6
+174,CIJCCS2dQnHo0apT,6,trial_type,html-keyboard-response
+175,CIJCCS2dQnHo0apT,7,internal_node_id,0.0-3.0-0.2
+176,CIJCCS2dQnHo0apT,7,stimulus,"<div style=""font-size:60px;"">+</div>"
+177,CIJCCS2dQnHo0apT,7,task,fixation
+178,CIJCCS2dQnHo0apT,7,time_elapsed,9550
+179,CIJCCS2dQnHo0apT,7,trial_index,7
+180,CIJCCS2dQnHo0apT,7,trial_type,html-keyboard-response
+181,CIJCCS2dQnHo0apT,8,correct,True
+182,CIJCCS2dQnHo0apT,8,correct_response,ArrowLeft
+183,CIJCCS2dQnHo0apT,8,internal_node_id,0.0-3.0-1.2
+184,CIJCCS2dQnHo0apT,8,response,arrowleft
+185,CIJCCS2dQnHo0apT,8,rt,802.0999999642372
+186,CIJCCS2dQnHo0apT,8,stimulus,"<div style=""font-size:60px;"">baf</div>"
+187,CIJCCS2dQnHo0apT,8,task,response
+188,CIJCCS2dQnHo0apT,8,time_elapsed,10359
+189,CIJCCS2dQnHo0apT,8,trial_index,8
+190,CIJCCS2dQnHo0apT,8,trial_type,html-keyboard-response
+191,CIJCCS2dQnHo0apT,9,internal_node_id,0.0-3.0-0.3
+192,CIJCCS2dQnHo0apT,9,stimulus,"<div style=""font-size:60px;"">+</div>"
+193,CIJCCS2dQnHo0apT,9,task,fixation
+194,CIJCCS2dQnHo0apT,9,time_elapsed,11370
+195,CIJCCS2dQnHo0apT,9,trial_index,9
+196,CIJCCS2dQnHo0apT,9,trial_type,html-keyboard-response
+197,CIJCCS2dQnHo0apT,10,correct,True
+198,CIJCCS2dQnHo0apT,10,correct_response,ArrowRight
+199,CIJCCS2dQnHo0apT,10,internal_node_id,0.0-3.0-1.3
+200,CIJCCS2dQnHo0apT,10,response,arrowright
+201,CIJCCS2dQnHo0apT,10,rt,983.1999999880791
+202,CIJCCS2dQnHo0apT,10,stimulus,"<div style=""font-size:60px;"">sweet</div>"
+203,CIJCCS2dQnHo0apT,10,task,response
+204,CIJCCS2dQnHo0apT,10,time_elapsed,12364
+205,CIJCCS2dQnHo0apT,10,trial_index,10
+206,CIJCCS2dQnHo0apT,10,trial_type,html-keyboard-response
+207,CIJCCS2dQnHo0apT,11,internal_node_id,0.0-3.0-0.4
+208,CIJCCS2dQnHo0apT,11,stimulus,"<div style=""font-size:60px;"">+</div>"
+209,CIJCCS2dQnHo0apT,11,task,fixation
+210,CIJCCS2dQnHo0apT,11,time_elapsed,13370
+211,CIJCCS2dQnHo0apT,11,trial_index,11
+212,CIJCCS2dQnHo0apT,11,trial_type,html-keyboard-response
+213,CIJCCS2dQnHo0apT,12,correct,True
+214,CIJCCS2dQnHo0apT,12,correct_response,ArrowLeft
+215,CIJCCS2dQnHo0apT,12,internal_node_id,0.0-3.0-1.4
+216,CIJCCS2dQnHo0apT,12,response,arrowleft
+217,CIJCCS2dQnHo0apT,12,rt,617.0999999642372
+218,CIJCCS2dQnHo0apT,12,stimulus,"<div style=""font-size:60px;"">pweef</div>"
+219,CIJCCS2dQnHo0apT,12,task,response
+220,CIJCCS2dQnHo0apT,12,time_elapsed,13991
+221,CIJCCS2dQnHo0apT,12,trial_index,12
+222,CIJCCS2dQnHo0apT,12,trial_type,html-keyboard-response
+223,CIJCCS2dQnHo0apT,13,internal_node_id,0.0-3.0-0.5
+224,CIJCCS2dQnHo0apT,13,stimulus,"<div style=""font-size:60px;"">+</div>"
+225,CIJCCS2dQnHo0apT,13,task,fixation
+226,CIJCCS2dQnHo0apT,13,time_elapsed,14997
+227,CIJCCS2dQnHo0apT,13,trial_index,13
+228,CIJCCS2dQnHo0apT,13,trial_type,html-keyboard-response
+229,CIJCCS2dQnHo0apT,14,correct,True
+230,CIJCCS2dQnHo0apT,14,correct_response,ArrowRight
+231,CIJCCS2dQnHo0apT,14,internal_node_id,0.0-3.0-1.5
+232,CIJCCS2dQnHo0apT,14,response,arrowright
+233,CIJCCS2dQnHo0apT,14,rt,1045.3999999761581
+234,CIJCCS2dQnHo0apT,14,stimulus,"<div style=""font-size:60px;"">hat</div>"
+235,CIJCCS2dQnHo0apT,14,task,response
+236,CIJCCS2dQnHo0apT,14,time_elapsed,16044
+237,CIJCCS2dQnHo0apT,14,trial_index,14
+238,CIJCCS2dQnHo0apT,14,trial_type,html-keyboard-response
+239,CIJCCS2dQnHo0apT,15,internal_node_id,0.0-4.0
+240,CIJCCS2dQnHo0apT,15,response,arrowright
+241,CIJCCS2dQnHo0apT,15,rt,2187.5
+242,CIJCCS2dQnHo0apT,15,stimulus,"<p>You responded correctly on 100% of the trials.</p>
+          <p>Your average response time on correct trials was 784ms.</p>
+          <p>Your average response time on incorrect trials was NaNms.</p>
+          <p>Press any key to complete the experiment. Thank you!</p>"
+243,CIJCCS2dQnHo0apT,15,time_elapsed,18239
+244,CIJCCS2dQnHo0apT,15,trial_index,15
+245,CIJCCS2dQnHo0apT,15,trial_type,html-keyboard-response
+246,G4sD7Tbrzw7xSad6,0,internal_node_id,0.0-0.0
+247,G4sD7Tbrzw7xSad6,0,success,True
+248,G4sD7Tbrzw7xSad6,0,time_elapsed,1
+249,G4sD7Tbrzw7xSad6,0,timeout,False
+250,G4sD7Tbrzw7xSad6,0,trial_index,0
+251,G4sD7Tbrzw7xSad6,0,trial_type,preload
+252,G4sD7Tbrzw7xSad6,1,internal_node_id,0.0-1.0
+253,G4sD7Tbrzw7xSad6,1,response, 
+254,G4sD7Tbrzw7xSad6,1,rt,32263
+255,G4sD7Tbrzw7xSad6,1,stimulus,"<h1>Welcome to the world of Lexicality!</h1>
+      <p>You are searching for the gate that will return you to your home on Earth.</p>
+      <p>To reach it, you must cross <strong>five</strong> valleys guarded by magical creatures.</p>
+      <p>To convince them to let you pass through, you must be able to tell the difference
+      between the magic words of Lexicality and English.</p>
+      <p>Press any key to see how!</p>
+      "
+256,G4sD7Tbrzw7xSad6,1,time_elapsed,32264
+257,G4sD7Tbrzw7xSad6,1,trial_index,1
+258,G4sD7Tbrzw7xSad6,1,trial_type,html-keyboard-response
+259,G4sD7Tbrzw7xSad6,2,internal_node_id,0.0-2.0
+260,G4sD7Tbrzw7xSad6,2,response,arrowleft
+261,G4sD7Tbrzw7xSad6,2,rt,1519.300000011921
+262,G4sD7Tbrzw7xSad6,2,stimulus,"
+        <p>The magic words sound like fake, made-up words.
+        They might look like English words, but they don't
+        mean anything in English. For example, <i> laip, bove,</i> and <i>
+        cigbert</i> are magic words.
+        If you see a magic word, press the <strong>LEFT ARROW KEY</strong></p>
+        <p>The other words will be onese you recognize.
+        They are real English words like <i>is, basket,</i> and <i>lion.</i>
+        If you see a real word, hit the <strong>RIGHT ARROW KEY</strong></p>
+        </div>
+        <p>Press any key to begin practice!</p>
+      "
+263,G4sD7Tbrzw7xSad6,2,time_elapsed,33787
+264,G4sD7Tbrzw7xSad6,2,trial_index,2
+265,G4sD7Tbrzw7xSad6,2,trial_type,html-keyboard-response
+266,G4sD7Tbrzw7xSad6,3,internal_node_id,0.0-3.0-0.0
+267,G4sD7Tbrzw7xSad6,3,stimulus,"<div style=""font-size:60px;"">+</div>"
+268,G4sD7Tbrzw7xSad6,3,task,fixation
+269,G4sD7Tbrzw7xSad6,3,time_elapsed,36797
+270,G4sD7Tbrzw7xSad6,3,trial_index,3
+271,G4sD7Tbrzw7xSad6,3,trial_type,html-keyboard-response
+272,G4sD7Tbrzw7xSad6,4,correct,True
+273,G4sD7Tbrzw7xSad6,4,correct_response,ArrowRight
+274,G4sD7Tbrzw7xSad6,4,internal_node_id,0.0-3.0-1.0
+275,G4sD7Tbrzw7xSad6,4,response,arrowright
+276,G4sD7Tbrzw7xSad6,4,rt,735.3999999761581
+277,G4sD7Tbrzw7xSad6,4,stimulus,"<div style=""font-size:60px;"">deliberate</div>"
+278,G4sD7Tbrzw7xSad6,4,task,response
+279,G4sD7Tbrzw7xSad6,4,time_elapsed,37535
+280,G4sD7Tbrzw7xSad6,4,trial_index,4
+281,G4sD7Tbrzw7xSad6,4,trial_type,html-keyboard-response
+282,G4sD7Tbrzw7xSad6,5,internal_node_id,0.0-3.0-0.1
+283,G4sD7Tbrzw7xSad6,5,stimulus,"<div style=""font-size:60px;"">+</div>"
+284,G4sD7Tbrzw7xSad6,5,task,fixation
+285,G4sD7Tbrzw7xSad6,5,time_elapsed,38537
+286,G4sD7Tbrzw7xSad6,5,trial_index,5
+287,G4sD7Tbrzw7xSad6,5,trial_type,html-keyboard-response
+288,G4sD7Tbrzw7xSad6,6,correct,True
+289,G4sD7Tbrzw7xSad6,6,correct_response,ArrowLeft
+290,G4sD7Tbrzw7xSad6,6,internal_node_id,0.0-3.0-1.1
+291,G4sD7Tbrzw7xSad6,6,response,arrowleft
+292,G4sD7Tbrzw7xSad6,6,rt,691.8000000119209
+293,G4sD7Tbrzw7xSad6,6,stimulus,"<div style=""font-size:60px;"">baf</div>"
+294,G4sD7Tbrzw7xSad6,6,task,response
+295,G4sD7Tbrzw7xSad6,6,time_elapsed,39230
+296,G4sD7Tbrzw7xSad6,6,trial_index,6
+297,G4sD7Tbrzw7xSad6,6,trial_type,html-keyboard-response
+298,G4sD7Tbrzw7xSad6,7,internal_node_id,0.0-3.0-0.2
+299,G4sD7Tbrzw7xSad6,7,stimulus,"<div style=""font-size:60px;"">+</div>"
+300,G4sD7Tbrzw7xSad6,7,task,fixation
+301,G4sD7Tbrzw7xSad6,7,time_elapsed,40235
+302,G4sD7Tbrzw7xSad6,7,trial_index,7
+303,G4sD7Tbrzw7xSad6,7,trial_type,html-keyboard-response
+304,G4sD7Tbrzw7xSad6,8,correct,False
+305,G4sD7Tbrzw7xSad6,8,correct_response,ArrowRight
+306,G4sD7Tbrzw7xSad6,8,internal_node_id,0.0-3.0-1.2
+307,G4sD7Tbrzw7xSad6,8,response,arrowleft
+308,G4sD7Tbrzw7xSad6,8,rt,753.1000000238419
+309,G4sD7Tbrzw7xSad6,8,stimulus,"<div style=""font-size:60px;"">sweet</div>"
+310,G4sD7Tbrzw7xSad6,8,task,response
+311,G4sD7Tbrzw7xSad6,8,time_elapsed,40990
+312,G4sD7Tbrzw7xSad6,8,trial_index,8
+313,G4sD7Tbrzw7xSad6,8,trial_type,html-keyboard-response
+314,G4sD7Tbrzw7xSad6,9,internal_node_id,0.0-3.0-0.3
+315,G4sD7Tbrzw7xSad6,9,stimulus,"<div style=""font-size:60px;"">+</div>"
+316,G4sD7Tbrzw7xSad6,9,task,fixation
+317,G4sD7Tbrzw7xSad6,9,time_elapsed,41993
+318,G4sD7Tbrzw7xSad6,9,trial_index,9
+319,G4sD7Tbrzw7xSad6,9,trial_type,html-keyboard-response
+320,G4sD7Tbrzw7xSad6,10,correct,True
+321,G4sD7Tbrzw7xSad6,10,correct_response,ArrowRight
+322,G4sD7Tbrzw7xSad6,10,internal_node_id,0.0-3.0-1.3
+323,G4sD7Tbrzw7xSad6,10,response,arrowright
+324,G4sD7Tbrzw7xSad6,10,rt,770.8999999761581
+325,G4sD7Tbrzw7xSad6,10,stimulus,"<div style=""font-size:60px;"">hat</div>"
+326,G4sD7Tbrzw7xSad6,10,task,response
+327,G4sD7Tbrzw7xSad6,10,time_elapsed,42766
+328,G4sD7Tbrzw7xSad6,10,trial_index,10
+329,G4sD7Tbrzw7xSad6,10,trial_type,html-keyboard-response
+330,G4sD7Tbrzw7xSad6,11,internal_node_id,0.0-3.0-0.4
+331,G4sD7Tbrzw7xSad6,11,stimulus,"<div style=""font-size:60px;"">+</div>"
+332,G4sD7Tbrzw7xSad6,11,task,fixation
+333,G4sD7Tbrzw7xSad6,11,time_elapsed,43771
+334,G4sD7Tbrzw7xSad6,11,trial_index,11
+335,G4sD7Tbrzw7xSad6,11,trial_type,html-keyboard-response
+336,G4sD7Tbrzw7xSad6,12,correct,True
+337,G4sD7Tbrzw7xSad6,12,correct_response,ArrowLeft
+338,G4sD7Tbrzw7xSad6,12,internal_node_id,0.0-3.0-1.4
+339,G4sD7Tbrzw7xSad6,12,response,arrowleft
+340,G4sD7Tbrzw7xSad6,12,rt,573.8999999761581
+341,G4sD7Tbrzw7xSad6,12,stimulus,"<div style=""font-size:60px;"">pweef</div>"
+342,G4sD7Tbrzw7xSad6,12,task,response
+343,G4sD7Tbrzw7xSad6,12,time_elapsed,44346
+344,G4sD7Tbrzw7xSad6,12,trial_index,12
+345,G4sD7Tbrzw7xSad6,12,trial_type,html-keyboard-response
+346,G4sD7Tbrzw7xSad6,13,internal_node_id,0.0-3.0-0.5
+347,G4sD7Tbrzw7xSad6,13,stimulus,"<div style=""font-size:60px;"">+</div>"
+348,G4sD7Tbrzw7xSad6,13,task,fixation
+349,G4sD7Tbrzw7xSad6,13,time_elapsed,45348
+350,G4sD7Tbrzw7xSad6,13,trial_index,13
+351,G4sD7Tbrzw7xSad6,13,trial_type,html-keyboard-response
+352,G4sD7Tbrzw7xSad6,14,correct,True
+353,G4sD7Tbrzw7xSad6,14,correct_response,ArrowLeft
+354,G4sD7Tbrzw7xSad6,14,internal_node_id,0.0-3.0-1.5
+355,G4sD7Tbrzw7xSad6,14,response,arrowleft
+356,G4sD7Tbrzw7xSad6,14,rt,547.5
+357,G4sD7Tbrzw7xSad6,14,stimulus,"<div style=""font-size:60px;"">throomba</div>"
+358,G4sD7Tbrzw7xSad6,14,task,response
+359,G4sD7Tbrzw7xSad6,14,time_elapsed,45897
+360,G4sD7Tbrzw7xSad6,14,trial_index,14
+361,G4sD7Tbrzw7xSad6,14,trial_type,html-keyboard-response
+362,G4sD7Tbrzw7xSad6,15,internal_node_id,0.0-4.0
+363,G4sD7Tbrzw7xSad6,15,response, 
+364,G4sD7Tbrzw7xSad6,15,rt,1891.1000000238419
+365,G4sD7Tbrzw7xSad6,15,stimulus,"<p>You responded correctly on 83% of the trials.</p>
+          <p>Your average response time on correct trials was 664ms.</p>
+          <p>Your average response time on incorrect trials was 753ms.</p>
+          <p>Press any key to complete the experiment. Thank you!</p>"
+366,G4sD7Tbrzw7xSad6,15,time_elapsed,47790
+367,G4sD7Tbrzw7xSad6,15,trial_index,15
+368,G4sD7Tbrzw7xSad6,15,trial_type,html-keyboard-response
+369,I3Q4TRngf23pYq8B,0,internal_node_id,0.0-0.0
+370,I3Q4TRngf23pYq8B,0,success,True
+371,I3Q4TRngf23pYq8B,0,time_elapsed,2
+372,I3Q4TRngf23pYq8B,0,timeout,False
+373,I3Q4TRngf23pYq8B,0,trial_index,0
+374,I3Q4TRngf23pYq8B,0,trial_type,preload
+375,I3Q4TRngf23pYq8B,1,internal_node_id,0.0-1.0
+376,I3Q4TRngf23pYq8B,1,response, 
+377,I3Q4TRngf23pYq8B,1,rt,2280.800000011921
+378,I3Q4TRngf23pYq8B,1,stimulus,"<h1>Welcome to the world of Lexicality!</h1>
+      <p>You are searching for the gate that will return you to your home on Earth.</p>
+      <p>To reach it, you must cross <strong>five</strong> valleys guarded by magical creatures.</p>
+      <p>To convince them to let you pass through, you must be able to tell the difference
+      between the magic words of Lexicality and English.</p>
+      <p>Press any key to see how!</p>
+      "
+379,I3Q4TRngf23pYq8B,1,time_elapsed,2284
+380,I3Q4TRngf23pYq8B,1,trial_index,1
+381,I3Q4TRngf23pYq8B,1,trial_type,html-keyboard-response
+382,I3Q4TRngf23pYq8B,2,internal_node_id,0.0-2.0
+383,I3Q4TRngf23pYq8B,2,response,arrowleft
+384,I3Q4TRngf23pYq8B,2,rt,2644.300000011921
+385,I3Q4TRngf23pYq8B,2,stimulus,"
+        <p>The magic words sound like fake, made-up words.
+        They might look like English words, but they don't
+        mean anything in English. For example, <i> laip, bove,</i> and <i>
+        cigbert</i> are magic words.
+        If you see a magic word, press the <strong>LEFT ARROW KEY</strong></p>
+        <p>The other words will be onese you recognize.
+        They are real English words like <i>is, basket,</i> and <i>lion.</i>
+        If you see a real word, hit the <strong>RIGHT ARROW KEY</strong></p>
+        </div>
+        <p>Press any key to begin practice!</p>
+      "
+386,I3Q4TRngf23pYq8B,2,time_elapsed,4930
+387,I3Q4TRngf23pYq8B,2,trial_index,2
+388,I3Q4TRngf23pYq8B,2,trial_type,html-keyboard-response
+389,I3Q4TRngf23pYq8B,3,internal_node_id,0.0-3.0-0.0
+390,I3Q4TRngf23pYq8B,3,stimulus,"<div style=""font-size:60px;"">+</div>"
+391,I3Q4TRngf23pYq8B,3,task,fixation
+392,I3Q4TRngf23pYq8B,3,time_elapsed,7940
+393,I3Q4TRngf23pYq8B,3,trial_index,3
+394,I3Q4TRngf23pYq8B,3,trial_type,html-keyboard-response
+395,I3Q4TRngf23pYq8B,4,correct,True
+396,I3Q4TRngf23pYq8B,4,correct_response,ArrowRight
+397,I3Q4TRngf23pYq8B,4,internal_node_id,0.0-3.0-1.0
+398,I3Q4TRngf23pYq8B,4,response,arrowright
+399,I3Q4TRngf23pYq8B,4,rt,949.6000000238419
+400,I3Q4TRngf23pYq8B,4,stimulus,"<div style=""font-size:60px;"">deliberate</div>"
+401,I3Q4TRngf23pYq8B,4,task,response
+402,I3Q4TRngf23pYq8B,4,time_elapsed,8893
+403,I3Q4TRngf23pYq8B,4,trial_index,4
+404,I3Q4TRngf23pYq8B,4,trial_type,html-keyboard-response
+405,I3Q4TRngf23pYq8B,5,internal_node_id,0.0-3.0-0.1
+406,I3Q4TRngf23pYq8B,5,stimulus,"<div style=""font-size:60px;"">+</div>"
+407,I3Q4TRngf23pYq8B,5,task,fixation
+408,I3Q4TRngf23pYq8B,5,time_elapsed,9897
+409,I3Q4TRngf23pYq8B,5,trial_index,5
+410,I3Q4TRngf23pYq8B,5,trial_type,html-keyboard-response
+411,I3Q4TRngf23pYq8B,6,correct,True
+412,I3Q4TRngf23pYq8B,6,correct_response,ArrowRight
+413,I3Q4TRngf23pYq8B,6,internal_node_id,0.0-3.0-1.1
+414,I3Q4TRngf23pYq8B,6,response,arrowright
+415,I3Q4TRngf23pYq8B,6,rt,736.6000000238419
+416,I3Q4TRngf23pYq8B,6,stimulus,"<div style=""font-size:60px;"">hat</div>"
+417,I3Q4TRngf23pYq8B,6,task,response
+418,I3Q4TRngf23pYq8B,6,time_elapsed,10636
+419,I3Q4TRngf23pYq8B,6,trial_index,6
+420,I3Q4TRngf23pYq8B,6,trial_type,html-keyboard-response
+421,I3Q4TRngf23pYq8B,7,internal_node_id,0.0-3.0-0.2
+422,I3Q4TRngf23pYq8B,7,stimulus,"<div style=""font-size:60px;"">+</div>"
+423,I3Q4TRngf23pYq8B,7,task,fixation
+424,I3Q4TRngf23pYq8B,7,time_elapsed,11640
+425,I3Q4TRngf23pYq8B,7,trial_index,7
+426,I3Q4TRngf23pYq8B,7,trial_type,html-keyboard-response
+427,I3Q4TRngf23pYq8B,8,correct,True
+428,I3Q4TRngf23pYq8B,8,correct_response,ArrowLeft
+429,I3Q4TRngf23pYq8B,8,internal_node_id,0.0-3.0-1.2
+430,I3Q4TRngf23pYq8B,8,response,arrowleft
+431,I3Q4TRngf23pYq8B,8,rt,628
+432,I3Q4TRngf23pYq8B,8,stimulus,"<div style=""font-size:60px;"">throomba</div>"
+433,I3Q4TRngf23pYq8B,8,task,response
+434,I3Q4TRngf23pYq8B,8,time_elapsed,12269
+435,I3Q4TRngf23pYq8B,8,trial_index,8
+436,I3Q4TRngf23pYq8B,8,trial_type,html-keyboard-response
+437,I3Q4TRngf23pYq8B,9,internal_node_id,0.0-3.0-0.3
+438,I3Q4TRngf23pYq8B,9,stimulus,"<div style=""font-size:60px;"">+</div>"
+439,I3Q4TRngf23pYq8B,9,task,fixation
+440,I3Q4TRngf23pYq8B,9,time_elapsed,13274
+441,I3Q4TRngf23pYq8B,9,trial_index,9
+442,I3Q4TRngf23pYq8B,9,trial_type,html-keyboard-response
+443,I3Q4TRngf23pYq8B,10,correct,True
+444,I3Q4TRngf23pYq8B,10,correct_response,ArrowLeft
+445,I3Q4TRngf23pYq8B,10,internal_node_id,0.0-3.0-1.3
+446,I3Q4TRngf23pYq8B,10,response,arrowleft
+447,I3Q4TRngf23pYq8B,10,rt,618.5999999642372
+448,I3Q4TRngf23pYq8B,10,stimulus,"<div style=""font-size:60px;"">pweef</div>"
+449,I3Q4TRngf23pYq8B,10,task,response
+450,I3Q4TRngf23pYq8B,10,time_elapsed,13894
+451,I3Q4TRngf23pYq8B,10,trial_index,10
+452,I3Q4TRngf23pYq8B,10,trial_type,html-keyboard-response
+453,I3Q4TRngf23pYq8B,11,internal_node_id,0.0-3.0-0.4
+454,I3Q4TRngf23pYq8B,11,stimulus,"<div style=""font-size:60px;"">+</div>"
+455,I3Q4TRngf23pYq8B,11,task,fixation
+456,I3Q4TRngf23pYq8B,11,time_elapsed,14900
+457,I3Q4TRngf23pYq8B,11,trial_index,11
+458,I3Q4TRngf23pYq8B,11,trial_type,html-keyboard-response
+459,I3Q4TRngf23pYq8B,12,correct,True
+460,I3Q4TRngf23pYq8B,12,correct_response,ArrowLeft
+461,I3Q4TRngf23pYq8B,12,internal_node_id,0.0-3.0-1.4
+462,I3Q4TRngf23pYq8B,12,response,arrowleft
+463,I3Q4TRngf23pYq8B,12,rt,745.7000000476837
+464,I3Q4TRngf23pYq8B,12,stimulus,"<div style=""font-size:60px;"">baf</div>"
+465,I3Q4TRngf23pYq8B,12,task,response
+466,I3Q4TRngf23pYq8B,12,time_elapsed,15647
+467,I3Q4TRngf23pYq8B,12,trial_index,12
+468,I3Q4TRngf23pYq8B,12,trial_type,html-keyboard-response
+469,I3Q4TRngf23pYq8B,13,internal_node_id,0.0-3.0-0.5
+470,I3Q4TRngf23pYq8B,13,stimulus,"<div style=""font-size:60px;"">+</div>"
+471,I3Q4TRngf23pYq8B,13,task,fixation
+472,I3Q4TRngf23pYq8B,13,time_elapsed,16652
+473,I3Q4TRngf23pYq8B,13,trial_index,13
+474,I3Q4TRngf23pYq8B,13,trial_type,html-keyboard-response
+475,I3Q4TRngf23pYq8B,14,correct,True
+476,I3Q4TRngf23pYq8B,14,correct_response,ArrowRight
+477,I3Q4TRngf23pYq8B,14,internal_node_id,0.0-3.0-1.5
+478,I3Q4TRngf23pYq8B,14,response,arrowright
+479,I3Q4TRngf23pYq8B,14,rt,745
+480,I3Q4TRngf23pYq8B,14,stimulus,"<div style=""font-size:60px;"">sweet</div>"
+481,I3Q4TRngf23pYq8B,14,task,response
+482,I3Q4TRngf23pYq8B,14,time_elapsed,17398
+483,I3Q4TRngf23pYq8B,14,trial_index,14
+484,I3Q4TRngf23pYq8B,14,trial_type,html-keyboard-response
+485,I3Q4TRngf23pYq8B,15,internal_node_id,0.0-4.0
+486,I3Q4TRngf23pYq8B,15,response, 
+487,I3Q4TRngf23pYq8B,15,rt,12977.5
+488,I3Q4TRngf23pYq8B,15,stimulus,"<p>You responded correctly on 100% of the trials.</p>
+          <p>Your average response time on correct trials was 737ms.</p>
+          <p>Your average response time on incorrect trials was NaNms.</p>
+          <p>Press any key to complete the experiment. Thank you!</p>"
+489,I3Q4TRngf23pYq8B,15,time_elapsed,30377
+490,I3Q4TRngf23pYq8B,15,trial_index,15
+491,I3Q4TRngf23pYq8B,15,trial_type,html-keyboard-response
+492,MOiBPgSI8uyNj1BN,0,internal_node_id,0.0-0.0
+493,MOiBPgSI8uyNj1BN,0,success,True
+494,MOiBPgSI8uyNj1BN,0,time_elapsed,2
+495,MOiBPgSI8uyNj1BN,0,timeout,False
+496,MOiBPgSI8uyNj1BN,0,trial_index,0
+497,MOiBPgSI8uyNj1BN,0,trial_type,preload
+498,MOiBPgSI8uyNj1BN,1,internal_node_id,0.0-1.0
+499,MOiBPgSI8uyNj1BN,1,response,arrowright
+500,MOiBPgSI8uyNj1BN,1,rt,768
+501,MOiBPgSI8uyNj1BN,1,stimulus,"<h1>Welcome to the world of Lexicality!</h1>
+      <p>You are searching for the gate that will return you to your home on Earth.</p>
+      <p>To reach it, you must cross <strong>five</strong> valleys guarded by magical creatures.</p>
+      <p>To convince them to let you pass through, you must be able to tell the difference
+      between the magic words of Lexicality and English.</p>
+      <p>Press any key to see how!</p>
+      "
+502,MOiBPgSI8uyNj1BN,1,time_elapsed,770
+503,MOiBPgSI8uyNj1BN,1,trial_index,1
+504,MOiBPgSI8uyNj1BN,1,trial_type,html-keyboard-response
+505,MOiBPgSI8uyNj1BN,2,internal_node_id,0.0-2.0
+506,MOiBPgSI8uyNj1BN,2,response,arrowright
+507,MOiBPgSI8uyNj1BN,2,rt,1897
+508,MOiBPgSI8uyNj1BN,2,stimulus,"
+        <p>The magic words sound like fake, made-up words.
+        They might look like English words, but they don't
+        mean anything in English. For example, <i> laip, bove,</i> and <i>
+        cigbert</i> are magic words.
+        If you see a magic word, press the <strong>LEFT ARROW KEY</strong></p>
+        <p>The other words will be onese you recognize.
+        They are real English words like <i>is, basket,</i> and <i>lion.</i>
+        If you see a real word, hit the <strong>RIGHT ARROW KEY</strong></p>
+        </div>
+        <p>Press any key to begin practice!</p>
+      "
+509,MOiBPgSI8uyNj1BN,2,time_elapsed,2668
+510,MOiBPgSI8uyNj1BN,2,trial_index,2
+511,MOiBPgSI8uyNj1BN,2,trial_type,html-keyboard-response
+512,MOiBPgSI8uyNj1BN,3,internal_node_id,0.0-3.0-0.0
+513,MOiBPgSI8uyNj1BN,3,stimulus,"<div style=""font-size:60px;"">+</div>"
+514,MOiBPgSI8uyNj1BN,3,task,fixation
+515,MOiBPgSI8uyNj1BN,3,time_elapsed,5669
+516,MOiBPgSI8uyNj1BN,3,trial_index,3
+517,MOiBPgSI8uyNj1BN,3,trial_type,html-keyboard-response
+518,MOiBPgSI8uyNj1BN,4,correct,True
+519,MOiBPgSI8uyNj1BN,4,correct_response,ArrowRight
+520,MOiBPgSI8uyNj1BN,4,internal_node_id,0.0-3.0-1.0
+521,MOiBPgSI8uyNj1BN,4,response,arrowright
+522,MOiBPgSI8uyNj1BN,4,rt,133
+523,MOiBPgSI8uyNj1BN,4,stimulus,"<div style=""font-size:60px;"">sweet</div>"
+524,MOiBPgSI8uyNj1BN,4,task,response
+525,MOiBPgSI8uyNj1BN,4,time_elapsed,5804
+526,MOiBPgSI8uyNj1BN,4,trial_index,4
+527,MOiBPgSI8uyNj1BN,4,trial_type,html-keyboard-response
+528,MOiBPgSI8uyNj1BN,5,internal_node_id,0.0-3.0-0.1
+529,MOiBPgSI8uyNj1BN,5,stimulus,"<div style=""font-size:60px;"">+</div>"
+530,MOiBPgSI8uyNj1BN,5,task,fixation
+531,MOiBPgSI8uyNj1BN,5,time_elapsed,6804
+532,MOiBPgSI8uyNj1BN,5,trial_index,5
+533,MOiBPgSI8uyNj1BN,5,trial_type,html-keyboard-response
+534,MOiBPgSI8uyNj1BN,6,correct,True
+535,MOiBPgSI8uyNj1BN,6,correct_response,ArrowRight
+536,MOiBPgSI8uyNj1BN,6,internal_node_id,0.0-3.0-1.1
+537,MOiBPgSI8uyNj1BN,6,response,arrowright
+538,MOiBPgSI8uyNj1BN,6,rt,82
+539,MOiBPgSI8uyNj1BN,6,stimulus,"<div style=""font-size:60px;"">deliberate</div>"
+540,MOiBPgSI8uyNj1BN,6,task,response
+541,MOiBPgSI8uyNj1BN,6,time_elapsed,6886
+542,MOiBPgSI8uyNj1BN,6,trial_index,6
+543,MOiBPgSI8uyNj1BN,6,trial_type,html-keyboard-response
+544,MOiBPgSI8uyNj1BN,7,internal_node_id,0.0-3.0-0.2
+545,MOiBPgSI8uyNj1BN,7,stimulus,"<div style=""font-size:60px;"">+</div>"
+546,MOiBPgSI8uyNj1BN,7,task,fixation
+547,MOiBPgSI8uyNj1BN,7,time_elapsed,7887
+548,MOiBPgSI8uyNj1BN,7,trial_index,7
+549,MOiBPgSI8uyNj1BN,7,trial_type,html-keyboard-response
+550,MOiBPgSI8uyNj1BN,8,correct,False
+551,MOiBPgSI8uyNj1BN,8,correct_response,ArrowLeft
+552,MOiBPgSI8uyNj1BN,8,internal_node_id,0.0-3.0-1.2
+553,MOiBPgSI8uyNj1BN,8,response,arrowright
+554,MOiBPgSI8uyNj1BN,8,rt,63
+555,MOiBPgSI8uyNj1BN,8,stimulus,"<div style=""font-size:60px;"">baf</div>"
+556,MOiBPgSI8uyNj1BN,8,task,response
+557,MOiBPgSI8uyNj1BN,8,time_elapsed,7951
+558,MOiBPgSI8uyNj1BN,8,trial_index,8
+559,MOiBPgSI8uyNj1BN,8,trial_type,html-keyboard-response
+560,MOiBPgSI8uyNj1BN,9,internal_node_id,0.0-3.0-0.3
+561,MOiBPgSI8uyNj1BN,9,stimulus,"<div style=""font-size:60px;"">+</div>"
+562,MOiBPgSI8uyNj1BN,9,task,fixation
+563,MOiBPgSI8uyNj1BN,9,time_elapsed,8952
+564,MOiBPgSI8uyNj1BN,9,trial_index,9
+565,MOiBPgSI8uyNj1BN,9,trial_type,html-keyboard-response
+566,MOiBPgSI8uyNj1BN,10,correct,False
+567,MOiBPgSI8uyNj1BN,10,correct_response,ArrowLeft
+568,MOiBPgSI8uyNj1BN,10,internal_node_id,0.0-3.0-1.3
+569,MOiBPgSI8uyNj1BN,10,response,arrowright
+570,MOiBPgSI8uyNj1BN,10,rt,79
+571,MOiBPgSI8uyNj1BN,10,stimulus,"<div style=""font-size:60px;"">throomba</div>"
+572,MOiBPgSI8uyNj1BN,10,task,response
+573,MOiBPgSI8uyNj1BN,10,time_elapsed,9033
+574,MOiBPgSI8uyNj1BN,10,trial_index,10
+575,MOiBPgSI8uyNj1BN,10,trial_type,html-keyboard-response
+576,MOiBPgSI8uyNj1BN,11,internal_node_id,0.0-3.0-0.4
+577,MOiBPgSI8uyNj1BN,11,stimulus,"<div style=""font-size:60px;"">+</div>"
+578,MOiBPgSI8uyNj1BN,11,task,fixation
+579,MOiBPgSI8uyNj1BN,11,time_elapsed,10033
+580,MOiBPgSI8uyNj1BN,11,trial_index,11
+581,MOiBPgSI8uyNj1BN,11,trial_type,html-keyboard-response
+582,MOiBPgSI8uyNj1BN,12,correct,True
+583,MOiBPgSI8uyNj1BN,12,correct_response,ArrowRight
+584,MOiBPgSI8uyNj1BN,12,internal_node_id,0.0-3.0-1.4
+585,MOiBPgSI8uyNj1BN,12,response,arrowright
+586,MOiBPgSI8uyNj1BN,12,rt,113
+587,MOiBPgSI8uyNj1BN,12,stimulus,"<div style=""font-size:60px;"">hat</div>"
+588,MOiBPgSI8uyNj1BN,12,task,response
+589,MOiBPgSI8uyNj1BN,12,time_elapsed,10147
+590,MOiBPgSI8uyNj1BN,12,trial_index,12
+591,MOiBPgSI8uyNj1BN,12,trial_type,html-keyboard-response
+592,MOiBPgSI8uyNj1BN,13,internal_node_id,0.0-3.0-0.5
+593,MOiBPgSI8uyNj1BN,13,stimulus,"<div style=""font-size:60px;"">+</div>"
+594,MOiBPgSI8uyNj1BN,13,task,fixation
+595,MOiBPgSI8uyNj1BN,13,time_elapsed,11147
+596,MOiBPgSI8uyNj1BN,13,trial_index,13
+597,MOiBPgSI8uyNj1BN,13,trial_type,html-keyboard-response
+598,MOiBPgSI8uyNj1BN,14,correct,False
+599,MOiBPgSI8uyNj1BN,14,correct_response,ArrowLeft
+600,MOiBPgSI8uyNj1BN,14,internal_node_id,0.0-3.0-1.5
+601,MOiBPgSI8uyNj1BN,14,response,arrowright
+602,MOiBPgSI8uyNj1BN,14,rt,114
+603,MOiBPgSI8uyNj1BN,14,stimulus,"<div style=""font-size:60px;"">pweef</div>"
+604,MOiBPgSI8uyNj1BN,14,task,response
+605,MOiBPgSI8uyNj1BN,14,time_elapsed,11262
+606,MOiBPgSI8uyNj1BN,14,trial_index,14
+607,MOiBPgSI8uyNj1BN,14,trial_type,html-keyboard-response
+608,MOiBPgSI8uyNj1BN,15,internal_node_id,0.0-4.0
+609,MOiBPgSI8uyNj1BN,15,response,arrowright
+610,MOiBPgSI8uyNj1BN,15,rt,165
+611,MOiBPgSI8uyNj1BN,15,stimulus,"<p>You responded correctly on 50% of the trials.</p>
+          <p>Your average response time on correct trials was 109ms.</p>
+          <p>Your average response time on incorrect trials was 85ms.</p>
+          <p>Press any key to complete the experiment. Thank you!</p>"
+612,MOiBPgSI8uyNj1BN,15,time_elapsed,11427
+613,MOiBPgSI8uyNj1BN,15,trial_index,15
+614,MOiBPgSI8uyNj1BN,15,trial_type,html-keyboard-response
+615,RMTh7E7cpCrCckwt,0,internal_node_id,0.0-0.0
+616,RMTh7E7cpCrCckwt,0,success,True
+617,RMTh7E7cpCrCckwt,0,time_elapsed,3
+618,RMTh7E7cpCrCckwt,0,timeout,False
+619,RMTh7E7cpCrCckwt,0,trial_index,0
+620,RMTh7E7cpCrCckwt,0,trial_type,preload
+621,RMTh7E7cpCrCckwt,1,internal_node_id,0.0-1.0
+622,RMTh7E7cpCrCckwt,1,response, 
+623,RMTh7E7cpCrCckwt,1,rt,4387.900000095367
+624,RMTh7E7cpCrCckwt,1,stimulus,"<h1>Welcome to the world of Lexicality!</h1>
+      <p>You are searching for the gate that will return you to your home on Earth.</p>
+      <p>To reach it, you must cross <strong>five</strong> valleys guarded by magical creatures.</p>
+      <p>To convince them to let you pass through, you must be able to tell the difference
+      between the magic words of Lexicality and English.</p>
+      <p>Press any key to see how!</p>
+      "
+625,RMTh7E7cpCrCckwt,1,time_elapsed,4391
+626,RMTh7E7cpCrCckwt,1,trial_index,1
+627,RMTh7E7cpCrCckwt,1,trial_type,html-keyboard-response
+628,RMTh7E7cpCrCckwt,2,internal_node_id,0.0-2.0
+629,RMTh7E7cpCrCckwt,2,response, 
+630,RMTh7E7cpCrCckwt,2,rt,4853.399999976158
+631,RMTh7E7cpCrCckwt,2,stimulus,"
+        <p>The magic words sound like fake, made-up words.
+        They might look like English words, but they don't
+        mean anything in English. For example, <i> laip, bove,</i> and <i>
+        cigbert</i> are magic words.
+        If you see a magic word, press the <strong>LEFT ARROW KEY</strong></p>
+        <p>The other words will be onese you recognize.
+        They are real English words like <i>is, basket,</i> and <i>lion.</i>
+        If you see a real word, hit the <strong>RIGHT ARROW KEY</strong></p>
+        </div>
+        <p>Press any key to begin practice!</p>
+      "
+632,RMTh7E7cpCrCckwt,2,time_elapsed,9246
+633,RMTh7E7cpCrCckwt,2,trial_index,2
+634,RMTh7E7cpCrCckwt,2,trial_type,html-keyboard-response
+635,RMTh7E7cpCrCckwt,3,internal_node_id,0.0-3.0-0.0
+636,RMTh7E7cpCrCckwt,3,stimulus,"<div style=""font-size:60px;"">+</div>"
+637,RMTh7E7cpCrCckwt,3,task,fixation
+638,RMTh7E7cpCrCckwt,3,time_elapsed,12254
+639,RMTh7E7cpCrCckwt,3,trial_index,3
+640,RMTh7E7cpCrCckwt,3,trial_type,html-keyboard-response
+641,RMTh7E7cpCrCckwt,4,correct,True
+642,RMTh7E7cpCrCckwt,4,correct_response,ArrowRight
+643,RMTh7E7cpCrCckwt,4,internal_node_id,0.0-3.0-1.0
+644,RMTh7E7cpCrCckwt,4,response,arrowright
+645,RMTh7E7cpCrCckwt,4,rt,2494.600000023842
+646,RMTh7E7cpCrCckwt,4,stimulus,"<div style=""font-size:60px;"">sweet</div>"
+647,RMTh7E7cpCrCckwt,4,task,response
+648,RMTh7E7cpCrCckwt,4,time_elapsed,14751
+649,RMTh7E7cpCrCckwt,4,trial_index,4
+650,RMTh7E7cpCrCckwt,4,trial_type,html-keyboard-response
+651,RMTh7E7cpCrCckwt,5,internal_node_id,0.0-3.0-0.1
+652,RMTh7E7cpCrCckwt,5,stimulus,"<div style=""font-size:60px;"">+</div>"
+653,RMTh7E7cpCrCckwt,5,task,fixation
+654,RMTh7E7cpCrCckwt,5,time_elapsed,15754
+655,RMTh7E7cpCrCckwt,5,trial_index,5
+656,RMTh7E7cpCrCckwt,5,trial_type,html-keyboard-response
+657,RMTh7E7cpCrCckwt,6,correct,True
+658,RMTh7E7cpCrCckwt,6,correct_response,ArrowLeft
+659,RMTh7E7cpCrCckwt,6,internal_node_id,0.0-3.0-1.1
+660,RMTh7E7cpCrCckwt,6,response,arrowleft
+661,RMTh7E7cpCrCckwt,6,rt,844
+662,RMTh7E7cpCrCckwt,6,stimulus,"<div style=""font-size:60px;"">pweef</div>"
+663,RMTh7E7cpCrCckwt,6,task,response
+664,RMTh7E7cpCrCckwt,6,time_elapsed,16600
+665,RMTh7E7cpCrCckwt,6,trial_index,6
+666,RMTh7E7cpCrCckwt,6,trial_type,html-keyboard-response
+667,RMTh7E7cpCrCckwt,7,internal_node_id,0.0-3.0-0.2
+668,RMTh7E7cpCrCckwt,7,stimulus,"<div style=""font-size:60px;"">+</div>"
+669,RMTh7E7cpCrCckwt,7,task,fixation
+670,RMTh7E7cpCrCckwt,7,time_elapsed,17606
+671,RMTh7E7cpCrCckwt,7,trial_index,7
+672,RMTh7E7cpCrCckwt,7,trial_type,html-keyboard-response
+673,RMTh7E7cpCrCckwt,8,correct,True
+674,RMTh7E7cpCrCckwt,8,correct_response,ArrowRight
+675,RMTh7E7cpCrCckwt,8,internal_node_id,0.0-3.0-1.2
+676,RMTh7E7cpCrCckwt,8,response,arrowright
+677,RMTh7E7cpCrCckwt,8,rt,785.3999999761581
+678,RMTh7E7cpCrCckwt,8,stimulus,"<div style=""font-size:60px;"">deliberate</div>"
+679,RMTh7E7cpCrCckwt,8,task,response
+680,RMTh7E7cpCrCckwt,8,time_elapsed,18393
+681,RMTh7E7cpCrCckwt,8,trial_index,8
+682,RMTh7E7cpCrCckwt,8,trial_type,html-keyboard-response
+683,RMTh7E7cpCrCckwt,9,internal_node_id,0.0-3.0-0.3
+684,RMTh7E7cpCrCckwt,9,stimulus,"<div style=""font-size:60px;"">+</div>"
+685,RMTh7E7cpCrCckwt,9,task,fixation
+686,RMTh7E7cpCrCckwt,9,time_elapsed,19400
+687,RMTh7E7cpCrCckwt,9,trial_index,9
+688,RMTh7E7cpCrCckwt,9,trial_type,html-keyboard-response
+689,RMTh7E7cpCrCckwt,10,correct,True
+690,RMTh7E7cpCrCckwt,10,correct_response,ArrowLeft
+691,RMTh7E7cpCrCckwt,10,internal_node_id,0.0-3.0-1.3
+692,RMTh7E7cpCrCckwt,10,response,arrowleft
+693,RMTh7E7cpCrCckwt,10,rt,1016.7999999523163
+694,RMTh7E7cpCrCckwt,10,stimulus,"<div style=""font-size:60px;"">baf</div>"
+695,RMTh7E7cpCrCckwt,10,task,response
+696,RMTh7E7cpCrCckwt,10,time_elapsed,20418
+697,RMTh7E7cpCrCckwt,10,trial_index,10
+698,RMTh7E7cpCrCckwt,10,trial_type,html-keyboard-response
+699,RMTh7E7cpCrCckwt,11,internal_node_id,0.0-3.0-0.4
+700,RMTh7E7cpCrCckwt,11,stimulus,"<div style=""font-size:60px;"">+</div>"
+701,RMTh7E7cpCrCckwt,11,task,fixation
+702,RMTh7E7cpCrCckwt,11,time_elapsed,21420
+703,RMTh7E7cpCrCckwt,11,trial_index,11
+704,RMTh7E7cpCrCckwt,11,trial_type,html-keyboard-response
+705,RMTh7E7cpCrCckwt,12,correct,True
+706,RMTh7E7cpCrCckwt,12,correct_response,ArrowLeft
+707,RMTh7E7cpCrCckwt,12,internal_node_id,0.0-3.0-1.4
+708,RMTh7E7cpCrCckwt,12,response,arrowleft
+709,RMTh7E7cpCrCckwt,12,rt,490
+710,RMTh7E7cpCrCckwt,12,stimulus,"<div style=""font-size:60px;"">throomba</div>"
+711,RMTh7E7cpCrCckwt,12,task,response
+712,RMTh7E7cpCrCckwt,12,time_elapsed,21911
+713,RMTh7E7cpCrCckwt,12,trial_index,12
+714,RMTh7E7cpCrCckwt,12,trial_type,html-keyboard-response
+715,RMTh7E7cpCrCckwt,13,internal_node_id,0.0-3.0-0.5
+716,RMTh7E7cpCrCckwt,13,stimulus,"<div style=""font-size:60px;"">+</div>"
+717,RMTh7E7cpCrCckwt,13,task,fixation
+718,RMTh7E7cpCrCckwt,13,time_elapsed,22917
+719,RMTh7E7cpCrCckwt,13,trial_index,13
+720,RMTh7E7cpCrCckwt,13,trial_type,html-keyboard-response
+721,RMTh7E7cpCrCckwt,14,correct,True
+722,RMTh7E7cpCrCckwt,14,correct_response,ArrowRight
+723,RMTh7E7cpCrCckwt,14,internal_node_id,0.0-3.0-1.5
+724,RMTh7E7cpCrCckwt,14,response,arrowright
+725,RMTh7E7cpCrCckwt,14,rt,547
+726,RMTh7E7cpCrCckwt,14,stimulus,"<div style=""font-size:60px;"">hat</div>"
+727,RMTh7E7cpCrCckwt,14,task,response
+728,RMTh7E7cpCrCckwt,14,time_elapsed,23466
+729,RMTh7E7cpCrCckwt,14,trial_index,14
+730,RMTh7E7cpCrCckwt,14,trial_type,html-keyboard-response
+731,RMTh7E7cpCrCckwt,15,internal_node_id,0.0-4.0
+732,RMTh7E7cpCrCckwt,15,response, 
+733,RMTh7E7cpCrCckwt,15,rt,7835.299999952316
+734,RMTh7E7cpCrCckwt,15,stimulus,"<p>You responded correctly on 100% of the trials.</p>
+          <p>Your average response time on correct trials was 1030ms.</p>
+          <p>Your average response time on incorrect trials was NaNms.</p>
+          <p>Press any key to complete the experiment. Thank you!</p>"
+735,RMTh7E7cpCrCckwt,15,time_elapsed,31302
+736,RMTh7E7cpCrCckwt,15,trial_index,15
+737,RMTh7E7cpCrCckwt,15,trial_type,html-keyboard-response
+738,T0ftchMGVCmRQRox,0,internal_node_id,0.0-0.0
+739,T0ftchMGVCmRQRox,0,success,True
+740,T0ftchMGVCmRQRox,0,time_elapsed,2
+741,T0ftchMGVCmRQRox,0,timeout,False
+742,T0ftchMGVCmRQRox,0,trial_index,0
+743,T0ftchMGVCmRQRox,0,trial_type,preload
+744,T0ftchMGVCmRQRox,1,internal_node_id,0.0-1.0
+745,T0ftchMGVCmRQRox,1,response,arrowright
+746,T0ftchMGVCmRQRox,1,rt,3112
+747,T0ftchMGVCmRQRox,1,stimulus,"<h1>Welcome to the world of Lexicality!</h1>
+      <p>You are searching for the gate that will return you to your home on Earth.</p>
+      <p>To reach it, you must cross <strong>five</strong> valleys guarded by magical creatures.</p>
+      <p>To convince them to let you pass through, you must be able to tell the difference
+      between the magic words of Lexicality and English.</p>
+      <p>Press any key to see how!</p>
+      "
+748,T0ftchMGVCmRQRox,1,time_elapsed,3114
+749,T0ftchMGVCmRQRox,1,trial_index,1
+750,T0ftchMGVCmRQRox,1,trial_type,html-keyboard-response
+751,T0ftchMGVCmRQRox,2,internal_node_id,0.0-2.0
+752,T0ftchMGVCmRQRox,2,response,arrowright
+753,T0ftchMGVCmRQRox,2,rt,2457
+754,T0ftchMGVCmRQRox,2,stimulus,"
+        <p>The magic words sound like fake, made-up words.
+        They might look like English words, but they don't
+        mean anything in English. For example, <i> laip, bove,</i> and <i>
+        cigbert</i> are magic words.
+        If you see a magic word, press the <strong>LEFT ARROW KEY</strong></p>
+        <p>The other words will be onese you recognize.
+        They are real English words like <i>is, basket,</i> and <i>lion.</i>
+        If you see a real word, hit the <strong>RIGHT ARROW KEY</strong></p>
+        </div>
+        <p>Press any key to begin practice!</p>
+      "
+755,T0ftchMGVCmRQRox,2,time_elapsed,5572
+756,T0ftchMGVCmRQRox,2,trial_index,2
+757,T0ftchMGVCmRQRox,2,trial_type,html-keyboard-response
+758,T0ftchMGVCmRQRox,3,internal_node_id,0.0-3.0-0.0
+759,T0ftchMGVCmRQRox,3,stimulus,"<div style=""font-size:60px;"">+</div>"
+760,T0ftchMGVCmRQRox,3,task,fixation
+761,T0ftchMGVCmRQRox,3,time_elapsed,8574
+762,T0ftchMGVCmRQRox,3,trial_index,3
+763,T0ftchMGVCmRQRox,3,trial_type,html-keyboard-response
+764,T0ftchMGVCmRQRox,4,correct,True
+765,T0ftchMGVCmRQRox,4,correct_response,ArrowRight
+766,T0ftchMGVCmRQRox,4,internal_node_id,0.0-3.0-1.0
+767,T0ftchMGVCmRQRox,4,response,arrowright
+768,T0ftchMGVCmRQRox,4,rt,284
+769,T0ftchMGVCmRQRox,4,stimulus,"<div style=""font-size:60px;"">sweet</div>"
+770,T0ftchMGVCmRQRox,4,task,response
+771,T0ftchMGVCmRQRox,4,time_elapsed,8860
+772,T0ftchMGVCmRQRox,4,trial_index,4
+773,T0ftchMGVCmRQRox,4,trial_type,html-keyboard-response
+774,T0ftchMGVCmRQRox,5,internal_node_id,0.0-3.0-0.1
+775,T0ftchMGVCmRQRox,5,stimulus,"<div style=""font-size:60px;"">+</div>"
+776,T0ftchMGVCmRQRox,5,task,fixation
+777,T0ftchMGVCmRQRox,5,time_elapsed,9861
+778,T0ftchMGVCmRQRox,5,trial_index,5
+779,T0ftchMGVCmRQRox,5,trial_type,html-keyboard-response
+780,T0ftchMGVCmRQRox,6,correct,True
+781,T0ftchMGVCmRQRox,6,correct_response,ArrowRight
+782,T0ftchMGVCmRQRox,6,internal_node_id,0.0-3.0-1.1
+783,T0ftchMGVCmRQRox,6,response,arrowright
+784,T0ftchMGVCmRQRox,6,rt,402
+785,T0ftchMGVCmRQRox,6,stimulus,"<div style=""font-size:60px;"">deliberate</div>"
+786,T0ftchMGVCmRQRox,6,task,response
+787,T0ftchMGVCmRQRox,6,time_elapsed,10263
+788,T0ftchMGVCmRQRox,6,trial_index,6
+789,T0ftchMGVCmRQRox,6,trial_type,html-keyboard-response
+790,T0ftchMGVCmRQRox,7,internal_node_id,0.0-3.0-0.2
+791,T0ftchMGVCmRQRox,7,stimulus,"<div style=""font-size:60px;"">+</div>"
+792,T0ftchMGVCmRQRox,7,task,fixation
+793,T0ftchMGVCmRQRox,7,time_elapsed,11263
+794,T0ftchMGVCmRQRox,7,trial_index,7
+795,T0ftchMGVCmRQRox,7,trial_type,html-keyboard-response
+796,T0ftchMGVCmRQRox,8,correct,False
+797,T0ftchMGVCmRQRox,8,correct_response,ArrowLeft
+798,T0ftchMGVCmRQRox,8,internal_node_id,0.0-3.0-1.2
+799,T0ftchMGVCmRQRox,8,response,arrowright
+800,T0ftchMGVCmRQRox,8,rt,274
+801,T0ftchMGVCmRQRox,8,stimulus,"<div style=""font-size:60px;"">pweef</div>"
+802,T0ftchMGVCmRQRox,8,task,response
+803,T0ftchMGVCmRQRox,8,time_elapsed,11537
+804,T0ftchMGVCmRQRox,8,trial_index,8
+805,T0ftchMGVCmRQRox,8,trial_type,html-keyboard-response
+806,T0ftchMGVCmRQRox,9,internal_node_id,0.0-3.0-0.3
+807,T0ftchMGVCmRQRox,9,stimulus,"<div style=""font-size:60px;"">+</div>"
+808,T0ftchMGVCmRQRox,9,task,fixation
+809,T0ftchMGVCmRQRox,9,time_elapsed,12538
+810,T0ftchMGVCmRQRox,9,trial_index,9
+811,T0ftchMGVCmRQRox,9,trial_type,html-keyboard-response
+812,T0ftchMGVCmRQRox,10,correct,False
+813,T0ftchMGVCmRQRox,10,correct_response,ArrowLeft
+814,T0ftchMGVCmRQRox,10,internal_node_id,0.0-3.0-1.3
+815,T0ftchMGVCmRQRox,10,response,arrowright
+816,T0ftchMGVCmRQRox,10,rt,423
+817,T0ftchMGVCmRQRox,10,stimulus,"<div style=""font-size:60px;"">throomba</div>"
+818,T0ftchMGVCmRQRox,10,task,response
+819,T0ftchMGVCmRQRox,10,time_elapsed,12962
+820,T0ftchMGVCmRQRox,10,trial_index,10
+821,T0ftchMGVCmRQRox,10,trial_type,html-keyboard-response
+822,T0ftchMGVCmRQRox,11,internal_node_id,0.0-3.0-0.4
+823,T0ftchMGVCmRQRox,11,stimulus,"<div style=""font-size:60px;"">+</div>"
+824,T0ftchMGVCmRQRox,11,task,fixation
+825,T0ftchMGVCmRQRox,11,time_elapsed,13962
+826,T0ftchMGVCmRQRox,11,trial_index,11
+827,T0ftchMGVCmRQRox,11,trial_type,html-keyboard-response
+828,T0ftchMGVCmRQRox,12,correct,False
+829,T0ftchMGVCmRQRox,12,correct_response,ArrowLeft
+830,T0ftchMGVCmRQRox,12,internal_node_id,0.0-3.0-1.4
+831,T0ftchMGVCmRQRox,12,response,arrowright
+832,T0ftchMGVCmRQRox,12,rt,447
+833,T0ftchMGVCmRQRox,12,stimulus,"<div style=""font-size:60px;"">baf</div>"
+834,T0ftchMGVCmRQRox,12,task,response
+835,T0ftchMGVCmRQRox,12,time_elapsed,14410
+836,T0ftchMGVCmRQRox,12,trial_index,12
+837,T0ftchMGVCmRQRox,12,trial_type,html-keyboard-response
+838,T0ftchMGVCmRQRox,13,internal_node_id,0.0-3.0-0.5
+839,T0ftchMGVCmRQRox,13,stimulus,"<div style=""font-size:60px;"">+</div>"
+840,T0ftchMGVCmRQRox,13,task,fixation
+841,T0ftchMGVCmRQRox,13,time_elapsed,15411
+842,T0ftchMGVCmRQRox,13,trial_index,13
+843,T0ftchMGVCmRQRox,13,trial_type,html-keyboard-response
+844,T0ftchMGVCmRQRox,14,correct,True
+845,T0ftchMGVCmRQRox,14,correct_response,ArrowRight
+846,T0ftchMGVCmRQRox,14,internal_node_id,0.0-3.0-1.5
+847,T0ftchMGVCmRQRox,14,response,arrowright
+848,T0ftchMGVCmRQRox,14,rt,408
+849,T0ftchMGVCmRQRox,14,stimulus,"<div style=""font-size:60px;"">hat</div>"
+850,T0ftchMGVCmRQRox,14,task,response
+851,T0ftchMGVCmRQRox,14,time_elapsed,15820
+852,T0ftchMGVCmRQRox,14,trial_index,14
+853,T0ftchMGVCmRQRox,14,trial_type,html-keyboard-response
+854,T0ftchMGVCmRQRox,15,internal_node_id,0.0-4.0
+855,T0ftchMGVCmRQRox,15,response,arrowright
+856,T0ftchMGVCmRQRox,15,rt,1068
+857,T0ftchMGVCmRQRox,15,stimulus,"<p>You responded correctly on 50% of the trials.</p>
+          <p>Your average response time on correct trials was 365ms.</p>
+          <p>Your average response time on incorrect trials was 381ms.</p>
+          <p>Press any key to complete the experiment. Thank you!</p>"
+858,T0ftchMGVCmRQRox,15,time_elapsed,16889
+859,T0ftchMGVCmRQRox,15,trial_index,15
+860,T0ftchMGVCmRQRox,15,trial_type,html-keyboard-response
+861,hB2M9Klc0KFBVIAJ,0,internal_node_id,0.0-0.0
+862,hB2M9Klc0KFBVIAJ,0,success,True
+863,hB2M9Klc0KFBVIAJ,0,time_elapsed,1
+864,hB2M9Klc0KFBVIAJ,0,timeout,False
+865,hB2M9Klc0KFBVIAJ,0,trial_index,0
+866,hB2M9Klc0KFBVIAJ,0,trial_type,preload
+867,hB2M9Klc0KFBVIAJ,1,internal_node_id,0.0-1.0
+868,hB2M9Klc0KFBVIAJ,1,response, 
+869,hB2M9Klc0KFBVIAJ,1,rt,949.1000000238419
+870,hB2M9Klc0KFBVIAJ,1,stimulus,"<h1>Welcome to the world of Lexicality!</h1>
+      <p>You are searching for the gate that will return you to your home on Earth.</p>
+      <p>To reach it, you must cross <strong>five</strong> valleys guarded by magical creatures.</p>
+      <p>To convince them to let you pass through, you must be able to tell the difference
+      between the magic words of Lexicality and English.</p>
+      <p>Press any key to see how!</p>
+      "
+871,hB2M9Klc0KFBVIAJ,1,time_elapsed,951
+872,hB2M9Klc0KFBVIAJ,1,trial_index,1
+873,hB2M9Klc0KFBVIAJ,1,trial_type,html-keyboard-response
+874,hB2M9Klc0KFBVIAJ,2,internal_node_id,0.0-2.0
+875,hB2M9Klc0KFBVIAJ,2,response, 
+876,hB2M9Klc0KFBVIAJ,2,rt,766.5999999642372
+877,hB2M9Klc0KFBVIAJ,2,stimulus,"
+        <p>The magic words sound like fake, made-up words.
+        They might look like English words, but they don't
+        mean anything in English. For example, <i> laip, bove,</i> and <i>
+        cigbert</i> are magic words.
+        If you see a magic word, press the <strong>LEFT ARROW KEY</strong></p>
+        <p>The other words will be onese you recognize.
+        They are real English words like <i>is, basket,</i> and <i>lion.</i>
+        If you see a real word, hit the <strong>RIGHT ARROW KEY</strong></p>
+        </div>
+        <p>Press any key to begin practice!</p>
+      "
+878,hB2M9Klc0KFBVIAJ,2,time_elapsed,1719
+879,hB2M9Klc0KFBVIAJ,2,trial_index,2
+880,hB2M9Klc0KFBVIAJ,2,trial_type,html-keyboard-response
+881,hB2M9Klc0KFBVIAJ,3,internal_node_id,0.0-3.0-0.0
+882,hB2M9Klc0KFBVIAJ,3,stimulus,"<div style=""font-size:60px;"">+</div>"
+883,hB2M9Klc0KFBVIAJ,3,task,fixation
+884,hB2M9Klc0KFBVIAJ,3,time_elapsed,4729
+885,hB2M9Klc0KFBVIAJ,3,trial_index,3
+886,hB2M9Klc0KFBVIAJ,3,trial_type,html-keyboard-response
+887,hB2M9Klc0KFBVIAJ,4,correct,True
+888,hB2M9Klc0KFBVIAJ,4,correct_response,ArrowLeft
+889,hB2M9Klc0KFBVIAJ,4,internal_node_id,0.0-3.0-1.0
+890,hB2M9Klc0KFBVIAJ,4,response,arrowleft
+891,hB2M9Klc0KFBVIAJ,4,rt,614.5
+892,hB2M9Klc0KFBVIAJ,4,stimulus,"<div style=""font-size:60px;"">throomba</div>"
+893,hB2M9Klc0KFBVIAJ,4,task,response
+894,hB2M9Klc0KFBVIAJ,4,time_elapsed,5346
+895,hB2M9Klc0KFBVIAJ,4,trial_index,4
+896,hB2M9Klc0KFBVIAJ,4,trial_type,html-keyboard-response
+897,hB2M9Klc0KFBVIAJ,5,internal_node_id,0.0-3.0-0.1
+898,hB2M9Klc0KFBVIAJ,5,stimulus,"<div style=""font-size:60px;"">+</div>"
+899,hB2M9Klc0KFBVIAJ,5,task,fixation
+900,hB2M9Klc0KFBVIAJ,5,time_elapsed,6349
+901,hB2M9Klc0KFBVIAJ,5,trial_index,5
+902,hB2M9Klc0KFBVIAJ,5,trial_type,html-keyboard-response
+903,hB2M9Klc0KFBVIAJ,6,correct,True
+904,hB2M9Klc0KFBVIAJ,6,correct_response,ArrowRight
+905,hB2M9Klc0KFBVIAJ,6,internal_node_id,0.0-3.0-1.1
+906,hB2M9Klc0KFBVIAJ,6,response,arrowright
+907,hB2M9Klc0KFBVIAJ,6,rt,825.5
+908,hB2M9Klc0KFBVIAJ,6,stimulus,"<div style=""font-size:60px;"">hat</div>"
+909,hB2M9Klc0KFBVIAJ,6,task,response
+910,hB2M9Klc0KFBVIAJ,6,time_elapsed,7176
+911,hB2M9Klc0KFBVIAJ,6,trial_index,6
+912,hB2M9Klc0KFBVIAJ,6,trial_type,html-keyboard-response
+913,hB2M9Klc0KFBVIAJ,7,internal_node_id,0.0-3.0-0.2
+914,hB2M9Klc0KFBVIAJ,7,stimulus,"<div style=""font-size:60px;"">+</div>"
+915,hB2M9Klc0KFBVIAJ,7,task,fixation
+916,hB2M9Klc0KFBVIAJ,7,time_elapsed,8178
+917,hB2M9Klc0KFBVIAJ,7,trial_index,7
+918,hB2M9Klc0KFBVIAJ,7,trial_type,html-keyboard-response
+919,hB2M9Klc0KFBVIAJ,8,correct,True
+920,hB2M9Klc0KFBVIAJ,8,correct_response,ArrowLeft
+921,hB2M9Klc0KFBVIAJ,8,internal_node_id,0.0-3.0-1.2
+922,hB2M9Klc0KFBVIAJ,8,response,arrowleft
+923,hB2M9Klc0KFBVIAJ,8,rt,673.8999999761581
+924,hB2M9Klc0KFBVIAJ,8,stimulus,"<div style=""font-size:60px;"">baf</div>"
+925,hB2M9Klc0KFBVIAJ,8,task,response
+926,hB2M9Klc0KFBVIAJ,8,time_elapsed,8853
+927,hB2M9Klc0KFBVIAJ,8,trial_index,8
+928,hB2M9Klc0KFBVIAJ,8,trial_type,html-keyboard-response
+929,hB2M9Klc0KFBVIAJ,9,internal_node_id,0.0-3.0-0.3
+930,hB2M9Klc0KFBVIAJ,9,stimulus,"<div style=""font-size:60px;"">+</div>"
+931,hB2M9Klc0KFBVIAJ,9,task,fixation
+932,hB2M9Klc0KFBVIAJ,9,time_elapsed,9860
+933,hB2M9Klc0KFBVIAJ,9,trial_index,9
+934,hB2M9Klc0KFBVIAJ,9,trial_type,html-keyboard-response
+935,hB2M9Klc0KFBVIAJ,10,correct,True
+936,hB2M9Klc0KFBVIAJ,10,correct_response,ArrowRight
+937,hB2M9Klc0KFBVIAJ,10,internal_node_id,0.0-3.0-1.3
+938,hB2M9Klc0KFBVIAJ,10,response,arrowright
+939,hB2M9Klc0KFBVIAJ,10,rt,696.8999999761581
+940,hB2M9Klc0KFBVIAJ,10,stimulus,"<div style=""font-size:60px;"">sweet</div>"
+941,hB2M9Klc0KFBVIAJ,10,task,response
+942,hB2M9Klc0KFBVIAJ,10,time_elapsed,10558
+943,hB2M9Klc0KFBVIAJ,10,trial_index,10
+944,hB2M9Klc0KFBVIAJ,10,trial_type,html-keyboard-response
+945,hB2M9Klc0KFBVIAJ,11,internal_node_id,0.0-3.0-0.4
+946,hB2M9Klc0KFBVIAJ,11,stimulus,"<div style=""font-size:60px;"">+</div>"
+947,hB2M9Klc0KFBVIAJ,11,task,fixation
+948,hB2M9Klc0KFBVIAJ,11,time_elapsed,11561
+949,hB2M9Klc0KFBVIAJ,11,trial_index,11
+950,hB2M9Klc0KFBVIAJ,11,trial_type,html-keyboard-response
+951,hB2M9Klc0KFBVIAJ,12,correct,True
+952,hB2M9Klc0KFBVIAJ,12,correct_response,ArrowRight
+953,hB2M9Klc0KFBVIAJ,12,internal_node_id,0.0-3.0-1.4
+954,hB2M9Klc0KFBVIAJ,12,response,arrowright
+955,hB2M9Klc0KFBVIAJ,12,rt,783.1999999880791
+956,hB2M9Klc0KFBVIAJ,12,stimulus,"<div style=""font-size:60px;"">deliberate</div>"
+957,hB2M9Klc0KFBVIAJ,12,task,response
+958,hB2M9Klc0KFBVIAJ,12,time_elapsed,12345
+959,hB2M9Klc0KFBVIAJ,12,trial_index,12
+960,hB2M9Klc0KFBVIAJ,12,trial_type,html-keyboard-response
+961,hB2M9Klc0KFBVIAJ,13,internal_node_id,0.0-3.0-0.5
+962,hB2M9Klc0KFBVIAJ,13,stimulus,"<div style=""font-size:60px;"">+</div>"
+963,hB2M9Klc0KFBVIAJ,13,task,fixation
+964,hB2M9Klc0KFBVIAJ,13,time_elapsed,13349
+965,hB2M9Klc0KFBVIAJ,13,trial_index,13
+966,hB2M9Klc0KFBVIAJ,13,trial_type,html-keyboard-response
+967,hB2M9Klc0KFBVIAJ,14,correct,True
+968,hB2M9Klc0KFBVIAJ,14,correct_response,ArrowLeft
+969,hB2M9Klc0KFBVIAJ,14,internal_node_id,0.0-3.0-1.5
+970,hB2M9Klc0KFBVIAJ,14,response,arrowleft
+971,hB2M9Klc0KFBVIAJ,14,rt,546.8000000119209
+972,hB2M9Klc0KFBVIAJ,14,stimulus,"<div style=""font-size:60px;"">pweef</div>"
+973,hB2M9Klc0KFBVIAJ,14,task,response
+974,hB2M9Klc0KFBVIAJ,14,time_elapsed,13897
+975,hB2M9Klc0KFBVIAJ,14,trial_index,14
+976,hB2M9Klc0KFBVIAJ,14,trial_type,html-keyboard-response
+977,hB2M9Klc0KFBVIAJ,15,internal_node_id,0.0-4.0
+978,hB2M9Klc0KFBVIAJ,15,response, 
+979,hB2M9Klc0KFBVIAJ,15,rt,4528.199999988079
+980,hB2M9Klc0KFBVIAJ,15,stimulus,"<p>You responded correctly on 100% of the trials.</p>
+          <p>Your average response time on correct trials was 690ms.</p>
+          <p>Your average response time on incorrect trials was NaNms.</p>
+          <p>Press any key to complete the experiment. Thank you!</p>"
+981,hB2M9Klc0KFBVIAJ,15,time_elapsed,18427
+982,hB2M9Klc0KFBVIAJ,15,trial_index,15
+983,hB2M9Klc0KFBVIAJ,15,trial_type,html-keyboard-response

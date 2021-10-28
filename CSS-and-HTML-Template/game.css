@@ -1,0 +1,136 @@
+
+/* CSS Document */
+body {
+	width:60%;
+	margin: auto;
+	text-align: center;
+}
+
+h1 {
+		text-align: center;
+		font-family: "Source Sans Pro", Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
+		font-weight: semi-bold;
+		font-size: 48px;
+		color: rgba(76,101,139,1);
+
+	}
+
+h2 {
+	text-align:center;
+	font-family: "Source Sans Pro", Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
+	font-style: normal;
+	font-weight: regular;
+	font-size: 32px;
+	color: rgba(0,0,0,1);
+}
+
+p  {	
+	vertical-align: middle;
+	text-align: left;
+	font-family: "Source Sans Pro", Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";;
+	font-style: normal;
+	font-weight: normal;
+	font-size: 28px;
+	color: rgba(0,0,0,1);
+}
+
+.center  {	
+	vertical-align: middle;
+	text-align: center;
+}
+
+.middle  {	
+	position: relative;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+
+.lower {
+	position: relative;
+	top: 100px;
+}
+
+.orange {
+	color: rgba(219,97,69,1);
+}
+
+.blue {
+	color: rgba(66,152,181,1);
+}
+
+.yellow {
+	color: rgba(255,202,97,1);
+}
+
+.row {
+	display: flex;
+}
+
+.column_1 {
+	padding: 0px 20px 0px 20px;
+	flex: 33%;
+}
+
+.column_2 {
+	padding: 0px 20px 0px 20px;
+	flex: 50%;
+}
+
+.column_3 {
+	padding: 0px 20px 0px 20px;
+	flex: 67%;
+}
+
+.button {
+	width: 100%;
+	background-color: rgba(76,101,139,1);
+	text-align:center;
+	vertical-align: middle;
+	padding:20px;
+	display: block;
+	font-family: "Source Sans Pro", Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
+	font-style: normal;
+	font-weight: bold;
+	font-size: 40px;
+	color: rgba(255,255,255,1);
+	position: fixed;
+	top:800px;
+	}
+
+.scene{
+	width:100%;
+}
+
+.characterleft {
+	text-align: center;
+	position: relative;
+	top:30%;
+}
+
+.imageleft {
+	text-align: center;
+	position: relative;
+	top:50%;
+}
+
+.demo {	
+	text-align:center;
+	position: relative;
+	top:200px;
+}
+
+.plus {	
+	vertical-align: middle;
+	text-align: center;
+	position: relative;
+	top:450px;
+}
+
+.key{
+	vertical-align: middle;
+	text-align: center;
+	position: relative;
+	top:600px;
+}

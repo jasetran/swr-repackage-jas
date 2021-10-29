@@ -5,6 +5,9 @@ Versions and their dependencies are packaged within
  folders to ensure continued functionality as new test versions are deployed.
 
 ## Organization 
+### Working Config File
+src/config.js
+
 ### Working Content Code 
 src/experiment_script.js
 

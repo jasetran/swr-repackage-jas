@@ -101,15 +101,19 @@ var lexicality_test_practice = {
         if (data.response === 'arrowleft') {
             responseLR = 'left';
             answerRP = 'make-up';
+            responseColor = 'orange';
         }
         else {
             responseLR = 'right';
             answerRP = 'real';
+            responseColor = 'blue';
         };
         if (jsPsych.timelineVariable('correct_response') === 'ArrowLeft'){
             correctRP = 'make-up'
+            answerColor = 'orange';
         }
-        else {correctRP = 'real'};
+        else {correctRP = 'real';
+            answerColor = 'blue';};
         jsPsych.setProgressBar(0);
     }
 };

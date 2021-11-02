@@ -35,7 +35,9 @@ var response;
 /* variables used in practice feedbacks */
 var responseLR;
 var answerRP;
-var correctRP
+var correctRP;
+var answerColor;
+var responseColor;
 var currentPracStimulus;
 
 var currentStimulus;

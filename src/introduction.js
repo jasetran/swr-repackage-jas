@@ -107,8 +107,8 @@ var practice_feedback = {
     type: "html-keyboard-response",
     stimulus: function () {return `
        <body>
-\t<h1 class="lower"><span class="blue">You pressed the ${responseLR} arrow key, <br/> which is for ${answerRP} words! </span></h1>
-\t<h2 class="lower">${currentPracStimulus}<span class="orange">  is a ${correctRP}  word.</span></h2>
+\t<h1 class="lower"><span class=${responseColor}>You pressed the ${responseLR} arrow key, <br/> which is for ${answerRP} words! </span></h1>
+\t<h3 class="lower">${currentPracStimulus}<span class=${answerColor}>  is a ${correctRP}  word.</span></h3>
 \t<img class="lower" src="assets/key_p3.png" alt="arrow keys">
 
 </body>

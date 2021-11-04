@@ -100,7 +100,7 @@ var lexicality_test_practice = {
         console.log(data.response);
         if (data.response === 'arrowleft') {
             responseLR = 'left';
-            answerRP = 'make-up';
+            answerRP = 'made-up';
             responseColor = 'orange';
         }
         else {

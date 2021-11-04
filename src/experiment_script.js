@@ -109,7 +109,7 @@ var lexicality_test_practice = {
             responseColor = 'blue';
         };
         if (jsPsych.timelineVariable('correct_response') === 'ArrowLeft'){
-            correctRP = 'make-up'
+            correctRP = 'made-up'
             answerColor = 'orange';
         }
         else {correctRP = 'real';

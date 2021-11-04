@@ -1,7 +1,7 @@
 /* define welcome message trial */
 var welcome = {
     type: "html-keyboard-response",
-    stimulus: `<h1>Welcome to the world of Lexicality!</h1>
+    stimulus: `<h1>Welcome to the world of Lexicality!!</h1>
 \t<div class="row">
 \t\t<div class="column_1">
 \t\t\t<img class="characterleft" src="assets/wizard_magic.gif" height="320px" alt="animation of a wizard waving a magic wand">

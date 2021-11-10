@@ -1,30 +1,3 @@
-/* define welcome message trial */
-var welcome = {
-    type: "html-keyboard-response",
-    stimulus: `<h1>Welcome to the world of Lexicality!!</h1>
-\t<div class="row">
-\t\t<div class="column_1">
-\t\t\t<img class="characterleft" src="assets/wizard_magic.gif" height="320px" alt="animation of a wizard waving a magic wand">
-\t  \t</div>
-\t  <div class="column_3">
-\t\t\t<p class="middle"> You are a young wizard searching for the gate that will return you to your home on Earth. To reach it, you must journey over lands ruled by magical guardians.</p>
-\t\t\t<p class="middle"> To call the guardian to let you through, you will tell the difference between made-up words and real words. &nbsp;</p>
-\t\t</div>
-\t</div>
-\t
-\t<div class="button">Press <span class="yellow">Space</span> to continue
-\t</div>`,
-    data: {
-        start_time: start_time.toLocaleString('PST'),
-        start_time_unix: start_time.getTime()
-    },
-    on_start: function() {
-        //set progress bar to 0 at the start of experiment
-        jsPsych.setProgressBar(0);
-    }
-};
-
-
 /* define instructions trial */
 var instrux_1 = {
     type: "html-keyboard-response",

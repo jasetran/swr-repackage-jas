@@ -2,30 +2,6 @@
 var instrux_1 = {
     type: "html-keyboard-response",
     stimulus: `
-    <h1>Welcome to the world of Lexicality!</h1>
-    <div class="row">
-      <div class="column_1">
-        <img class="characterleft" src="assets/wizard_magic.gif" height="320px" alt="animation of a wizard waving a magic wand">
-        </div>
-      <div class="column_3">
-        <p class="middle"> You are a young wizard searching for the gate that will return you to your home on Earth. To reach it, you must journey over lands ruled by magical guardians.</p>
-        <p class="middle"> To call the guardian to let you through, you will tell the difference between made-up words and real words. &nbsp;</p>
-      </div>
-    </div>
-
-    <div class="button">Press <span class="yellow">Space</span> to continue
-    </div>
-      `,
-    //post_trial_gap: 2000,
-    on_start: function() {
-        //set progress bar to 0 at the start of experiment
-        jsPsych.setProgressBar(0);
-    }
-};
-
-var instrux_2 = {
-    type: "html-keyboard-response",
-    stimulus: `
     <h1>A real or made-up word will flash very quickly <br/> at the center of the screen.</h1>
    <div class="row">
      <div class="column_2">
@@ -48,6 +24,11 @@ var instrux_2 = {
    <div class="button">Press <span class="yellow">Space</span> to continue
    </div>
       `,
+    key_forward: ' ',
+  data: {
+        start_time: start_time.toLocaleString('PST'),
+        start_time_unix: start_time.getTime()
+    },
     //post_trial_gap: 2000,
     on_start: function() {
         //set progress bar to 0 at the start of experiment
@@ -55,11 +36,11 @@ var instrux_2 = {
     }
 };
 
-var instrux_3 = {
+var instrux_2 = {
     type: "html-keyboard-response",
     stimulus: `<h1>Great work, you are ready to begin the journey! </h1>
 \t  <div>
-\t\t \t <p class="center"> As you travel through the valley, you’ll earn gold coins to bring home.</p>
+\t\t \t <p class="center"> As you travel through the valley, you&#39ll earn gold coins to bring home.</p>
 \t\t\t  <img style="position: relative; top: 100px; " width="400px" src="assets/gold_coin.gif" alt="gold">
 \t\t\t  <p class="center" style="position: relative; top: 200px; "><b>Look out for them!</b></p>
 \t\t </div>
@@ -69,6 +50,7 @@ var instrux_3 = {
 
       `,
     //post_trial_gap: 2000,
+    key_forward: ' ',
     on_start: function() {
         //set progress bar to 0 at the start of experiment
         jsPsych.setProgressBar(0);
@@ -93,4 +75,24 @@ var practice_feedback = {
     }
 };
 
-//arrowkey_lex.png
+/* define practice feedback trial*/
+// var begin_study = {
+//     type: "html-keyboard-response",
+//     stimulus: function () {return `
+//        <body>
+// \t<h1 class="lower"><span class=${responseColor}>You pressed the ${responseLR} arrow key, <br/> which is for ${answerRP} words! </span></h1>
+// \t<h3 class="lower">${currentPracStimulus}<span class=${answerColor}>  is a ${correctRP}  word.</span></h3>
+// \t<img class="lower" src="assets/key_p3.png" alt="arrow keys">
+//
+// </body>
+//       `},
+//     post_trial_gap: 2000,
+//     on_start: function() {
+//         //set progress bar to 0 at the start of experiment
+//         jsPsych.setProgressBar(0);
+//     }
+// };
+
+
+
+

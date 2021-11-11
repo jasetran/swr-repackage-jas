@@ -17,7 +17,7 @@ var enter_fullscreen = {
 }
 
 var introduction_trials = {
-    timeline: [enter_fullscreen, instrux_1, instrux_2, instrux_3]
+    timeline: [enter_fullscreen, intro_1, intro_2, intro_3]
 }
 timeline.push(introduction_trials);
 

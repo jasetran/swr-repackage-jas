@@ -85,9 +85,7 @@ var setup_fixation_practice = {
 var lexicality_test_practice = {
     type: "html-keyboard-response",
     stimulus: jsPsych.timelineVariable('stimulus'),
-    prompt: `
-    <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys">
-    `,
+    prompt: `<img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys">`,
     stimulus_duration: stimulusTime[stimulusTimeIndex],
     trial_duration: trialTime[trialTimeIndex],
     choices: ['ArrowLeft', 'ArrowRight'],
@@ -110,9 +108,11 @@ var lexicality_test_practice = {
         };
         if (jsPsych.timelineVariable('correct_response') === 'ArrowLeft'){
             correctRP = 'made-up'
+            arrowDisplay = "assets/arrowkey_lex_left.gif";
             answerColor = 'orange';
         }
         else {correctRP = 'real';
+            arrowDisplay = "assets/arrowkey_lex_right.gif";
             answerColor = 'blue';};
         jsPsych.setProgressBar(0);
     }

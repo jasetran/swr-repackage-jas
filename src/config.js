@@ -12,7 +12,7 @@ var fixationTime = [1000,2000,25000];
 var fixationTimeIndex = 0; //0 as default: 1000ms; 1: 2000ms; 2: 5000ms
 
 /* set number of trials for practice block */
-var totalTrials_Practice = 0;
+var totalTrials_Practice = 5;
 
 /* set order and rule for the experiment*/
 var stimulusRuleLis = ['random','adaptive','new'];
@@ -39,6 +39,7 @@ var correctRP;
 var answerColor;
 var responseColor;
 var currentPracStimulus;
+var arrowDisplay;
 
 var currentStimulus;
 

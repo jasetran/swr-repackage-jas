@@ -75,19 +75,21 @@ var intro_3 = {
       jsPsych.setProgressBar(0);
     }
 };
-
+//style=" width:698px; height:160px"
+////	<img class="lower" src="assets/arrowkey_lex_left.gif" alt="arrow keys">
 /* define practice feedback trial*/
 var practice_feedback = {
     type: "html-keyboard-response",
     stimulus: function () {return `
        <body>
-\t<h1 class="lower"><span class=${responseColor}>You pressed the ${responseLR} arrow key, <br/> which is for ${answerRP} words! </span></h1>
-\t<h3 class="lower">${currentPracStimulus}<span class=${answerColor}>  is a ${correctRP}  word.</span></h3>
-\t<img class="lower" src="assets/key_p3.png" alt="arrow keys">
-
+\t<h1 class="center"><span class=${responseColor}>You pressed the ${responseLR} arrow key, which is for ${answerRP} words! </span></h1>
+\t<h3 class="center">${currentPracStimulus}<span class=${answerColor}>  is a ${correctRP}  word.</span></h3>
 </body>
       `},
     post_trial_gap: 2000,
+    prompt: `
+    <img class="center" src= "assets/arrowkey_lex_left.gif" alt="arrow keys" style=" width:698px; height:120px"> 
+    `,
     on_start: function() {
         //set progress bar to 0 at the start of experiment
         jsPsych.setProgressBar(0);

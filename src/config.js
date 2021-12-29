@@ -1,9 +1,11 @@
 /* set the stimulus presentation time */
-var stimulusTime = [350,1000,2000]; //
-var stimulusTimeIndex = 0; //0 as default: 350ms; 1: 1000ms; 2: 2000ms
+var stimulusTime = [null,350,1000,2000]; //
+var stimulusTimeIndexPracticeOnly = 0; //null as default for practice trial only; 1: 350ms; 2: 1000ms; 3: 2000ms
+var stimulusTimeIndex = 1;
 
 /* set the trial time completion time */
-var trialTime = [null, 5000,8000,100000];
+var trialTime = [null,5000,8000,100000];
+var trialTimeIndexPracticeOnly = 0
 var trialTimeIndex = 0; //0 as default: the next stimulus shows after participant's input
 //1/2/3: the next stimulus shows after 5000ms/8000ms/10000ms waiting time
 
@@ -11,8 +13,11 @@ var trialTimeIndex = 0; //0 as default: the next stimulus shows after participan
 var fixationTime = [1000,2000,25000];
 var fixationTimeIndex = 0; //0 as default: 1000ms; 1: 2000ms; 2: 5000ms
 
+
 /* set number of trials for practice block */
-var totalTrials_Practice = 0;
+var totalTrials_Practice = 5;
+var practiceIndex = 0;
+var countSlowPractice = 2;
 
 /* set order and rule for the experiment*/
 var stimulusRuleLis = ['random','adaptive','new'];
@@ -39,6 +44,8 @@ var correctRP;
 var answerColor;
 var responseColor;
 var currentPracStimulus;
+var arrowDisplay;
+var correctLR;
 
 var currentStimulus;
 

@@ -1,25 +1,18 @@
-// /* preload the specified files */
-// var video = ['assets/wizard_magic.gif'];
-//
-// var image = ['assets/arrow_left_p2.png','assets/arrow_right_p2.png'];
-//
-// var preload = {
-//      type: 'preload',
-//      video: video,
-//      image: image
-//
-//  }
-// timeline.push(preload);
-
+/* add introduction trials*/
 var enter_fullscreen = {
     type: 'fullscreen',
     fullscreen_mode: true
+}
+
+var countdown_trials = {
+    timeline: [countdown_trial_3,countdown_trial_2,countdown_trial_1]
 }
 
 var introduction_trials = {
     timeline: [enter_fullscreen, intro_1, intro_2, intro_3]
 }
 timeline.push(introduction_trials);
+timeline.push(countdown_trials);
 
 /* debrief trials*/
 
@@ -63,20 +56,17 @@ function readCSV(url) {
 
 //function to update the span as appropriate (using a 2:1 staircase procedure)
 
+
 /* For Practice Trial Only */
 var setup_fixation_practice = {
     type: 'html-keyboard-response',
-    stimulus: function(){return `
-    <div style="font-size:60px;">+</div>
-    <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys">
-    `},
-
+    stimulus: function(){return `<div style="font-size:60px;">+</div>`},
+    prompt:  `<img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
     choices: jsPsych.NO_KEYS,
     trial_duration: fixationTime[fixationTimeIndex],
     data: {
         task: 'fixation'
     },
-
     on_finish: function(){
         jsPsych.setProgressBar(0);
     }
@@ -84,17 +74,27 @@ var setup_fixation_practice = {
 
 var lexicality_test_practice = {
     type: "html-keyboard-response",
-    stimulus: jsPsych.timelineVariable('stimulus'),
-    prompt: `
-    <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys">
-    `,
-    stimulus_duration: stimulusTime[stimulusTimeIndex],
-    trial_duration: trialTime[trialTimeIndex],
+    stimulus: function(){return jsPsych.timelineVariable('stimulus')},
+    prompt: `<img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
+    stimulus_duration: function() {
+        practiceIndex += 1;
+        if (practiceIndex > countSlowPractice) {
+            stimulusTimeIndexPracticeOnly = 1;
+        }
+        return stimulusTime[stimulusTimeIndexPracticeOnly]},
+    trial_duration: function() {return trialTime[trialTimeIndex]},
     choices: ['ArrowLeft', 'ArrowRight'],
     data:  {
         task: 'response', /* tag the test trials with this taskname so we can filter data later */
     },
     on_finish: function(data){
+        practiceIndex += 1;
+        if (practiceIndex > countSlowPractice) {
+            stimulusTimeIndex = 1;
+            trialTimeIndex = 1;
+        }
+        console.log(stimulusTime[trialTimeIndex]);
+
         currentPracStimulus = jsPsych.timelineVariable('raw_stimulus');
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, jsPsych.timelineVariable('correct_response'));
         console.log(data.response);
@@ -109,10 +109,15 @@ var lexicality_test_practice = {
             responseColor = 'blue';
         };
         if (jsPsych.timelineVariable('correct_response') === 'ArrowLeft'){
-            correctRP = 'made-up'
+            correctLR = 'left';
+            correctRP = 'made-up';
+            arrowDisplay = "assets/arrowkey_lex_left.gif";
+
             answerColor = 'orange';
         }
         else {correctRP = 'real';
+            correctLR = 'right';
+            arrowDisplay = "assets/arrowkey_lex_right.gif";
             answerColor = 'blue';};
         jsPsych.setProgressBar(0);
     }
@@ -122,9 +127,8 @@ var lexicality_test_practice = {
 var setup_fixation = {
     type: 'html-keyboard-response',
     stimulus: function(){return '<div style="font-size:60px;">+</div>';},
-    prompt: `
-    <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys">
-    `,
+    prompt:
+    `<img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
     choices: jsPsych.NO_KEYS,
     trial_duration: fixationTime[fixationTimeIndex],
     data: {
@@ -146,9 +150,7 @@ var setup_fixation = {
 var lexicality_test = {
     type: "html-keyboard-response",
     stimulus: function() {return nextStimulus['stimulus']},
-    prompt: `
-    <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys">
-    `,
+    prompt: `<img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
     stimulus_duration: stimulusTime[stimulusTimeIndex],
     trial_duration: trialTime[trialTimeIndex],
     choices: ['ArrowLeft', 'ArrowRight'],
@@ -156,9 +158,7 @@ var lexicality_test = {
         task: 'response', /* tag the test trials with this taskname so we can filter data later */
     },
     on_finish: function(data){
-
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, nextStimulus['correct_response']);
-
         if (data.correct){
             staircaseChecker[staircaseIndex] = 1;
         } else {staircaseChecker[staircaseIndex] = 0;}
@@ -426,8 +426,8 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
 
 
     //set number of practice trials
-    var block_Practice = csv_practice_transform.slice(0,6);
-    console.log(block_Practice)
+    var block_Practice = csv_practice_transform.slice(0,totalTrials_Practice);
+    //console.log(block_Practice)
 
     var block_A = csv_validated_transform.slice(0,84);
 
@@ -444,7 +444,7 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
     function PushPracticeToTimeline(array) {
         for (let x of array) {
             var block = {
-                timeline: [setup_fixation_practice, lexicality_test_practice,practice_feedback],
+                timeline: [setup_fixation_practice, lexicality_test_practice,if_node_left,if_node_right],
                 timeline_variables: [x]
             }
             timeline.push(block)

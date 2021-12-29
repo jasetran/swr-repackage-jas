@@ -15,8 +15,8 @@ var intro_1 = {
         <div class="button">Press <span class="yellow">Space</span> to continue
         </div>
       `,
-    key_forward: ' ',
-  data: {
+    choices: [' '],
+    data: {
         start_time: start_time.toLocaleString('PST'),
         start_time_unix: start_time.getTime()
     },
@@ -53,7 +53,7 @@ var intro_2 = {
     </div>
       `,
     //post_trial_gap: 2000,
-    key_forward: ' ',
+    choices: [' '],
     on_start: function() {
         //set progress bar to 0 at the start of experiment
         jsPsych.setProgressBar(0);
@@ -70,7 +70,7 @@ var intro_3 = {
         <p class="center" style="position: relative; top: 200px; "><b>Look out for them!</b></p>
         </div>
     <div class="button">Press <span class="yellow">Space</span> to begin</div>`,
-    key_forward: ' ',
+    choices: [' '],
     on_start: function() {
       jsPsych.setProgressBar(0);
     }
@@ -78,24 +78,114 @@ var intro_3 = {
 //style=" width:698px; height:160px"
 ////	<img class="lower" src="assets/arrowkey_lex_left.gif" alt="arrow keys">
 /* define practice feedback trial*/
-var practice_feedback = {
+var practice_feedback_left = {
     type: "html-keyboard-response",
     stimulus: function () {return `
        <body>
 \t<h1 class="center"><span class=${responseColor}>You pressed the ${responseLR} arrow key, which is for ${answerRP} words! </span></h1>
-\t<h3 class="center">${currentPracStimulus}<span class=${answerColor}>  is a ${correctRP}  word.</span></h3>
+\t<h3 class="center">${currentPracStimulus}<span class=${answerColor}>  is a ${correctRP}  word. Press ${correctLR} arrow key to continue.</span></h3>
 </body>
       `},
-    post_trial_gap: 2000,
+    //post_trial_gap: 2000,
     prompt: `
-    <img class="center" src= "assets/arrowkey_lex_left.gif" alt="arrow keys" style=" width:698px; height:120px"> 
+    <img class="lower" src= "assets/arrowkey_lex_left.gif" alt="arrow keys" style=" width:698px; height:120px"> `,
+    choices: ['ArrowLeft'],
+    on_start: function() {
+
+        //set progress bar to 0 at the start of experiment
+        jsPsych.setProgressBar(0);
+    }
+};
+
+
+var practice_feedback_right = {
+    type: "html-keyboard-response",
+    stimulus: function () {return `
+       <body>
+\t<h1 class="center"><span class=${responseColor}>You pressed the ${responseLR} arrow key, which is for ${answerRP} words! </span></h1>
+\t<h3 class="center">${currentPracStimulus}<span class=${answerColor}>  is a ${correctRP} word. Press ${correctLR} arrow key to continue.</span></h3>
+</body>
+      `},
+    //post_trial_gap: 2000,
+    prompt: `
+    <img class="lower" src= "assets/arrowkey_lex_right.gif" alt="arrow keys" style=" width:698px; height:120px"> 
     `,
+    choices: ['ArrowRight'],
     on_start: function() {
         //set progress bar to 0 at the start of experiment
         jsPsych.setProgressBar(0);
     }
 };
 
+var if_node_left = {
+    timeline: [practice_feedback_left],
+    conditional_function: function(){
+        if (correctRP == 'made-up') {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
+
+var if_node_right = {
+    timeline: [practice_feedback_right],
+    conditional_function: function(){
+        if (correctRP == 'real') {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
+
+
+
+/* Countdown trial*/
+var countdown_trial_3= {
+    type: 'html-keyboard-response',
+    stimulus: function(){return `<div style="font-size:60px;">3</div>`},
+    prompt:  `<img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
+    choices: jsPsych.NO_KEYS,
+    trial_duration: 1000,
+    data: {
+        task: 'countdown'
+    },
+    on_finish: function(){
+        jsPsych.setProgressBar(0);
+    }
+};
+
+var countdown_trial_2= {
+    type: 'html-keyboard-response',
+    stimulus: function(){return `<div style="font-size:60px;">2</div>`},
+    prompt:  `<img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
+    choices: jsPsych.NO_KEYS,
+    trial_duration: 1000,
+    data: {
+        task: 'countdown'
+    },
+    on_finish: function(){
+        jsPsych.setProgressBar(0);
+    }
+};
+
+var countdown_trial_1= {
+    type: 'html-keyboard-response',
+    stimulus: function(){return `<div style="font-size:60px;">1</div>`},
+    prompt:  `<img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
+    choices: jsPsych.NO_KEYS,
+    trial_duration: 1000,
+    data: {
+        task: 'countdown'
+    },
+    on_finish: function(){
+        jsPsych.setProgressBar(0);
+    }
+};
+//"assets/arrowkey_lex_left.gif"
 /* define practice feedback trial*/
 // var begin_study = {
 //     type: "html-keyboard-response",

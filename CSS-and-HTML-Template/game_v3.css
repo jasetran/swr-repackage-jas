@@ -33,6 +33,15 @@ h3 {
 	color: rgba(0,0,0,1);
 }
 
+h4 {
+	text-align:center;
+	font-family: "Source Sans Pro", Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
+	font-style: normal;
+	font-weight: regular;
+	font-size: 48px;
+	color: rgba(0,0,0,1);
+}
+
 p  {
 	vertical-align: middle;
 	text-align: left;

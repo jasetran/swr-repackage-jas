@@ -12,10 +12,9 @@ var intro_1 = {
             <p class="middle"> To call the guardian to let you through, you will tell the difference between made-up words and real words. &nbsp;</p>
           </div>
         </div>
-        <div class="button">Press <span class="yellow">Space</span> to continue
-        </div>
       `,
     choices: [' '],
+    prompt: `<div class="button">Press <span class="yellow">Space</span> to continue </div>`,
     data: {
         start_time: start_time.toLocaleString('PST'),
         start_time_unix: start_time.getTime()
@@ -80,15 +79,15 @@ var intro_3 = {
 /* define practice feedback trial*/
 var practice_feedback_left = {
     type: "html-keyboard-response",
-    stimulus: function () {return `
-       <body>
-\t<h1 class="center"><span class=${responseColor}>You pressed the ${responseLR} arrow key, which is for ${answerRP} words! </span></h1>
-\t<h3 class="center">${currentPracStimulus}<span class=${answerColor}>  is a ${correctRP}  word. Press ${correctLR} arrow key to continue.</span></h3>
-</body>
+    stimulus: function () {return `<div class = stimulus_div>
+\t<p class="feedback"><span class=${responseColor}>You pressed the ${responseLR} arrow key, which is for ${answerRP} words! </span>
+<br></br>${currentPracStimulus}<span class=${answerColor}>  is a ${correctRP}  word. Press ${correctLR} arrow key to continue.</span></p>
+</div>
       `},
     //post_trial_gap: 2000,
-    prompt: `
-    <img class="lower" src= "assets/arrowkey_lex_left.gif" alt="arrow keys" style=" width:698px; height:120px"> `,
+    prompt: ` 
+    <img class="lower" src= "assets/arrowkey_lex_left.gif" alt="arrow keys" style=" width:698px; height:120px">
+   `,
     choices: ['ArrowLeft'],
     on_start: function() {
 
@@ -100,11 +99,10 @@ var practice_feedback_left = {
 
 var practice_feedback_right = {
     type: "html-keyboard-response",
-    stimulus: function () {return `
-       <body>
-\t<h1 class="center"><span class=${responseColor}>You pressed the ${responseLR} arrow key, which is for ${answerRP} words! </span></h1>
-\t<h3 class="center">${currentPracStimulus}<span class=${answerColor}>  is a ${correctRP} word. Press ${correctLR} arrow key to continue.</span></h3>
-</body>
+    stimulus: function () {return `<div class = stimulus_div>
+\t<p class="feedback"><span class=${responseColor}>You pressed the ${responseLR} arrow key, which is for ${answerRP} words! </span>
+<br></br>${currentPracStimulus}<span class=${answerColor}>  is a ${correctRP}  word. Press ${correctLR} arrow key to continue.</span></p>
+</div>
       `},
     //post_trial_gap: 2000,
     prompt: `
@@ -146,8 +144,8 @@ var if_node_right = {
 /* Countdown trial*/
 var countdown_trial_3= {
     type: 'html-keyboard-response',
-    stimulus: function(){return `<div style="font-size:60px;">3</div>`},
-    prompt:  `<img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
+    stimulus: function(){return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">3</p></div>`},
+    prompt:  ` <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
     choices: jsPsych.NO_KEYS,
     trial_duration: 1000,
     data: {
@@ -160,8 +158,8 @@ var countdown_trial_3= {
 
 var countdown_trial_2= {
     type: 'html-keyboard-response',
-    stimulus: function(){return `<div style="font-size:60px;">2</div>`},
-    prompt:  `<img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
+    stimulus: function(){return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">2</p></div>`},
+    prompt:  ` <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
     choices: jsPsych.NO_KEYS,
     trial_duration: 1000,
     data: {
@@ -174,8 +172,8 @@ var countdown_trial_2= {
 
 var countdown_trial_1= {
     type: 'html-keyboard-response',
-    stimulus: function(){return `<div style="font-size:60px;">1</div>`},
-    prompt:  `<img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
+    stimulus: function(){return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">1</p></div>`},
+    prompt:  ` <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
     choices: jsPsych.NO_KEYS,
     trial_duration: 1000,
     data: {

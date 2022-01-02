@@ -60,8 +60,8 @@ function readCSV(url) {
 /* For Practice Trial Only */
 var setup_fixation_practice = {
     type: 'html-keyboard-response',
-    stimulus: function(){return `<div style="font-size:60px;">+</div>`},
-    prompt:  `<img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
+    stimulus: function(){return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">+</p></div>`},
+    prompt:  ` <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
     choices: jsPsych.NO_KEYS,
     trial_duration: fixationTime[fixationTimeIndex],
     data: {
@@ -81,6 +81,7 @@ var lexicality_test_practice = {
         if (practiceIndex > countSlowPractice) {
             stimulusTimeIndexPracticeOnly = 1;
         }
+        console.log(stimulusTime[trialTimeIndex]);
         return stimulusTime[stimulusTimeIndexPracticeOnly]},
     trial_duration: function() {return trialTime[trialTimeIndex]},
     choices: ['ArrowLeft', 'ArrowRight'],
@@ -88,13 +89,6 @@ var lexicality_test_practice = {
         task: 'response', /* tag the test trials with this taskname so we can filter data later */
     },
     on_finish: function(data){
-        practiceIndex += 1;
-        if (practiceIndex > countSlowPractice) {
-            stimulusTimeIndex = 1;
-            trialTimeIndex = 1;
-        }
-        console.log(stimulusTime[trialTimeIndex]);
-
         currentPracStimulus = jsPsych.timelineVariable('raw_stimulus');
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, jsPsych.timelineVariable('correct_response'));
         console.log(data.response);
@@ -126,9 +120,8 @@ var lexicality_test_practice = {
 //set-up screen
 var setup_fixation = {
     type: 'html-keyboard-response',
-    stimulus: function(){return '<div style="font-size:60px;">+</div>';},
-    prompt:
-    `<img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
+    stimulus: function(){return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">+</p></div>`},
+    prompt:  ` <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
     choices: jsPsych.NO_KEYS,
     trial_duration: fixationTime[fixationTimeIndex],
     data: {
@@ -363,13 +356,13 @@ function transformNewwords(csv_new){
     var splitArray = [];
     for (var i = 0; i < newArray.length; i++) {
         const realRow = {
-            'stimulus': '<div style="font-size:60px;">' + newArray[i].realword + '</div>',
+            'stimulus':'<div class = stimulus_div><p class = "stimulus" style="font-size:60px;">' + newArray[i].realword + '</p></div>',
             'correct_response': 'ArrowRight',
             'difficulty': 0 //default level
         }
         splitArray.push(realRow);
         const pseudoRow = {
-            'stimulus': '<div style="font-size:60px;">' + newArray[i].pseudoword + '</div>',
+            'stimulus':'<div class = stimulus_div><p class = "stimulus" style="font-size:60px;">' + newArray[i].pseudoword + '</p></div>',
             'correct_response': 'ArrowLeft',
             'difficulty': 0 //default level
         }
@@ -400,7 +393,7 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
             }
             const newRow = {
                 'raw_stimulus': row.word,
-                'stimulus': '<div style="font-size:60px;">' + row.word + '</div>',
+                'stimulus': '<div class = stimulus_div><p class = "stimulus" style="font-size:60px;">' + row.word + '</p></div>',
                 'correct_response': correct_response,
                 'difficulty': row.difficulty
             }
@@ -416,7 +409,7 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
                 correct_response = 'ArrowLeft'
             }
             const newRow = {
-                'stimulus': '<div style="font-size:60px;">' + row.word + '</div>',
+                'stimulus': '<div class = stimulus_div><p class = "stimulus" style="font-size:60px;">' + row.word + '</p></div>',
                 'correct_response': correct_response,
                 'difficulty': row.difficulty
             }

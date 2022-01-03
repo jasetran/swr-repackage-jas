@@ -4,12 +4,13 @@ var enter_fullscreen = {
     fullscreen_mode: true
 }
 
+timeline.push(enter_fullscreen);
 var countdown_trials = {
     timeline: [countdown_trial_3,countdown_trial_2,countdown_trial_1]
 }
 
 var introduction_trials = {
-    timeline: [enter_fullscreen, intro_1, intro_2, intro_3]
+    timeline: [intro_1, intro_2, intro_3]
 }
 timeline.push(introduction_trials);
 timeline.push(countdown_trials);
@@ -445,6 +446,9 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
     }
 
     PushPracticeToTimeline(block_Practice);
+    timeline.push(post_practice_intro);
+    timeline.push(countdown_trials);
+
 
     var core_procedure = {
         timeline: [setup_fixation, lexicality_test]
@@ -496,12 +500,16 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
 
             total_roar_mainproc_line.push(roar_mainproc_block0);
         }
+        //need to fix how to call mid_block_page
+        total_roar_mainproc_line.push(mid_block_page);
+        total_roar_mainproc_line.push(post_block_page);
 
         if (stimulusCountLis.length > 1) {
 
             var roar_mainproc_block1 = {
                 timeline: [core_procedure],
                 conditional_function: function () {
+
                     if (stimulusCountLis[1] === 0) {
                         return false;
                     } else {
@@ -519,6 +527,10 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
 
             total_roar_mainproc_line.push(roar_mainproc_block1);
         }
+
+        total_roar_mainproc_line.push(mid_block_page);
+        total_roar_mainproc_line.push(post_block_page);
+
 
         if (stimulusCountLis.length > 2) {
             var roar_mainproc_block2 = {
@@ -547,11 +559,13 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
 
     PushTrialsToTimeline(stimulusLists,stimulusCountLis);
 
+
     var total_roar_mainproc = {
         timeline: total_roar_mainproc_line
     }
 
     timeline.push(total_roar_mainproc);
+    timeline.push(final_page);
 
     console.log("I am printing timeline now")
     console.log(timeline);

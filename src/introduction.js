@@ -31,19 +31,19 @@ var intro_2 = {
     stimulus: `
     <h1>A real or made-up word will flash very quickly <br/> at the center of the screen.</h1>
     <div class="row">
-     <div class="column_2">
+     <div class="column_2_upper" style="background-color:#f2f2f2;">
        <p>The made-up words might look like English words, but they do not mean anything in English. For example, laip, bove, or cigbert are made-up words. <span class="orange"><b>If you see a made-up word, press the LEFT ARROW KEY.</b></span></p>
      </div>
-     <div class="column_2" style="background-color:#f2f2f2;">
+     <div class="column_2_upper" style="background-color:#f2f2f2;">
        <p> The real words will be ones you recognize. They are real English words like is, and, basket, or lion. <span class="blue"><b> If you see a real word, press the RIGHT ARROW KEY.</b></span></p>
      </div>
     </div>
 
     <div class="row">
-     <div class="column_2">
+     <div class="column_2_lower" style="background-color:#f2f2f2;">
      <img width="100%" src="assets/arrow_left_p2.png" alt="Magic Word, Press the Left Arrow Key" align="right">
      </div>
-     <div class="column_2" style="background-color:#f2f2f2; height: 180px;">
+     <div class="column_2_lower" style="background-color:#f2f2f2; height: 180px;">
      <img width="100%" src="assets/arrow_right_p2.png" alt="Real Word, Press the Right Arrow key">
      </div>
     </div>
@@ -60,6 +60,23 @@ var intro_2 = {
 };
 
 var intro_3 = {
+    type: "html-keyboard-response",
+    stimulus: `
+    <h1>This picture will remind you which key to press. 
+    <br>Remember:</h1>
+   
+    <div class = stimulus_div style = "margin-top:20%">
+    <img src="assets/key_p3.png" alt="arrow keys">
+    <p class="center" style="position: relative; top: 200px;"> <b>Try to be as accurate as possible.</b> <br/> Some words will be hard, and that&#39s okay. If you&#39re not sure, just give your best guess! </p>
+    </div>
+    <div class="button">Press <span class="yellow">Space</span> to practice the game</div>`,
+    choices: [' '],
+    on_start: function() {
+        jsPsych.setProgressBar(0);
+    }
+};
+
+var post_practice_intro = {
   type: "html-keyboard-response",
   stimulus: `
     <h1>Great work, you are ready to begin the journey! </h1>
@@ -68,14 +85,13 @@ var intro_3 = {
         <img style="position: relative; top: 100px; " width="400px" src="assets/gold_coin.gif" alt="gold">
         <p class="center" style="position: relative; top: 200px; "><b>Look out for them!</b></p>
         </div>
-    <div class="button">Press <span class="yellow">Space</span> to begin</div>`,
+    <div class="button">Press <span class="yellow">Space</span> to begin the game</div>`,
     choices: [' '],
     on_start: function() {
       jsPsych.setProgressBar(0);
     }
 };
-//style=" width:698px; height:160px"
-////	<img class="lower" src="assets/arrowkey_lex_left.gif" alt="arrow keys">
+
 /* define practice feedback trial*/
 var practice_feedback_left = {
     type: "html-keyboard-response",
@@ -90,8 +106,6 @@ var practice_feedback_left = {
    `,
     choices: ['ArrowLeft'],
     on_start: function() {
-
-        //set progress bar to 0 at the start of experiment
         jsPsych.setProgressBar(0);
     }
 };
@@ -183,21 +197,83 @@ var countdown_trial_1= {
         jsPsych.setProgressBar(0);
     }
 };
-//"assets/arrowkey_lex_left.gif"
-/* define practice feedback trial*/
-// var begin_study = {
-//     type: "html-keyboard-response",
-//     stimulus: function () {return `
-//        <body>
-// \t<h1 class="lower"><span class=${responseColor}>You pressed the ${responseLR} arrow key, <br/> which is for ${answerRP} words! </span></h1>
-// \t<h3 class="lower">${currentPracStimulus}<span class=${answerColor}>  is a ${correctRP}  word.</span></h3>
-// \t<img class="lower" src="assets/key_p3.png" alt="arrow keys">
-//
-// </body>
-//       `},
-//     post_trial_gap: 2000,
-//     on_start: function() {
-//         //set progress bar to 0 at the start of experiment
-//         jsPsych.setProgressBar(0);
-//     }
-// };
+
+var mid_block_page = {
+    type: "html-keyboard-response",
+    stimulus: `
+   <div>
+    <h1>Good work, young wizard!</h1>
+   <div>
+       <p class="center" style="position: relative; top: 50%; ">You are halfway through the valley, and you decide to camp near a small village.
+      <br>
+      <br>
+      In the village, you meet another adventurer who joins your journey!</p>
+   </div>
+   <img class="scene" src="assets/half_valley.png" alt="backgroun image with hills and trees">
+   <img style="position: relative; margin-bottom: -10%; bottom: 100px" height="220px" src="assets/adventurer2.gif" alt="adventure with harp">
+   <img style="position: relative; margin-bottom: -10%; bottom: 100px" height="220px" src="assets/adventurer1.gif" alt="adventure playing rainbow">
+   <img style="position: relative; margin-bottom: -10%; bottom: 100px" height="220px" src="assets/adventurer3.gif" alt="adventure making heart shapes">\t
+</div>
+   <div class="button">Press <span class="yellow">Space</span> when you&#39re ready to continue</div>
+    
+      `,
+    choices: [' '],
+    on_start: function() {
+        //set progress bar to 0 at the start of experiment
+        jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
+    }
+}
+
+var post_block_page = {
+    type: "html-keyboard-response",
+    stimulus: `
+   <div>
+    <h1>Congratulations, young wizard!</h1>
+  <div>
+   <p class="center">You found the guardian and made it through the valley. 
+   <br>
+   <br> 
+   You&#39re getting closer to the gate! Here are your gold coins so far:</p>
+   </div>
+   <div>
+   <img class="scene" src="assets/valley.png" alt="background image of hills and trees">
+\t\t<img style="position: relative; margin-bottom: -10%;bottom: 180px; right: 20%;" height="300px" src="assets/wizard_coin.gif" alt="adventure playing rainbow">
+\t\t<img style="position: relative; margin-bottom: -10%;bottom: 180px; left: 10%;" height="300px" src="assets/guardian1.gif" alt="adventure making heart shapes">
+\t</div>
+
+</div>
+   <div class="button">Press <span class="yellow">Space</span> when you&#39re ready to continue</div>
+      `,
+    choices: [' '],
+    on_start: function() {
+        //set progress bar to 0 at the start of experiment
+        jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
+    }
+}
+
+var final_page = {
+    type: "html-keyboard-response",
+    stimulus: `
+   <div>
+    <h1>Finally, you summon the last guardian!</h1>
+   <div>
+   <p class="center"> It agrees to help you open the gate to return home.
+   <br>
+   <br>
+   You say farewell to your new friends and leave the land of Lexicality. Until next time!
+  </p>
+   </div>
+   <div>
+   <img class="scene" src="assets/ending.png" alt="background image of gate">
+  <img style="position: relative; margin-bottom: -10%;bottom: 180px; " height="300px" src="assets/guardian3.gif" alt="image of a unicorn winking">
+   </div>
+
+</div>
+   <div class="button">Press <span class="yellow">Space</span> when you&#39re ready to continue</div>
+      `,
+    choices: [' '],
+    on_start: function() {
+        //set progress bar to 0 at the start of experiment
+        jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
+    }
+}

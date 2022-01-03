@@ -131,14 +131,25 @@ p  {
 	flex: 33%;
 }
 
-.column_2 {
+.column_2_upper {
+	margin-top:5%;
 	padding: 0px 20px 0px 20px;
 	flex: 50%;
+	margin-right: 5%;
+	margin-left: 5%;
+}
+
+.column_2_lower {
+	padding: 0px 20px 0px 20px;
+	flex: 50%;
+	margin-right: 5%;
+	margin-left: 5%;
 }
 
 .column_3 {
 	padding: 0px 20px 0px 20px;
 	flex: 67%;
+	margin-right: 10%;
 }
 
 .button {
@@ -159,7 +170,9 @@ p  {
 	}
 
 .scene{
+	position: relative;
 	width:100%;
+	margin-bottom: -10%;
 }
 
 .characterleft {
@@ -174,10 +187,10 @@ p  {
 	top:50%;
 }
 
-.demo {
+.normal_center_text {
 	text-align:center;
 	position: relative;
-	top:200px;
+	top: 50%;
 }
 
 .plus {

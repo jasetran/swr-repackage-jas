@@ -19,7 +19,6 @@ var intro_1 = {
         start_time: start_time.toLocaleString('PST'),
         start_time_unix: start_time.getTime()
     },
-    //post_trial_gap: 2000,
     on_start: function() {
         //set progress bar to 0 at the start of experiment
         jsPsych.setProgressBar(0);
@@ -377,10 +376,10 @@ var final_page = {
    </div>
    <div>
    <img class="scene" src="assets/ending.png" alt="background image of gate">
-   \t\t<img style="position: relative; margin-bottom: -10%; bottom: 180px" height="220px" src="assets/adventurer1.gif" alt="adventure with harp">
-   \t\t<img style="position: relative; margin-bottom: -10%; bottom: 180px" height="220px" src="assets/adventurer3.gif" alt="adventure with harp">
-\t\t<img style="position: relative; margin-bottom: -10%; bottom: 180px" height="220px" src="assets/adventurer2.gif" alt="adventure with harp">
-  <img style="position: relative; margin-left: 10%; margin-bottom: -10%;bottom: 180px; " height="220px" src="assets/guardian3.gif" alt="image of a unicorn winking">
+   <img style="position: relative; margin-bottom: -10%; bottom: 180px" height="220px" src="assets/adventurer1.gif" alt="adventure with harp">
+   <img style="position: relative; margin-bottom: -10%; bottom: 180px" height="220px" src="assets/adventurer3.gif" alt="adventure with harp">
+   <img style="position: relative; margin-bottom: -10%; bottom: 180px" height="220px" src="assets/adventurer2.gif" alt="adventure with harp">
+   <img style="position: relative; margin-left: 10%; margin-bottom: -10%;bottom: 180px; " height="220px" src="assets/guardian3.gif" alt="image of a unicorn winking">
    </div>
 
 </div>
@@ -393,3 +392,92 @@ var final_page = {
     }
 }
 
+var final_page_1 = {
+    type: "html-keyboard-response",
+    stimulus: `
+   <div>
+    <h1>Finally, you summon the last guardian!</h1>
+   <div>
+   <p class="center"> It agrees to help you open the gate to return home.
+   <br>
+   <br>
+   You say farewell to your new friends and leave the land of Lexicality. Until next time!
+  </p>
+   </div>
+   <div>
+   <img class="scene" src="assets/ending.png" alt="background image of gate">
+   <img style="position: relative; margin-bottom: -10%; bottom: 180px" height="220px" src="assets/adventurer1.gif" alt="adventure with harp">
+   <img style="position: relative; margin-left: 10%; margin-bottom: -10%;bottom: 180px; " height="220px" src="assets/guardian3.gif" alt="image of a unicorn winking">
+   </div>
+
+</div>
+   <div class="button">Press <span class="yellow">Space</span> when you&#39re ready to continue</div>
+      `,
+    choices: [' '],
+    on_start: function() {
+        //set progress bar to 0 at the start of experiment
+        jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
+    }
+}
+
+var final_page_2 = {
+    type: "html-keyboard-response",
+    stimulus: `
+   <div>
+    <h1>Finally, you summon the last guardian!</h1>
+   <div>
+   <p class="center"> It agrees to help you open the gate to return home.
+   <br>
+   <br>
+   You say farewell to your new friends and leave the land of Lexicality. Until next time!
+  </p>
+   </div>
+   <div>
+   <img class="scene" src="assets/ending.png" alt="background image of gate">
+   <img style="position: relative; margin-bottom: -10%; bottom: 180px" height="220px" src="assets/adventurer1.gif" alt="adventure with harp">
+   <img style="position: relative; margin-bottom: -10%; bottom: 180px" height="220px" src="assets/adventurer3.gif" alt="adventure with harp">
+   <img style="position: relative; margin-left: 10%; margin-bottom: -10%;bottom: 180px; " height="220px" src="assets/guardian3.gif" alt="image of a unicorn winking">
+   </div>
+
+</div>
+   <div class="button">Press <span class="yellow">Space</span> when you&#39re ready to continue</div>
+      `,
+    choices: [' '],
+    on_start: function() {
+        //set progress bar to 0 at the start of experiment
+        jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
+    }
+}
+
+
+var final_page_3 = {
+    type: "html-keyboard-response",
+    stimulus: `
+   <div>
+    <h1>Finally, you summon the last guardian!</h1>
+   <div>
+   <p class="center"> It agrees to help you open the gate to return home.
+   <br>
+   <br>
+   You say farewell to your new friends and leave the land of Lexicality. Until next time!
+  </p>
+   </div>
+   <div>
+   <img class="scene" src="assets/ending.png" alt="background image of gate">
+   <img style="position: relative; margin-bottom: -10%; bottom: 180px" height="220px" src="assets/adventurer1.gif" alt="adventure with harp">
+   <img style="position: relative; margin-bottom: -10%; bottom: 180px" height="220px" src="assets/adventurer3.gif" alt="adventure with harp">
+   <img style="position: relative; margin-bottom: -10%; bottom: 180px" height="220px" src="assets/adventurer2.gif" alt="adventure with harp">
+   <img style="position: relative; margin-left: 10%; margin-bottom: -10%;bottom: 180px; " height="220px" src="assets/guardian3.gif" alt="image of a unicorn winking">
+   </div>
+
+</div>
+   <div class="button">Press <span class="yellow">Space</span> when you&#39re ready to continue</div>
+      `,
+    choices: [' '],
+    on_start: function() {
+        //set progress bar to 0 at the start of experiment
+        jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
+    }
+}
+
+var final_page_list = [final_page_1,final_page_2,final_page_3]

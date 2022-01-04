@@ -545,7 +545,7 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
     }
 
     timeline.push(total_roar_mainproc);
-    timeline.push(final_page);
+    timeline.push(final_page_list[stimulusCountLis.length -1]);
 
     console.log("I am printing timeline now")
     console.log(timeline);

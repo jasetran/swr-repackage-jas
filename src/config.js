@@ -15,7 +15,7 @@ var fixationTimeIndex = 0; //0 as default: 1000ms; 1: 2000ms; 2: 5000ms
 
 
 /* set number of trials for practice block */
-var totalTrials_Practice = 5;
+var totalTrials_Practice = 5; //default: 5
 var practiceIndex = 0;
 var countSlowPractice = 2;
 
@@ -25,7 +25,7 @@ var stimulusRuleLis = ['adaptive','random','random'];
 // Possible rule writing can be: ['random'] - 1 random block only, ['adaptive','random'] - 1 adaptive + 1 random block
 
 /* Number of trials in each block of the experiment */
-var stimulusCountLis = [4,4,2];
+var stimulusCountLis = [4,4,4];
 
 /* number of adaptive trials */
 var totalAdaptiveTrials = 2; // default: 56;

@@ -12,6 +12,14 @@ var countdown_trials = {
 var introduction_trials = {
     timeline: [intro_1, intro_2, intro_3]
 }
+
+// timeline.push(mid_block_page_1)
+// timeline.push(post_block_page_1)
+// timeline.push(mid_block_page_2)
+// timeline.push(post_block_page_2)
+// timeline.push(mid_block_page_3)
+// timeline.push(final_page)
+
 timeline.push(introduction_trials);
 timeline.push(countdown_trials);
 
@@ -228,7 +236,6 @@ function checkAvailableDifficulty(targetDifficulty,direction) {
             }
         }
     }
-
 }
 
 function updateDifficulty() {
@@ -507,7 +514,7 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
                 repetitions: stimulusCountLis[i]/2
             };
             total_roar_mainproc_line.push(roar_mainproc_block_half_1);
-            total_roar_mainproc_line.push(mid_block_page);
+            total_roar_mainproc_line.push(mid_block_page_list[i]);
             total_roar_mainproc_line.push(countdown_trials);
             /* add second half of block */
             var roar_mainproc_block_half_2 = {
@@ -523,7 +530,7 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
             };
             total_roar_mainproc_line.push(roar_mainproc_block_half_2);
             if (i < (stimulusCountLis.length -1)) {
-                total_roar_mainproc_line.push(post_block_page);
+                total_roar_mainproc_line.push(post_block_page_list[i]);
             }
         }
     }
@@ -538,7 +545,7 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
     }
 
     timeline.push(total_roar_mainproc);
-    timeline.push(final_page);
+    timeline.push(final_page_list[stimulusCountLis.length -1]);
 
     console.log("I am printing timeline now")
     console.log(timeline);

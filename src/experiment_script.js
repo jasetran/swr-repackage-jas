@@ -275,26 +275,29 @@ function updateCorrectChecker() {
     var trials = jsPsych.data.get().filter({task: 'response'});
     var correct_trials = trials.filter({correct: true});
     console.log("CORRECT TRIALS COUNT " + correct_trials.count())
-    // if (correct_trials.count() === 3) {
-    //     console.log('updateCorrectChecker');
-    // }
 }
 
-//This is to get the next stimuli based on the stimulus rule.
 function getStimuli(rule,targetDifficulty) {
     var resultStimuli = [];
-    if (rule === 'random' || rule === 'new' ){
+    if (rule === 'random' ){
         console.log('this is random');
         resultStimuli = stimulusLists[currentBlockIndex][1][stimulusIndex[currentBlock]];
         stimulusIndex[currentBlock] +=1;
     } else {
-        console.log('this is adaptive');
-        currentDifficulty = checkAvailableDifficulty(targetDifficulty,'both');
-        console.log("currentDifficulty " + currentDifficulty);
-
-        console.log("index check " + stimulusIndex[currentBlock]);
-        resultStimuli = stimulusLists[currentBlockIndex][1][currentDifficulty][stimulusIndex[currentBlock][currentDifficulty]];
-        stimulusIndex[currentBlock][currentDifficulty] += 1;
+        if (count_adaptive_trials < totalAdaptiveTrials) {
+            count_adaptive_trials += 1;
+            console.log('this is adaptive');
+            currentDifficulty = checkAvailableDifficulty(targetDifficulty,'both');
+            console.log("currentDifficulty " + currentDifficulty);
+            console.log("index check " + stimulusIndex[currentBlock]);
+            resultStimuli = stimulusLists[currentBlockIndex][1][currentDifficulty][stimulusIndex[currentBlock][currentDifficulty]];
+            stimulusIndex[currentBlock][currentDifficulty] += 1;
+        }
+       else {
+            console.log('this is new');
+            resultStimuli = block_new[newword_index];
+            newword_index +=1;
+        }
     }
 
     //should add staircase design for else condition
@@ -325,7 +328,6 @@ function CreateStaircaseBlock_New(array,difficultyLevels,blockLabel) {
     }
 
     for (let x of array){
-        //console.log(StaircaseArray[x.difficulty])
         StaircaseArray[x.difficulty].push(x)
     }
 
@@ -421,7 +423,6 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
 
     //set number of practice trials
     var block_Practice = csv_practice_transform.slice(0,totalTrials_Practice);
-    //console.log(block_Practice)
 
     var block_A = csv_validated_transform.slice(0,84);
 
@@ -429,7 +430,7 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
 
     var block_C = csv_validated_transform.slice(168,252);
 
-    var block_new  = transformNewwords(csv_new);
+    block_new  = CreateRandomArray(transformNewwords(csv_new));
 
     var randomBlockLis = CreateRandomArray([["blockA",block_A],["blockB",block_B],["blockC",block_C]]);
 
@@ -447,8 +448,6 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
 
     PushPracticeToTimeline(block_Practice);
     timeline.push(post_practice_intro);
-    timeline.push(countdown_trials);
-
 
     var core_procedure = {
         timeline: [setup_fixation, lexicality_test]
@@ -458,100 +457,74 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
         //store list of blocks that are ready for present word stimuli
         // e.g. [['blockA',[word1,word2,....]],['blockC',{level_0: [word1,word2,...],level_1: [word3,word4]}]]
         var stimulusLists = [];
-
+        console.log("RuleReader(stimulusRuleLis,randomBlockLis)")
         for (var i = 0; i < stimulusRuleLis.length; i++) {
+            console.log(i);
             if (stimulusRuleLis[i] === 'random') {
                 stimulusLists.push([randomBlockLis[i][0],CreateRandomArray(randomBlockLis[i][1])]);
                 stimulusIndex[randomBlockLis[i][0]] = 0;
             }
-            else if (stimulusRuleLis[i] === 'new') {
-                stimulusLists.push(['new',CreateRandomArray(block_new)]);
-                stimulusIndex['new'] = 0;
-            }
+            // else if (stimulusRuleLis[i] === 'new') {
+            //     stimulusLists.push(['new',CreateRandomArray(block_new)]);
+            //     stimulusIndex['new'] = 0;
+            // }
             else {
+                print_staircase = CreateStaircaseBlock_New(randomBlockLis[i][1],difficultyLevels,randomBlockLis[i][0]);
+                console.log("randomBlockLis[i][0]");
+                console.log(randomBlockLis[i][0]);
+                console.log(print_staircase)
                 stimulusLists.push([randomBlockLis[i][0],CreateStaircaseBlock_New(randomBlockLis[i][1],difficultyLevels,randomBlockLis[i][0])]);
+                //stimulusLists.push(['new',CreateRandomArray(block_new)]);
+                //stimulusIndex['new'] = 0;
             }
         }
         return stimulusLists;
     }
 
-    stimulusLists = RuleReader(stimulusRuleLis,randomBlockLis,block_new);
+    stimulusLists = RuleReader(stimulusRuleLis,randomBlockLis);
 
 
     function PushTrialsToTimeline(stimulusLists,stimulusCountLis) {
-        if (stimulusCountLis.length > 0) {
-            var roar_mainproc_block0 = {
+        for (let i = 0; i < stimulusCountLis.length; i++) {
+            // for each block: add trials
+            /* add first half of block */
+            total_roar_mainproc_line.push(countdown_trials);
+            var roar_mainproc_block_half_1 = {
                 timeline: [core_procedure],
                 conditional_function: function () {
-                    if (stimulusCountLis[0] === 0) {
+                    if (stimulusCountLis[i] === 0) {
                         return false;
                     } else {
-                        currentBlock = stimulusLists[0][0];
-                        currentBlockIndex = 0;
-                        stimulusRule = stimulusRuleLis[0];
+                        currentBlock = stimulusLists[i][0];
+                        currentBlockIndex = i;
+                        stimulusRule = stimulusRuleLis[i];
                         currentDifficulty = startingDifficulty;
                         staircaseChecker = [];
                         staircaseIndex = 0;
                         return true;
                     }
                 },
-                repetitions: stimulusCountLis[0]
+                repetitions: stimulusCountLis[i]/2
             };
-
-            total_roar_mainproc_line.push(roar_mainproc_block0);
-        }
-        //need to fix how to call mid_block_page
-        total_roar_mainproc_line.push(mid_block_page);
-        total_roar_mainproc_line.push(post_block_page);
-
-        if (stimulusCountLis.length > 1) {
-
-            var roar_mainproc_block1 = {
+            total_roar_mainproc_line.push(roar_mainproc_block_half_1);
+            total_roar_mainproc_line.push(mid_block_page);
+            total_roar_mainproc_line.push(countdown_trials);
+            /* add second half of block */
+            var roar_mainproc_block_half_2 = {
                 timeline: [core_procedure],
                 conditional_function: function () {
-
-                    if (stimulusCountLis[1] === 0) {
+                    if (stimulusCountLis[i] === 0) {
                         return false;
                     } else {
-                        currentBlock = stimulusLists[1][0];
-                        currentBlockIndex = 1;
-                        stimulusRule = stimulusRuleLis[1];
-                        currentDifficulty = startingDifficulty;
-                        staircaseChecker = [];
-                        staircaseIndex = 0;
                         return true;
                     }
                 },
-                repetitions: stimulusCountLis[1]
+                repetitions: stimulusCountLis[i]/2
             };
-
-            total_roar_mainproc_line.push(roar_mainproc_block1);
-        }
-
-        total_roar_mainproc_line.push(mid_block_page);
-        total_roar_mainproc_line.push(post_block_page);
-
-
-        if (stimulusCountLis.length > 2) {
-            var roar_mainproc_block2 = {
-                timeline: [core_procedure],
-                conditional_function: function () {
-                    if (stimulusCountLis[2] === 0) {
-                        return false;
-                    } else {
-                        currentBlock = stimulusLists[2][0];
-                        currentBlockIndex = 2;
-                        stimulusRule = stimulusRuleLis[2];
-                        currentDifficulty = startingDifficulty;
-                        staircaseChecker = [];
-                        staircaseIndex = 0;
-                        return true;
-                    }
-                },
-                repetitions: stimulusCountLis[2]
+            total_roar_mainproc_line.push(roar_mainproc_block_half_2);
+            if (i < (stimulusCountLis.length -1)) {
+                total_roar_mainproc_line.push(post_block_page);
             }
-
-            total_roar_mainproc_line.push(roar_mainproc_block2);
         }
     }
 

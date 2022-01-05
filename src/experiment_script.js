@@ -13,7 +13,7 @@ var introduction_trials = {
     timeline: [intro_1, intro_2, intro_3]
 }
 
-// timeline.push(mid_block_page_1)
+//timeline.push(audio_response_feedback);
 // timeline.push(post_block_page_1)
 // timeline.push(mid_block_page_2)
 // timeline.push(post_block_page_2)
@@ -98,6 +98,8 @@ var lexicality_test_practice = {
         task: 'response', /* tag the test trials with this taskname so we can filter data later */
     },
     on_finish: function(data){
+        data.correct = jsPsych.pluginAPI.compareKeys(data.response, jsPsych.timelineVariable('correct_response'));
+        currentTrialCorrect = data.correct;
         currentPracStimulus = jsPsych.timelineVariable('raw_stimulus');
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, jsPsych.timelineVariable('correct_response'));
         console.log(data.response);
@@ -161,6 +163,7 @@ var lexicality_test = {
     },
     on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, nextStimulus['correct_response']);
+        currentTrialCorrect = data.correct;
         if (data.correct){
             staircaseChecker[staircaseIndex] = 1;
         } else {staircaseChecker[staircaseIndex] = 0;}
@@ -446,7 +449,7 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
     function PushPracticeToTimeline(array) {
         for (let x of array) {
             var block = {
-                timeline: [setup_fixation_practice, lexicality_test_practice,if_node_left,if_node_right],
+                timeline: [setup_fixation_practice, lexicality_test_practice,if_audio_response_correct, if_audio_response_wrong, if_node_left,if_node_right],
                 timeline_variables: [x]
             }
             timeline.push(block)
@@ -457,7 +460,7 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
     timeline.push(post_practice_intro);
 
     var core_procedure = {
-        timeline: [setup_fixation, lexicality_test]
+        timeline: [setup_fixation, lexicality_test, if_audio_response_correct, if_audio_response_wrong]
     }
 
     function RuleReader(stimulusRuleLis,randomBlockLis){

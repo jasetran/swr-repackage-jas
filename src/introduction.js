@@ -153,7 +153,6 @@ var if_node_right = {
 }
 
 
-
 /* Countdown trial*/
 var countdown_trial_3= {
     type: 'html-keyboard-response',

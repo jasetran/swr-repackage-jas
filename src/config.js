@@ -72,7 +72,7 @@ var roarTrialNum = 1; //counter for trials
 //var exitLetters; //for exiting the letter loop
 
 var currentBlock;
-
+var currentTrialCorrect; //return true or false
 /* feedback */
 //let feedback = True;
 

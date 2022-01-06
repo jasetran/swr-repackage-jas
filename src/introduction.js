@@ -1,8 +1,9 @@
 /* define instructions trial */
 var intro_1 = {
-    type: "html-keyboard-response",
-    stimulus: `
-    <h1>Welcome to the world of Lexicality!</h1>
+    type: "audio-keyboard-response",
+    stimulus: '../audio/page1.wav',
+    choices: [' '],
+    prompt: `<h1>Welcome to the world of Lexicality!</h1>
         <div class="row">
           <div class="column_1">
             <img class="characterleft" src="assets/wizard_magic.gif" height="320px" alt="animation of a wizard waving a magic wand">
@@ -12,9 +13,7 @@ var intro_1 = {
             <p class="middle"> To call the guardian to let you through, you will tell the difference between made-up words and real words. &nbsp;</p>
           </div>
         </div>
-      `,
-    choices: [' '],
-    prompt: `<div class="button">Press <span class="yellow">Space</span> to continue </div>`,
+        <div class="button">Press <span class="yellow">Space</span> to continue </div>`,
     data: {
         start_time: start_time.toLocaleString('PST'),
         start_time_unix: start_time.getTime()
@@ -26,8 +25,9 @@ var intro_1 = {
 };
 
 var intro_2 = {
-    type: "html-keyboard-response",
-    stimulus: `
+    type: "audio-keyboard-response",
+    stimulus:'../audio/page2.wav',
+    prompt: `
     <h1>A real or made-up word will flash very quickly <br/> at the center of the screen.</h1>
     <div class="row">
      <div class="column_2_upper" style="background-color:#f2f2f2;">
@@ -52,6 +52,7 @@ var intro_2 = {
       `,
     //post_trial_gap: 2000,
     choices: [' '],
+
     on_start: function() {
         //set progress bar to 0 at the start of experiment
         jsPsych.setProgressBar(0);
@@ -59,8 +60,9 @@ var intro_2 = {
 };
 
 var intro_3 = {
-    type: "html-keyboard-response",
-    stimulus: `
+    type: "audio-keyboard-response",
+    stimulus: '../audio/page3.wav',
+    prompt: `
     <h1>This picture will remind you which key to press. 
     <br>Remember:</h1>
    
@@ -76,8 +78,9 @@ var intro_3 = {
 };
 
 var post_practice_intro = {
-  type: "html-keyboard-response",
-  stimulus: `
+  type: "audio-keyboard-response",
+  stimulus: '../audio/page4.wav',
+  prompt: `
     <h1>Great work, you are ready to begin the journey! </h1>
       <div>
         <p class="center"> As you travel through the valley, you&#39ll earn gold coins to bring home.</p>
@@ -155,9 +158,11 @@ var if_node_right = {
 
 /* Countdown trial*/
 var countdown_trial_3= {
-    type: 'html-keyboard-response',
-    stimulus: function(){return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">3</p></div>`},
-    prompt:  ` <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
+    type: 'audio-keyboard-response',
+    stimulus:'../audio/beep.wav',
+    prompt: `
+        <div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">3</p></div>
+        <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
     choices: jsPsych.NO_KEYS,
     trial_duration: 1000,
     data: {

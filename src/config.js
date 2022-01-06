@@ -25,7 +25,7 @@ var stimulusRuleLis = ['adaptive','random','random'];
 // Possible rule writing can be: ['random'] - 1 random block only, ['adaptive','random'] - 1 adaptive + 1 random block
 
 /* Number of trials in each block of the experiment */
-var stimulusCountLis = [4,4,4];
+var stimulusCountLis = [2,2,2];
 
 /* number of adaptive trials */
 var totalAdaptiveTrials = 2; // default: 56;

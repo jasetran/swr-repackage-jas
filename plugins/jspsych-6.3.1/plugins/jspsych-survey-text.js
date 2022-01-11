@@ -125,7 +125,7 @@ jsPsych.plugins['survey-text'] = (function() {
       var question = trial.questions[question_order[i]];
       var question_index = question_order[i];
       html += '<div id="jspsych-survey-text-'+question_index+'" class="jspsych-survey-text-question" style="margin: 2em 0em;">';
-      html += '<p class="jspsych-survey-text">' + question.prompt + '</p>';
+      html += '<div class = "middle"><p class="center">' + question.prompt + '</p></div>';
       var autofocus = i == 0 ? "autofocus" : "";
       var req = question.required ? "required" : "";
       if(question.rows == 1){

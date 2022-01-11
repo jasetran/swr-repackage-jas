@@ -1,10 +1,25 @@
+/* read firebase project info*/
+
 /* add introduction trials*/
 var enter_fullscreen = {
     type: 'fullscreen',
     fullscreen_mode: true
 }
 
+var survey = {
+    type: 'survey-text',
+    questions: [
+        {prompt: 'Please enter your Prolific ID'}
+    ],
+    on_finish: function() {
+        pid = jsPsych.data.getLastTrialData().values()[0].response['Q0'];
+    }
+}
+
+timeline.push(survey);
 timeline.push(enter_fullscreen);
+
+
 var countdown_trials = {
     timeline: [countdown_trial_3,countdown_trial_2,countdown_trial_1]
 }
@@ -13,10 +28,8 @@ var introduction_trials = {
     timeline: [intro_1, intro_2, intro_3]
 }
 
-// //timeline.push(audio_response_feedback);
-// // timeline.push(post_block_page_1)
-// timeline.push(post_block_page_2)
-// // timeline.push(mid_block_page_3)
+// timeline.push(audio_response_feedback);
+// timeline.push(mid_block_page_3)
 // timeline.push(final_page_1)
 // timeline.push(final_page_2)
 // timeline.push(final_page_3)
@@ -47,25 +60,24 @@ var debrief_block = {
 
     }
 };
-
-function readCSV(url) {
-    return new Promise((resolve, reject) => {
-        Papa.parse(
-            url, {
-                download: true,
-                header: true,
-                dynamicTyping: true,
-                skipEmptyLines: true,
-                complete: function (results) {
-                    var csv_stimuli = results.data
-                    resolve(csv_stimuli)
-                }
-            })
-    })
-}
+//
+// function readCSV(url) {
+//     return new Promise((resolve, reject) => {
+//         Papa.parse(
+//             url, {
+//                 download: true,
+//                 header: true,
+//                 dynamicTyping: true,
+//                 skipEmptyLines: true,
+//                 complete: function (results) {
+//                     var csv_stimuli = results.data
+//                     resolve(csv_stimuli)
+//                 }
+//             })
+//     })
+// }
 
 //function to update the span as appropriate (using a 2:1 staircase procedure)
-
 
 /* For Practice Trial Only */
 var setup_fixation_practice = {
@@ -84,7 +96,7 @@ var setup_fixation_practice = {
 
 var lexicality_test_practice = {
     type: "html-keyboard-response",
-    stimulus: function(){return jsPsych.timelineVariable('stimulus')},
+    stimulus: function(){return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">${jsPsych.timelineVariable('stimulus')}</p></div>`},
     prompt: `<img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
     stimulus_duration: function() {
         practiceIndex += 1;
@@ -96,12 +108,15 @@ var lexicality_test_practice = {
     trial_duration: function() {return trialTime[trialTimeIndex]},
     choices: ['ArrowLeft', 'ArrowRight'],
     data:  {
-        task: 'response', /* tag the test trials with this taskname so we can filter data later */
+        task: 'practice_response', /* tag the test trials with this taskname so we can filter data later */
+        word: jsPsych.timelineVariable('stimulus'),
+        start_time: start_time.toLocaleString('PST'),
+        start_time_unix: start_time.getTime(),
     },
     on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, jsPsych.timelineVariable('correct_response'));
         currentTrialCorrect = data.correct;
-        currentPracStimulus = jsPsych.timelineVariable('raw_stimulus');
+        currentPracStimulus = jsPsych.timelineVariable('stimulus');
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, jsPsych.timelineVariable('correct_response'));
         console.log(data.response);
         if (data.response === 'arrowleft') {
@@ -126,6 +141,9 @@ var lexicality_test_practice = {
             arrowDisplay = "assets/arrowkey_lex_right.gif";
             answerColor = 'blue';};
         jsPsych.setProgressBar(0);
+        saveToFirebase('testing/' + pid + '/' + firebase_data_index, jsPsych.data.getLastTrialData().values()[0]);
+        //saveToFirebase('testing/' + pid + '/' + firebase_data_index, JSON.parse(jsPsych.data.getLastTrialData().json()));
+        firebase_data_index += 1;
     }
 };
 
@@ -154,13 +172,15 @@ var setup_fixation = {
 
 var lexicality_test = {
     type: "html-keyboard-response",
-    stimulus: function() {return nextStimulus['stimulus']},
+    stimulus: function() {return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">${nextStimulus['stimulus']}</p></div>`},
     prompt: `<img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
     stimulus_duration: stimulusTime[stimulusTimeIndex],
     trial_duration: trialTime[trialTimeIndex],
     choices: ['ArrowLeft', 'ArrowRight'],
     data:  {
-        task: 'response', /* tag the test trials with this taskname so we can filter data later */
+        task: 'test_response', /* tag the test trials with this taskname so we can filter data later */
+        start_time: start_time.toLocaleString('PST'),
+        start_time_unix: start_time.getTime()
     },
     on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, nextStimulus['correct_response']);
@@ -178,6 +198,7 @@ var lexicality_test = {
         //console.log(staircaseChecker);
 
         jsPsych.data.addDataToLastTrial({
+            word: nextStimulus['stimulus'],
             correct_response: nextStimulus['correct_response'],
             difficulty:nextStimulus['difficulty'],
             current_block: currentBlock
@@ -192,6 +213,9 @@ var lexicality_test = {
 
         //var curr_progress_bar_value = jsPsych.getProgressBarCompleted();
         jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
+        saveToFirebase('testing/' + pid + '/' + firebase_data_index, jsPsych.data.getLastTrialData().values()[0]);
+        //saveToFirebase('testing/' + pid + '/' + firebase_data_index, JSON.parse(jsPsych.data.getLastTrialData().json()));
+        firebase_data_index += 1;
     }
 };
 
@@ -370,13 +394,13 @@ function transformNewwords(csv_new){
     var splitArray = [];
     for (var i = 0; i < newArray.length; i++) {
         const realRow = {
-            'stimulus':'<div class = stimulus_div><p class = "stimulus" style="font-size:60px;">' + newArray[i].realword + '</p></div>',
+            'stimulus':newArray[i].realword,
             'correct_response': 'ArrowRight',
             'difficulty': 0 //default level
         }
         splitArray.push(realRow);
         const pseudoRow = {
-            'stimulus':'<div class = stimulus_div><p class = "stimulus" style="font-size:60px;">' + newArray[i].pseudoword + '</p></div>',
+            'stimulus':newArray[i].pseudoword,
             'correct_response': 'ArrowLeft',
             'difficulty': 0 //default level
         }
@@ -392,7 +416,7 @@ var exit_fullscreen = {
 }
 
 
-async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
+async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew, firebaseInfoURL){
     var csv_practice = await readCSV(stimuliPractice)
     var csv_validated = await readCSV(stimuliValidated)
     var csv_new = await readCSV(stimuliNew)
@@ -406,8 +430,7 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
                 correct_response = 'ArrowLeft'
             }
             const newRow = {
-                'raw_stimulus': row.word,
-                'stimulus': '<div class = stimulus_div><p class = "stimulus" style="font-size:60px;">' + row.word + '</p></div>',
+                'stimulus': row.word,
                 'correct_response': correct_response,
                 'difficulty': row.difficulty
             }
@@ -423,7 +446,7 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
                 correct_response = 'ArrowLeft'
             }
             const newRow = {
-                'stimulus': '<div class = stimulus_div><p class = "stimulus" style="font-size:60px;">' + row.word + '</p></div>',
+                'stimulus': row.word,
                 'correct_response': correct_response,
                 'difficulty': row.difficulty
             }
@@ -475,18 +498,14 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
                 stimulusLists.push([randomBlockLis[i][0],CreateRandomArray(randomBlockLis[i][1])]);
                 stimulusIndex[randomBlockLis[i][0]] = 0;
             }
-            // else if (stimulusRuleLis[i] === 'new') {
-            //     stimulusLists.push(['new',CreateRandomArray(block_new)]);
-            //     stimulusIndex['new'] = 0;
-            // }
+
             else {
                 print_staircase = CreateStaircaseBlock_New(randomBlockLis[i][1],difficultyLevels,randomBlockLis[i][0]);
                 console.log("randomBlockLis[i][0]");
                 console.log(randomBlockLis[i][0]);
                 console.log(print_staircase)
                 stimulusLists.push([randomBlockLis[i][0],CreateStaircaseBlock_New(randomBlockLis[i][1],difficultyLevels,randomBlockLis[i][0])]);
-                //stimulusLists.push(['new',CreateRandomArray(block_new)]);
-                //stimulusIndex['new'] = 0;
+
             }
         }
         return stimulusLists;
@@ -554,10 +573,6 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
     console.log("I am printing timeline now")
     console.log(timeline);
 
-    function saveToFirebase(code,filedata){
-        var ref = firebase.database().ref(code).set(filedata);
-    }
-
     var submit_block = {
         type: "single-stim",
         stimuli: [" "],
@@ -569,45 +584,58 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew){
         }
     }
 
-    var firebaseConfig = {
-        apiKey: "AIzaSyCX9WR-j9yv1giYeFsMpbjj2G3p7jNHxIU",
-        authDomain: "gse-yeatmanlab.firebaseapp.com",
-        projectId: "gse-yeatmanlab",
-        storageBucket: "gse-yeatmanlab.appspot.com",
-        messagingSenderId: "292331000426",
-        appId: "1:292331000426:web:ae9e28adbe34b391737013",
-        measurementId: "G-DY06NYG5E1"
-    };
+    // function makeid(){
+    //     var text = "";
+    //     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+    //     for( var i=0; i < 16; i++ )
+    //         text += possible.charAt(Math.floor(Math.random() * possible.length));
+    //     return text;
+    // }
 
-    function makeid(){
-        var text = "";
-        var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        for( var i=0; i < 16; i++ )
-            text += possible.charAt(Math.floor(Math.random() * possible.length));
-        return text;
-    }
+
+    timeline.push(debrief_block)
+    timeline.push(exit_fullscreen)
+
+    /* Config Firebase */
+    var csv_firebase_info = await readCSV(firebaseInfoURL);
+    var firebase_info = csv_firebase_info.reduce((accum, row) => {
+
+        const newRow = {
+            'info' : row.info,
+            'value' : row.value
+        }
+        accum.push(newRow)
+        return accum
+    }, [])
+
+    var firebaseConfig = {
+        apiKey: firebase_info[0]['value'],
+        authDomain:firebase_info[1]['value'],
+        projectId: firebase_info[2]['value'],
+        storageBucket: firebase_info[3]['value'],
+        messagingSenderId: firebase_info[4]['value'],
+        appId: firebase_info[5]['value'],
+        measurementId:firebase_info[6]['value'],
+    };
 
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
 
-    timeline.push(debrief_block)
-    timeline.push(exit_fullscreen)
 
     jsPsych.init({
         timeline: timeline,
         show_progress_bar: true,
         auto_update_progress_bar: false,
         on_finish: function() {  /* display data on exp end - useful for dev */
-            saveToFirebase('subj/' + makeid(), JSON.parse(jsPsych.data.get().json()));
-            // console.log(jsPsych.data.get().csv());
+            //saveToFirebase('testing/' + userID, JSON.parse(jsPsych.data.get().json()));
             jsPsych.data.displayData();
         }
     })
-
 }
 
 const data_practice_url = "wordlist/ldt-items-practice.csv";
 const data_validated_url = "wordlist/ldt-items-difficulties-with-six-levels.csv";
 const data_new_url = "wordlist/ldt-fake-new-items.csv";
+const firebase_info_url = 'firebase_info/firebase_info.csv'
 
-roarBlocks(data_practice_url,data_validated_url,data_new_url, start_time)
+roarBlocks(data_practice_url,data_validated_url,data_new_url, firebase_info_url)

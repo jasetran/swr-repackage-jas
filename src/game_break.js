@@ -17,9 +17,9 @@ var mid_block_page_1 = {
     <img class="scene" src="assets/half_valley.png" alt="backgroun image with hills and trees">
     <img class = 'adventure_mid_break' src="assets/adventurer1.gif" alt="adventure with harp">
 </div>
-   <div class="button">Press <span class="yellow">Space</span> when you&#39re ready to continue</div>
+   <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re ready to continue</div>
       `,
-    choices: [' '],
+    choices: jsPsych.ALL_KEYS,
     on_start: function() {
         //set progress bar to 0 at the start of experiment
         jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
@@ -47,10 +47,10 @@ var mid_block_page_2 = {
     <img class = 'adventure_mid_break' src="assets/adventurer1.gif" alt="adventure with harp">
     <img class = 'adventure_mid_break' src="assets/adventurer3.gif" alt="adventure with making heart shapes">
 </div>
-   <div class="button">Press <span class="yellow">Space</span> when you&#39re ready to continue</div>
+   <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re ready to continue</div>
     
       `,
-    choices: [' '],
+    choices: jsPsych.ALL_KEYS,
     on_start: function() {
         //set progress bar to 0 at the start of experiment
         jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
@@ -83,10 +83,10 @@ var mid_block_page_3 = {
    <img class = 'adventure_mid_break'  src="assets/adventurer3.gif" alt="adventure playing rainbow">
    <img class = 'adventure_mid_break'  src="assets/adventurer2.gif" alt="adventure making heart shapes">\t
 </div>
-   <div class="button">Press <span class="yellow">Space</span> when you&#39re ready to continue</div>
+   <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re ready to continue</div>
     
       `,
-    choices: [' '],
+    choices: jsPsych.ALL_KEYS,
     on_start: function() {
         //set progress bar to 0 at the start of experiment
         jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
@@ -117,9 +117,9 @@ var post_block_page_1 = {
 \t</div>
 
 </div>
-   <div class="button">Press <span class="yellow">Space</span> when you&#39re ready to continue</div>
+   <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re ready to continue</div>
       `,
-    choices: [' '],
+    choices: jsPsych.ALL_KEYS,
     on_start: function() {
         //set progress bar to 0 at the start of experiment
         jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
@@ -152,9 +152,9 @@ var post_block_page_2 = {
 \t</div>
 
 </div>
-   <div class="button">Press <span class="yellow">Space</span> when you&#39re ready to continue</div>
+   <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re ready to continue</div>
       `,
-    choices: [' '],
+    choices: jsPsych.ALL_KEYS,
     on_start: function() {
         //set progress bar to 0 at the start of experiment
         jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
@@ -184,9 +184,9 @@ var final_page_1 = {
    </div>
 
 </div>
-   <div class="button">Press <span class="yellow">Space</span> when you&#39re ready to continue</div>
+   <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re ready to continue</div>
       `,
-    choices: [' '],
+    choices: jsPsych.ALL_KEYS,
     on_start: function() {
         //set progress bar to 0 at the start of experiment
         jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
@@ -211,9 +211,9 @@ var final_page_2 = {
    </div>
 
 </div>
-   <div class="button">Press <span class="yellow">Space</span> when you&#39re ready to continue</div>
+   <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re ready to continue</div>
       `,
-    choices: [' '],
+    choices: jsPsych.ALL_KEYS,
     on_start: function() {
         //set progress bar to 0 at the start of experiment
         jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
@@ -240,9 +240,9 @@ var final_page_3 = {
    </div>
 
 </div>
-   <div class="button">Press <span class="yellow">Space</span> when you&#39re ready to continue</div>
+   <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re ready to continue</div>
       `,
-    choices: [' '],
+    choices: jsPsych.ALL_KEYS,
     on_start: function() {
         //set progress bar to 0 at the start of experiment
         jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));

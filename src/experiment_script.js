@@ -28,10 +28,8 @@ var introduction_trials = {
     timeline: [intro_1, intro_2, intro_3]
 }
 
-// //timeline.push(audio_response_feedback);
-// // timeline.push(post_block_page_1)
-// timeline.push(post_block_page_2)
-// // timeline.push(mid_block_page_3)
+// timeline.push(audio_response_feedback);
+// timeline.push(mid_block_page_3)
 // timeline.push(final_page_1)
 // timeline.push(final_page_2)
 // timeline.push(final_page_3)

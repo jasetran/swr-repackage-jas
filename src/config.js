@@ -21,7 +21,7 @@ var fixationTime = [1000,2000,25000];
 var fixationTimeIndex = 0; //0 as default: 1000ms; 1: 2000ms; 2: 5000ms
 
 /* set number of trials for practice block */
-var totalTrials_Practice = 2; //default: 5
+var totalTrials_Practice = 5; //default: 5
 var practiceIndex = 0;
 var countSlowPractice = 2; //number of practice trials that will keep stimulus on screen untill participant's input
 
@@ -60,7 +60,6 @@ var currentTrialCorrect; //return true or false
 
 /* list of three stimuli blocks*/
 var stimulusLists;
-
 
 var trialCorrectAns; //for storing the correct answer on a given trial
 var staircaseChecker = []; //for assessing whether the span should move up/down/stay
@@ -104,15 +103,6 @@ function readCSV(url) {
 /* firebase config */
 var pid; //user id
 var firebase_data_index = 0;
-// var firebaseConfig = {
-//     apiKey: "AIzaSyCX9WR-j9yv1giYeFsMpbjj2G3p7jNHxIU",
-//     authDomain: "gse-yeatmanlab.firebaseapp.com",
-//     projectId: "gse-yeatmanlab",
-//     storageBucket: "gse-yeatmanlab.appspot.com",
-//     messagingSenderId: "292331000426",
-//     appId: "1:292331000426:web:ae9e28adbe34b391737013",
-//     measurementId: "G-DY06NYG5E1"
-// };
 
 function saveToFirebase(code,filedata){
     var ref = firebase.database().ref(code).set(filedata);

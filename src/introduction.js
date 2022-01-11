@@ -2,7 +2,7 @@
 var intro_1 = {
     type: "audio-keyboard-response",
     stimulus: '../audio/page1.wav',
-    choices: [' '],
+    choices: jsPsych.ALL_KEYS,
     prompt: `<h1>Welcome to the world of Lexicality!</h1>
         <div class="row">
           <div class="column_1">
@@ -13,7 +13,7 @@ var intro_1 = {
             <p class="middle"> To call the guardian to let you through, you will tell the difference between made-up words and real words. &nbsp;</p>
           </div>
         </div>
-        <div class="button">Press <span class="yellow">Space</span> to continue </div>`,
+        <div class="button">Press <span class="yellow">ANY KEY</span> to continue </div>`,
     data: {
         start_time: start_time.toLocaleString('PST'),
         start_time_unix: start_time.getTime()
@@ -45,31 +45,28 @@ var intro_2 = {
      <img width="100%" src="assets/arrow_right_p2.png" alt="Real Word, Press the Right Arrow key">
      </div>
     </div>
-    <div class="button">Press <span class="yellow">Space</span> to continue
+    <div class="button">Press <span class="yellow">ANY KEY</span> to continue
     </div>
       `,
     //post_trial_gap: 2000,
-    choices: [' '],
-
+    choices: jsPsych.ALL_KEYS,
     on_start: function() {
         //set progress bar to 0 at the start of experiment
         jsPsych.setProgressBar(0);
     }
 };
-
+//class = stimulus_div style = "margin-top:20%">
 var intro_3 = {
     type: "audio-keyboard-response",
     stimulus: '../audio/page3.wav',
     prompt: `
     <h1>This picture will remind you which key to press. 
     <br>Remember:</h1>
-   
-    <div class = stimulus_div style = "margin-top:20%">
-    <img src="assets/key_p3.png" alt="arrow keys">
-    <p class="center" style="position: relative; top: 200px;"> <b>Try to be as accurate as possible.</b> <br/> Some words will be hard, and that&#39s okay. If you&#39re not sure, just give your best guess! </p>
+    <img src="assets/key_p3.png" style= "margin-top: 5%" alt="arrow keys">
+    <p class="center" style="position: relative;top: 50px;"> <b>Try to be as accurate as possible.</b> <br/> Some words will be hard, and that&#39s okay. If you&#39re not sure, just give your best guess! </p>
     </div>
-    <div class="button">Press <span class="yellow">Space</span> to practice the game</div>`,
-    choices: [' '],
+    <div class="button">Press <span class="yellow">ANY KEY</span> to practice the game</div>`,
+    choices: jsPsych.ALL_KEYS,
     on_start: function() {
         jsPsych.setProgressBar(0);
     }
@@ -85,8 +82,8 @@ var post_practice_intro = {
         <img style="position: relative; top: 100px; " width="400px" src="assets/gold_coin.gif" alt="gold">
         <p class="center" style="position: relative; top: 200px; "><b>Look out for them!</b></p>
         </div>
-    <div class="button">Press <span class="yellow">Space</span> to begin the game</div>`,
-    choices: [' '],
+    <div class="button">Press <span class="yellow">ANY KEY</span> to begin the game</div>`,
+    choices: jsPsych.ALL_KEYS,
     on_start: function() {
         jsPsych.setProgressBar(0);
     }

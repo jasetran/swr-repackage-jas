@@ -1,5 +1,5 @@
 /* set user mode */
-//var userMode = 'beginner' //"beiginner": block A only with random words, a new block with 28 new words;
+//var userMode = 'beginner' //"beginner": block A only with random words, a new block with 28 new words;
 // "regular":  3 blocks in random order with one block consisting 56 adaptive words and 28 new words
 const queryString = new URL(window.location).search;
 const urlParams = new URLSearchParams(queryString);

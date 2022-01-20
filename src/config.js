@@ -1,9 +1,37 @@
+/* set user mode */
+//var userMode = 'beginner' //"beginner": block A only with random words, a new block with 28 new words;
+// "regular":  3 blocks in random order with one block consisting 56 adaptive words and 28 new words
+const queryString = new URL(window.location).search;
+const urlParams = new URLSearchParams(queryString);
+const userMode = urlParams.get('mode')
+
 /* set order and rule for the experiment*/
-var stimulusRuleLis = ['adaptive','random','random']; // Possible rule writing can be: ['random'] - 1 random block only,
+var stimulusRuleLis; // Possible rule writing can be: ['random'] - 1 random block only,
 // ['adaptive','random'] - 1 adaptive + 1 random block
 
 /* Number of trials in each block of the experiment */
-var stimulusCountLis = [4,4,4];
+var stimulusCountLis;
+
+/* number of adaptive trials */
+var totalAdaptiveTrials; // default: 56; The adaptive block has 84 trials in total: the first 56 trials contain
+// stimuli with adaptive difficulty, and last 28 trials are new stimuli.
+
+/* config stimulusRuleLis, stimulusCountLis, and totalAdaptiveTrials based on userMode */
+if (userMode == 'beginner') { //beginnner mode
+    stimulusRuleLis = ['random', 'adaptive'];
+    stimulusCountLis = [84, 28];
+    totalAdaptiveTrials = 0;
+}
+else if (userMode == 'regular'){ //regular mode
+    stimulusRuleLis = ['adptive', 'random', 'random'];
+    stimulusCountLis = [84, 84, 84];
+    totalAdaptiveTrials = 56;
+}
+else { //test mode
+    stimulusRuleLis = ['adptive', 'random', 'random'];
+    stimulusCountLis = [4, 4, 4];
+    totalAdaptiveTrials = 2;
+}
 
 /* set the stimulus presentation time */
 var stimulusTime = [null,350,1000,2000]; //
@@ -24,10 +52,6 @@ var fixationTimeIndex = 0; //0 as default: 1000ms; 1: 2000ms; 2: 5000ms
 var totalTrials_Practice = 5; //default: 5
 var practiceIndex = 0;
 var countSlowPractice = 2; //number of practice trials that will keep stimulus on screen untill participant's input
-
-/* number of adaptive trials */
-var totalAdaptiveTrials = 2; // default: 56; The adaptive block has 84 trials in total: the first 56 trials contain
-// stimuli with adaptive difficulty, and last 28 trials are new stimuli.
 
 /* set number of difficulty levels for the adaptive block of the experiment  */
 var difficultyLevels = 6;

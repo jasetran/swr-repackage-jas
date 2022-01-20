@@ -6,19 +6,20 @@ var enter_fullscreen = {
     fullscreen_mode: true
 }
 
+/* collect participant id */
 var survey = {
     type: 'survey-text',
     questions: [
-        {prompt: 'Please enter your Prolific ID'}
+        {prompt: 'Please enter your User ID'}
     ],
     on_finish: function() {
         pid = jsPsych.data.getLastTrialData().values()[0].response['Q0'];
+        console.log('print survey result');
     }
 }
 
 timeline.push(survey);
 timeline.push(enter_fullscreen);
-
 
 var countdown_trials = {
     timeline: [countdown_trial_3,countdown_trial_2,countdown_trial_1]
@@ -28,22 +29,15 @@ var introduction_trials = {
     timeline: [intro_1, intro_2, intro_3]
 }
 
-// timeline.push(audio_response_feedback);
-// timeline.push(mid_block_page_3)
-// timeline.push(final_page_1)
-// timeline.push(final_page_2)
-// timeline.push(final_page_3)
-
 timeline.push(introduction_trials);
 timeline.push(countdown_trials);
 
 /* debrief trials*/
-
 var debrief_block = {
     type: "html-keyboard-response",
     stimulus: function() {
 
-        var trials = jsPsych.data.get().filter({task: 'response'});
+        var trials = jsPsych.data.get().filter({task: 'test_response'});
         var correct_trials = trials.filter({correct: true});
         var incorrect_trials = trials.filter({correct: false});
         var accuracy = Math.round(correct_trials.count() / trials.count() * 100);
@@ -60,22 +54,6 @@ var debrief_block = {
 
     }
 };
-//
-// function readCSV(url) {
-//     return new Promise((resolve, reject) => {
-//         Papa.parse(
-//             url, {
-//                 download: true,
-//                 header: true,
-//                 dynamicTyping: true,
-//                 skipEmptyLines: true,
-//                 complete: function (results) {
-//                     var csv_stimuli = results.data
-//                     resolve(csv_stimuli)
-//                 }
-//             })
-//     })
-// }
 
 //function to update the span as appropriate (using a 2:1 staircase procedure)
 
@@ -133,16 +111,21 @@ var lexicality_test_practice = {
             correctLR = 'left';
             correctRP = 'made-up';
             arrowDisplay = "assets/arrowkey_lex_left.gif";
-
             answerColor = 'orange';
         }
         else {correctRP = 'real';
             correctLR = 'right';
             arrowDisplay = "assets/arrowkey_lex_right.gif";
             answerColor = 'blue';};
+
+        jsPsych.data.addDataToLastTrial({
+            correct_response: jsPsych.timelineVariable('correct_response'),
+            block: 'Practice',
+            pid: pid,
+        });
+
         jsPsych.setProgressBar(0);
         saveToFirebase('testing/' + pid + '/' + firebase_data_index, jsPsych.data.getLastTrialData().values()[0]);
-        //saveToFirebase('testing/' + pid + '/' + firebase_data_index, JSON.parse(jsPsych.data.getLastTrialData().json()));
         firebase_data_index += 1;
     }
 };
@@ -201,7 +184,9 @@ var lexicality_test = {
             word: nextStimulus['stimulus'],
             correct_response: nextStimulus['correct_response'],
             difficulty:nextStimulus['difficulty'],
-            current_block: currentBlock
+            block: currentBlock,
+            stimulus_rule: stimulusRule,
+            pid: pid
 
         });
 
@@ -209,12 +194,11 @@ var lexicality_test = {
             updateDifficulty()
         }
 
-        updateCorrectChecker()
+        updateCorrectChecker();
 
         //var curr_progress_bar_value = jsPsych.getProgressBarCompleted();
         jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
         saveToFirebase('testing/' + pid + '/' + firebase_data_index, jsPsych.data.getLastTrialData().values()[0]);
-        //saveToFirebase('testing/' + pid + '/' + firebase_data_index, JSON.parse(jsPsych.data.getLastTrialData().json()));
         firebase_data_index += 1;
     }
 };
@@ -229,7 +213,6 @@ function checkAvailableDifficulty(targetDifficulty,direction) {
 
         return targetDifficulty;
     } else {
-        //console.log("No AVAILABLE! Updating difficulty level " + targetDifficulty + " " + direction);
         if (direction === 'increase') {
             if (targetDifficulty === (difficultyLevels - 1)) {
                 return null;
@@ -329,6 +312,7 @@ function getStimuli(rule,targetDifficulty) {
             stimulusIndex[currentBlock][currentDifficulty] += 1;
         }
        else {
+            stimulusRule = 'new';
             console.log('this is new');
             resultStimuli = block_new[newword_index];
             newword_index +=1;
@@ -466,7 +450,11 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew, firebas
 
     block_new  = CreateRandomArray(transformNewwords(csv_new));
 
-    var randomBlockLis = CreateRandomArray([["blockA",block_A],["blockB",block_B],["blockC",block_C]]);
+    /* 2 orders of calling blocks */
+
+    var randomBlockLis = CreateRandomArray([["blockA",block_A],["blockB",block_B],["blockC",block_C]]); //every block is randomized
+
+    var fixedBlockLis = [["blockA",block_A],["blockB",block_B],["blockC",block_C]]; //always starts from Block A
 
     //the core procedure
 
@@ -511,8 +499,12 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew, firebas
         return stimulusLists;
     }
 
-    stimulusLists = RuleReader(stimulusRuleLis,randomBlockLis);
-
+    if (userMode == 'beginner'){
+        stimulusLists = RuleReader(stimulusRuleLis,fixedBlockLis);
+    }
+    else {
+        stimulusLists = RuleReader(stimulusRuleLis,randomBlockLis);
+    }
 
     function PushTrialsToTimeline(stimulusLists,stimulusCountLis) {
         for (let i = 0; i < stimulusCountLis.length; i++) {
@@ -561,7 +553,6 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew, firebas
     var total_roar_mainproc_line = [];
 
     PushTrialsToTimeline(stimulusLists,stimulusCountLis);
-
 
     var total_roar_mainproc = {
         timeline: total_roar_mainproc_line

@@ -1,4 +1,81 @@
-/* read firebase project info*/
+/* init connection with pavlovia.org */
+var pavlovia_init = {
+    type: "pavlovia",
+    command: "init"
+};
+
+var audio_blocks = ['audio/page1.wav','audio/page2.wav','audio/page3.wav','audio/page4.wav',
+'audio/beep.wav', 'audio/coin_sound.wav','audio/fail_sound.wav'];
+
+var image_blocks_1 = ["assets/wizard_magic.gif","assets/arrow_left_p2.png","assets/arrow_right_p2.png",
+     "assets/arrow_left_p2.png", "assets/key_p3.png"];
+
+var image_blocks_2 = ["assets/gold_coin.gif", "assets/arrowkey_lex_left.gif",
+     "assets/arrowkey_lex_right.gif", "assets/arrowkey_lex.png","assets/ending.png"];
+
+var image_blocks_3 = ["assets/coinicon.png",
+     "assets/half_valley.png","assets/adventurer1.gif", "assets/adventurer2.gif",
+     "assets/adventurer3.gif","assets/valley.png"];
+
+var image_blocks_4 = ["assets/wizard_coin.gif","assets/guardian1.gif",
+     "assets/guardian2.gif","assets/guardian3.gif"];
+
+var preload_trial_1 = {
+    type: 'preload',
+    audios: audio_blocks,
+    auto_preload: true,
+    message: '1/5 Please wait while the experiment loads. This may take a few minutes.',
+    show_progress_bar: true, // hide progress bar
+    show_detailed_errors: true
+}
+
+var preload_trial_2 = {
+    type: 'preload',
+    images: image_blocks_1,
+    auto_preload: true,
+    message: '2/5 Please wait while the experiment loads. This may take a few minutes.',
+    show_progress_bar: true, // hide progress bar
+    show_detailed_errors: true
+}
+
+var preload_trial_3 = {
+    type: 'preload',
+    images: image_blocks_2,
+    auto_preload: true,
+    message: '3/5 Please wait while the experiment loads. This may take a few minutes.',
+    show_progress_bar: true, // hide progress bar
+    show_detailed_errors: true
+}
+
+var preload_trial_4 = {
+    type: 'preload',
+    images: image_blocks_3,
+    auto_preload: true,
+    message: '4/5 Please wait while the experiment loads. This may take a few minutes.',
+    show_progress_bar: true, // hide progress bar
+    show_detailed_errors: true
+}
+
+var preload_trial_5 = {
+    type: 'preload',
+    images: image_blocks_4,
+    auto_preload: true,
+    message: '5/5 Please wait while the experiment loads. This may take a few minutes.',
+    show_progress_bar: true, // hide progress bar
+    show_detailed_errors: true
+}
+
+timeline.push(preload_trial_1);
+timeline.push(preload_trial_2);
+timeline.push(preload_trial_3);
+timeline.push(preload_trial_4);
+timeline.push(preload_trial_5);
+
+
+var pavlovia_finish = {
+    type: "pavlovia",
+    command: "finish"
+};
 
 /* add introduction trials*/
 var enter_fullscreen = {
@@ -17,7 +94,7 @@ var survey = {
         console.log('print survey result');
     }
 }
-
+//timeline.push(pavlovia_init);
 timeline.push(survey);
 timeline.push(enter_fullscreen);
 
@@ -125,7 +202,7 @@ var lexicality_test_practice = {
         });
 
         jsPsych.setProgressBar(0);
-        saveToFirebase('testing/' + pid + '/' + firebase_data_index, jsPsych.data.getLastTrialData().values()[0]);
+        saveToFirebase(groupName + '/' + pid + '/' + firebase_data_index, jsPsych.data.getLastTrialData().values()[0]);
         firebase_data_index += 1;
     }
 };
@@ -198,7 +275,7 @@ var lexicality_test = {
 
         //var curr_progress_bar_value = jsPsych.getProgressBarCompleted();
         jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
-        saveToFirebase('testing/' + pid + '/' + firebase_data_index, jsPsych.data.getLastTrialData().values()[0]);
+        saveToFirebase(groupName + '/' + pid + '/' + firebase_data_index, jsPsych.data.getLastTrialData().values()[0]);
         firebase_data_index += 1;
     }
 };
@@ -584,8 +661,9 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew, firebas
     // }
 
 
-    timeline.push(debrief_block)
-    timeline.push(exit_fullscreen)
+    timeline.push(debrief_block);
+    timeline.push(exit_fullscreen);
+    //timeline.push(pavlovia_finish);
 
     /* Config Firebase */
     var csv_firebase_info = await readCSV(firebaseInfoURL);

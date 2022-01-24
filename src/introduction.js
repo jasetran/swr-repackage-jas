@@ -1,7 +1,7 @@
 /* define instructions trial */
 var intro_1 = {
     type: "audio-keyboard-response",
-    stimulus: '../audio/page1.wav',
+    stimulus: 'audio/page1.wav',
     choices: jsPsych.ALL_KEYS,
     prompt: `<h1>Welcome to the world of Lexicality!</h1>
         <div class="row">
@@ -26,7 +26,7 @@ var intro_1 = {
 
 var intro_2 = {
     type: "audio-keyboard-response",
-    stimulus:'../audio/page2.wav',
+    stimulus:'audio/page2.wav',
     prompt: `
     <h1>A real or made-up word will flash very quickly <br/> at the center of the screen.</h1>
     <div class="row">
@@ -58,7 +58,7 @@ var intro_2 = {
 //class = stimulus_div style = "margin-top:20%">
 var intro_3 = {
     type: "audio-keyboard-response",
-    stimulus: '../audio/page3.wav',
+    stimulus: 'audio/page3.wav',
     prompt: `
     <h1>This picture will remind you which key to press. 
     <br>Remember:</h1>
@@ -74,7 +74,7 @@ var intro_3 = {
 
 var post_practice_intro = {
     type: "audio-keyboard-response",
-    stimulus: '../audio/page4.wav',
+    stimulus: 'audio/page4.wav',
     prompt: `
     <h1>Great work, you are ready to begin the journey! </h1>
       <div>
@@ -154,7 +154,7 @@ var if_node_right = {
 /* Countdown trial*/
 var countdown_trial_3= {
     type: 'audio-keyboard-response',
-    stimulus:'../audio/beep.wav',
+    stimulus:'audio/beep.wav',
     prompt: `
         <div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">3</p></div>
         <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,

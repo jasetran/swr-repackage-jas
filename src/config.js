@@ -4,6 +4,7 @@
 const queryString = new URL(window.location).search;
 const urlParams = new URLSearchParams(queryString);
 const userMode = urlParams.get('mode')
+const groupName = urlParams.get('group')
 
 /* set order and rule for the experiment*/
 var stimulusRuleLis; // Possible rule writing can be: ['random'] - 1 random block only,

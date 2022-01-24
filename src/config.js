@@ -5,6 +5,7 @@ const queryString = new URL(window.location).search;
 const urlParams = new URLSearchParams(queryString);
 const userMode = urlParams.get('mode')
 const groupName = urlParams.get('group')
+const pid = urlParams.get('pid')
 
 /* set order and rule for the experiment*/
 var stimulusRuleLis; // Possible rule writing can be: ['random'] - 1 random block only,
@@ -126,7 +127,6 @@ function readCSV(url) {
 }
 
 /* firebase config */
-var pid; //user id
 var firebase_data_index = 0;
 
 function saveToFirebase(code,filedata){

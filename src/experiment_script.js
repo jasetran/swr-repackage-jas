@@ -84,7 +84,7 @@ var enter_fullscreen = {
 }
 
 /* collect participant id */
-var survey = {
+var survey_pid = {
     type: 'survey-text',
     questions: [
         {prompt: 'Please enter your User ID'}
@@ -94,8 +94,22 @@ var survey = {
         console.log('print survey result');
     }
 }
+
+
+var if_get_pid = {
+    timeline: [survey_pid],
+    conditional_function: function(){
+        if (Boolean(pid) !== true) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
+}
+
 //timeline.push(pavlovia_init);
-timeline.push(survey);
+timeline.push(if_get_pid);
 timeline.push(enter_fullscreen);
 
 var countdown_trials = {

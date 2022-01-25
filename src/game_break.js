@@ -3,17 +3,15 @@ var mid_block_page_1 = {
     type: "html-keyboard-response",
     stimulus: `
    <div>
-    <h1>Good work, young wizard!</h1>
+    <h1>Good work!</h1>
    <div>
        <p class="center" style="position: relative; top: 50%; ">You are halfway through the valley, and you decide to camp near a small village.
       <br>
       <br>
-      In the village, you meet another adventurer who joins your journey! Here are your gold coins so far:
+      In the village, you meet another adventurer who joins your journey!
       </p>
       
    </div>
-    <img class="coin" src="assets/coinicon.png" alt="coin">
-    <img class="coin" src="assets/coinicon.png" alt="coin">
     <img class="scene" src="assets/half_valley.png" alt="backgroun image with hills and trees">
     <img class = 'adventure_mid_break' src="assets/adventurer1.gif" alt="adventure with harp">
 </div>
@@ -30,19 +28,13 @@ var mid_block_page_2 = {
     type: "html-keyboard-response",
     stimulus: `
    <div>
-    <h1>Good work, young wizard!</h1>
+    <h1>Amazing!</h1>
    <div>
-       <p class="center" style="position: relative; top: 50%; ">You are halfway through the valley, and you decide to camp near a small village.
+       <p class="center" style="position: relative; top: 50%; ">After a few days of traveling, you come across an inn! 
       <br>
       <br>
-      In the village, you meet another adventurer who joins your journey!</p>
+      There, you meet another adventurer who joins your journey!</p>
    </div>
-    <img class="coin" src="assets/coinicon.png" alt="coin">
-    <img class="coin" src="assets/coinicon.png" alt="coin">
-     <img class="coin" src="assets/coinicon.png" alt="coin">
-    <img class="coin" src="assets/coinicon.png" alt="coin">
-     <img class="coin" src="assets/coinicon.png" alt="coin">
-    <img class="coin" src="assets/coinicon.png" alt="coin">
     <img class="scene" src="assets/half_valley.png" alt="backgroun image with hills and trees">
     <img class = 'adventure_mid_break' src="assets/adventurer1.gif" alt="adventure with harp">
     <img class = 'adventure_mid_break' src="assets/adventurer3.gif" alt="adventure with making heart shapes">
@@ -61,23 +53,13 @@ var mid_block_page_3 = {
     type: "html-keyboard-response",
     stimulus: `
    <div>
-    <h1>Good work, young wizard!</h1>
+    <h1>Fantastic Work!</h1>
    <div>
        <p class="center" style="position: relative; top: 50%; ">You are halfway through the valley, and you decide to camp near a small village.
       <br>
       <br>
       In the village, you meet another adventurer who joins your journey!</p>
    </div>
-    <img class="coin" src="assets/coinicon.png" alt="coin">
-    <img class="coin" src="assets/coinicon.png" alt="coin">
-     <img class="coin" src="assets/coinicon.png" alt="coin">
-    <img class="coin" src="assets/coinicon.png" alt="coin">
-     <img class="coin" src="assets/coinicon.png" alt="coin">
-    <img class="coin" src="assets/coinicon.png" alt="coin">
-      <img class="coin" src="assets/coinicon.png" alt="coin">
-    <img class="coin" src="assets/coinicon.png" alt="coin">
-      <img class="coin" src="assets/coinicon.png" alt="coin">
-    <img class="coin" src="assets/coinicon.png" alt="coin">
    <img class="scene" src="assets/half_valley.png" alt="backgroun image with hills and trees">
    <img class = 'adventure_mid_break'  src="assets/adventurer1.gif" alt="adventure with harp">
    <img class = 'adventure_mid_break'  src="assets/adventurer3.gif" alt="adventure playing rainbow">
@@ -99,18 +81,14 @@ var post_block_page_1 = {
     type: "html-keyboard-response",
     stimulus: `
    <div>
-    <h1>Congratulations, young wizard!</h1>
+    <h1>Congratulations!</h1>
   <div>
-   <p class="center">You found the guardian and made it through the valley. 
+   <p class="center">With the guardian&#39s help, you made it through the valley. 
    <br>
    <br> 
-   You&#39re getting closer to the gate! Here are your gold coins so far:</p>
+   You&#39re getting closer to the gate!</p>
    </div>
    <div>
-    <img class="coin" src="assets/coinicon.png" alt="coin">
-    <img class="coin" src="assets/coinicon.png" alt="coin">
-    <img class="coin" src="assets/coinicon.png" alt="coin">
-    <img class="coin" src="assets/coinicon.png" alt="coin">
    <img class="scene" src="assets/valley.png" alt="background image of hills and trees">
 \t\t<img class = 'wizard' src="assets/wizard_coin.gif" alt="adventure playing rainbow">
 \t\t<img class=" guardian" src="assets/guardian1.gif" alt="adventure making heart shapes">
@@ -130,26 +108,18 @@ var post_block_page_2 = {
     type: "html-keyboard-response",
     stimulus: `
    <div>
-    <h1>Congratulations, young wizard!</h1>
+    <h1>Congratulations!</h1>
   <div>
-   <p class="center">You found the guardian and made it through the valley. 
+   <p class="center">With the guardian&#39s help, you made it through the valley.
    <br>
    <br> 
-   You&#39re getting closer to the gate! Here are your gold coins so far:</p>
+   Just one more valley until you reach the gate!</p>
    </div>
    <div>
-    <img class="coin" src="assets/coinicon.png" alt="coin">
-    <img class="coin" src="assets/coinicon.png" alt="coin">
-    <img class="coin" src="assets/coinicon.png" alt="coin">
-    <img class="coin" src="assets/coinicon.png" alt="coin">
-    <img class="coin" src="assets/coinicon.png" alt="coin">
-    <img class="coin" src="assets/coinicon.png" alt="coin">
-    <img class="coin" src="assets/coinicon.png" alt="coin">
-    <img class="coin" src="assets/coinicon.png" alt="coin">
    <img class="scene" src="assets/valley.png" alt="background image of hills and trees">
-\t\t<img class = 'wizard' src="assets/wizard_coin.gif" alt="adventure playing rainbow">
-\t\t<img class = 'guardian' src="assets/guardian2.gif" alt="adventure making heart shapes">
-\t</div>
+   <img class = 'wizard' src="assets/wizard_coin.gif" alt="adventure playing rainbow">
+   <img class = 'guardian' src="assets/guardian2.gif" alt="adventure making heart shapes">
+   </div>
 
 </div>
    <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re ready to continue</div>
@@ -160,19 +130,18 @@ var post_block_page_2 = {
         jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
     }
 }
-
 
 var mid_block_page_list = [mid_block_page_1,mid_block_page_2,mid_block_page_3]
 
 var post_block_page_list = [post_block_page_1,post_block_page_2]
 
-var final_page_1 = {
+var final_page = {
     type: "html-keyboard-response",
     stimulus: `
    <div>
-    <h1>Finally, you summon the last guardian!</h1>
+    <h1>Finally, you found the last guardian and the gate that will bring you home!</h1>
    <div>
-   <p class="center"> It agrees to help you open the gate to return home.
+   <p class="center"> You use your coins to open the gate.
    <br>
    <br>
    You say farewell to your new friends and leave the land of Lexicality. Until next time!
@@ -184,7 +153,7 @@ var final_page_1 = {
    </div>
 
 </div>
-   <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re ready to continue</div>
+   <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re to save your work</div>
       `,
     choices: jsPsych.ALL_KEYS,
     on_start: function() {
@@ -192,61 +161,3 @@ var final_page_1 = {
         jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
     }
 }
-
-var final_page_2 = {
-    type: "html-keyboard-response",
-    stimulus: `
-   <div>
-    <h1>Finally, you summon the last guardian!</h1>
-   <div>
-   <p class="center"> It agrees to help you open the gate to return home.
-   <br>
-   <br>
-   You say farewell to your new friends and leave the land of Lexicality. Until next time!
-  </p>
-   </div>
-   <div>
-   <img class="scene" src="assets/ending.png" alt="background image of gate">
-   <img  class = 'guardian' src="assets/guardian3.gif" alt="image of a unicorn winking">
-   </div>
-
-</div>
-   <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re ready to continue</div>
-      `,
-    choices: jsPsych.ALL_KEYS,
-    on_start: function() {
-        //set progress bar to 0 at the start of experiment
-        jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
-    }
-}
-
-
-var final_page_3 = {
-    type: "html-keyboard-response",
-    stimulus: `
-   <div>
-    <h1>Finally, you summon the last guardian!</h1>
-   <div>
-   <p class="center"> It agrees to help you open the gate to return home.
-   <br>
-   <br>
-   You say farewell to your new friends and leave the land of Lexicality. Until next time!
-  </p>
-   </div>
-   <div>
-   <img class="scene" src="assets/ending.png" alt="background image of gate">
-
-   <img class = 'guardian' src="assets/guardian3.gif" alt="image of a unicorn winking">
-   </div>
-
-</div>
-   <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re ready to continue</div>
-      `,
-    choices: jsPsych.ALL_KEYS,
-    on_start: function() {
-        //set progress bar to 0 at the start of experiment
-        jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
-    }
-}
-
-var final_page_list = [final_page_1,final_page_2,final_page_3]

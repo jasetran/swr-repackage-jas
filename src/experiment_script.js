@@ -71,7 +71,6 @@ timeline.push(preload_trial_3);
 timeline.push(preload_trial_4);
 timeline.push(preload_trial_5);
 
-
 var pavlovia_finish = {
     type: "pavlovia",
     command: "finish"
@@ -563,7 +562,7 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew, firebas
     timeline.push(post_practice_intro);
 
     var core_procedure = {
-        timeline: [setup_fixation, lexicality_test, if_audio_response_correct, if_audio_response_wrong]
+        timeline: [setup_fixation, lexicality_test, if_audio_response_correct, if_audio_response_wrong, if_coin_tracking]
     }
 
     function RuleReader(stimulusRuleLis,randomBlockLis){
@@ -650,7 +649,7 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew, firebas
     }
 
     timeline.push(total_roar_mainproc);
-    timeline.push(final_page_list[stimulusCountLis.length -1]);
+    timeline.push(final_page);
 
     console.log("I am printing timeline now")
     console.log(timeline);
@@ -704,11 +703,11 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew, firebas
     // Initialize Firebase
     firebase.initializeApp(firebaseConfig);
 
-
     jsPsych.init({
         timeline: timeline,
         show_progress_bar: true,
         auto_update_progress_bar: false,
+        message_progress_bar: 'Total Gold Coins',
         on_finish: function() {  /* display data on exp end - useful for dev */
             //saveToFirebase('testing/' + userID, JSON.parse(jsPsych.data.get().json()));
             jsPsych.data.displayData();

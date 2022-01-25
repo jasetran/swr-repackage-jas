@@ -9,8 +9,8 @@ var intro_1 = {
             <img class="characterleft" src="assets/wizard_magic.gif" height="320px" alt="animation of a wizard waving a magic wand">
             </div>
           <div class="column_3">
-            <p class="middle"> You are a young wizard searching for the gate that will return you to your home on Earth. To reach it, you must journey over lands ruled by magical guardians.</p>
-            <p class="middle"> To call the guardian to let you through, you will tell the difference between made-up words and real words. &nbsp;</p>
+            <p class="middle"> You are a wizard searching for the gate that will return you to your home on Earth. To reach the gate, you must journey over lands ruled by magical guardians.</p>
+            <p class="middle"> In order for the guardians to let you pass through the land, you will have to tell the difference between made-up words and real words.&nbsp;</p>
           </div>
         </div>
         <div class="button">Press <span class="yellow">ANY KEY</span> to continue </div>`,
@@ -60,8 +60,7 @@ var intro_3 = {
     type: "audio-keyboard-response",
     stimulus: 'audio/page3.wav',
     prompt: `
-    <h1>This picture will remind you which key to press. 
-    <br>Remember:</h1>
+    <h1>Let us review which key we press for made-up words and real words.</h1>
     <img src="assets/key_p3.png" style= "margin-top: 5%" alt="arrow keys">
     <p class="center" style="position: relative;top: 50px;"> <b>Try to be as accurate as possible.</b> <br/> Some words will be hard, and that&#39s okay. If you&#39re not sure, just give your best guess! </p>
     </div>
@@ -78,9 +77,8 @@ var post_practice_intro = {
     prompt: `
     <h1>Great work, you are ready to begin the journey! </h1>
       <div>
-        <p class="center"> As you travel through the valley, you&#39ll earn gold coins to bring home.</p>
-        <img style="position: relative; top: 100px; " width="400px" src="assets/gold_coin.gif" alt="gold">
-        <p class="center" style="position: relative; top: 200px; "><b>Look out for them!</b></p>
+        <p class="center"> You will earn gold coins along the way.</p>
+        <img style="position: relative; top: 100px;" width="400px" src="assets/gold_coin.gif" alt="gold">
         </div>
     <div class="button">Press <span class="yellow">ANY KEY</span> to begin the game</div>`,
     choices: jsPsych.ALL_KEYS,
@@ -195,3 +193,29 @@ var countdown_trial_1= {
         jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
     }
 };
+
+/* coin tracking trial*/
+var coin_tracking_feedback= {
+    type: 'audio-keyboard-response',
+    stimulus:'audio/fairy_coin_sound.wav',
+    prompt: `<img class = "coin_feedback" width="400px"  src="assets/gold_coin.gif" alt="gold">`,
+    choices: jsPsych.NO_KEYS,
+    trial_duration: 2000,
+    on_finish: function(){
+        jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
+    }
+};
+
+var if_coin_tracking = {
+    timeline: [coin_tracking_feedback],
+    conditional_function: function(){
+        if (Boolean(currentTrialCorrect) && (coinTrackingIndex >= 10)) {
+            coinTrackingIndex = 0;
+            return true;
+        }
+        else{
+            coinTrackingIndex += 1;
+            return false;
+        }
+    }
+}

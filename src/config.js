@@ -5,7 +5,7 @@ const queryString = new URL(window.location).search;
 const urlParams = new URLSearchParams(queryString);
 const userMode = urlParams.get('mode')
 const groupName = urlParams.get('group')
-const pid = urlParams.get('pid')
+var pid = urlParams.get('pid')
 
 /* set order and rule for the experiment*/
 var stimulusRuleLis; // Possible rule writing can be: ['random'] - 1 random block only,
@@ -96,6 +96,8 @@ var currentDifficulty = 0; //to reference where participants currently are
 var difficultyHistory = []; //easy logging of the participant's trajectory
 
 var roarTrialNum = 1; //counter for trials
+
+var coinTrackingIndex = 0;
 
 /* feedback */
 //let feedback = True;

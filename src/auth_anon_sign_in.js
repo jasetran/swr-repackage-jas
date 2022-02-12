@@ -1,9 +1,4 @@
-const functions = require('firebase-functions');
-
-//import { getAuth, signInAnonymously } from "firebase/auth";
-
-console.log(functions)
-const auth = getAuth();
+const auth = firebaseApp.auth();
 signInAnonymously(auth)
     .then(() => {
         // Signed in..

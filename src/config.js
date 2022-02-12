@@ -135,3 +135,4 @@ function saveToFirebase(code,filedata){
     var ref = firebase.database().ref(code).set(filedata);
 }
 
+var uid;

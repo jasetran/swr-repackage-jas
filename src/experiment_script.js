@@ -215,7 +215,7 @@ var lexicality_test_practice = {
         });
 
         jsPsych.setProgressBar(0);
-        saveToFirebase(groupName + '/' + pid + '/' + firebase_data_index, jsPsych.data.getLastTrialData().values()[0]);
+        saveToFirebase(groupName + '/' + uid + '/' + firebase_data_index, jsPsych.data.getLastTrialData().values()[0]);
         firebase_data_index += 1;
     }
 };
@@ -288,7 +288,7 @@ var lexicality_test = {
 
         //var curr_progress_bar_value = jsPsych.getProgressBarCompleted();
         jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
-        saveToFirebase(groupName + '/' + pid + '/' + firebase_data_index, jsPsych.data.getLastTrialData().values()[0]);
+        saveToFirebase(groupName + '/' + uid + '/' + firebase_data_index, jsPsych.data.getLastTrialData().values()[0]);
         firebase_data_index += 1;
     }
 };
@@ -681,7 +681,6 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew, firebas
     /* Config Firebase */
     var csv_firebase_info = await readCSV(firebaseInfoURL);
     var firebase_info = csv_firebase_info.reduce((accum, row) => {
-
         const newRow = {
             'info' : row.info,
             'value' : row.value
@@ -701,7 +700,50 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew, firebas
     };
 
     // Initialize Firebase
-    firebase.initializeApp(firebaseConfig);
+    var firebaseApp = firebase.initializeApp(firebaseConfig);
+
+
+    firebaseApp.auth().signInAnonymously()
+        .then(() => {
+            console.log("signed in");
+            // Signed in..
+        })
+        .catch((error) => {
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            console.log("errorCode", errorCode);
+            console.log("errorMessage", errorMessage);
+
+            // ...
+        });
+
+    firebase.auth().onAuthStateChanged((user) => {
+        if (user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/firebase.User
+
+            uid = user.uid;
+            console.log("uid",uid)
+            // ...
+        } else {
+            console.log("signed out")
+            // User is signed out
+            // ...
+        }
+    });
+
+
+
+    /*const auth = firebaseApp.auth();
+    signInAnonymously(auth)
+        .then(() => {
+            // Signed in..
+        })
+        .catch((error) => {
+            const errorCode = error.code;
+            const errorMessage = error.message;
+            // ...
+        });*/
 
     jsPsych.init({
         timeline: timeline,

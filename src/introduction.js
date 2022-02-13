@@ -20,7 +20,7 @@ var intro_1 = {
     },
     on_start: function() {
         //set progress bar to 0 at the start of experiment
-        jsPsych.setProgressBar(0);
+        //jsPsych.setProgressBar(0);
     }
 };
 
@@ -52,7 +52,7 @@ var intro_2 = {
     choices: jsPsych.ALL_KEYS,
     on_start: function() {
         //set progress bar to 0 at the start of experiment
-        jsPsych.setProgressBar(0);
+        //jsPsych.setProgressBar(0);
     }
 };
 //class = stimulus_div style = "margin-top:20%">
@@ -61,13 +61,15 @@ var intro_3 = {
     stimulus: 'audio/page3.wav',
     prompt: `
     <h1>Let us review which key we press for made-up words and real words.</h1>
-    <img src="assets/key_p3.png" style= "margin-top: 5%" alt="arrow keys">
-    <p class="center" style="position: relative;top: 50px;"> <b>Try to be as accurate as possible.</b> <br/> Some words will be hard, and that&#39s okay. If you&#39re not sure, just give your best guess! </p>
+    <div>
+        <img src="assets/key_p3.png" style= "margin-top: 10%" alt="arrow keys">
+        <p class = "center"> Try to be as accurate as possible. </p>
+        <p class = "center">Some words will be hard, and that&#39s okay. If you&#39re not sure, just give your best guess! </p>
     </div>
     <div class="button">Press <span class="yellow">ANY KEY</span> to practice the game</div>`,
     choices: jsPsych.ALL_KEYS,
     on_start: function() {
-        jsPsych.setProgressBar(0);
+        //jsPsych.setProgressBar(0);
     }
 };
 
@@ -83,7 +85,7 @@ var post_practice_intro = {
     <div class="button">Press <span class="yellow">ANY KEY</span> to begin the game</div>`,
     choices: jsPsych.ALL_KEYS,
     on_start: function() {
-        jsPsych.setProgressBar(0);
+        //jsPsych.setProgressBar(0);
     }
 };
 
@@ -101,7 +103,7 @@ var practice_feedback_left = {
    `,
     choices: ['ArrowLeft'],
     on_start: function() {
-        jsPsych.setProgressBar(0);
+        //jsPsych.setProgressBar(0);
     }
 };
 
@@ -120,7 +122,7 @@ var practice_feedback_right = {
     choices: ['ArrowRight'],
     on_start: function() {
         //set progress bar to 0 at the start of experiment
-        jsPsych.setProgressBar(0);
+        //jsPsych.setProgressBar(0);
     }
 };
 
@@ -198,7 +200,7 @@ var countdown_trial_1= {
 var coin_tracking_feedback= {
     type: 'audio-keyboard-response',
     stimulus:'audio/fairy_coin_sound.wav',
-    prompt: `<img class = "coin_feedback" width="400px"  src="assets/gold_coin.gif" alt="gold">`,
+    prompt: `<img class = "coin_feedback" width="400px"  src="assets/coinbag.gif" alt="gold">`,
     choices: jsPsych.NO_KEYS,
     trial_duration: 2000,
     on_finish: function(){

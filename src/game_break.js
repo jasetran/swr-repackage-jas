@@ -12,12 +12,14 @@ var mid_block_page_1 = {
       </p>
       
    </div>
+   <div class = "story-scene">
     <img class="scene" src="assets/half_valley.png" alt="backgroun image with hills and trees">
     <img class = 'adventure_mid_break' src="assets/adventurer1.gif" alt="adventure with harp">
+    </div>
 </div>
    <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re ready to continue</div>
       `,
-    choices: jsPsych.ALL_KEYS,
+    //choices: jsPsych.ALL_KEYS,
     on_start: function() {
         //set progress bar to 0 at the start of experiment
         jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
@@ -35,9 +37,11 @@ var mid_block_page_2 = {
       <br>
       There, you meet another adventurer who joins your journey!</p>
    </div>
-    <img class="scene" src="assets/half_valley.png" alt="backgroun image with hills and trees">
+   <div class = "story-scene">
+    <img class="scene" src="assets/valley_4.png" alt="backgroun image with hills and trees">
     <img class = 'adventure_mid_break' src="assets/adventurer1.gif" alt="adventure with harp">
     <img class = 'adventure_mid_break' src="assets/adventurer3.gif" alt="adventure with making heart shapes">
+    </div>
 </div>
    <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re ready to continue</div>
     
@@ -60,10 +64,12 @@ var mid_block_page_3 = {
       <br>
       In the village, you meet another adventurer who joins your journey!</p>
    </div>
-   <img class="scene" src="assets/half_valley.png" alt="backgroun image with hills and trees">
+   <div class = "story-scene">
+   <img class="scene" src="assets/valley_3.png" alt="backgroun image with hills and trees">
    <img class = 'adventure_mid_break'  src="assets/adventurer1.gif" alt="adventure with harp">
    <img class = 'adventure_mid_break'  src="assets/adventurer3.gif" alt="adventure playing rainbow">
-   <img class = 'adventure_mid_break'  src="assets/adventurer2.gif" alt="adventure making heart shapes">\t
+   <img class = 'adventure_mid_break'  src="assets/adventurer2.gif" alt="adventure making heart shapes">
+   </div>
 </div>
    <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re ready to continue</div>
     
@@ -88,13 +94,12 @@ var post_block_page_1 = {
    <br> 
    You&#39re getting closer to the gate!</p>
    </div>
-   <div>
+   <div class = "story-scene">
    <img class="scene" src="assets/valley.png" alt="background image of hills and trees">
-\t\t<img class = 'wizard' src="assets/wizard_coin.gif" alt="adventure playing rainbow">
-\t\t<img class=" guardian" src="assets/guardian1.gif" alt="adventure making heart shapes">
-\t</div>
-
-</div>
+   <img class = 'wizard' src="assets/wizard_coin.gif" alt="adventure playing rainbow">
+   <img class=" guardian" src="assets/guardian1.gif" alt="adventure making heart shapes">
+   </div>
+   </div>
    <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re ready to continue</div>
       `,
     choices: jsPsych.ALL_KEYS,
@@ -115,8 +120,8 @@ var post_block_page_2 = {
    <br> 
    Just one more valley until you reach the gate!</p>
    </div>
-   <div>
-   <img class="scene" src="assets/valley.png" alt="background image of hills and trees">
+   <div class = "story-scene">
+   <img class="scene" src="assets/valley_5.png" alt="background image of hills and trees">
    <img class = 'wizard' src="assets/wizard_coin.gif" alt="adventure playing rainbow">
    <img class = 'guardian' src="assets/guardian2.gif" alt="adventure making heart shapes">
    </div>
@@ -147,15 +152,17 @@ var final_page = {
    You say farewell to your new friends and leave the land of Lexicality. Until next time!
   </p>
    </div>
-   <div>
-   <img class="scene" src="assets/ending.png" alt="background image of gate">
+   <div class = "story-scene">
+   <img class="scene" src="assets/ending_background.png" alt="background image of gate">
    <img class = 'guardian' src="assets/guardian3.gif" alt="image of a unicorn winking">
+   <img class = 'guardian' id = "gate" src="assets/ending_gate_coinbag.gif" alt="gate">
+   
    </div>
 
 </div>
    <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re to save your work</div>
       `,
-    choices: jsPsych.ALL_KEYS,
+    //choices: jsPsych.ALL_KEYS,
     on_start: function() {
         //set progress bar to 0 at the start of experiment
         jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));

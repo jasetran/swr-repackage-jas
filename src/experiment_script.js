@@ -417,14 +417,12 @@ function getStimuli(rule,targetDifficulty) {
 }
 
 function CreateRandomArray(array) {
-
     for (var i = array.length - 1; i > 0; i--) {
         var j = Math.floor(Math.random() * (i + 1));
         var temp = array[i];
         array[i] = array[j];
         array[j] = temp;
     }
-
     return array;
 }
 
@@ -435,7 +433,6 @@ function CreateStaircaseBlock_New(array,difficultyLevels,blockLabel) {
         StaircaseArray[d] = [];
         stimulusIndex[blockLabel].push(0);
     }
-
     for (let x of array){
         StaircaseArray[x.difficulty].push(x)
     }
@@ -673,7 +670,6 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew, firebas
     //     return text;
     // }
 
-
     timeline.push(debrief_block);
     timeline.push(exit_fullscreen);
     //timeline.push(pavlovia_finish);
@@ -732,24 +728,11 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew, firebas
         }
     });
 
-
-
-    /*const auth = firebaseApp.auth();
-    signInAnonymously(auth)
-        .then(() => {
-            // Signed in..
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message;
-            // ...
-        });*/
-
     jsPsych.init({
         timeline: timeline,
         show_progress_bar: true,
         auto_update_progress_bar: false,
-        message_progress_bar: 'Total Gold Coins',
+        message_progress_bar: 'Progress Complete',
         on_finish: function() {  /* display data on exp end - useful for dev */
             //saveToFirebase('testing/' + userID, JSON.parse(jsPsych.data.get().json()));
             jsPsych.data.displayData();

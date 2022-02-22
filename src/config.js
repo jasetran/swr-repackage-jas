@@ -78,6 +78,8 @@ var currentPracStimulus;
 var arrowDisplay;
 var correctLR;
 var practiceIndex = 0;
+var practiceFeedbackAudio;
+
 
 /* variables to track current state of the experiment*/
 var currentStimulus;

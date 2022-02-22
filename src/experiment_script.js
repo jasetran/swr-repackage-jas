@@ -4,8 +4,12 @@ var pavlovia_init = {
     command: "init"
 };
 
-var audio_blocks = ['audio/page1.wav','audio/page2.wav','audio/page3.wav','audio/page4.wav',
-'audio/beep.wav', 'audio/coin_sound.wav','audio/fail_sound.wav'];
+var audio_blocks_1 = ['audio/01_intro.wav','audio/02_intro.wav','audio/03_intro.wav','audio/14_coin_intro.wav',
+    'audio/15_mid_block_1.wav','audio/16_end_block_1.wav','audio/17_mid_block_2.wav','audio/18_end_block_2.wav',
+    'audio/19_mid_block_3.wav','audio/20_end_game.wav'];
+
+var audio_blocks_2 = ['audio/beep.wav', 'audio/coin_sound.wav','audio/fail_sound.wav', 'audio/practice_feedback_xop_correct.wav',
+    'audio/practice_feedback_xop_wrong.wav'];
 
 var image_blocks_1 = ["assets/wizard_magic.gif","assets/arrow_left_p2.png","assets/arrow_right_p2.png",
      "assets/arrow_left_p2.png", "assets/key_p3.png"];
@@ -20,9 +24,18 @@ var image_blocks_3 = ["assets/coinicon.png",
 var image_blocks_4 = ["assets/wizard_coin.gif","assets/guardian1.gif",
      "assets/guardian2.gif","assets/guardian3.gif"];
 
-var preload_trial_1 = {
+var preload_trial_1a = {
     type: 'preload',
-    audios: audio_blocks,
+    audios: audio_blocks_1,
+    auto_preload: true,
+    message: '1/5 Please wait while the experiment loads. This may take a few minutes.',
+    show_progress_bar: true, // hide progress bar
+    show_detailed_errors: true
+}
+
+var preload_trial_1b = {
+    type: 'preload',
+    audios: audio_blocks_2,
     auto_preload: true,
     message: '1/5 Please wait while the experiment loads. This may take a few minutes.',
     show_progress_bar: true, // hide progress bar
@@ -65,7 +78,8 @@ var preload_trial_5 = {
     show_detailed_errors: true
 }
 
-timeline.push(preload_trial_1);
+timeline.push(preload_trial_1a);
+timeline.push(preload_trial_1b);
 timeline.push(preload_trial_2);
 timeline.push(preload_trial_3);
 timeline.push(preload_trial_4);
@@ -93,7 +107,6 @@ var survey_pid = {
         console.log('print survey result');
     }
 }
-
 
 var if_get_pid = {
     timeline: [survey_pid],
@@ -187,12 +200,17 @@ var lexicality_test_practice = {
         currentPracStimulus = jsPsych.timelineVariable('stimulus');
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, jsPsych.timelineVariable('correct_response'));
         console.log(data.response);
+        if (currentTrialCorrect) {
+            practiceFeedbackAudio = "audio/practice_feedback_" + `${jsPsych.timelineVariable('stimulus')}` + "_correct.wav";
+        } else{
+            practiceFeedbackAudio = "audio/practice_feedback_" + `${jsPsych.timelineVariable('stimulus')}` + "_wrong.wav"
+        }
+        console.log("practiceFeedbackAudio", practiceFeedbackAudio)
         if (data.response === 'arrowleft') {
             responseLR = 'left';
             answerRP = 'made-up';
             responseColor = 'orange';
-        }
-        else {
+        } else {
             responseLR = 'right';
             answerRP = 'real';
             responseColor = 'blue';
@@ -202,8 +220,7 @@ var lexicality_test_practice = {
             correctRP = 'made-up';
             arrowDisplay = "assets/arrowkey_lex_left.gif";
             answerColor = 'orange';
-        }
-        else {correctRP = 'real';
+        } else {correctRP = 'real';
             correctLR = 'right';
             arrowDisplay = "assets/arrowkey_lex_right.gif";
             answerColor = 'blue';};

@@ -1,25 +1,25 @@
 /* mid block page */
 var mid_block_page_1 = {
-    type: "html-keyboard-response",
-    stimulus: `
-   <div>
-    <h1>Good work!</h1>
-   <div>
-       <p class="center" style="position: relative; top: 50%; ">You are halfway through the valley, and you decide to camp near a small village.
-      <br>
-      <br>
-      In the village, you meet another adventurer who joins your journey!
-      </p>
-      
-   </div>
-   <div class = "story-scene">
-    <img class="scene" src="assets/half_valley.png" alt="backgroun image with hills and trees">
-    <img class = 'adventure_mid_break' src="assets/adventurer1.gif" alt="adventure with harp">
-    </div>
-</div>
-   <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re ready to continue</div>
-      `,
+    type: "audio-keyboard-response",
+    stimulus: `audio/15_mid_block_1.wav`,
     //choices: jsPsych.ALL_KEYS,
+    prompt: ` 
+    <div>
+        <h1>Good work!</h1>
+        <div>
+           <p class="center" style="position: relative; top: 50%; ">You are halfway through the valley, and you decide to camp near a small village.
+           <br>
+           <br>
+            In the village, you meet another adventurer who joins your journey!
+           </p>  
+        </div>
+    <div class = "story-scene">
+        <img class="scene" src="assets/half_valley.png" alt="backgroun image with hills and trees">
+        <img class = 'adventure_mid_break' src="assets/adventurer1.gif" alt="adventure with harp">
+    </div>
+    </div>
+   <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re ready to continue</div>
+   `,
     on_start: function() {
         //set progress bar to 0 at the start of experiment
         jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
@@ -27,8 +27,9 @@ var mid_block_page_1 = {
 }
 //<p class = 'coin_counting'>200</p>
 var mid_block_page_2 = {
-    type: "html-keyboard-response",
-    stimulus: `
+    type: "audio-keyboard-response",
+    stimulus: `audio/17_mid_block_2.wav`,
+    prompt: `
    <div>
     <h1>Amazing!</h1>
    <div>
@@ -44,7 +45,6 @@ var mid_block_page_2 = {
     </div>
 </div>
    <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re ready to continue</div>
-    
       `,
     choices: jsPsych.ALL_KEYS,
     on_start: function() {
@@ -54,8 +54,9 @@ var mid_block_page_2 = {
 }
 
 var mid_block_page_3 = {
-    type: "html-keyboard-response",
-    stimulus: `
+    type: "audio-keyboard-response",
+    stimulus: `audio/19_mid_block_3.wav`,
+    prompt: `
    <div>
     <h1>Fantastic Work!</h1>
    <div>
@@ -72,7 +73,6 @@ var mid_block_page_3 = {
    </div>
 </div>
    <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re ready to continue</div>
-    
       `,
     choices: jsPsych.ALL_KEYS,
     on_start: function() {
@@ -84,8 +84,9 @@ var mid_block_page_3 = {
 /* post block page */
 
 var post_block_page_1 = {
-    type: "html-keyboard-response",
-    stimulus: `
+    type: "audio-keyboard-response",
+    stimulus: `audio/16_end_block_1.wav`,
+    prompt: `
    <div>
     <h1>Congratulations!</h1>
   <div>
@@ -110,8 +111,9 @@ var post_block_page_1 = {
 }
 
 var post_block_page_2 = {
-    type: "html-keyboard-response",
-    stimulus: `
+    type: "audio-keyboard-response",
+    stimulus: `audio/18_end_block_2.wav`,
+    prompt: `
    <div>
     <h1>Congratulations!</h1>
   <div>
@@ -141,8 +143,9 @@ var mid_block_page_list = [mid_block_page_1,mid_block_page_2,mid_block_page_3]
 var post_block_page_list = [post_block_page_1,post_block_page_2]
 
 var final_page = {
-    type: "html-keyboard-response",
-    stimulus: `
+    type: "audio-keyboard-response",
+    stimulus: `audio/20_end_game.wav`,
+    prompt: `
    <div>
     <h1>Finally, you found the last guardian and the gate that will bring you home!</h1>
    <div>
@@ -156,11 +159,9 @@ var final_page = {
    <img class="scene" src="assets/ending_background.png" alt="background image of gate">
    <img class = 'guardian' src="assets/guardian3.gif" alt="image of a unicorn winking">
    <img class = 'guardian' id = "gate" src="assets/ending_gate_coinbag.gif" alt="gate">
-   
    </div>
-
 </div>
-   <div class="button">Press <span class="yellow">ANY KEY</span> when you&#39re to save your work</div>
+   <div class="button">Press <span class="yellow">ANY KEY</span> to save your work</div>
       `,
     //choices: jsPsych.ALL_KEYS,
     on_start: function() {

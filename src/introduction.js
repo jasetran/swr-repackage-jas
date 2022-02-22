@@ -1,7 +1,7 @@
 /* define instructions trial */
 var intro_1 = {
     type: "audio-keyboard-response",
-    stimulus: 'audio/page1.wav',
+    stimulus: 'audio/01_intro.wav',
     choices: jsPsych.ALL_KEYS,
     prompt: `<h1>Welcome to the world of Lexicality!</h1>
         <div class="row">
@@ -19,6 +19,7 @@ var intro_1 = {
         start_time_unix: start_time.getTime()
     },
     on_start: function() {
+        console.log("intro", 'audio/01_intro.wav');
         //set progress bar to 0 at the start of experiment
         //jsPsych.setProgressBar(0);
     }
@@ -26,7 +27,7 @@ var intro_1 = {
 
 var intro_2 = {
     type: "audio-keyboard-response",
-    stimulus:'audio/page2.wav',
+    stimulus:'audio/02_intro.wav',
     prompt: `
     <h1>A real or made-up word will flash very quickly <br/> at the center of the screen.</h1>
     <div class="row">
@@ -58,7 +59,7 @@ var intro_2 = {
 //class = stimulus_div style = "margin-top:20%">
 var intro_3 = {
     type: "audio-keyboard-response",
-    stimulus: 'audio/page3.wav',
+    stimulus: 'audio/03_intro.wav',
     prompt: `
     <h1>Let us review which key we press for made-up words and real words.</h1>
     <div>
@@ -75,13 +76,13 @@ var intro_3 = {
 
 var post_practice_intro = {
     type: "audio-keyboard-response",
-    stimulus: 'audio/page4.wav',
+    stimulus: 'audio/14_coin_intro.wav',
     prompt: `
     <h1>Great work, you are ready to begin the journey! </h1>
       <div>
         <p class="center"> You will earn gold coins along the way.</p>
         <img style="position: relative; top: 100px;" width="400px" src="assets/gold_coin.gif" alt="gold">
-        </div>
+      </div>
     <div class="button">Press <span class="yellow">ANY KEY</span> to begin the game</div>`,
     choices: jsPsych.ALL_KEYS,
     on_start: function() {
@@ -91,36 +92,31 @@ var post_practice_intro = {
 
 /* define practice feedback trial*/
 var practice_feedback_left = {
-    type: "html-keyboard-response",
-    stimulus: function () {return `<div class = stimulus_div>
-\t<p class="feedback"><span class=${responseColor}>You pressed the ${responseLR} arrow key, which is for ${answerRP} words! </span>
-<br></br>${currentPracStimulus}<span class=${answerColor}>  is a ${correctRP}  word. Press ${correctLR} arrow key to continue.</span></p>
-</div>
+    type: "audio-keyboard-response",
+    stimulus: function () {return practiceFeedbackAudio},
+    prompt: function () {return `
+<div class = stimulus_div><p class="feedback"><span class=${responseColor}>You pressed the ${responseLR} arrow key, which is for ${answerRP} words! </span>
+<br></br>${currentPracStimulus}<span class=${answerColor}>  is a ${correctRP}  word. Press ${correctLR} arrow key to continue.</span></p></div>
+<img class="lower" src= "assets/arrowkey_lex_left.gif" alt="arrow keys" style=" width:698px; height:120px">
       `},
-    //post_trial_gap: 2000,
-    prompt: ` 
-    <img class="lower" src= "assets/arrowkey_lex_left.gif" alt="arrow keys" style=" width:698px; height:120px">
-   `,
     choices: ['ArrowLeft'],
     on_start: function() {
+        console.log("practice_feedback_lef", practiceFeedbackAudio);
         //jsPsych.setProgressBar(0);
     }
 };
 
-
 var practice_feedback_right = {
-    type: "html-keyboard-response",
-    stimulus: function () {return `<div class = stimulus_div>
+    type: "audio-keyboard-response",
+    stimulus: function () {return practiceFeedbackAudio},
+    prompt: function () {return `<div class = stimulus_div>
 \t<p class="feedback"><span class=${responseColor}>You pressed the ${responseLR} arrow key, which is for ${answerRP} words! </span>
 <br></br>${currentPracStimulus}<span class=${answerColor}>  is a ${correctRP}  word. Press ${correctLR} arrow key to continue.</span></p>
-</div>
+</div><img class="lower" src= "assets/arrowkey_lex_right.gif" alt="arrow keys" style=" width:698px; height:120px"> 
       `},
-    //post_trial_gap: 2000,
-    prompt: `
-    <img class="lower" src= "assets/arrowkey_lex_right.gif" alt="arrow keys" style=" width:698px; height:120px"> 
-    `,
     choices: ['ArrowRight'],
     on_start: function() {
+        console.log("practice_feedback_lef", practiceFeedbackAudio);
         //set progress bar to 0 at the start of experiment
         //jsPsych.setProgressBar(0);
     }

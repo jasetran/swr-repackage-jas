@@ -9,7 +9,11 @@ var audio_blocks_1 = ['audio/01_intro.wav','audio/02_intro.wav','audio/03_intro.
     'audio/19_mid_block_3.wav','audio/20_end_game.wav'];
 
 var audio_blocks_2 = ['audio/beep.wav', 'audio/coin_sound.wav','audio/fail_sound.wav', 'audio/practice_feedback_xop_correct.wav',
-    'audio/practice_feedback_xop_wrong.wav'];
+    'audio/practice_feedback_xop_wrong.wav', 'audio/practice_feedback_how_correct.wav',
+    'audio/practice_feedback_how_wrong.wav', 'audio/practice_feedback_after_correct.wav',
+    'audio/practice_feedback_after_wrong.wav', 'audio/practice_feedback_auler_correct.wav',
+    'audio/practice_feedback_auler_wrong.wav', 'audio/practice_feedback_hom_correct.wav',
+    'audio/practice_feedback_hom_wrong.wav'];
 
 var image_blocks_1 = ["assets/wizard_magic.gif","assets/arrow_left_p2.png","assets/arrow_right_p2.png",
      "assets/arrow_left_p2.png", "assets/key_p3.png"];
@@ -22,7 +26,7 @@ var image_blocks_3 = ["assets/coinicon.png",
      "assets/adventurer3.gif","assets/valley.png"];
 
 var image_blocks_4 = ["assets/wizard_coin.gif","assets/guardian1.gif",
-     "assets/guardian2.gif","assets/guardian3.gif"];
+     "assets/guardian2.gif","assets/guardian3.gif", "assets/valley_3.png", "assets/valley_4.png", "assets/valley_5.png", "assets/ending_background.png"];
 
 var preload_trial_1a = {
     type: 'preload',
@@ -125,7 +129,7 @@ timeline.push(if_get_pid);
 timeline.push(enter_fullscreen);
 
 var countdown_trials = {
-    timeline: [countdown_trial_3,countdown_trial_2,countdown_trial_1]
+    timeline: [countdown_trial_3,countdown_trial_2,countdown_trial_1, countdown_trial_0]
 }
 
 var introduction_trials = {

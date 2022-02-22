@@ -150,7 +150,7 @@ var if_node_right = {
 /* Countdown trial*/
 var countdown_trial_3= {
     type: 'audio-keyboard-response',
-    stimulus:'audio/beep.wav',
+    stimulus:'audio/countdown_3.wav',
     prompt: `
         <div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">3</p></div>
         <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
@@ -165,9 +165,10 @@ var countdown_trial_3= {
 };
 
 var countdown_trial_2= {
-    type: 'html-keyboard-response',
-    stimulus: function(){return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">2</p></div>`},
-    prompt:  ` <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
+    type: 'audio-keyboard-response',
+    stimulus:'audio/countdown_2.wav',
+    prompt: function(){return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">2</p></div>
+   <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`},
     choices: jsPsych.NO_KEYS,
     trial_duration: 1000,
     data: {
@@ -179,9 +180,24 @@ var countdown_trial_2= {
 };
 
 var countdown_trial_1= {
-    type: 'html-keyboard-response',
-    stimulus: function(){return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">1</p></div>`},
-    prompt:  ` <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
+    type: 'audio-keyboard-response',
+    stimulus: 'audio/countdown_1.wav',
+    prompt: function(){return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">1</p></div>
+<img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`},
+    choices: jsPsych.NO_KEYS,
+    trial_duration: 1000,
+    data: {
+        task: 'countdown'
+    },
+    on_finish: function(){
+        jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
+    }
+};
+
+var countdown_trial_0= {
+    type: 'audio-keyboard-response',
+    stimulus: 'audio/countdown_0.wav',
+    prompt: function(){return `<img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`},
     choices: jsPsych.NO_KEYS,
     trial_duration: 1000,
     data: {

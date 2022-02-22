@@ -31,8 +31,8 @@ else if (userMode == 'regular'){ //regular mode
 }
 else { //test mode
     stimulusRuleLis = ['adptive', 'random', 'random'];
-    stimulusCountLis = [4, 4, 4];
-    totalAdaptiveTrials = 2;
+    stimulusCountLis = [6, 6, 6];
+    totalAdaptiveTrials = 4;
 }
 
 /* set the stimulus presentation time */

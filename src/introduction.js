@@ -3,6 +3,7 @@ var intro_1 = {
     type: "audio-keyboard-response",
     stimulus: 'audio/01_intro.wav',
     choices: jsPsych.ALL_KEYS,
+    response_allowed_while_playing: false,
     prompt: `<h1>Welcome to the world of Lexicality!</h1>
         <div class="row">
           <div class="column_1">
@@ -28,6 +29,7 @@ var intro_1 = {
 var intro_2 = {
     type: "audio-keyboard-response",
     stimulus:'audio/02_intro.wav',
+    response_allowed_while_playing: false,
     prompt: `
     <h1>A real or made-up word will flash very quickly <br/> at the center of the screen.</h1>
     <div class="row">
@@ -60,6 +62,7 @@ var intro_2 = {
 var intro_3 = {
     type: "audio-keyboard-response",
     stimulus: 'audio/03_intro.wav',
+    response_allowed_while_playing: false,
     prompt: `
     <h1>Let us review which key we press for made-up words and real words.</h1>
     <div>
@@ -77,6 +80,7 @@ var intro_3 = {
 var post_practice_intro = {
     type: "audio-keyboard-response",
     stimulus: 'audio/14_coin_intro.wav',
+    response_allowed_while_playing: false,
     prompt: `
     <h1>Great work, you are ready to begin the journey! </h1>
       <div>
@@ -93,6 +97,7 @@ var post_practice_intro = {
 /* define practice feedback trial*/
 var practice_feedback_left = {
     type: "audio-keyboard-response",
+    response_allowed_while_playing: false,
     stimulus: function () {return practiceFeedbackAudio},
     prompt: function () {return `
 <div class = stimulus_div><p class="feedback"><span class=${responseColor}>You pressed the ${responseLR} arrow key, which is for ${answerRP} words! </span>
@@ -108,6 +113,7 @@ var practice_feedback_left = {
 
 var practice_feedback_right = {
     type: "audio-keyboard-response",
+    response_allowed_while_playing: false,
     stimulus: function () {return practiceFeedbackAudio},
     prompt: function () {return `<div class = stimulus_div>
 \t<p class="feedback"><span class=${responseColor}>You pressed the ${responseLR} arrow key, which is for ${answerRP} words! </span>

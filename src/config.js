@@ -6,7 +6,12 @@ const urlParams = new URLSearchParams(queryString);
 const userMode = urlParams.get('mode')
 var pid = urlParams.get('pid')
 var testingOnly = false;
-testingOnly = urlParams.get('test')
+if (urlParams.get('test')) {
+    if (urlParams.get('test') === "true") {
+        testingOnly = true;
+    }
+}
+
 
 /* set order and rule for the experiment*/
 var stimulusRuleLis; // Possible rule writing can be: ['random'] - 1 random block only,

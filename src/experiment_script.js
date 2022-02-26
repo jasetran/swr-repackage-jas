@@ -32,7 +32,7 @@ var preload_trial_1a = {
     type: 'preload',
     audios: audio_blocks_1,
     auto_preload: true,
-    message: '1/5 Please wait while the experiment loads. This may take a few minutes.',
+    message: '1/6 Please wait while the experiment loads. This may take a few minutes.',
     show_progress_bar: true, // hide progress bar
     show_detailed_errors: true
 }
@@ -41,7 +41,7 @@ var preload_trial_1b = {
     type: 'preload',
     audios: audio_blocks_2,
     auto_preload: true,
-    message: '1/5 Please wait while the experiment loads. This may take a few minutes.',
+    message: '2/6 Please wait while the experiment loads. This may take a few minutes.',
     show_progress_bar: true, // hide progress bar
     show_detailed_errors: true
 }
@@ -50,7 +50,7 @@ var preload_trial_2 = {
     type: 'preload',
     images: image_blocks_1,
     auto_preload: true,
-    message: '2/5 Please wait while the experiment loads. This may take a few minutes.',
+    message: '3/6 Please wait while the experiment loads. This may take a few minutes.',
     show_progress_bar: true, // hide progress bar
     show_detailed_errors: true
 }
@@ -59,7 +59,7 @@ var preload_trial_3 = {
     type: 'preload',
     images: image_blocks_2,
     auto_preload: true,
-    message: '3/5 Please wait while the experiment loads. This may take a few minutes.',
+    message: '4/6 Please wait while the experiment loads. This may take a few minutes.',
     show_progress_bar: true, // hide progress bar
     show_detailed_errors: true
 }
@@ -68,7 +68,7 @@ var preload_trial_4 = {
     type: 'preload',
     images: image_blocks_3,
     auto_preload: true,
-    message: '4/5 Please wait while the experiment loads. This may take a few minutes.',
+    message: '5/6 Please wait while the experiment loads. This may take a few minutes.',
     show_progress_bar: true, // hide progress bar
     show_detailed_errors: true
 }
@@ -77,7 +77,7 @@ var preload_trial_5 = {
     type: 'preload',
     images: image_blocks_4,
     auto_preload: true,
-    message: '5/5 Please wait while the experiment loads. This may take a few minutes.',
+    message: '6/6 Please wait while the experiment loads. This may take a few minutes.',
     show_progress_bar: true, // hide progress bar
     show_detailed_errors: true
 }
@@ -188,7 +188,6 @@ var lexicality_test_practice = {
         if (practiceIndex > countSlowPractice) {
             stimulusTimeIndexPracticeOnly = 1;
         }
-        console.log(stimulusTime[trialTimeIndex]);
         return stimulusTime[stimulusTimeIndexPracticeOnly]},
     trial_duration: function() {return trialTime[trialTimeIndex]},
     choices: ['ArrowLeft', 'ArrowRight'],
@@ -236,7 +235,7 @@ var lexicality_test_practice = {
         });
 
         jsPsych.setProgressBar(0);
-        saveToFirebase(groupName + '/' + uid + '/' + firebase_data_index, jsPsych.data.getLastTrialData().values()[0]);
+        saveToFirebase(pid + '/' + uid + '/' + firebase_data_index, jsPsych.data.getLastTrialData().values()[0]);
         firebase_data_index += 1;
     }
 };
@@ -245,29 +244,24 @@ var lexicality_test_practice = {
 var setup_fixation = {
     type: 'html-keyboard-response',
     stimulus: function(){return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">+</p></div>`},
-    prompt:  ` <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
+    prompt:  `<div><img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px"></div>`,
     choices: jsPsych.NO_KEYS,
     trial_duration: fixationTime[fixationTimeIndex],
     data: {
         task: 'fixation'
     },
-
     on_finish: function(){
-        if(roarTrialNum == 1) {
-            currentDifficulty = startingDifficulty;
-        }
-        nextStimulus = getStimuli(stimulusRule,currentDifficulty); //get the current stimuli for the trial
-        difficultyHistory[roarTrialNum-1]=currentDifficulty; //log the current span in an array
+        nextStimulus = getStimuli(); //get the current stimuli for the trial
+        difficultyHistory[roarTrialNum-1]=nextStimulus.difficulty; //log the current span in an array
         roarTrialNum += 1; //add 1 to the total trial count
         jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
     }
-
 };
 
 var lexicality_test = {
     type: "html-keyboard-response",
     stimulus: function() {return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">${nextStimulus['stimulus']}</p></div>`},
-    prompt: `<img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
+    prompt: `<div></div><img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px"></div>`,
     stimulus_duration: stimulusTime[stimulusTimeIndex],
     trial_duration: trialTime[trialTimeIndex],
     choices: ['ArrowLeft', 'ArrowRight'],
@@ -279,18 +273,11 @@ var lexicality_test = {
     on_finish: function(data){
         data.correct = jsPsych.pluginAPI.compareKeys(data.response, nextStimulus['correct_response']);
         currentTrialCorrect = data.correct;
-        if (data.correct){
-            staircaseChecker[staircaseIndex] = 1;
-        } else {staircaseChecker[staircaseIndex] = 0;}
-
-        if(roarTrialNum == 1) {
-            currentDifficulty = startingDifficulty;
+        if (currentTrialCorrect) {
+            response = 1;
+        }else{
+            response = 0;
         }
-
-        staircaseIndex += 1; //update the staircase index
-        currentDifficulty = nextStimulus['difficulty'];
-        //console.log(staircaseChecker);
-
         jsPsych.data.addDataToLastTrial({
             word: nextStimulus['stimulus'],
             correct_response: nextStimulus['correct_response'],
@@ -298,129 +285,60 @@ var lexicality_test = {
             block: currentBlock,
             stimulus_rule: stimulusRule,
             pid: pid
-
         });
 
-        if (stimulusRule === 'adaptive'){
-            updateDifficulty()
-        }
-
         updateCorrectChecker();
-
         //var curr_progress_bar_value = jsPsych.getProgressBarCompleted();
         jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
-        saveToFirebase(groupName + '/' + uid + '/' + firebase_data_index, jsPsych.data.getLastTrialData().values()[0]);
+        saveToFirebase(pid + '/' + uid + '/' + firebase_data_index, jsPsych.data.getLastTrialData().values()[0]);
         firebase_data_index += 1;
     }
 };
 
-function checkAvailableDifficulty(targetDifficulty,direction) {
-    if ((targetDifficulty >= difficultyLevels) || ((targetDifficulty < 0) ) ){
-        return null;
-    }
-
-    if (stimulusIndex[currentBlock][targetDifficulty] < stimulusLists[currentBlockIndex][1][targetDifficulty].length){
-        //target difficulty stimulus is available
-
-        return targetDifficulty;
-    } else {
-        if (direction === 'increase') {
-            if (targetDifficulty === (difficultyLevels - 1)) {
-                return null;
-            }
-            else {return checkAvailableDifficulty(targetDifficulty + 1, direction)}
-        }
-        else if (direction === 'decrease'){
-            if (targetDifficulty === 0) {
-                return null;
-            }
-            else {return checkAvailableDifficulty(targetDifficulty - 1, direction)}
-
-        }
-
-        else {
-            var lower_difficulty = checkAvailableDifficulty(targetDifficulty - 1, 'decrease');
-            var higher_difficulty = checkAvailableDifficulty(targetDifficulty + 1, 'increase');
-            if ((lower_difficulty === null) && (lower_difficulty === null)) {
-                console.log('WARNING! no more stimuli!');
-                return null;
-            } else if (lower_difficulty === null) {
-                return higher_difficulty
-            } else if (higher_difficulty === null) {
-                return lower_difficulty
-            } else {
-                if (Math.abs(lower_difficulty - targetDifficulty) >= Math.abs(higher_difficulty - targetDifficulty)) {
-
-                    return higher_difficulty;
-                } else {
-                    return lower_difficulty;
-                }
-            }
-        }
-    }
-}
-
-function updateDifficulty() {
-    console.log("currentDifficulty " + currentDifficulty);
-    //if they got the last trial correct, increase the span.
-    if (arrSum(staircaseChecker) == 2) {
-        currentDifficulty += 1; //add to the span if last two trials were correct
-        if (currentDifficulty == difficultyLevels) {
-            currentDifficulty -= 1; //make sure the experiment cannot break with exceptionally poor performance (floor of 1 digit)
-            console.log("too high!")
-        }
-        staircaseChecker = []; //reset the staircase checker
-        staircaseIndex = 0; //reset the staircase index
-
-        //if they got the last two trials incorrect, decrease the span
-    } else if (arrSum(staircaseChecker) == 1) {
-        if(staircaseChecker.length == 2) {
-            currentDifficulty -= 1; //lower the span if last two trials were incorrect
-            if (currentDifficulty == -1) {
-                currentDifficulty = 0; //make sure the experiment cannot break with exceptionally poor performance (floor of 1 digit)
-            }
-            staircaseChecker = []; //reset the staircase checker
-            staircaseIndex = 0; //reset the staircase index
-
-        }
-    } else if (arrSum(staircaseChecker) == 0) {
-        if(staircaseChecker.length == 1) {
-            currentDifficulty -= 1; //lower the span if last two trials were incorrect
-            if (currentDifficulty == -1) {
-                currentDifficulty = 0; //make sure the experiment cannot break with exceptionally poor performance (floor of 1 digit)
-            }
-            staircaseChecker = []; //reset the staircase checker
-            staircaseIndex = 0; //reset the staircase index
-
-        }
-    }
-    else {
-        return false;
-    }
-}
-
 //This is to track correct trials
 function updateCorrectChecker() {
-    var trials = jsPsych.data.get().filter({task: 'response'});
+    var trials = jsPsych.data.get().filter({task: 'test_response'});
     var correct_trials = trials.filter({correct: true});
     console.log("CORRECT TRIALS COUNT " + correct_trials.count())
 }
 
-function getStimuli(rule,targetDifficulty) {
-    var resultStimuli = [];
-    if (rule === 'random' ){
+function questUpdate(block) {
+    let closestIndex, resultStimulus, currentCorpus;
+    let randomBoolean = Math.random() < 0.5;
+    randomBoolean ? currentCorpus = block.corpus_real : currentCorpus = block.corpus_pseudo;
+    if (stimulusIndex[currentBlock] === 0) {
+        closestIndex = findClosest(currentCorpus,tTest)
+        resultStimulus = currentCorpus[closestIndex];
+        currentCorpus.splice(closestIndex, 1);
+    } else{
+        console.log("update QUEST");
+        myquest = jsQUEST.QuestUpdate(myquest, nextStimulus.difficulty, response);
+        tTest = jsQUEST.QuestQuantile(myquest);
+        closestIndex = findClosest(currentCorpus,tTest)
+        let d_list = [];
+        currentCorpus.forEach(function (item, index) {
+            d_list.push(item.difficulty);
+        });
+        resultStimulus = currentCorpus[closestIndex];
+        currentCorpus.splice(closestIndex, 1);
+    }
+    console.log("target " + tTest + " current_difficulty " + resultStimulus.difficulty)
+    return resultStimulus;
+}
+
+function getStimuli() {
+    //var resultStimuli = [];
+    if (stimulusRule === 'random' ){
         console.log('this is random');
-        resultStimuli = stimulusLists[currentBlockIndex][1][stimulusIndex[currentBlock]];
+        resultStimuli = stimulusLists[currentBlockIndex].corpus_random[stimulusIndex[currentBlock]];
         stimulusIndex[currentBlock] +=1;
     } else {
         if (count_adaptive_trials < totalAdaptiveTrials) {
             count_adaptive_trials += 1;
             console.log('this is adaptive');
-            currentDifficulty = checkAvailableDifficulty(targetDifficulty,'both');
-            console.log("currentDifficulty " + currentDifficulty);
-            console.log("index check " + stimulusIndex[currentBlock]);
-            resultStimuli = stimulusLists[currentBlockIndex][1][currentDifficulty][stimulusIndex[currentBlock][currentDifficulty]];
-            stimulusIndex[currentBlock][currentDifficulty] += 1;
+            //console.log("index check " + stimulusIndex.currentBlock);
+            resultStimuli = questUpdate(stimulusLists[currentBlockIndex]);
+            stimulusIndex[currentBlock] +=1;
         }
        else {
             stimulusRule = 'new';
@@ -429,12 +347,9 @@ function getStimuli(rule,targetDifficulty) {
             newword_index +=1;
         }
     }
-
     //should add staircase design for else condition
-    trialCorrectAns = resultStimuli['correct_response'];
-
+    //trialCorrectAns = resultStimuli['correct_response'];
     return resultStimuli;
-
 }
 
 function CreateRandomArray(array) {
@@ -540,7 +455,7 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew, firebas
             const newRow = {
                 'stimulus': row.word,
                 'correct_response': correct_response,
-                'difficulty': row.difficulty
+                'difficulty': -row.b_i
             }
             accum.push(newRow)
             return accum
@@ -550,19 +465,34 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew, firebas
     //set number of practice trials
     var block_Practice = csv_practice_transform.slice(0,totalTrials_Practice);
 
-    var block_A = csv_validated_transform.slice(0,84);
+    var corpusA = {
+        name: 'blockA',
+        corpus_pseudo: csv_validated_transform.slice(0, 42).reverse(),
+        corpus_real: csv_validated_transform.slice(42, 84).reverse(),
+        corpus_random: CreateRandomArray(csv_validated_transform.slice(0, 84))
+    };
 
-    var block_B = csv_validated_transform.slice(84,168);
+    var corpusB = {
+        name: 'blockB',
+        corpus_pseudo: csv_validated_transform.slice(84, 126).reverse(),
+        corpus_real: csv_validated_transform.slice(126, 168).reverse(),
+        corpus_random: CreateRandomArray(csv_validated_transform.slice(126, 168))
+    };
 
-    var block_C = csv_validated_transform.slice(168,252);
+    var corpusC = {
+        name: 'blockC',
+        corpus_pseudo: csv_validated_transform.slice(168, 210).reverse(),
+        corpus_real: csv_validated_transform.slice(210, 252).reverse(),
+        corpus_random: CreateRandomArray(csv_validated_transform.slice(168, 252))
+    };
 
     block_new  = CreateRandomArray(transformNewwords(csv_new));
 
     /* 2 orders of calling blocks */
 
-    var randomBlockLis = CreateRandomArray([["blockA",block_A],["blockB",block_B],["blockC",block_C]]); //every block is randomized
+    var randomBlockLis = CreateRandomArray([corpusA, corpusB, corpusC]); //every block is randomized
 
-    var fixedBlockLis = [["blockA",block_A],["blockB",block_B],["blockC",block_C]]; //always starts from Block A
+    var fixedBlockLis = [corpusA, corpusB, corpusC]; //always starts from Block A
 
     //the core procedure
 
@@ -583,35 +513,11 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew, firebas
         timeline: [setup_fixation, lexicality_test, if_audio_response_correct, if_audio_response_wrong, if_coin_tracking]
     }
 
-    function RuleReader(stimulusRuleLis,randomBlockLis){
-        //store list of blocks that are ready for present word stimuli
-        // e.g. [['blockA',[word1,word2,....]],['blockC',{level_0: [word1,word2,...],level_1: [word3,word4]}]]
-        var stimulusLists = [];
-        console.log("RuleReader(stimulusRuleLis,randomBlockLis)")
-        for (var i = 0; i < stimulusRuleLis.length; i++) {
-            console.log(i);
-            if (stimulusRuleLis[i] === 'random') {
-                stimulusLists.push([randomBlockLis[i][0],CreateRandomArray(randomBlockLis[i][1])]);
-                stimulusIndex[randomBlockLis[i][0]] = 0;
-            }
-
-            else {
-                print_staircase = CreateStaircaseBlock_New(randomBlockLis[i][1],difficultyLevels,randomBlockLis[i][0]);
-                console.log("randomBlockLis[i][0]");
-                console.log(randomBlockLis[i][0]);
-                console.log(print_staircase)
-                stimulusLists.push([randomBlockLis[i][0],CreateStaircaseBlock_New(randomBlockLis[i][1],difficultyLevels,randomBlockLis[i][0])]);
-
-            }
-        }
-        return stimulusLists;
-    }
-
     if (userMode == 'beginner'){
-        stimulusLists = RuleReader(stimulusRuleLis,fixedBlockLis);
+        stimulusLists = fixedBlockLis.slice(0, stimulusRuleLis.length);
     }
     else {
-        stimulusLists = RuleReader(stimulusRuleLis,randomBlockLis);
+        stimulusLists = randomBlockLis.slice(0, stimulusRuleLis.length);
     }
 
     function PushTrialsToTimeline(stimulusLists,stimulusCountLis) {
@@ -625,12 +531,10 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew, firebas
                     if (stimulusCountLis[i] === 0) {
                         return false;
                     } else {
-                        currentBlock = stimulusLists[i][0];
+                        currentBlock = stimulusLists[i].name;
+                        console.log("hi printing currentBlock ", currentBlock);
                         currentBlockIndex = i;
                         stimulusRule = stimulusRuleLis[i];
-                        currentDifficulty = startingDifficulty;
-                        staircaseChecker = [];
-                        staircaseIndex = 0;
                         return true;
                     }
                 },
@@ -683,14 +587,6 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew, firebas
         }
     }
 
-    // function makeid(){
-    //     var text = "";
-    //     var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-    //     for( var i=0; i < 16; i++ )
-    //         text += possible.charAt(Math.floor(Math.random() * possible.length));
-    //     return text;
-    // }
-
     timeline.push(debrief_block);
     timeline.push(exit_fullscreen);
     //timeline.push(pavlovia_finish);
@@ -738,7 +634,6 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew, firebas
         if (user) {
             // User is signed in, see docs for a list of available properties
             // https://firebase.google.com/docs/reference/js/firebase.User
-
             uid = user.uid;
             console.log("uid",uid)
             // ...
@@ -756,14 +651,25 @@ async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew, firebas
         message_progress_bar: 'Progress Complete',
         on_finish: function() {  /* display data on exp end - useful for dev */
             //saveToFirebase('testing/' + userID, JSON.parse(jsPsych.data.get().json()));
-            jsPsych.data.displayData();
+            //jsPsych.data.displayData();
+            firebase.auth().signOut().then(() => {
+                console.log("signed out");
+                // Signed in..
+            })
+                .catch((error) => {
+                    var errorCode = error.code;
+                    var errorMessage = error.message;
+                    console.log("errorCode", errorCode);
+                    console.log("errorMessage", errorMessage);
+                    // ...
+                })
         }
     })
 }
 
 const data_practice_url = "wordlist/ldt-items-practice.csv";
 const data_validated_url = "wordlist/ldt-items-difficulties-with-six-levels.csv";
-const data_new_url = "wordlist/ldt-fake-new-items.csv";
+const data_new_url = "wordlist/ldt-new-items.csv";
 const firebase_info_url = 'firebase_info/firebase_info.csv'
 
 roarBlocks(data_practice_url,data_validated_url,data_new_url, firebase_info_url)

@@ -12,7 +12,6 @@ if (urlParams.get('test')) {
     }
 }
 
-
 /* set order and rule for the experiment*/
 var stimulusRuleLis; // Possible rule writing can be: ['random'] - 1 random block only,
 // ['adaptive','random'] - 1 adaptive + 1 random block

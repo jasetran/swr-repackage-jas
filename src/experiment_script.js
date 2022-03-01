@@ -302,14 +302,16 @@ function updateCorrectChecker() {
     console.log("CORRECT TRIALS COUNT " + correct_trials.count())
 }
 
-function questUpdate(block) {
+function questUpdate() {
     let closestIndex, resultStimulus, currentCorpus;
     let randomBoolean = Math.random() < 0.5;
-    randomBoolean ? currentCorpus = block.corpus_real : currentCorpus = block.corpus_pseudo;
+    randomBoolean ? corpusType = "corpus_real": corpusType = "corpus_pseudo";
+    currentCorpus = stimulusLists[currentBlockIndex][corpusType];
+        //block.corpus_real : currentCorpus = block.corpus_pseudo;
     if (stimulusIndex[currentBlock] === 0) {
         closestIndex = findClosest(currentCorpus,tTest)
         resultStimulus = currentCorpus[closestIndex];
-        currentCorpus.splice(closestIndex, 1);
+        
     } else{
         console.log("update QUEST");
         myquest = jsQUEST.QuestUpdate(myquest, nextStimulus.difficulty, response);
@@ -320,8 +322,10 @@ function questUpdate(block) {
             d_list.push(item.difficulty);
         });
         resultStimulus = currentCorpus[closestIndex];
-        currentCorpus.splice(closestIndex, 1);
+        
     }
+    stimulusLists[currentBlockIndex][corpusType].splice(closestIndex, 1);
+    //console.log("after cut", stimulusLists[currentBlockIndex][corpusType].length);
     console.log("target " + tTest + " current_difficulty " + resultStimulus.difficulty)
     return resultStimulus;
 }
@@ -337,7 +341,7 @@ function getStimuli() {
             count_adaptive_trials += 1;
             console.log('this is adaptive');
             //console.log("index check " + stimulusIndex.currentBlock);
-            resultStimuli = questUpdate(stimulusLists[currentBlockIndex]);
+            resultStimuli = questUpdate();
             stimulusIndex[currentBlock] +=1;
         }
        else {

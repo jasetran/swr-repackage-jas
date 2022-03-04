@@ -4,8 +4,13 @@
 const queryString = new URL(window.location).search;
 const urlParams = new URLSearchParams(queryString);
 const userMode = urlParams.get('mode')
-const groupName = urlParams.get('group')
 var pid = urlParams.get('pid')
+var testingOnly = false;
+if (urlParams.get('test')) {
+    if (urlParams.get('test') === "true") {
+        testingOnly = true;
+    }
+}
 
 /* set order and rule for the experiment*/
 var stimulusRuleLis; // Possible rule writing can be: ['random'] - 1 random block only,
@@ -27,12 +32,12 @@ if (userMode == 'beginner') { //beginnner mode
 else if (userMode == 'regular'){ //regular mode
     stimulusRuleLis = ['adptive', 'random', 'random'];
     stimulusCountLis = [84, 84, 84];
-    totalAdaptiveTrials = 56;
+    totalAdaptiveTrials = 60;
 }
 else { //test mode
     stimulusRuleLis = ['adptive', 'random', 'random'];
-    stimulusCountLis = [6, 6, 6];
-    totalAdaptiveTrials = 4;
+    stimulusCountLis = [10, 4, 4];
+    totalAdaptiveTrials = 8;
 }
 
 /* set the stimulus presentation time */
@@ -64,7 +69,7 @@ var newword_index = 0;
 var block_new;
 var currentBlockIndex;
 var stimulusRule;
-var stimulusIndex = {};
+var stimulusIndex = {'blockA':0, 'blockB':0, 'blockC':0};
 var nextStimulus = [];
 var response;
 
@@ -138,3 +143,55 @@ function saveToFirebase(code,filedata){
 }
 
 var uid;
+
+/* set QUEST param */
+const tGuess = 2;
+const tGuessSd = 1;
+const pThreshold = 0.75;
+const beta = 1;
+const delta = 0.05;
+const gamma = 0.5;
+var myquest = jsQUEST.QuestCreate(tGuess, tGuessSd, pThreshold, beta, delta, gamma);
+var tTest = jsQUEST.QuestQuantile(myquest);
+var response;
+
+function findClosest(arr, target) {
+    let n = arr.length;
+    // Corner cases
+    if (target <= arr[0].difficulty)
+        return 0;
+    if (target >= arr[n - 1].difficulty)
+        return n-1;
+    // Doing binary search
+    let i = 0, j = n, mid = 0;
+    while (i < j) {
+        mid = Math.ceil((i + j) / 2);
+        if (arr[mid].difficulty == target)
+            return mid;
+        // If target is less than array
+        // element,then search in left
+        if (target < arr[mid].difficulty) {
+            // If target is greater than previous
+            // to mid, return closest of two
+            if (mid > 0 && target > arr[mid - 1].difficulty)
+                return getClosest(arr,mid-1, mid, target);
+            // Repeat for left half
+            j = mid;
+        }
+        // If target is greater than mid
+        else {
+            if (mid < n - 1 && target < arr[mid + 1].difficulty)
+                return getClosest(arr,mid, mid + 1, target);
+            i = mid + 1; // update i
+        }
+    }
+    // Only single element left after search
+    return mid;
+}
+
+function getClosest(arr,val1, val2, target) {
+    if ((target - arr[val1].difficulty) >= (arr[val2].difficulty - target))
+        return val2;
+    else
+        return val1;
+}

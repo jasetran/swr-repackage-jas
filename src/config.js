@@ -1,58 +1,51 @@
 /* set user mode */
-//var userMode = 'beginner' //"beginner": block A only with random words, a new block with 28 new words;
+// "beginner": block A only with random words, a new block with 28 new words;
 // "regular":  3 blocks in random order with one block consisting 56 adaptive words and 28 new words
 const queryString = new URL(window.location).search;
 const urlParams = new URLSearchParams(queryString);
-const userMode = urlParams.get('mode')
-var pid = urlParams.get('pid')
-var testingOnly = false;
-if (urlParams.get('test')) {
-    if (urlParams.get('test') === "true") {
-        testingOnly = true;
-    }
-}
+const userMode = urlParams.get("mode");
 
-/* set order and rule for the experiment*/
-var stimulusRuleLis; // Possible rule writing can be: ['random'] - 1 random block only,
-// ['adaptive','random'] - 1 adaptive + 1 random block
+const stimulusRuleLists = {
+  beginner: ["random", "adaptive"],
+  regular: ["adaptive", "random", "random"],
+  test: ["adaptive", "random", "random"],
+};
 
-/* Number of trials in each block of the experiment */
-var stimulusCountLis;
+const stimulusCountLists = {
+  beginner: [84, 28],
+  regular: [84, 84, 84],
+  test: [10, 4, 4],
+};
 
-/* number of adaptive trials */
-var totalAdaptiveTrials; // default: 56; The adaptive block has 84 trials in total: the first 56 trials contain
-// stimuli with adaptive difficulty, and last 28 trials are new stimuli.
+const numAdaptiveTrials = {
+  beginner: 0,
+  regular: 60,
+  test: 8,
+};
 
-/* config stimulusRuleLis, stimulusCountLis, and totalAdaptiveTrials based on userMode */
-if (userMode == 'beginner') { //beginnner mode
-    stimulusRuleLis = ['random', 'adaptive'];
-    stimulusCountLis = [84, 28];
-    totalAdaptiveTrials = 0;
-}
-else if (userMode == 'regular'){ //regular mode
-    stimulusRuleLis = ['adptive', 'random', 'random'];
-    stimulusCountLis = [84, 84, 84];
-    totalAdaptiveTrials = 60;
-}
-else { //test mode
-    stimulusRuleLis = ['adptive', 'random', 'random'];
-    stimulusCountLis = [10, 4, 4];
-    totalAdaptiveTrials = 8;
-}
-
-/* set the stimulus presentation time */
-var stimulusTime = [null,350,1000,2000]; //
-var stimulusTimeIndexPracticeOnly = 0; //null as default for practice trial only; 1: 350ms; 2: 1000ms; 3: 2000ms
-var stimulusTimeIndex = 1;
+const config = {
+  userMode,
+  pid: urlParams.get("pid"),
+  testingOnly: urlParams.get("test") ? urlParams.get("test") === "true" : false,
+  // set order and rule for the experiment
+  stimulusRuleList: stimulusRuleLists[userMode],
+  // Number of trials in each block of the experiment
+  stimulusCountList: stimulusCountLists[userMode],
+  // number of adaptive trials
+  totalAdaptiveTrials: numAdaptiveTrials[userMode],
+  stimulusTime: [null, 350, 1000, 2000],
+  stimulusTimeIndexPracticeOnly: 0, //null as default for practice trial only; 1: 350ms; 2: 1000ms; 3: 2000ms
+  stimulusTimeIndex: 1,
+};
 
 /* set the trial time completion time */
-var trialTime = [null,5000,8000,100000];
-var trialTimeIndexPracticeOnly = 0
+var trialTime = [null, 5000, 8000, 100000];
+var trialTimeIndexPracticeOnly = 0;
 var trialTimeIndex = 0; //0 as default: the next stimulus shows after participant's input
 //1/2/3: the next stimulus shows after 5000ms/8000ms/10000ms waiting time
 
 /* set the fixation presentation time */
-var fixationTime = [1000,2000,25000];
+var fixationTime = [1000, 2000, 25000];
 var fixationTimeIndex = 0; //0 as default: 1000ms; 1: 2000ms; 2: 5000ms
 
 /* set number of trials for practice block */
@@ -69,7 +62,7 @@ var newword_index = 0;
 var block_new;
 var currentBlockIndex;
 var stimulusRule;
-var stimulusIndex = {'blockA':0, 'blockB':0, 'blockC':0};
+var stimulusIndex = { blockA: 0, blockB: 0, blockC: 0 };
 var nextStimulus = [];
 var response;
 
@@ -84,7 +77,6 @@ var arrowDisplay;
 var correctLR;
 var practiceIndex = 0;
 var practiceFeedbackAudio;
-
 
 /* variables to track current state of the experiment*/
 var currentStimulus;
@@ -116,30 +108,29 @@ var timeline = [];
 var start_time = new Date();
 
 /* simple variable for calculating sum of an array */
-const arrSum = arr => arr.reduce((a,b) => a + b, 0)
+const arrSum = (arr) => arr.reduce((a, b) => a + b, 0);
 
 /* csv helper function */
 function readCSV(url) {
-    return new Promise((resolve, reject) => {
-        Papa.parse(
-            url, {
-                download: true,
-                header: true,
-                dynamicTyping: true,
-                skipEmptyLines: true,
-                complete: function (results) {
-                    var csv_stimuli = results.data
-                    resolve(csv_stimuli)
-                }
-            })
-    })
+  return new Promise((resolve, reject) => {
+    Papa.parse(url, {
+      download: true,
+      header: true,
+      dynamicTyping: true,
+      skipEmptyLines: true,
+      complete: function (results) {
+        var csv_stimuli = results.data;
+        resolve(csv_stimuli);
+      },
+    });
+  });
 }
 
 /* firebase config */
 var firebase_data_index = 0;
 
-function saveToFirebase(code,filedata){
-    var ref = firebase.database().ref(code).set(filedata);
+function saveToFirebase(code, filedata) {
+  var ref = firebase.database().ref(code).set(filedata);
 }
 
 var uid;
@@ -151,47 +142,54 @@ const pThreshold = 0.75;
 const beta = 1;
 const delta = 0.05;
 const gamma = 0.5;
-var myquest = jsQUEST.QuestCreate(tGuess, tGuessSd, pThreshold, beta, delta, gamma);
-var tTest = jsQUEST.QuestQuantile(myquest);
+const myquest = jsQUEST.QuestCreate(
+  tGuess,
+  tGuessSd,
+  pThreshold,
+  beta,
+  delta,
+  gamma
+);
+const tTest = jsQUEST.QuestQuantile(myquest);
 var response;
 
-function findClosest(arr, target) {
-    let n = arr.length;
-    // Corner cases
-    if (target <= arr[0].difficulty)
-        return 0;
-    if (target >= arr[n - 1].difficulty)
-        return n-1;
-    // Doing binary search
-    let i = 0, j = n, mid = 0;
-    while (i < j) {
-        mid = Math.ceil((i + j) / 2);
-        if (arr[mid].difficulty == target)
-            return mid;
-        // If target is less than array
-        // element,then search in left
-        if (target < arr[mid].difficulty) {
-            // If target is greater than previous
-            // to mid, return closest of two
-            if (mid > 0 && target > arr[mid - 1].difficulty)
-                return getClosest(arr,mid-1, mid, target);
-            // Repeat for left half
-            j = mid;
-        }
-        // If target is greater than mid
-        else {
-            if (mid < n - 1 && target < arr[mid + 1].difficulty)
-                return getClosest(arr,mid, mid + 1, target);
-            i = mid + 1; // update i
-        }
+const findClosest = (arr, target) => {
+  let n = arr.length;
+  // Corner cases
+  if (target <= arr[0].difficulty) return 0;
+  if (target >= arr[n - 1].difficulty) return n - 1;
+  // Doing binary search
+  let i = 0,
+    j = n,
+    mid = 0;
+  while (i < j) {
+    mid = Math.ceil((i + j) / 2);
+    if (arr[mid].difficulty == target) return mid;
+    // If target is less than array
+    // element,then search in left
+    if (target < arr[mid].difficulty) {
+      // If target is greater than previous
+      // to mid, return closest of two
+      if (mid > 0 && target > arr[mid - 1].difficulty)
+        return getClosest(arr, mid - 1, mid, target);
+      // Repeat for left half
+      j = mid;
     }
-    // Only single element left after search
-    return mid;
-}
+    // If target is greater than mid
+    else {
+      if (mid < n - 1 && target < arr[mid + 1].difficulty)
+        return getClosest(arr, mid, mid + 1, target);
+      i = mid + 1; // update i
+    }
+  }
+  // Only single element left after search
+  return mid;
+};
 
-function getClosest(arr,val1, val2, target) {
-    if ((target - arr[val1].difficulty) >= (arr[val2].difficulty - target))
-        return val2;
-    else
-        return val1;
-}
+const getClosest = (arr, val1, val2, target) => {
+  if (target - arr[val1].difficulty >= arr[val2].difficulty - target)
+    return val2;
+  else return val1;
+};
+
+export { config };

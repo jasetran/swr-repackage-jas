@@ -1,10 +1,13 @@
+import { jsPsych } from "jspsych";
+import { arrSum, config } from "./config.js";
+
 /* mid block page */
 var mid_block_page_1 = {
-    type: "audio-keyboard-response",
-    stimulus: `audio/15_mid_block_1.wav`,
-    response_allowed_while_playing: testingOnly,
-    choices: jsPsych.ALL_KEYS,
-    prompt: ` 
+  type: "audio-keyboard-response",
+  stimulus: `audio/15_mid_block_1.wav`,
+  response_allowed_while_playing: config["testingOnly"],
+  choices: jsPsych.ALL_KEYS,
+  prompt: ` 
     <div>
         <h1>Good work!</h1>
         <div>
@@ -21,17 +24,19 @@ var mid_block_page_1 = {
     </div>
    <div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>
    `,
-    on_start: function() {
-        //set progress bar to 0 at the start of experiment
-        jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
-    }
-}
+  on_start: function () {
+    //set progress bar to 0 at the start of experiment
+    jsPsych.setProgressBar(
+      (roarTrialNum - 1) / arrSum(config["stimulusCountList"])
+    );
+  },
+};
 //<p class = 'coin_counting'>200</p>
 var mid_block_page_2 = {
-    type: "audio-keyboard-response",
-    stimulus: `audio/17_mid_block_2.wav`,
-    response_allowed_while_playing: testingOnly,
-    prompt: `
+  type: "audio-keyboard-response",
+  stimulus: `audio/17_mid_block_2.wav`,
+  response_allowed_while_playing: config["testingOnly"],
+  prompt: `
    <div>
     <h1>Amazing!</h1>
    <div>
@@ -48,18 +53,20 @@ var mid_block_page_2 = {
 </div>
    <div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>
       `,
-    choices: jsPsych.ALL_KEYS,
-    on_start: function() {
-        //set progress bar to 0 at the start of experiment
-        jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
-    }
-}
+  choices: jsPsych.ALL_KEYS,
+  on_start: function () {
+    //set progress bar to 0 at the start of experiment
+    jsPsych.setProgressBar(
+      (roarTrialNum - 1) / arrSum(config["stimulusCountList"])
+    );
+  },
+};
 
 var mid_block_page_3 = {
-    type: "audio-keyboard-response",
-    stimulus: `audio/19_mid_block_3.wav`,
-    response_allowed_while_playing: testingOnly,
-    prompt: `
+  type: "audio-keyboard-response",
+  stimulus: `audio/19_mid_block_3.wav`,
+  response_allowed_while_playing: config["testingOnly"],
+  prompt: `
    <div>
     <h1>Fantastic Work!</h1>
    <div>
@@ -77,20 +84,22 @@ var mid_block_page_3 = {
 </div>
    <div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>
       `,
-    choices: jsPsych.ALL_KEYS,
-    on_start: function() {
-        //set progress bar to 0 at the start of experiment
-        jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
-    }
-}
+  choices: jsPsych.ALL_KEYS,
+  on_start: function () {
+    //set progress bar to 0 at the start of experiment
+    jsPsych.setProgressBar(
+      (roarTrialNum - 1) / arrSum(config["stimulusCountList"])
+    );
+  },
+};
 
 /* post block page */
 
 var post_block_page_1 = {
-    type: "audio-keyboard-response",
-    stimulus: `audio/16_end_block_1.wav`,
-    response_allowed_while_playing: testingOnly,
-    prompt: `
+  type: "audio-keyboard-response",
+  stimulus: `audio/16_end_block_1.wav`,
+  response_allowed_while_playing: config["testingOnly"],
+  prompt: `
    <div>
     <h1>Congratulations!</h1>
   <div>
@@ -107,18 +116,20 @@ var post_block_page_1 = {
    </div>
    <div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>
       `,
-    choices: jsPsych.ALL_KEYS,
-    on_start: function() {
-        //set progress bar to 0 at the start of experiment
-        jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
-    }
-}
+  choices: jsPsych.ALL_KEYS,
+  on_start: function () {
+    //set progress bar to 0 at the start of experiment
+    jsPsych.setProgressBar(
+      (roarTrialNum - 1) / arrSum(config["stimulusCountList"])
+    );
+  },
+};
 
 var post_block_page_2 = {
-    type: "audio-keyboard-response",
-    stimulus: `audio/18_end_block_2.wav`,
-    response_allowed_while_playing: testingOnly,
-    prompt: `
+  type: "audio-keyboard-response",
+  stimulus: `audio/18_end_block_2.wav`,
+  response_allowed_while_playing: config["testingOnly"],
+  prompt: `
    <div>
     <h1>Congratulations!</h1>
   <div>
@@ -136,22 +147,28 @@ var post_block_page_2 = {
 </div>
    <div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>
       `,
-    choices: jsPsych.ALL_KEYS,
-    on_start: function() {
-        //set progress bar to 0 at the start of experiment
-        jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
-    }
-}
+  choices: jsPsych.ALL_KEYS,
+  on_start: function () {
+    //set progress bar to 0 at the start of experiment
+    jsPsych.setProgressBar(
+      (roarTrialNum - 1) / arrSum(config["stimulusCountList"])
+    );
+  },
+};
 
-var mid_block_page_list = [mid_block_page_1,mid_block_page_2,mid_block_page_3]
+var mid_block_page_list = [
+  mid_block_page_1,
+  mid_block_page_2,
+  mid_block_page_3,
+];
 
-var post_block_page_list = [post_block_page_1,post_block_page_2]
+var post_block_page_list = [post_block_page_1, post_block_page_2];
 
 var final_page = {
-    type: "audio-keyboard-response",
-    stimulus: `audio/20_end_game.wav`,
-    response_allowed_while_playing: testingOnly,
-    prompt: `
+  type: "audio-keyboard-response",
+  stimulus: `audio/20_end_game.wav`,
+  response_allowed_while_playing: config["testingOnly"],
+  prompt: `
    <div>
     <h1>Finally, you found the last guardian and the gate that will bring you home!</h1>
    <div>
@@ -169,9 +186,11 @@ var final_page = {
 </div>
    <div class="button">Press <span class="yellow">ANY KEY</span> to save your work</div>
       `,
-    //choices: jsPsych.ALL_KEYS,
-    on_start: function() {
-        //set progress bar to 0 at the start of experiment
-        jsPsych.setProgressBar((roarTrialNum-1) /(arrSum(stimulusCountLis)));
-    }
-}
+  //choices: jsPsych.ALL_KEYS,
+  on_start: function () {
+    //set progress bar to 0 at the start of experiment
+    jsPsych.setProgressBar(
+      (roarTrialNum - 1) / arrSum(config["stimulusCountList"])
+    );
+  },
+};

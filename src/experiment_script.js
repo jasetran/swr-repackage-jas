@@ -8,7 +8,7 @@ import jsPsychFullScreen from "@jspsych/plugin-fullscreen";
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
 
 // Local modules
-import { config, updateProgressBar } from "./config.js";
+import { config, startTime, readCSV, updateProgressBar } from "./config.js";
 import { if_audio_response_correct, if_audio_response_wrong } from "./audio.js";
 import { preload_trials } from "./preload.js";
 import {
@@ -190,8 +190,8 @@ const setup_fixation_practice = {
     return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">+</p></div>`;
   },
   prompt: ` <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
-  choices: jsPsych.NO_KEYS,
-  trial_duration: fixationTime[fixationTimeIndex],
+  choices: "NO_KEYS",
+  trial_duration: config.fixationTime,
   data: {
     task: "fixation",
   },
@@ -222,8 +222,8 @@ const lexicality_test_practice = {
   data: {
     task: "practice_response" /* tag the test trials with this taskname so we can filter data later */,
     word: jsPsych.timelineVariable("stimulus"),
-    start_time: start_time.toLocaleString("PST"),
-    start_time_unix: start_time.getTime(),
+    start_time: startTime.toLocaleString("PST"),
+    start_time_unix: startTime.getTime(),
   },
   on_finish: function (data) {
     data.correct = jsPsych.pluginAPI.compareKeys(
@@ -292,8 +292,8 @@ const setup_fixation = {
     return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">+</p></div>`;
   },
   prompt: `<div><img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px"></div>`,
-  choices: jsPsych.NO_KEYS,
-  trial_duration: fixationTime[fixationTimeIndex],
+  choices: "NO_KEYS",
+  trial_duration: config.fixationTime,
   data: {
     task: "fixation",
   },
@@ -311,13 +311,13 @@ const lexicality_test = {
     return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">${nextStimulus["stimulus"]}</p></div>`;
   },
   prompt: `<div></div><img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px"></div>`,
-  stimulus_duration: stimulusTime[stimulusTimeIndex],
-  trial_duration: trialTime[trialTimeIndex],
+  stimulus_duration: config.timing.stimulusTime,
+  trial_duration: config.timing.trialTime,
   choices: ["ArrowLeft", "ArrowRight"],
   data: {
     task: "test_response" /* tag the test trials with this taskname so we can filter data later */,
-    start_time: start_time.toLocaleString("PST"),
-    start_time_unix: start_time.getTime(),
+    start_time: startTime.toLocaleString("PST"),
+    start_time_unix: startTime.getTime(),
   },
   on_finish: function (data) {
     data.correct = jsPsych.pluginAPI.compareKeys(

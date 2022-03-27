@@ -1,4 +1,5 @@
 import { QuestCreate } from "jsQUEST";
+import Papa from "papaparse";
 
 /* set user mode */
 // "beginner": block A only with random words, a new block with 28 new words;
@@ -25,6 +26,13 @@ const numAdaptiveTrials = {
   test: 8,
 };
 
+// Stimulus timing options in milliseconds
+const stimulusTimeOptions = [null, 350, 1000, 2000];
+// Fixation presentation time options in milliseconds
+const fixationTimeOptions = [1000, 2000, 25000];
+// Trial completion time options in milliseconds
+const trialTimeOptions = [null, 5000, 8000, 100000];
+
 export const config = {
   userMode,
   pid: urlParams.get("pid"),
@@ -36,23 +44,14 @@ export const config = {
   stimulusCountList: stimulusCountLists[userMode],
   // number of adaptive trials
   totalAdaptiveTrials: numAdaptiveTrials[userMode],
+  timing: {
+    stimulusTimePracticeOnly: stimulusTimeOptions[0], // null as default for practice trial only
+    stimulusTime: stimulusTimeOptions[1],
+    fixationTime: fixationTimeOptions[0],
+    trialTimePracticeOnly: trialTimeOptions[0],
+    trialTime: trialTimeOptions[0],
+  },
 };
-
-export const timingConfig = {
-  stimulusTime: [null, 350, 1000, 2000],
-  stimulusTimeIndexPracticeOnly: 0, //null as default for practice trial only; 1: 350ms; 2: 1000ms; 3: 2000ms
-  stimulusTimeIndex: 1,
-};
-
-/* set the trial time completion time */
-var trialTime = [null, 5000, 8000, 100000];
-var trialTimeIndexPracticeOnly = 0;
-var trialTimeIndex = 0; //0 as default: the next stimulus shows after participant's input
-//1/2/3: the next stimulus shows after 5000ms/8000ms/10000ms waiting time
-
-/* set the fixation presentation time */
-var fixationTime = [1000, 2000, 25000];
-var fixationTimeIndex = 0; //0 as default: 1000ms; 1: 2000ms; 2: 5000ms
 
 /* set number of trials for practice block */
 var totalTrials_Practice = 5; //default: 5
@@ -109,11 +108,8 @@ var coinTrackingIndex = 0;
 /* feedback */
 //let feedback = True;
 
-/* create timeline */
-var timeline = [];
-
 /* record date */
-var start_time = new Date();
+export const startTime = new Date();
 
 /* simple variable for calculating sum of an array */
 const arrSum = (arr) => arr.reduce((a, b) => a + b, 0);
@@ -144,7 +140,15 @@ export const questConfig = {
   gamma: 0.5,
 };
 
-export const myquest = QuestCreate(...questConfig);
+export const myquest = QuestCreate(
+  questConfig.tGuess,
+  questConfig.tGuessSd,
+  questConfig.pThreshold,
+  questConfig.beta,
+  questConfig.delta,
+  questConfig.gamma
+);
+
 var response;
 
 export const getClosest = (arr, val1, val2, target) => {

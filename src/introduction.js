@@ -1,5 +1,5 @@
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
-import { config, updateProgressBar } from "./config";
+import { config, updateProgressBar, startTime } from "./config";
 import { imgContent, audioContent } from "./preload";
 
 /* define instructions trial */
@@ -20,8 +20,8 @@ const intro_1 = {
         </div>
         <div class="button">Press <span class="yellow">ANY KEY</span> to continue </div>`,
   data: {
-    start_time: start_time.toLocaleString("PST"),
-    start_time_unix: start_time.getTime(),
+    start_time: startTime.toLocaleString("PST"),
+    start_time_unix: startTime.getTime(),
   },
   on_start: function () {},
 };

@@ -1,16 +1,17 @@
-import { jsPsych } from "jspsych";
-import { arrSum, config } from "./config";
+import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
+import { config, updateProgressBar } from "./config";
+import { imgContent, audioContent } from "./preload";
 
 /* define instructions trial */
 const intro_1 = {
-  type: "audio-keyboard-response",
-  stimulus: "audio/01_intro.wav",
-  choices: jsPsych.ALL_KEYS,
-  response_allowed_while_playing: config["testingOnly"],
+  type: jsPsychAudioKeyboardResponse,
+  stimulus: audioContent.intro1,
+  choices: "ALL_KEYS",
+  response_allowed_while_playing: config.testingOnly,
   prompt: `<h1>Welcome to the world of Lexicality!</h1>
         <div class="row">
           <div class="column_1">
-            <img class="characterleft" src="assets/wizard_magic.gif" height="320px" alt="animation of a wizard waving a magic wand">
+            <img class="characterleft" src="${imgContent.wizardMagic}" height="320px" alt="animation of a wizard waving a magic wand">
             </div>
           <div class="column_3">
             <p class="middle"> You are a wizard searching for the gate that will return you to your home on Earth. To reach the gate, you must journey over lands ruled by magical guardians.</p>
@@ -26,9 +27,9 @@ const intro_1 = {
 };
 
 const intro_2 = {
-  type: "audio-keyboard-response",
-  stimulus: "audio/02_intro.wav",
-  response_allowed_while_playing: config["testingOnly"],
+  type: jsPsychAudioKeyboardResponse,
+  stimulus: audioContent.intro2,
+  response_allowed_while_playing: config.testingOnly,
   prompt: `
     <h1>A real or made-up word will flash very quickly <br/> at the center of the screen.</h1>
     <div class="row">
@@ -41,65 +42,55 @@ const intro_2 = {
     </div>
     <div class="row">
      <div class="column_2_lower" style="background-color:#f2f2f2;">
-     <img width="100%" src="assets/arrow_left_p2.png" alt="Magic Word, Press the Left Arrow Key" align="right">
+     <img width="100%" src="${imgContent.arrowLeftP2}" alt="Magic Word, Press the Left Arrow Key" align="right">
      </div>
      <div class="column_2_lower" style="background-color:#f2f2f2; height: 180px;">
-     <img width="100%" src="assets/arrow_right_p2.png" alt="Real Word, Press the Right Arrow key">
+     <img width="100%" src="${imgContent.arrowRightP2}" alt="Real Word, Press the Right Arrow key">
      </div>
     </div>
     <div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>
       `,
   //post_trial_gap: 2000,
-  choices: jsPsych.ALL_KEYS,
-  on_start: function () {
-    //set progress bar to 0 at the start of experiment
-    //jsPsych.setProgressBar(0);
-  },
+  choices: "ALL_KEYS",
 };
 //class = stimulus_div style = "margin-top:20%">
 const intro_3 = {
-  type: "audio-keyboard-response",
-  stimulus: "audio/03_intro.wav",
-  response_allowed_while_playing: config["testingOnly"],
+  type: jsPsychAudioKeyboardResponse,
+  stimulus: audioContent.intro3,
+  response_allowed_while_playing: config.testingOnly,
   prompt: `
     <h1>Let us review which key we press for made-up words and real words.</h1>
     <div>
-        <img src="assets/key_p3.png" style= "margin-top: 10%" alt="arrow keys">
+        <img src="${imgContent.keyP3}" style= "margin-top: 10%" alt="arrow keys">
         <p class = "center"> Try to be as accurate as possible. </p>
         <p class = "center">Some words will be hard, and that&#39s okay. If you&#39re not sure, just give your best guess! </p>
     </div>
     <div class="button">Press <span class="yellow">ANY KEY</span> to practice</div>`,
-  choices: jsPsych.ALL_KEYS,
-  on_start: function () {
-    //jsPsych.setProgressBar(0);
-  },
+  choices: "ALL_KEYS",
 };
 
 export const introduction_trials = {
   timeline: [intro_1, intro_2, intro_3],
 };
 
-const post_practice_intro = {
-  type: "audio-keyboard-response",
-  stimulus: "audio/14_coin_intro.wav",
-  response_allowed_while_playing: config["testingOnly"],
+export const post_practice_intro = {
+  type: jsPsychAudioKeyboardResponse,
+  stimulus: audioContent.coinIntro,
+  response_allowed_while_playing: config.testingOnly,
   prompt: `
     <h1>Great work, you are ready to begin the journey! </h1>
       <div>
         <p class="center"> You will earn gold coins along the way.</p>
-        <img style="position: relative; top: 100px;" width="400px" src="assets/gold_coin.gif" alt="gold">
+        <img style="position: relative; top: 100px;" width="400px" src="${imgContent.goldCoin}" alt="gold">
       </div>
     <div class="button">Press <span class="yellow">ANY KEY</span> to begin</div>`,
-  choices: jsPsych.ALL_KEYS,
-  on_start: function () {
-    //jsPsych.setProgressBar(0);
-  },
+  choices: "ALL_KEYS",
 };
 
 /* define practice feedback trial*/
 const practice_feedback_left = {
-  type: "audio-keyboard-response",
-  response_allowed_while_playing: testingOnly,
+  type: jsPsychAudioKeyboardResponse,
+  response_allowed_while_playing: config.testingOnly,
   stimulus: function () {
     return practiceFeedbackAudio;
   },
@@ -107,19 +98,18 @@ const practice_feedback_left = {
     return `
 <div class = stimulus_div><p class="feedback"><span class=${responseColor}>You pressed the ${responseLR} arrow key, which is for ${answerRP} words! </span>
 <br></br>${currentPracStimulus}<span class=${answerColor}>  is a ${correctRP}  word. Press ${correctLR} arrow key to continue.</span></p></div>
-<img class="lower" src= "assets/arrowkey_lex_left.gif" alt="arrow keys" style=" width:698px; height:120px">
+<img class="lower" src= "${imgContent.arrowkeyLexLeft}" alt="arrow keys" style=" width:698px; height:120px">
       `;
   },
   choices: ["ArrowLeft"],
   on_start: function () {
     console.log("practice_feedback_lef", practiceFeedbackAudio);
-    //jsPsych.setProgressBar(0);
   },
 };
 
 const practice_feedback_right = {
-  type: "audio-keyboard-response",
-  response_allowed_while_playing: testingOnly,
+  type: jsPsychAudioKeyboardResponse,
+  response_allowed_while_playing: config.testingOnly,
   stimulus: function () {
     return practiceFeedbackAudio;
   },
@@ -127,14 +117,14 @@ const practice_feedback_right = {
     return `<div class = stimulus_div>
 \t<p class="feedback"><span class=${responseColor}>You pressed the ${responseLR} arrow key, which is for ${answerRP} words! </span>
 <br></br>${currentPracStimulus}<span class=${answerColor}>  is a ${correctRP}  word. Press ${correctLR} arrow key to continue.</span></p>
-</div><img class="lower" src= "assets/arrowkey_lex_right.gif" alt="arrow keys" style=" width:698px; height:120px"> 
+</div><img class="lower" src= "${imgContent.arrowkeyLexRight}" alt="arrow keys" style=" width:698px; height:120px"> 
       `;
   },
   choices: ["ArrowRight"],
   on_start: function () {},
 };
 
-const if_node_left = {
+export const if_node_left = {
   timeline: [practice_feedback_left],
   conditional_function: function () {
     if (correctRP == "made-up") {
@@ -145,7 +135,7 @@ const if_node_left = {
   },
 };
 
-const if_node_right = {
+export const if_node_right = {
   timeline: [practice_feedback_right],
   conditional_function: function () {
     return correctRP == "real";
@@ -154,78 +144,62 @@ const if_node_right = {
 
 /* Countdown trial*/
 const countdown_trial_3 = {
-  type: "audio-keyboard-response",
-  stimulus: "audio/countdown_3.wav",
+  type: jsPsychAudioKeyboardResponse,
+  stimulus: audioContent.countdown3,
   prompt: `
         <div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">3</p></div>
-        <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
-  choices: jsPsych.NO_KEYS,
+        <img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px">`,
+  choices: "NO_KEYS",
   trial_duration: 1000,
   data: {
     task: "countdown",
   },
-  on_finish: function () {
-    jsPsych.setProgressBar(
-      (roarTrialNum - 1) / arrSum(config["stimulusCountList"])
-    );
-  },
+  on_finish: updateProgressBar,
 };
 
-var countdown_trial_2 = {
-  type: "audio-keyboard-response",
-  stimulus: "audio/countdown_2.wav",
+const countdown_trial_2 = {
+  type: jsPsychAudioKeyboardResponse,
+  stimulus: audioContent.countdown2,
   prompt: function () {
     return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">2</p></div>
-   <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`;
+   <img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px">`;
   },
-  choices: jsPsych.NO_KEYS,
+  choices: "NO_KEYS",
   trial_duration: 1000,
   data: {
     task: "countdown",
   },
-  on_finish: function () {
-    jsPsych.setProgressBar(
-      (roarTrialNum - 1) / arrSum(config["stimulusCountList"])
-    );
-  },
+  on_finish: updateProgressBar,
 };
 
-var countdown_trial_1 = {
-  type: "audio-keyboard-response",
-  stimulus: "audio/countdown_1.wav",
+const countdown_trial_1 = {
+  type: jsPsychAudioKeyboardResponse,
+  stimulus: audioContent.countdown1,
   prompt: function () {
     return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">1</p></div>
-<img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`;
+<img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px">`;
   },
-  choices: jsPsych.NO_KEYS,
+  choices: "NO_KEYS",
   trial_duration: 1000,
   data: {
     task: "countdown",
   },
-  on_finish: function () {
-    jsPsych.setProgressBar(
-      (roarTrialNum - 1) / arrSum(config["stimulusCountList"])
-    );
-  },
+  on_finish: updateProgressBar,
 };
 
-var countdown_trial_0 = {
-  type: "audio-keyboard-response",
-  stimulus: "audio/countdown_0.wav",
+const countdown_trial_0 = {
+  type: jsPsychAudioKeyboardResponse,
+  stimulus: audioContent.countdown0,
   prompt: function () {
     return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">1</p></div>
-<img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`;
+<img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px">`;
   },
-  choices: jsPsych.NO_KEYS,
+  choices: "NO_KEYS",
   trial_duration: 1000,
   data: {
     task: "countdown",
   },
-  on_finish: function () {
-    jsPsych.setProgressBar(
-      (roarTrialNum - 1) / arrSum(config["stimulusCountList"])
-    );
-  },
+  on_finish: updateProgressBar,
 };
 
 export const countdown_trials = {
@@ -238,20 +212,16 @@ export const countdown_trials = {
 };
 
 /* coin tracking trial*/
-var coin_tracking_feedback = {
-  type: "audio-keyboard-response",
-  stimulus: "audio/fairy_coin_sound.wav",
-  prompt: `<div class = "stimulus_div"><img class = "coin_feedback" src="assets/coinbag2.gif" alt="gold"></div>`,
-  choices: jsPsych.NO_KEYS,
+const coin_tracking_feedback = {
+  type: jsPsychAudioKeyboardResponse,
+  stimulus: audioContent.fairyCoin,
+  prompt: `<div class = "stimulus_div"><img class = "coin_feedback" src="${imgContent.coinBag}" alt="gold"></div>`,
+  choices: "NO_KEYS",
   trial_duration: 2000,
-  on_finish: function () {
-    jsPsych.setProgressBar(
-      (roarTrialNum - 1) / arrSum(config["stimulusCountList"])
-    );
-  },
+  on_finish: updateProgressBar,
 };
 
-var if_coin_tracking = {
+export const if_coin_tracking = {
   timeline: [coin_tracking_feedback],
   conditional_function: function () {
     if (Boolean(currentTrialCorrect) && coinTrackingIndex >= 10) {

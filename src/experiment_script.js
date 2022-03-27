@@ -1,13 +1,105 @@
-import { jsPsych } from "jspsych";
-import { arrSum, config } from "./config.js";
+// QUEST imports
+import { QuestUpdate, QuestQuantile } from "jsQUEST";
 
+// jsPsych imports
+import { initJsPsych } from "jspsych";
+import jsPsychSurveyText from "@jspsych/plugin-survey-text";
+import jsPsychFullScreen from "@jspsych/plugin-fullscreen";
+import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
+
+// Local modules
+import { config, updateProgressBar } from "./config.js";
 import { if_audio_response_correct, if_audio_response_wrong } from "./audio.js";
 import { preload_trials } from "./preload.js";
-import { introduction_trials, countdown_trials } from ".introduction.js";
+import {
+  introduction_trials,
+  post_practice_intro,
+  countdown_trials,
+  if_node_left,
+  if_node_right,
+  if_coin_tracking,
+} from "./introduction.js";
+import {
+  mid_block_page_list,
+  post_block_page_list,
+  final_page,
+} from "./game_break";
+import jsPsychPavlovia from "./jsPsychPavlovia";
+
+// Firebase imports
+import { RoarFirekit } from "@bdelab/roar-firekit";
+import { rootDoc } from "./firebaseConfig";
+
+// Import necessary for async in the top level of the experiment script
+import "regenerator-runtime/runtime";
+
+// CSS imports
+import "jspsych/css/jspsych.css";
+import "./css/game_v4.css";
+
+// Word corpus imports
+import dataPracticeURL from "./wordlist/ldt-items-practice.csv";
+import dataValidatedURL from "./wordlist/ldt-items-difficulties-with-six-levels.csv";
+import dataNewURL from "./wordlist/ldt-new-items.csv";
+
+let firekit;
+
+// TODO: consider editing taskInfo based on config
+const taskInfo = {
+  taskId: "swr",
+  taskName: "Single Word Recognition",
+  variantName: "quest",
+  taskDescription:
+    "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
+  variantDescription:
+    "This variant uses adaptive stimulus selection using the Quest algorithm.",
+  blocks: [
+    {
+      blockNumber: 0,
+      trialMethod: "practice",
+      corpus: "practiceCorpusId",
+    },
+    {
+      blockNumber: 1,
+      trialMethod: "adaptive",
+      corpus: "adaptiveCorpusId",
+    },
+    {
+      blockNumber: 2,
+      trialMethod: "random",
+      corpus: "newCorpusId",
+    },
+    {
+      blockNumber: 3,
+      trialMethod: "random",
+      corpus: "random1CorpusId",
+    },
+    {
+      blockNumber: 4,
+      trialMethod: "random",
+      corpus: "random2CorpusId",
+    },
+  ],
+};
+
+if (config.pid) {
+  const minimalUserInfo = { id: config.pid, studyId: config.sessionId };
+
+  firekit = new RoarFirekit({
+    rootDoc,
+    userInfo: minimalUserInfo,
+    taskInfo,
+  });
+
+  await firekit.startRun();
+}
+
+const jsPsych = initJsPsych();
+const timeline = [];
 
 /* init connection with pavlovia.org */
 const pavlovia_init = {
-  type: "pavlovia",
+  type: jsPsychPavlovia,
   command: "init",
 };
 
@@ -16,22 +108,24 @@ preload_trials.forEach((trial) => {
 });
 
 const pavlovia_finish = {
-  type: "pavlovia",
+  type: jsPsychPavlovia,
   command: "finish",
 };
 
 /* add introduction trials*/
 const enter_fullscreen = {
-  type: "fullscreen",
+  type: jsPsychFullScreen,
   fullscreen_mode: true,
 };
 
 /* collect participant id */
 const survey_pid = {
-  type: "survey-text",
-  questions: [{ prompt: "Please enter your User ID" }],
+  type: jsPsychSurveyText,
+  questions: [
+    { prompt: "Please enter your User ID", name: "pid", required: true },
+  ],
   on_finish: function (data) {
-    config["pid"] = data.response["Q0"];
+    config["pid"] = data.response["pid"];
   },
 };
 
@@ -40,27 +134,45 @@ const if_get_pid = {
   conditional_function: function () {
     return Boolean(config["pid"]) !== true;
   },
+  on_timeline_finish: async () => {
+    const minimalUserInfo = { id: config.pid, studyId: config.sessionId };
+
+    firekit = new RoarFirekit({
+      rootDoc,
+      userInfo: minimalUserInfo,
+      taskInfo,
+    });
+
+    await firekit.startRun();
+  },
 };
 
-//timeline.push(pavlovia_init);
+/* init connection with pavlovia.org */
+const isOnPavlovia = window.location.href.includes("run.pavlovia.org");
+
+if (isOnPavlovia) {
+  timeline.push(pavlovia_init);
+}
+
 timeline.push(if_get_pid);
 timeline.push(enter_fullscreen);
 timeline.push(introduction_trials);
 timeline.push(countdown_trials);
 
 /* debrief trials*/
-var debrief_block = {
-  type: "html-keyboard-response",
+const debrief_block = {
+  type: jsPsychHtmlKeyboardResponse,
   stimulus: function () {
-    var trials = jsPsych.data.get().filter({ task: "test_response" });
-    var correct_trials = trials.filter({ correct: true });
-    var incorrect_trials = trials.filter({ correct: false });
-    var accuracy = Math.round((correct_trials.count() / trials.count()) * 100);
-    var rt = Math.round(correct_trials.select("rt").mean());
-    var irt = Math.round(incorrect_trials.select("rt").mean());
+    const trials = jsPsych.data.get().filter({ task: "test_response" });
+    const correct_trials = trials.filter({ correct: true });
+    const incorrect_trials = trials.filter({ correct: false });
+    const accuracy = Math.round(
+      (correct_trials.count() / trials.count()) * 100
+    );
+    const rt = Math.round(correct_trials.select("rt").mean());
+    const irt = Math.round(incorrect_trials.select("rt").mean());
 
     console.log(difficultyHistory);
-    stimulusLists[currentBlockIndex];
 
     return `<p>You responded correctly on ${accuracy}% of the trials.</p>
           <p>Your average response time on correct trials was ${rt}ms.</p>
@@ -72,8 +184,8 @@ var debrief_block = {
 //function to update the span as appropriate (using a 2:1 staircase procedure)
 
 /* For Practice Trial Only */
-var setup_fixation_practice = {
-  type: "html-keyboard-response",
+const setup_fixation_practice = {
+  type: jsPsychHtmlKeyboardResponse,
   stimulus: function () {
     return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">+</p></div>`;
   },
@@ -88,8 +200,8 @@ var setup_fixation_practice = {
   },
 };
 
-var lexicality_test_practice = {
-  type: "html-keyboard-response",
+const lexicality_test_practice = {
+  type: jsPsychHtmlKeyboardResponse,
   stimulus: function () {
     return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">${jsPsych.timelineVariable(
       "stimulus"
@@ -174,8 +286,8 @@ var lexicality_test_practice = {
 };
 
 //set-up screen
-var setup_fixation = {
-  type: "html-keyboard-response",
+const setup_fixation = {
+  type: jsPsychHtmlKeyboardResponse,
   stimulus: function () {
     return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">+</p></div>`;
   },
@@ -189,14 +301,12 @@ var setup_fixation = {
     nextStimulus = getStimuli(); //get the current stimuli for the trial
     difficultyHistory[roarTrialNum - 1] = nextStimulus.difficulty; //log the current span in an array
     roarTrialNum += 1; //add 1 to the total trial count
-    jsPsych.setProgressBar(
-      (roarTrialNum - 1) / arrSum(config["stimulusCountList"])
-    );
+    updateProgressBar();
   },
 };
 
-var lexicality_test = {
-  type: "html-keyboard-response",
+const lexicality_test = {
+  type: jsPsychHtmlKeyboardResponse,
   stimulus: function () {
     return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">${nextStimulus["stimulus"]}</p></div>`;
   },
@@ -230,10 +340,7 @@ var lexicality_test = {
     });
 
     updateCorrectChecker();
-    //var curr_progress_bar_value = jsPsych.getProgressBarCompleted();
-    jsPsych.setProgressBar(
-      (roarTrialNum - 1) / arrSum(config["stimulusCountList"])
-    );
+    updateProgressBar();
     saveToFirebase(
       pid + "/" + uid + "/" + firebase_data_index,
       jsPsych.data.getLastTrialData().values()[0]
@@ -244,41 +351,45 @@ var lexicality_test = {
 
 //This is to track correct trials
 function updateCorrectChecker() {
-  var trials = jsPsych.data.get().filter({ task: "test_response" });
-  var correct_trials = trials.filter({ correct: true });
+  const trials = jsPsych.data.get().filter({ task: "test_response" });
+  const correct_trials = trials.filter({ correct: true });
   console.log("CORRECT TRIALS COUNT " + correct_trials.count());
 }
 
-function questUpdate() {
+function updateQuest() {
   let closestIndex, resultStimulus, currentCorpus;
   let randomBoolean = Math.random() < 0.5;
   randomBoolean ? (corpusType = "corpus_real") : (corpusType = "corpus_pseudo");
   currentCorpus = stimulusLists[currentBlockIndex][corpusType];
   //block.corpus_real : currentCorpus = block.corpus_pseudo;
   if (stimulusIndex[currentBlock] === 0) {
+    const tTest = QuestQuantile(myquest);
     closestIndex = findClosest(currentCorpus, tTest);
     resultStimulus = currentCorpus[closestIndex];
+    console.log(
+      `target ${tTest} current_difficulty ${resultStimulus.difficulty}`
+    );
   } else {
     console.log("update QUEST");
-    myquest = jsQUEST.QuestUpdate(myquest, nextStimulus.difficulty, response);
-    tTest = jsQUEST.QuestQuantile(myquest);
+    myquest = QuestUpdate(myquest, nextStimulus.difficulty, response);
+    const tTest = QuestQuantile(myquest);
     closestIndex = findClosest(currentCorpus, tTest);
     let d_list = [];
     currentCorpus.forEach(function (item, index) {
       d_list.push(item.difficulty);
     });
     resultStimulus = currentCorpus[closestIndex];
+    console.log(
+      `target ${tTest} current_difficulty ${resultStimulus.difficulty}`
+    );
   }
   stimulusLists[currentBlockIndex][corpusType].splice(closestIndex, 1);
   //console.log("after cut", stimulusLists[currentBlockIndex][corpusType].length);
-  console.log(
-    "target " + tTest + " current_difficulty " + resultStimulus.difficulty
-  );
   return resultStimulus;
 }
 
 function getStimuli() {
-  //var resultStimuli = [];
+  //const resultStimuli = [];
   if (stimulusRule === "random") {
     console.log("this is random");
     resultStimuli =
@@ -291,7 +402,7 @@ function getStimuli() {
       count_adaptive_trials += 1;
       console.log("this is adaptive");
       //console.log("index check " + stimulusIndex.currentBlock);
-      resultStimuli = questUpdate();
+      resultStimuli = updateQuest();
       stimulusIndex[currentBlock] += 1;
     } else {
       stimulusRule = "new";
@@ -306,9 +417,9 @@ function getStimuli() {
 }
 
 function CreateRandomArray(array) {
-  for (var i = array.length - 1; i > 0; i--) {
-    var j = Math.floor(Math.random() * (i + 1));
-    var temp = array[i];
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    const temp = array[i];
     array[i] = array[j];
     array[j] = temp;
   }
@@ -316,9 +427,9 @@ function CreateRandomArray(array) {
 }
 
 function CreateStaircaseBlock_New(array, difficultyLevels, blockLabel) {
-  var StaircaseArray = [];
+  const StaircaseArray = [];
   stimulusIndex[blockLabel] = [];
-  for (var d = 0; d < difficultyLevels; d++) {
+  for (let d = 0; d < difficultyLevels; d++) {
     StaircaseArray[d] = [];
     stimulusIndex[blockLabel].push(0);
   }
@@ -326,10 +437,10 @@ function CreateStaircaseBlock_New(array, difficultyLevels, blockLabel) {
     StaircaseArray[x.difficulty].push(x);
   }
 
-  for (var d = 0; d < difficultyLevels; d++) {
-    for (var i = StaircaseArray[d].length - 1; i > 0; i--) {
-      var j = Math.floor(Math.random() * (i + 1));
-      var temp = StaircaseArray[d][i];
+  for (let d = 0; d < difficultyLevels; d++) {
+    for (let i = StaircaseArray[d].length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      const temp = StaircaseArray[d][i];
       StaircaseArray[d][i] = StaircaseArray[d][j];
       StaircaseArray[d][j] = temp;
     }
@@ -338,7 +449,7 @@ function CreateStaircaseBlock_New(array, difficultyLevels, blockLabel) {
 }
 
 function transformNewwords(csv_new) {
-  var csv_new_transform = csv_new.reduce((accum, row) => {
+  const csv_new_transform = csv_new.reduce((accum, row) => {
     const newRow = {
       realword: row.realword,
       pseudoword: row.pseudoword,
@@ -347,10 +458,10 @@ function transformNewwords(csv_new) {
     return accum;
   }, []);
 
-  var newArray = CreateRandomArray(csv_new_transform);
+  const newArray = CreateRandomArray(csv_new_transform);
 
-  var splitArray = [];
-  for (var i = 0; i < newArray.length; i++) {
+  const splitArray = [];
+  for (let i = 0; i < newArray.length; i++) {
     const realRow = {
       stimulus: newArray[i].realword,
       correct_response: "ArrowRight",
@@ -367,21 +478,16 @@ function transformNewwords(csv_new) {
   return CreateRandomArray(splitArray);
 }
 
-var exit_fullscreen = {
-  type: "fullscreen",
+const exit_fullscreen = {
+  type: jsPsychFullScreen,
   fullscreen_mode: false,
   delay_after: 0,
 };
 
-async function roarBlocks(
-  stimuliPractice,
-  stimuliValidated,
-  stimuliNew,
-  firebaseInfoURL
-) {
-  var csv_practice = await readCSV(stimuliPractice);
-  var csv_validated = await readCSV(stimuliValidated);
-  var csv_new = await readCSV(stimuliNew);
+async function roarBlocks(stimuliPractice, stimuliValidated, stimuliNew) {
+  const csv_practice = await readCSV(stimuliPractice);
+  const csv_validated = await readCSV(stimuliValidated);
+  const csv_new = await readCSV(stimuliNew);
 
   csv_practice_transform = csv_practice.reduce((accum, row) => {
     if (row.realpseudo === "real") {
@@ -414,23 +520,23 @@ async function roarBlocks(
   }, []);
 
   //set number of practice trials
-  var block_Practice = csv_practice_transform.slice(0, totalTrials_Practice);
+  const block_Practice = csv_practice_transform.slice(0, totalTrials_Practice);
 
-  var corpusA = {
+  const corpusA = {
     name: "blockA",
     corpus_pseudo: csv_validated_transform.slice(0, 42).reverse(),
     corpus_real: csv_validated_transform.slice(42, 84).reverse(),
     corpus_random: CreateRandomArray(csv_validated_transform.slice(0, 84)),
   };
 
-  var corpusB = {
+  const corpusB = {
     name: "blockB",
     corpus_pseudo: csv_validated_transform.slice(84, 126).reverse(),
     corpus_real: csv_validated_transform.slice(126, 168).reverse(),
     corpus_random: CreateRandomArray(csv_validated_transform.slice(126, 168)),
   };
 
-  var corpusC = {
+  const corpusC = {
     name: "blockC",
     corpus_pseudo: csv_validated_transform.slice(168, 210).reverse(),
     corpus_real: csv_validated_transform.slice(210, 252).reverse(),
@@ -441,15 +547,15 @@ async function roarBlocks(
 
   /* 2 orders of calling blocks */
 
-  var randomBlockLis = CreateRandomArray([corpusA, corpusB, corpusC]); //every block is randomized
+  const randomBlockLis = CreateRandomArray([corpusA, corpusB, corpusC]); //every block is randomized
 
-  var fixedBlockLis = [corpusA, corpusB, corpusC]; //always starts from Block A
+  const fixedBlockLis = [corpusA, corpusB, corpusC]; //always starts from Block A
 
   //the core procedure
 
-  function PushPracticeToTimeline(array) {
+  function pushPracticeToTimeline(array) {
     for (let x of array) {
-      var block = {
+      const block = {
         timeline: [
           setup_fixation_practice,
           lexicality_test_practice,
@@ -464,10 +570,10 @@ async function roarBlocks(
     }
   }
 
-  PushPracticeToTimeline(block_Practice);
+  pushPracticeToTimeline(block_Practice);
   timeline.push(post_practice_intro);
 
-  var core_procedure = {
+  const core_procedure = {
     timeline: [
       setup_fixation,
       lexicality_test,
@@ -488,7 +594,7 @@ async function roarBlocks(
       // for each block: add trials
       /* add first half of block */
       total_roar_mainproc_line.push(countdown_trials);
-      var roar_mainproc_block_half_1 = {
+      const roar_mainproc_block_half_1 = {
         timeline: [core_procedure],
         conditional_function: function () {
           if (stimulusCountLis[i] === 0) {
@@ -507,7 +613,7 @@ async function roarBlocks(
       total_roar_mainproc_line.push(mid_block_page_list[i]);
       total_roar_mainproc_line.push(countdown_trials);
       /* add second half of block */
-      var roar_mainproc_block_half_2 = {
+      const roar_mainproc_block_half_2 = {
         timeline: [core_procedure],
         conditional_function: function () {
           if (stimulusCountLis[i] === 0) {
@@ -525,11 +631,11 @@ async function roarBlocks(
     }
   }
 
-  var total_roar_mainproc_line = [];
+  const total_roar_mainproc_line = [];
 
   PushTrialsToTimeline(stimulusLists, config["stimulusCountList"]);
 
-  var total_roar_mainproc = {
+  const total_roar_mainproc = {
     timeline: total_roar_mainproc_line,
   };
 
@@ -539,74 +645,12 @@ async function roarBlocks(
   console.log("I am printing timeline now");
   console.log(timeline);
 
-  var submit_block = {
-    type: "single-stim",
-    stimuli: [" "],
-    choices: ["none"],
-    timing_response: 0.001,
-    timing_post_trial: 0,
-    on_finish: function () {
-      saveToFirebase("subject_code", jsPsych.data.getData());
-    },
-  };
-
   timeline.push(debrief_block);
   timeline.push(exit_fullscreen);
-  //timeline.push(pavlovia_finish);
 
-  /* Config Firebase */
-  var csv_firebase_info = await readCSV(firebaseInfoURL);
-  var firebase_info = csv_firebase_info.reduce((accum, row) => {
-    const newRow = {
-      info: row.info,
-      value: row.value,
-    };
-    accum.push(newRow);
-    return accum;
-  }, []);
-
-  var firebaseConfig = {
-    apiKey: firebase_info[0]["value"],
-    authDomain: firebase_info[1]["value"],
-    projectId: firebase_info[2]["value"],
-    storageBucket: firebase_info[3]["value"],
-    messagingSenderId: firebase_info[4]["value"],
-    appId: firebase_info[5]["value"],
-    measurementId: firebase_info[6]["value"],
-  };
-
-  // Initialize Firebase
-  var firebaseApp = firebase.initializeApp(firebaseConfig);
-
-  firebaseApp
-    .auth()
-    .signInAnonymously()
-    .then(() => {
-      console.log("signed in");
-      // Signed in..
-    })
-    .catch((error) => {
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      console.log("errorCode", errorCode);
-      console.log("errorMessage", errorMessage);
-
-      // ...
-    });
-
-  firebase.auth().onAuthStateChanged((user) => {
-    if (user) {
-      // User is signed in, see docs for a list of available properties
-      // https://firebase.google.com/docs/reference/js/firebase.User
-      uid = user.uid;
-      console.log("uid", uid);
-      // ...
-    } else {
-      console.log("signed out");
-      // User is signed out
-      // ...
-    }
-  });
+  if (isOnPavlovia) {
+    timeline.push(pavlovia_finish);
+  }
 
   jsPsych.init({
     timeline: timeline,
@@ -615,35 +659,9 @@ async function roarBlocks(
     message_progress_bar: "Progress Complete",
     on_finish: function () {
       /* display data on exp end - useful for dev */
-      //saveToFirebase('testing/' + userID, JSON.parse(jsPsych.data.get().json()));
       //jsPsych.data.displayData();
-      firebase
-        .auth()
-        .signOut()
-        .then(() => {
-          console.log("signed out");
-          // Signed in..
-        })
-        .catch((error) => {
-          var errorCode = error.code;
-          var errorMessage = error.message;
-          console.log("errorCode", errorCode);
-          console.log("errorMessage", errorMessage);
-          // ...
-        });
     },
   });
 }
 
-const data_practice_url = "wordlist/ldt-items-practice.csv";
-const data_validated_url =
-  "wordlist/ldt-items-difficulties-with-six-levels.csv";
-const data_new_url = "wordlist/ldt-new-items.csv";
-const firebase_info_url = "firebase_info/firebase_info.csv";
-
-roarBlocks(
-  data_practice_url,
-  data_validated_url,
-  data_new_url,
-  firebase_info_url
-);
+roarBlocks(dataPracticeURL, dataValidatedURL, dataNewURL);

@@ -1,38 +1,113 @@
-const audio_blocks = {
+import jsPsychPreload from "@jspsych/plugin-preload";
+
+// Audio files
+import intro1 from "./audio/01_intro.wav";
+import intro2 from "./audio/02_intro.wav";
+import intro3 from "./audio/03_intro.wav";
+import countdown0 from "./audio/countdown_0.wav";
+import countdown1 from "./audio/countdown_1.wav";
+import countdown2 from "./audio/countdown_2.wav";
+import countdown3 from "./audio/countdown_3.wav";
+import coinIntro from "./audio/14_coin_intro.wav";
+import midBlock1 from "./audio/15_mid_block_1.wav";
+import endBlock1 from "./audio/16_end_block_1.wav";
+import midBlock2 from "./audio/17_mid_block_2.wav";
+import endBlock2 from "./audio/18_end_block_2.wav";
+import midBlock3 from "./audio/19_mid_block_3.wav";
+import endGame from "./audio/20_end_game.wav";
+import beep from "./audio/beep.wav";
+import coin from "./audio/coin_sound.wav";
+import fail from "./audio/fail_sound.wav";
+import fairyCoin from "./audio/fairy_coin_sound.wav";
+import feedbackXopCorrect from "./audio/practice_feedback_xop_correct.wav";
+import feedbackXopWrong from "./audio/practice_feedback_xop_wrong.wav";
+import feedbackHowCorrect from "./audio/practice_feedback_how_correct.wav";
+import feedbackHowWrong from "./audio/practice_feedback_how_wrong.wav";
+import feedbackAfterCorrect from "./audio/practice_feedback_after_correct.wav";
+import feedbackAfterWrong from "./audio/practice_feedback_after_wrong.wav";
+import feedbackAulerCorrect from "./audio/practice_feedback_auler_correct.wav";
+import feedbackAulerWrong from "./audio/practice_feedback_auler_wrong.wav";
+import feedbackHomCorrect from "./audio/practice_feedback_hom_correct.wav";
+import feedbackHomWrong from "./audio/practice_feedback_hom_wrong.wav";
+
+// Image files
+import wizardMagic from "./assets/wizard_magic.gif";
+import arrowLeftP2 from "./assets/arrow_left_p2.png";
+import arrowRightP2 from "./assets/arrow_right_p2.png";
+import keyP3 from "./assets/key_p3.png";
+import goldCoin from "./assets/gold_coin.gif";
+import arrowkeyLexLeft from "./assets/arrowkey_lex_left.gif";
+import arrowkeyLexRight from "./assets/arrowkey_lex_right.gif";
+import arrowkeyLex from "./assets/arrowkey_lex.png";
+import ending from "./assets/ending.png";
+import coinIcon from "./assets/coinicon.png";
+import coinBag from "./assets/coinbag2.gif";
+import halfValley from "./assets/half_valley.png";
+import adventurer1 from "./assets/adventurer1.gif";
+import adventurer2 from "./assets/adventurer2.gif";
+import adventurer3 from "./assets/adventurer3.gif";
+import valley from "./assets/valley.png";
+import wizardCoin from "./assets/wizard_coin.gif";
+import guardian1 from "./assets/guardian1.gif";
+import guardian2 from "./assets/guardian2.gif";
+import guardian3 from "./assets/guardian3.gif";
+import valley3 from "./assets/valley_3.png";
+import valley4 from "./assets/valley_4.png";
+import valley5 from "./assets/valley_5.png";
+import endingBackground from "./assets/ending_background.png";
+
+const audioBlocks = {
   1: [
-    "audio/01_intro.wav",
-    "audio/02_intro.wav",
-    "audio/03_intro.wav",
-    "audio/14_coin_intro.wav",
-    "audio/15_mid_block_1.wav",
-    "audio/16_end_block_1.wav",
-    "audio/17_mid_block_2.wav",
-    "audio/18_end_block_2.wav",
-    "audio/19_mid_block_3.wav",
-    "audio/20_end_game.wav",
+    intro1,
+    intro2,
+    intro3,
+    coinIntro,
+    midBlock1,
+    endBlock1,
+    midBlock2,
+    endBlock2,
+    midBlock3,
+    endGame,
   ],
   2: [
-    "audio/beep.wav",
-    "audio/coin_sound.wav",
-    "audio/fail_sound.wav",
-    "audio/practice_feedback_xop_correct.wav",
-    "audio/practice_feedback_xop_wrong.wav",
-    "audio/practice_feedback_how_correct.wav",
-    "audio/practice_feedback_how_wrong.wav",
-    "audio/practice_feedback_after_correct.wav",
-    "audio/practice_feedback_after_wrong.wav",
-    "audio/practice_feedback_auler_correct.wav",
-    "audio/practice_feedback_auler_wrong.wav",
-    "audio/practice_feedback_hom_correct.wav",
-    "audio/practice_feedback_hom_wrong.wav",
+    feedbackXopCorrect,
+    feedbackXopWrong,
+    feedbackHowCorrect,
+    feedbackHowWrong,
+    feedbackAfterCorrect,
+    feedbackAfterWrong,
+    feedbackAulerCorrect,
+    feedbackAulerWrong,
+    feedbackHomCorrect,
+    feedbackHomWrong,
+  ],
+  3: [
+    countdown0,
+    countdown1,
+    countdown2,
+    countdown3,
+    beep,
+    coin,
+    fail,
+    fairyCoin,
   ],
 };
 
-const preload_audio_trials = Object.entries(audio_blocks).map((element) => {
+// Automatically populate the audioContent object with the audio files
+export const audioContentArray = [].concat.apply(
+  [],
+  Object.values(audioBlocks)
+);
+export const audioContent = audioContentArray.reduce((o, val) => {
+  o[val] = val;
+  return o;
+}, {});
+
+const preload_audio_trials = Object.entries(audioBlocks).map((element) => {
   const idx = element[0];
   const audio_block = element[1];
   return {
-    type: "preload",
+    type: jsPsychPreload,
     audios: audio_block,
     auto_preload: true,
     message: `${idx} Please wait while the experiment loads. This may take a few minutes.`,
@@ -41,46 +116,26 @@ const preload_audio_trials = Object.entries(audio_blocks).map((element) => {
   };
 });
 
-const image_blocks = {
-  3: [
-    "assets/wizard_magic.gif",
-    "assets/arrow_left_p2.png",
-    "assets/arrow_right_p2.png",
-    "assets/arrow_left_p2.png",
-    "assets/key_p3.png",
-  ],
-  4: [
-    "assets/gold_coin.gif",
-    "assets/arrowkey_lex_left.gif",
-    "assets/arrowkey_lex_right.gif",
-    "assets/arrowkey_lex.png",
-    "assets/ending.png",
-  ],
-  5: [
-    "assets/coinicon.png",
-    "assets/half_valley.png",
-    "assets/adventurer1.gif",
-    "assets/adventurer2.gif",
-    "assets/adventurer3.gif",
-    "assets/valley.png",
-  ],
-  6: [
-    "assets/wizard_coin.gif",
-    "assets/guardian1.gif",
-    "assets/guardian2.gif",
-    "assets/guardian3.gif",
-    "assets/valley_3.png",
-    "assets/valley_4.png",
-    "assets/valley_5.png",
-    "assets/ending_background.png",
-  ],
+const imageBlocks = {
+  4: [wizardMagic, wizardCoin, arrowLeftP2, arrowRightP2, keyP3],
+  5: [goldCoin, arrowkeyLexLeft, arrowkeyLexRight, arrowkeyLex, ending],
+  6: [coinIcon, coinBag, adventurer1, adventurer2, adventurer3],
+  7: [guardian1, guardian2, guardian3, valley3, valley4],
+  8: [endingBackground, valley, valley5, halfValley],
 };
 
-const preload_img_trials = Object.entries(image_blocks).map((element) => {
+// Automatically populate the audioContent object with the audio files
+const imgContentArray = [].concat.apply([], Object.values(imageBlocks));
+export const imgContent = imgContentArray.reduce((o, val) => {
+  o[val] = val;
+  return o;
+}, {});
+
+const preload_img_trials = Object.entries(imageBlocks).map((element) => {
   const idx = element[0];
   const img_block = element[1];
   return {
-    type: "preload",
+    type: jsPsychPreload,
     audios: img_block,
     auto_preload: true,
     message: `${idx} Please wait while the experiment loads. This may take a few minutes.`,

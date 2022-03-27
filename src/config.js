@@ -1,3 +1,5 @@
+import { QuestCreate } from "jsQUEST";
+
 /* set user mode */
 // "beginner": block A only with random words, a new block with 28 new words;
 // "regular":  3 blocks in random order with one block consisting 56 adaptive words and 28 new words
@@ -23,9 +25,10 @@ const numAdaptiveTrials = {
   test: 8,
 };
 
-const config = {
+export const config = {
   userMode,
   pid: urlParams.get("pid"),
+  sessionId: urlParams.get("sessionId"),
   testingOnly: urlParams.get("test") ? urlParams.get("test") === "true" : false,
   // set order and rule for the experiment
   stimulusRuleList: stimulusRuleLists[userMode],
@@ -33,6 +36,9 @@ const config = {
   stimulusCountList: stimulusCountLists[userMode],
   // number of adaptive trials
   totalAdaptiveTrials: numAdaptiveTrials[userMode],
+};
+
+export const timingConfig = {
   stimulusTime: [null, 350, 1000, 2000],
   stimulusTimeIndexPracticeOnly: 0, //null as default for practice trial only; 1: 350ms; 2: 1000ms; 3: 2000ms
   stimulusTimeIndex: 1,
@@ -67,6 +73,8 @@ var nextStimulus = [];
 var response;
 
 /* variables used in practice feedbacks */
+const practiceFeedback = (data) => {};
+
 var responseLR;
 var answerRP;
 var correctRP;
@@ -111,7 +119,7 @@ var start_time = new Date();
 const arrSum = (arr) => arr.reduce((a, b) => a + b, 0);
 
 /* csv helper function */
-function readCSV(url) {
+export const readCSV = (url) => {
   return new Promise((resolve, reject) => {
     Papa.parse(url, {
       download: true,
@@ -124,36 +132,28 @@ function readCSV(url) {
       },
     });
   });
-}
-
-/* firebase config */
-var firebase_data_index = 0;
-
-function saveToFirebase(code, filedata) {
-  var ref = firebase.database().ref(code).set(filedata);
-}
-
-var uid;
+};
 
 /* set QUEST param */
-const tGuess = 2;
-const tGuessSd = 1;
-const pThreshold = 0.75;
-const beta = 1;
-const delta = 0.05;
-const gamma = 0.5;
-const myquest = jsQUEST.QuestCreate(
-  tGuess,
-  tGuessSd,
-  pThreshold,
-  beta,
-  delta,
-  gamma
-);
-const tTest = jsQUEST.QuestQuantile(myquest);
+export const questConfig = {
+  tGuess: 2,
+  tGuessSd: 1,
+  pThreshold: 0.75,
+  beta: 1,
+  delta: 0.05,
+  gamma: 0.5,
+};
+
+export const myquest = QuestCreate(...questConfig);
 var response;
 
-const findClosest = (arr, target) => {
+export const getClosest = (arr, val1, val2, target) => {
+  if (target - arr[val1].difficulty >= arr[val2].difficulty - target)
+    return val2;
+  else return val1;
+};
+
+export const findClosest = (arr, target) => {
   let n = arr.length;
   // Corner cases
   if (target <= arr[0].difficulty) return 0;
@@ -186,10 +186,9 @@ const findClosest = (arr, target) => {
   return mid;
 };
 
-const getClosest = (arr, val1, val2, target) => {
-  if (target - arr[val1].difficulty >= arr[val2].difficulty - target)
-    return val2;
-  else return val1;
+export const updateProgressBar = () => {
+  const curr_progress_bar_value = jsPsych.getProgressBarCompleted();
+  jsPsych.setProgressBar(
+    curr_progress_bar_value + 1 / arrSum(config["stimulusCountList"])
+  );
 };
-
-export { config };

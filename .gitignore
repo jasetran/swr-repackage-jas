@@ -3,3 +3,4 @@ dist
 **/.Rhistory
 **/.Rproj.user
 **/.ipynb_checkpoints
+.idea

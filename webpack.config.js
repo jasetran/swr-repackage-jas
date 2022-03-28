@@ -5,7 +5,7 @@ module.exports = {
   mode: "development",
   entry: {
     regeneratorRuntime: "regenerator-runtime/runtime",
-    index: "./src/experimentScript.js",
+    index: "./src/experiment.js",
     firebaseConfig: "./src/firebaseConfig.js",
     jsPsychPavlovia: "./src/jsPsychPavlovia.js",
     preload: "./src/preload.js",

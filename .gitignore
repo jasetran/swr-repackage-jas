@@ -4,3 +4,4 @@ dist
 **/.Rproj.user
 **/.ipynb_checkpoints
 .idea
+.DS_Store

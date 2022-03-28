@@ -23,7 +23,7 @@ import {
   mid_block_page_list,
   post_block_page_list,
   final_page,
-} from "./game_break";
+} from "./gameBreak";
 import jsPsychPavlovia from "./jsPsychPavlovia";
 
 // Firebase imports

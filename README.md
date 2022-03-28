@@ -9,7 +9,7 @@ Versions and their dependencies are packaged within
 src/config.js
 
 ### Working Content Code 
-src/experiment_script.js
+src/experimentScript.js
 
 ### Working CSS
 CSS-and-HTML-Template/game_v2.css

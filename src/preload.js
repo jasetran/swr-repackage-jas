@@ -93,15 +93,16 @@ const audioBlocks = {
   ],
 };
 
-// Automatically populate the audioContent object with the audio files
-export const audioContentArray = [].concat.apply(
-  [],
-  Object.values(audioBlocks)
-);
-export const audioContent = audioContentArray.reduce((o, val) => {
-  o[val] = val;
-  return o;
-}, {});
+const preloadObj2contentObj = (preloadObj) => {
+  const contentArray = [].concat(...Object.values(preloadObj));
+  return contentArray.reduce((o, val) => {
+    // eslint-disable-next-line no-param-reassign
+    o[val] = val;
+    return o;
+  }, {});
+};
+
+export const audioContent = preloadObj2contentObj(audioBlocks);
 
 const preload_audio_trials = Object.entries(audioBlocks).map((element) => {
   const idx = element[0];
@@ -125,11 +126,7 @@ const imageBlocks = {
 };
 
 // Automatically populate the audioContent object with the audio files
-const imgContentArray = [].concat.apply([], Object.values(imageBlocks));
-export const imgContent = imgContentArray.reduce((o, val) => {
-  o[val] = val;
-  return o;
-}, {});
+export const imgContent = preloadObj2contentObj(imageBlocks);
 
 const preload_img_trials = Object.entries(imageBlocks).map((element) => {
   const idx = element[0];

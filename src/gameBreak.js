@@ -1,15 +1,17 @@
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
-import { config, updateProgressBar } from "./config.js";
+import { initStore, updateProgressBar } from "./config.js";
 import { audioContent, imgContent } from "./preload.js";
 
 // TODO: Replace all instances of "assets/image-file.ext" with the imgContent object key
 // TODO: Replace all instances of "audio/audio-file.ext" with the audioContent object key
 
+const store = initStore();
+
 /* mid block page */
 const mid_block_page_1 = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: audioContent.midBlock1,
-  response_allowed_while_playing: config["testingOnly"],
+  response_allowed_while_playing: store("testingOnly"),
   choices: "ALL_KEYS",
   prompt: ` 
     <div>
@@ -35,7 +37,7 @@ const mid_block_page_1 = {
 const mid_block_page_2 = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: `audio/17_mid_block_2.wav`,
-  response_allowed_while_playing: config["testingOnly"],
+  response_allowed_while_playing: store("testingOnly"),
   prompt: `
    <div>
     <h1>Amazing!</h1>
@@ -60,7 +62,7 @@ const mid_block_page_2 = {
 const mid_block_page_3 = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: `audio/19_mid_block_3.wav`,
-  response_allowed_while_playing: config["testingOnly"],
+  response_allowed_while_playing: store("testingOnly"),
   prompt: `
    <div>
     <h1>Fantastic Work!</h1>
@@ -88,7 +90,7 @@ const mid_block_page_3 = {
 const post_block_page_1 = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: `audio/16_end_block_1.wav`,
-  response_allowed_while_playing: config["testingOnly"],
+  response_allowed_while_playing: store("testingOnly"),
   prompt: `
    <div>
     <h1>Congratulations!</h1>
@@ -113,7 +115,7 @@ const post_block_page_1 = {
 const post_block_page_2 = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: `audio/18_end_block_2.wav`,
-  response_allowed_while_playing: config["testingOnly"],
+  response_allowed_while_playing: store("testingOnly"),
   prompt: `
    <div>
     <h1>Congratulations!</h1>
@@ -147,7 +149,7 @@ const post_block_page_list = [post_block_page_1, post_block_page_2];
 const final_page = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: `audio/20_end_game.wav`,
-  response_allowed_while_playing: config["testingOnly"],
+  response_allowed_while_playing: store("testingOnly"),
   prompt: `
    <div>
     <h1>Finally, you found the last guardian and the gate that will bring you home!</h1>

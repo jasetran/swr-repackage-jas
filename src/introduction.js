@@ -1,13 +1,15 @@
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
-import { config, updateProgressBar, startTime } from "./config";
+import { jsPsych, initStore, updateProgressBar } from "./config";
 import { imgContent, audioContent } from "./preload";
+
+const store = initStore();
 
 /* define instructions trial */
 const intro_1 = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: audioContent.intro1,
   choices: "ALL_KEYS",
-  response_allowed_while_playing: config.testingOnly,
+  response_allowed_while_playing: store("testingOnly"),
   prompt: `<h1>Welcome to the world of Lexicality!</h1>
         <div class="row">
           <div class="column_1">
@@ -20,16 +22,15 @@ const intro_1 = {
         </div>
         <div class="button">Press <span class="yellow">ANY KEY</span> to continue </div>`,
   data: {
-    start_time: startTime.toLocaleString("PST"),
-    start_time_unix: startTime.getTime(),
+    start_time: store("startTime").toLocaleString("PST"),
+    start_time_unix: store("startTime").getTime(),
   },
-  on_start: function () {},
 };
 
 const intro_2 = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: audioContent.intro2,
-  response_allowed_while_playing: config.testingOnly,
+  response_allowed_while_playing: store("testingOnly"),
   prompt: `
     <h1>A real or made-up word will flash very quickly <br/> at the center of the screen.</h1>
     <div class="row">
@@ -50,14 +51,15 @@ const intro_2 = {
     </div>
     <div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>
       `,
-  //post_trial_gap: 2000,
+  // post_trial_gap: 2000,
   choices: "ALL_KEYS",
 };
-//class = stimulus_div style = "margin-top:20%">
+
+// class = stimulus_div style = "margin-top:20%">
 const intro_3 = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: audioContent.intro3,
-  response_allowed_while_playing: config.testingOnly,
+  response_allowed_while_playing: store("testingOnly"),
   prompt: `
     <h1>Let us review which key we press for made-up words and real words.</h1>
     <div>
@@ -76,7 +78,7 @@ export const introduction_trials = {
 export const post_practice_intro = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: audioContent.coinIntro,
-  response_allowed_while_playing: config.testingOnly,
+  response_allowed_while_playing: store("testingOnly"),
   prompt: `
     <h1>Great work, you are ready to begin the journey! </h1>
       <div>
@@ -87,36 +89,32 @@ export const post_practice_intro = {
   choices: "ALL_KEYS",
 };
 
-/* define practice feedback trial*/
+// define practice feedback trial
 const practice_feedback_left = {
   type: jsPsychAudioKeyboardResponse,
-  response_allowed_while_playing: config.testingOnly,
-  stimulus: function () {
-    return practiceFeedbackAudio;
-  },
+  response_allowed_while_playing: store("testingOnly"),
+  stimulus: () => store("practiceFeedbackAudio"),
   prompt: function () {
     return `
 <div class = stimulus_div><p class="feedback"><span class=${responseColor}>You pressed the ${responseLR} arrow key, which is for ${answerRP} words! </span>
-<br></br>${currentPracStimulus}<span class=${answerColor}>  is a ${correctRP}  word. Press ${correctLR} arrow key to continue.</span></p></div>
+<br></br>${jsPsych.timelineVariable("stimulus")}<span class=${answerColor}>  is a ${correctRP}  word. Press ${correctLR} arrow key to continue.</span></p></div>
 <img class="lower" src= "${imgContent.arrowkeyLexLeft}" alt="arrow keys" style=" width:698px; height:120px">
       `;
   },
   choices: ["ArrowLeft"],
   on_start: function () {
-    console.log("practice_feedback_lef", practiceFeedbackAudio);
+    console.log("practice_feedback_lef", store("practiceFeedbackAudio"));
   },
 };
 
 const practice_feedback_right = {
   type: jsPsychAudioKeyboardResponse,
-  response_allowed_while_playing: config.testingOnly,
-  stimulus: function () {
-    return practiceFeedbackAudio;
-  },
+  response_allowed_while_playing: store("testingOnly"),
+  stimulus: () => store("practiceFeedbackAudio"),
   prompt: function () {
     return `<div class = stimulus_div>
 \t<p class="feedback"><span class=${responseColor}>You pressed the ${responseLR} arrow key, which is for ${answerRP} words! </span>
-<br></br>${currentPracStimulus}<span class=${answerColor}>  is a ${correctRP}  word. Press ${correctLR} arrow key to continue.</span></p>
+<br></br>${jsPsych.timelineVariable("stimulus")}<span class=${answerColor}>  is a ${correctRP}  word. Press ${correctLR} arrow key to continue.</span></p>
 </div><img class="lower" src= "${imgContent.arrowkeyLexRight}" alt="arrow keys" style=" width:698px; height:120px"> 
       `;
   },

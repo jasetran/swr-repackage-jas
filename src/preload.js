@@ -108,7 +108,6 @@ const preloadObj2contentObj = (preloadObj) => {
 };
 
 export const audioContent = preloadObj2contentObj(audioBlocks);
-console.log(audioContent);
 
 const preload_audio_trials = Object.entries(audioBlocks).map((element) => {
   const idx = element[0];
@@ -133,7 +132,6 @@ const imageBlocks = {
 
 // Automatically populate the audioContent object with the audio files
 export const imgContent = preloadObj2contentObj(imageBlocks);
-console.log(imgContent);
 
 const preload_img_trials = Object.entries(imageBlocks).map((element) => {
   const idx = element[0];

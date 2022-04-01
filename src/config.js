@@ -28,51 +28,52 @@ const fixationTimeOptions = [1000, 2000, 25000];
 // Trial completion time options in milliseconds
 const trialTimeOptions = [null, 5000, 8000, 100000];
 
-export const initStore = () => {
-  if (store.session.has("initialized") && store.session("initialized")) {
-    return store.session;
-  }
+/* set user mode */
+// "beginner": block A only with random words, a new block with 28 new words;
+// "regular":  3 blocks in random order with one block consisting 56 adaptive
+// words and 28 new words
+const queryString = new URL(window.location).search;
+const urlParams = new URLSearchParams(queryString);
+const userMode = urlParams.get("mode");
 
-  /* set user mode */
-  // "beginner": block A only with random words, a new block with 28 new words;
-  // "regular":  3 blocks in random order with one block consisting 56 adaptive
-  // words and 28 new words
-  const queryString = new URL(window.location).search;
-  const urlParams = new URLSearchParams(queryString);
-  const userMode = urlParams.get("mode");
-
-  store.session.set("userMode", userMode);
-  store.session.set("pid", urlParams.get("pid"));
-  store.session.set("sessionId", urlParams.get("sessionId"));
-
-  const testingOnly = urlParams.get("test")
+export const config = {
+  userMode: userMode,
+  pid: urlParams.get("pid"),
+  sessionId: urlParams.get("sessionId"),
+  testingOnly: urlParams.get("test")
     ? urlParams.get("test") === "true"
-    : false;
-  store.session.set("testingOnly", testingOnly);
+    : false,
 
   // set order and rule for the experiment
-  store.session.set("stimulusRuleList", stimulusRuleLists[userMode]);
+  stimulusRuleList: stimulusRuleLists[userMode],
 
   // Number of trials in each block of the experiment
-  store.session.set("stimulusCountList", stimulusCountLists[userMode]);
+  stimulusCountList: stimulusCountLists[userMode],
 
   // number of adaptive trials
-  store.session.set("totalAdaptiveTrials", numAdaptiveTrials[userMode]);
+  totalAdaptiveTrials: numAdaptiveTrials[userMode],
+
+  // set number of trials for practice block
+  totalTrialsPractice: 5,
 
   // TODO: Check use of timing in other js files
-  store.session.set("timing", {
+  timing: {
     stimulusTimePracticeOnly: stimulusTimeOptions[0], // null as default for practice trial only
     stimulusTime: stimulusTimeOptions[1],
     fixationTime: fixationTimeOptions[0],
     trialTimePracticeOnly: trialTimeOptions[0],
     trialTime: trialTimeOptions[0],
-  });
+  },
 
   /* record date */
-  store.session.set("startTime", new Date());
+  startTime: new Date(),
+};
 
-  /* set number of trials for practice block */
-  store.session.set("totalTrialsPractice", 5);
+export const initStore = () => {
+  if (store.session.has("initialized") && store.session("initialized")) {
+    return store.session;
+  }
+
   store.session.set("practiceIndex", 0);
   // The number of practice trials that will keep stimulus on screen untill participant's input
   store.session.set("countSlowPractice", 2);
@@ -200,7 +201,7 @@ export const findClosest = (arr, target) => {
 
 export const updateProgressBar = () => {
   const curr_progress_bar_value = jsPsych.getProgressBarCompleted();
-  jsPsych.setProgressBar(curr_progress_bar_value + 1 / arrSum(store("stimulusCountList")));
+  jsPsych.setProgressBar(curr_progress_bar_value + 1 / arrSum(config.stimulusCountList));
 };
 
 export const realpseudo2arrow = (realpseudo) =>

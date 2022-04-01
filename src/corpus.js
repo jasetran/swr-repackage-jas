@@ -1,5 +1,5 @@
 /* eslint-disable no-plusplus */
-import { initStore, realpseudo2arrow, readCSV } from "./config";
+import { config, realpseudo2arrow, readCSV } from "./config";
 
 // Word corpus imports
 import dataPracticeURL from "./wordlist/ldt-items-practice.csv";
@@ -26,8 +26,6 @@ function shuffle(array) {
   }
   return shuffledArray;
 }
-
-const store = initStore();
 
 const csvPromises = {
   practice: readCSV(dataPracticeURL),
@@ -108,12 +106,12 @@ const fixedBlockList = [corpusA, corpusB, corpusC]; // always starts from Block 
 const randomBlockList = shuffle(fixedBlockList); // every block is randomized
 
 const getStimulusLists = () => {
-  if (store("userMode") === "beginner") {
-    return fixedBlockList.slice(0, store("stimulusRuleList").length);
+  if (config.userMode === "beginner") {
+    return fixedBlockList.slice(0, config.stimulusRuleList.length);
   }
-  return randomBlockList.slice(0, store("stimulusRuleList").length);
+  return randomBlockList.slice(0, config.stimulusRuleList.length);
 };
 
 export const stimulusLists = getStimulusLists();
 export const blockNew = shuffle(transformNewwords(csvTransformed.new));
-export const blockPractice = csvTransformed.practice.slice(0, store("totalTrialsPractice"));
+export const blockPractice = csvTransformed.practice.slice(0, config.totalTrialsPractice);

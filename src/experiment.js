@@ -16,7 +16,9 @@ import { RoarFirekit } from "@bdelab/roar-firekit";
 import { rootDoc } from "./firebaseConfig";
 
 // Local modules
-import { jsPsych, initStore, updateProgressBar } from "./config";
+import {
+  jsPsych, config, initStore, updateProgressBar,
+} from "./config";
 import { if_audio_response_correct, if_audio_response_wrong } from "./audio";
 import { preload_trials } from "./preload";
 import {
@@ -28,9 +30,7 @@ import {
   if_coin_tracking,
 } from "./introduction";
 import {
-  mid_block_page_list,
-  post_block_page_list,
-  final_page,
+  mid_block_page_list, post_block_page_list, final_page,
 } from "./gameBreak";
 import { stimulusLists, blockNew, blockPractice } from "./corpus";
 import jsPsychPavlovia from "./jsPsychPavlovia";
@@ -82,10 +82,10 @@ const taskInfo = {
   ],
 };
 
-if (store("pid")) {
+if (config.pid) {
   const minimalUserInfo = {
-    id: store("pid"),
-    studyId: store("sessionId"),
+    id: config.pid,
+    studyId: config.sessionId,
   };
 
   firekit = new RoarFirekit({
@@ -127,17 +127,17 @@ const survey_pid = {
     { prompt: "Please enter your User ID", name: "pid", required: true },
   ],
   on_finish: function (data) {
-    store.set("pid", data.response.pid);
+    config.pid = data.response.pid;
   },
 };
 
 const if_get_pid = {
   timeline: [survey_pid],
   conditional_function: function () {
-    return Boolean(store("pid")) !== true;
+    return Boolean(config.pid) !== true;
   },
   on_timeline_finish: async () => {
-    const minimalUserInfo = { id: store("pid"), studyId: store("sessionId") };
+    const minimalUserInfo = { id: config.pid, studyId: config.sessionId };
 
     firekit = new RoarFirekit({
       rootDoc,
@@ -191,7 +191,7 @@ const setup_fixation_practice = {
   },
   prompt: ` <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
   choices: "NO_KEYS",
-  trial_duration: store("fixationTime"),
+  trial_duration: config.timing.fixationTime,
   data: {
     task: "fixation",
   },
@@ -213,10 +213,10 @@ const lexicality_test_practice = {
     if (store("practiceIndex") > store("countSlowPractice")) {
       stimulusTimeIndexPracticeOnly = 1;
     }
-    return stimulusTime[stimulusTimeIndexPracticeOnly];
+    return config.timing.stimulusTime[stimulusTimeIndexPracticeOnly];
   },
   trial_duration: function () {
-    return trialTime[trialTimeIndex];
+    return config.timing.trialTime[trialTimeIndex];
   },
   choices: ["ArrowLeft", "ArrowRight"],
   data: {
@@ -237,15 +237,15 @@ const lexicality_test_practice = {
     );
     console.log(data.response);
     if (currentTrialCorrect) {
-      practiceFeedbackAudio =
-        "audio/practice_feedback_" +
-        `${jsPsych.timelineVariable("stimulus")}` +
-        "_correct.wav";
+      store.set(
+        "practiceFeedbackAudio",
+        `audio/practice_feedback_${jsPsych.timelineVariable("stimulus")}_correct.wav`
+      );
     } else {
-      practiceFeedbackAudio =
-        "audio/practice_feedback_" +
-        `${jsPsych.timelineVariable("stimulus")}` +
-        "_wrong.wav";
+      store.set(
+        "practiceFeedbackAudio",
+        `audio/practice_feedback_${jsPsych.timelineVariable("stimulus")}_wrong.wav`
+      );
     }
     console.log("practiceFeedbackAudio", practiceFeedbackAudio);
     if (data.response === "arrowleft") {
@@ -272,7 +272,7 @@ const lexicality_test_practice = {
     jsPsych.data.addDataToLastTrial({
       correct_response: jsPsych.timelineVariable("correct_response"),
       block: "Practice",
-      pid: store("pid"),
+      pid: config.pid,
     });
 
     jsPsych.setProgressBar(0);
@@ -287,7 +287,7 @@ const setup_fixation = {
   },
   prompt: `<div><img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px"></div>`,
   choices: "NO_KEYS",
-  trial_duration: store("fixationTime"),
+  trial_duration: config.timing.fixationTime,
   data: {
     task: "fixation",
   },
@@ -305,8 +305,8 @@ const lexicality_test = {
     return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">${nextStimulus["stimulus"]}</p></div>`;
   },
   prompt: `<div></div><img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px"></div>`,
-  stimulus_duration: store("timing").stimulusTime,
-  trial_duration: store("timing").trialTime,
+  stimulus_duration: config.timing.stimulusTime,
+  trial_duration: config.timing.trialTime,
   choices: ["ArrowLeft", "ArrowRight"],
   data: {
     task: "test_response" /* tag the test trials with this taskname so we can filter data later */,
@@ -330,7 +330,7 @@ const lexicality_test = {
       difficulty: nextStimulus["difficulty"],
       block: currentBlock,
       stimulus_rule: stimulusRule,
-      pid: store("pid"),
+      pid: config.pid,
     });
 
     updateCorrectChecker();
@@ -387,7 +387,7 @@ function getStimuli() {
       ];
     stimulusIndex[currentBlock] += 1;
   } else {
-    if (count_adaptive_trials < store("totalAdaptiveTrials")) {
+    if (count_adaptive_trials < config.totalAdaptiveTrials) {
       count_adaptive_trials += 1;
       console.log("this is adaptive");
       // console.log("index check " + stimulusIndex.currentBlock);
@@ -457,7 +457,7 @@ async function roarBlocks() {
             currentBlock = stimulusLists[i].name;
             console.log("hi printing currentBlock ", currentBlock);
             currentBlockIndex = i;
-            stimulusRule = store("stimulusRuleList")[i];
+            stimulusRule = config.stimulusRuleList[i];
             return true;
           }
         },
@@ -483,7 +483,7 @@ async function roarBlocks() {
 
   const total_roar_mainproc_line = [];
 
-  pushTrialsToTimeline(stimulusLists, store("stimulusCountList"));
+  pushTrialsToTimeline(stimulusLists, config.stimulusCountList);
 
   const total_roar_mainproc = {
     timeline: total_roar_mainproc_line,

@@ -1,5 +1,7 @@
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
-import { jsPsych, initStore, updateProgressBar } from "./config";
+import {
+  jsPsych, config, initStore, updateProgressBar,
+} from "./config";
 import { imgContent, audioContent } from "./preload";
 
 const store = initStore();
@@ -10,7 +12,7 @@ const intro_1 = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: audioContent.intro1,
   choices: "ALL_KEYS",
-  response_allowed_while_playing: store("testingOnly"),
+  response_allowed_while_playing: config.testingOnly,
   prompt: `<h1>Welcome to the world of Lexicality!</h1>
         <div class="row">
           <div class="column_1">
@@ -31,7 +33,7 @@ const intro_1 = {
 const intro_2 = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: audioContent.intro2,
-  response_allowed_while_playing: store("testingOnly"),
+  response_allowed_while_playing: config.testingOnly,
   prompt: `
     <h1>A real or made-up word will flash very quickly <br/> at the center of the screen.</h1>
     <div class="row">
@@ -60,7 +62,7 @@ const intro_2 = {
 const intro_3 = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: audioContent.intro3,
-  response_allowed_while_playing: store("testingOnly"),
+  response_allowed_while_playing: config.testingOnly,
   prompt: `
     <h1>Let us review which key we press for made-up words and real words.</h1>
     <div>
@@ -79,7 +81,7 @@ export const introduction_trials = {
 export const post_practice_intro = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: audioContent.coinIntro,
-  response_allowed_while_playing: store("testingOnly"),
+  response_allowed_while_playing: config.testingOnly,
   prompt: `
     <h1>Great work, you are ready to begin the journey! </h1>
       <div>
@@ -93,7 +95,7 @@ export const post_practice_intro = {
 // define practice feedback trial
 const practice_feedback_left = {
   type: jsPsychAudioKeyboardResponse,
-  response_allowed_while_playing: store("testingOnly"),
+  response_allowed_while_playing: config.testingOnly,
   stimulus: () => store("practiceFeedbackAudio"),
   prompt: function () {
     return `
@@ -110,7 +112,7 @@ const practice_feedback_left = {
 
 const practice_feedback_right = {
   type: jsPsychAudioKeyboardResponse,
-  response_allowed_while_playing: store("testingOnly"),
+  response_allowed_while_playing: config.testingOnly,
   stimulus: () => store("practiceFeedbackAudio"),
   prompt: function () {
     return `<div class = stimulus_div>

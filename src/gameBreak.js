@@ -1,6 +1,6 @@
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
-import { initStore, updateProgressBar } from "./config.js";
-import { audioContent, imgContent } from "./preload.js";
+import { initStore, updateProgressBar } from "./config";
+import { audioContent, imgContent } from "./preload";
 
 // TODO: Replace all instances of "assets/image-file.ext" with the imgContent object key
 // TODO: Replace all instances of "audio/audio-file.ext" with the audioContent object key
@@ -33,7 +33,6 @@ const mid_block_page_1 = {
   on_finish: updateProgressBar,
 };
 
-//<p class = 'coin_counting'>200</p>
 const mid_block_page_2 = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: `audio/17_mid_block_2.wav`,
@@ -85,8 +84,7 @@ const mid_block_page_3 = {
   on_finish: updateProgressBar,
 };
 
-/* post block page */
-
+// post block page
 const post_block_page_1 = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: `audio/16_end_block_1.wav`,
@@ -168,7 +166,7 @@ const final_page = {
 </div>
    <div class="button">Press <span class="yellow">ANY KEY</span> to save your work</div>
       `,
-  //choices: "ALL_KEYS",
+  // choices: "ALL_KEYS",
   on_finish: updateProgressBar,
 };
 

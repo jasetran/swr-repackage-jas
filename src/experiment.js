@@ -32,7 +32,7 @@ import {
   post_block_page_list,
   final_page,
 } from "./gameBreak";
-import { csvTransformed as csv } from "./corpus";
+import { stimulusLists, blockNew, blockPractice } from "./corpus";
 import jsPsychPavlovia from "./jsPsychPavlovia";
 
 // CSS imports
@@ -40,6 +40,7 @@ import "jspsych/css/jspsych.css";
 import "./css/game_v4.css";
 
 const store = initStore();
+const startTime = new Date(store("startTime"));
 
 let firekit;
 
@@ -221,8 +222,8 @@ const lexicality_test_practice = {
   data: {
     task: "practice_response" /* tag the test trials with this taskname so we can filter data later */,
     word: jsPsych.timelineVariable("stimulus"),
-    start_time: store("startTime").toLocaleString("PST"),
-    start_time_unix: store("startTime").getTime(),
+    start_time: startTime.toLocaleString("PST"),
+    start_time_unix: startTime.getTime(),
   },
   on_finish: function (data) {
     data.correct = jsPsych.pluginAPI.compareKeys(
@@ -291,9 +292,9 @@ const setup_fixation = {
     task: "fixation",
   },
   on_finish: function () {
-    nextStimulus = getStimuli(); //get the current stimuli for the trial
-    difficultyHistory[roarTrialNum - 1] = nextStimulus.difficulty; //log the current span in an array
-    roarTrialNum += 1; //add 1 to the total trial count
+    nextStimulus = getStimuli(); // get the current stimuli for the trial
+    difficultyHistory[roarTrialNum - 1] = nextStimulus.difficulty; // log the current span in an array
+    roarTrialNum += 1; // add 1 to the total trial count
     updateProgressBar();
   },
 };
@@ -309,8 +310,8 @@ const lexicality_test = {
   choices: ["ArrowLeft", "ArrowRight"],
   data: {
     task: "test_response" /* tag the test trials with this taskname so we can filter data later */,
-    start_time: store("startTime").toLocaleString("PST"),
-    start_time_unix: store("startTime").getTime(),
+    start_time: startTime.toLocaleString("PST"),
+    start_time_unix: startTime.getTime(),
   },
   on_finish: function (data) {
     data.correct = jsPsych.pluginAPI.compareKeys(
@@ -337,7 +338,7 @@ const lexicality_test = {
   },
 };
 
-//This is to track correct trials
+// This is to track correct trials
 function updateCorrectChecker() {
   const trials = jsPsych.data.get().filter({ task: "test_response" });
   const correct_trials = trials.filter({ correct: true });
@@ -349,7 +350,7 @@ function updateQuest() {
   let randomBoolean = Math.random() < 0.5;
   randomBoolean ? (corpusType = "corpus_real") : (corpusType = "corpus_pseudo");
   currentCorpus = stimulusLists[currentBlockIndex][corpusType];
-  //block.corpus_real : currentCorpus = block.corpus_pseudo;
+  // block.corpus_real : currentCorpus = block.corpus_pseudo;
   if (stimulusIndex[currentBlock] === 0) {
     const tTest = QuestQuantile(myquest);
     closestIndex = findClosest(currentCorpus, tTest);
@@ -389,13 +390,13 @@ function getStimuli() {
     if (count_adaptive_trials < store("totalAdaptiveTrials")) {
       count_adaptive_trials += 1;
       console.log("this is adaptive");
-      //console.log("index check " + stimulusIndex.currentBlock);
+      // console.log("index check " + stimulusIndex.currentBlock);
       resultStimuli = updateQuest();
       stimulusIndex[currentBlock] += 1;
     } else {
       stimulusRule = "new";
       console.log("this is new");
-      resultStimuli = block_new[newword_index];
+      resultStimuli = blockNew[newword_index];
       newword_index += 1;
     }
   }
@@ -410,12 +411,7 @@ const exit_fullscreen = {
   delay_after: 0,
 };
 
-async function roarBlocks(csv) {
-  // set number of practice trials
-  const blockPractice = csv.practice.slice(0, store("totalTrialsPractice"));
-
-  block_new = createRandomArray(transformNewwords(csv.new));
-
+async function roarBlocks() {
   // the core procedure
   function pushPracticeToTimeline(array) {
     array.forEach((element) => {
@@ -447,7 +443,7 @@ async function roarBlocks(csv) {
     ],
   };
 
-  function pushTrialsToTimeline(stimulusLists, stimulusCounts) {
+  function pushTrialsToTimeline(stimulusCounts) {
     for (let i = 0; i < stimulusCounts.length; i++) {
       // for each block: add trials
       /* add first half of block */
@@ -474,11 +470,7 @@ async function roarBlocks(csv) {
       const roar_mainproc_block_half_2 = {
         timeline: [core_procedure],
         conditional_function: function () {
-          if (stimulusCounts[i] === 0) {
-            return false;
-          } else {
-            return true;
-          }
+          return stimulusCounts[i] !== 0;
         },
         repetitions: stimulusCounts[i] / 2,
       };
@@ -510,16 +502,7 @@ async function roarBlocks(csv) {
     timeline.push(pavlovia_finish);
   }
 
-  jsPsych.init({
-    timeline: timeline,
-    show_progress_bar: true,
-    auto_update_progress_bar: false,
-    message_progress_bar: "Progress Complete",
-    on_finish: function () {
-      /* display data on exp end - useful for dev */
-      //jsPsych.data.displayData();
-    },
-  });
+  jsPsych.run(timeline);
 }
 
-roarBlocks(csv);
+roarBlocks();

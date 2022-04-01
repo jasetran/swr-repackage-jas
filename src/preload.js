@@ -1,34 +1,34 @@
 import jsPsychPreload from "@jspsych/plugin-preload";
 
 // Audio files
-import intro1 from "./audio/01_intro.wav";
-import intro2 from "./audio/02_intro.wav";
-import intro3 from "./audio/03_intro.wav";
-import countdown0 from "./audio/countdown_0.wav";
-import countdown1 from "./audio/countdown_1.wav";
-import countdown2 from "./audio/countdown_2.wav";
-import countdown3 from "./audio/countdown_3.wav";
-import coinIntro from "./audio/14_coin_intro.wav";
-import midBlock1 from "./audio/15_mid_block_1.wav";
-import endBlock1 from "./audio/16_end_block_1.wav";
-import midBlock2 from "./audio/17_mid_block_2.wav";
-import endBlock2 from "./audio/18_end_block_2.wav";
-import midBlock3 from "./audio/19_mid_block_3.wav";
-import endGame from "./audio/20_end_game.wav";
+import intro1 from "./audio/intro1.wav";
+import intro2 from "./audio/intro2.wav";
+import intro3 from "./audio/intro3.wav";
+import countdown0 from "./audio/countdown0.wav";
+import countdown1 from "./audio/countdown1.wav";
+import countdown2 from "./audio/countdown2.wav";
+import countdown3 from "./audio/countdown3.wav";
+import coinIntro from "./audio/coinIntro.wav";
+import midBlock1 from "./audio/midBlock1.wav";
+import endBlock1 from "./audio/endBlock1.wav";
+import midBlock2 from "./audio/midBlock2.wav";
+import endBlock2 from "./audio/endBlock2.wav";
+import midBlock3 from "./audio/midBlock3.wav";
+import endGame from "./audio/endGame.wav";
 import beep from "./audio/beep.wav";
-import coin from "./audio/coin_sound.wav";
-import fail from "./audio/fail_sound.wav";
-import fairyCoin from "./audio/fairy_coin_sound.wav";
-import feedbackXopCorrect from "./audio/practice_feedback_xop_correct.wav";
-import feedbackXopWrong from "./audio/practice_feedback_xop_wrong.wav";
-import feedbackHowCorrect from "./audio/practice_feedback_how_correct.wav";
-import feedbackHowWrong from "./audio/practice_feedback_how_wrong.wav";
-import feedbackAfterCorrect from "./audio/practice_feedback_after_correct.wav";
-import feedbackAfterWrong from "./audio/practice_feedback_after_wrong.wav";
-import feedbackAulerCorrect from "./audio/practice_feedback_auler_correct.wav";
-import feedbackAulerWrong from "./audio/practice_feedback_auler_wrong.wav";
-import feedbackHomCorrect from "./audio/practice_feedback_hom_correct.wav";
-import feedbackHomWrong from "./audio/practice_feedback_hom_wrong.wav";
+import coin from "./audio/coin.wav";
+import fail from "./audio/fail.wav";
+import fairyCoin from "./audio/fairyCoin.wav";
+import feedbackXopCorrect from "./audio/feedback_xop_correct.wav";
+import feedbackXopWrong from "./audio/feedback_xop_wrong.wav";
+import feedbackHowCorrect from "./audio/feedback_how_correct.wav";
+import feedbackHowWrong from "./audio/feedback_how_wrong.wav";
+import feedbackAfterCorrect from "./audio/feedback_after_correct.wav";
+import feedbackAfterWrong from "./audio/feedback_after_wrong.wav";
+import feedbackAulerCorrect from "./audio/feedback_auler_correct.wav";
+import feedbackAulerWrong from "./audio/feedback_auler_wrong.wav";
+import feedbackHomCorrect from "./audio/feedback_hom_correct.wav";
+import feedbackHomWrong from "./audio/feedback_hom_wrong.wav";
 
 // Image files
 import wizardMagic from "./assets/wizard_magic.gif";
@@ -40,8 +40,8 @@ import arrowkeyLexLeft from "./assets/arrowkey_lex_left.gif";
 import arrowkeyLexRight from "./assets/arrowkey_lex_right.gif";
 import arrowkeyLex from "./assets/arrowkey_lex.png";
 import ending from "./assets/ending.png";
-import coinIcon from "./assets/coinicon.png";
-import coinBag from "./assets/coinbag2.gif";
+import coinIcon from "./assets/coin_icon.png";
+import coinBag from "./assets/coin_bag.gif";
 import halfValley from "./assets/half_valley.png";
 import adventurer1 from "./assets/adventurer1.gif";
 import adventurer2 from "./assets/adventurer2.gif";
@@ -51,9 +51,9 @@ import wizardCoin from "./assets/wizard_coin.gif";
 import guardian1 from "./assets/guardian1.gif";
 import guardian2 from "./assets/guardian2.gif";
 import guardian3 from "./assets/guardian3.gif";
-import valley3 from "./assets/valley_3.png";
-import valley4 from "./assets/valley_4.png";
-import valley5 from "./assets/valley_5.png";
+import valley3 from "./assets/valley3.png";
+import valley4 from "./assets/valley4.png";
+import valley5 from "./assets/valley5.png";
 import endingBackground from "./assets/ending_background.png";
 
 const audioBlocks = {
@@ -93,16 +93,22 @@ const audioBlocks = {
   ],
 };
 
+const camelCase = (inString) => inString.replace(/_([a-z])/g, (g) => g[1].toUpperCase());
+
 const preloadObj2contentObj = (preloadObj) => {
   const contentArray = [].concat(...Object.values(preloadObj));
   return contentArray.reduce((o, val) => {
+    const pathSplit = val.split("/");
+    const fileName = pathSplit[pathSplit.length - 1];
+    const key = fileName.split(".")[0];
     // eslint-disable-next-line no-param-reassign
-    o[val] = val;
+    o[camelCase(key)] = val;
     return o;
   }, {});
 };
 
 export const audioContent = preloadObj2contentObj(audioBlocks);
+console.log(audioContent);
 
 const preload_audio_trials = Object.entries(audioBlocks).map((element) => {
   const idx = element[0];
@@ -127,6 +133,7 @@ const imageBlocks = {
 
 // Automatically populate the audioContent object with the audio files
 export const imgContent = preloadObj2contentObj(imageBlocks);
+console.log(imgContent);
 
 const preload_img_trials = Object.entries(imageBlocks).map((element) => {
   const idx = element[0];

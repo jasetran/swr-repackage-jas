@@ -3,6 +3,7 @@ import { jsPsych, initStore, updateProgressBar } from "./config";
 import { imgContent, audioContent } from "./preload";
 
 const store = initStore();
+const startTime = new Date(store("startTime"));
 
 /* define instructions trial */
 const intro_1 = {
@@ -22,8 +23,8 @@ const intro_1 = {
         </div>
         <div class="button">Press <span class="yellow">ANY KEY</span> to continue </div>`,
   data: {
-    start_time: store("startTime").toLocaleString("PST"),
-    start_time_unix: store("startTime").getTime(),
+    start_time: startTime.toLocaleString("PST"),
+    start_time_unix: startTime.getTime(),
   },
 };
 
@@ -125,22 +126,18 @@ const practice_feedback_right = {
 export const if_node_left = {
   timeline: [practice_feedback_left],
   conditional_function: function () {
-    if (correctRP == "made-up") {
-      return true;
-    } else {
-      return false;
-    }
+    return correctRP === "made-up";
   },
 };
 
 export const if_node_right = {
   timeline: [practice_feedback_right],
   conditional_function: function () {
-    return correctRP == "real";
+    return correctRP === "real";
   },
 };
 
-/* Countdown trial*/
+// Countdown trial
 const countdown_trial_3 = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: audioContent.countdown3,
@@ -209,7 +206,7 @@ export const countdown_trials = {
   ],
 };
 
-/* coin tracking trial*/
+/* coin tracking trial */
 const coin_tracking_feedback = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: audioContent.fairyCoin,
@@ -225,9 +222,8 @@ export const if_coin_tracking = {
     if (Boolean(currentTrialCorrect) && coinTrackingIndex >= 10) {
       coinTrackingIndex = 0;
       return true;
-    } else {
-      coinTrackingIndex += 1;
-      return false;
     }
+    coinTrackingIndex += 1;
+    return false;
   },
 };

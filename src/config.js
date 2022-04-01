@@ -1,5 +1,5 @@
 import { QuestCreate } from "jsQUEST";
-import { initJsPsych, setProgressBar, getProgressBarCompleted } from "jspsych";
+import { initJsPsych } from "jspsych";
 import Papa from "papaparse";
 import store from "store2";
 
@@ -110,7 +110,15 @@ export const initStore = () => {
   return store.session;
 };
 
-export const jsPsych = initJsPsych();
+export const jsPsych = initJsPsych({
+  show_progress_bar: true,
+  auto_update_progress_bar: false,
+  message_progress_bar: "Progress Complete",
+  on_finish: function () {
+    /* display data on exp end - useful for dev */
+    // jsPsych.data.displayData();
+  },
+});
 
 /* simple variable for calculating sum of an array */
 const arrSum = (arr) => arr.reduce((a, b) => a + b, 0);
@@ -191,8 +199,8 @@ export const findClosest = (arr, target) => {
 };
 
 export const updateProgressBar = () => {
-  const curr_progress_bar_value = getProgressBarCompleted();
-  setProgressBar(curr_progress_bar_value + 1 / arrSum(store("stimulusCountList")));
+  const curr_progress_bar_value = jsPsych.getProgressBarCompleted();
+  jsPsych.setProgressBar(curr_progress_bar_value + 1 / arrSum(store("stimulusCountList")));
 };
 
 export const realpseudo2arrow = (realpseudo) =>

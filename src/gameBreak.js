@@ -2,9 +2,6 @@ import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-respons
 import { config, updateProgressBar } from "./config";
 import { audioContent, imgContent } from "./preload";
 
-// TODO: Replace all instances of "assets/image-file.ext" with the imgContent object key
-// TODO: Replace all instances of "audio/audio-file.ext" with the audioContent object key
-
 /* mid block page */
 const mid_block_page_1 = {
   type: jsPsychAudioKeyboardResponse,
@@ -23,7 +20,7 @@ const mid_block_page_1 = {
         </div>
     <div class = "story-scene">
         <img class="scene" src="${imgContent.halfValley}" alt="background image with hills and trees">
-        <img class = 'adventure_mid_break' src="assets/adventurer1.gif" alt="adventure with harp">
+        <img class = 'adventure_mid_break' src="${imgContent.adventurer1}" alt="adventurer with harp">
     </div>
     </div>
    <div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>
@@ -33,7 +30,7 @@ const mid_block_page_1 = {
 
 const mid_block_page_2 = {
   type: jsPsychAudioKeyboardResponse,
-  stimulus: `audio/17_mid_block_2.wav`,
+  stimulus: audioContent.midBlock2,
   response_allowed_while_playing: config.testingOnly,
   prompt: `
    <div>
@@ -45,9 +42,9 @@ const mid_block_page_2 = {
       There, you meet another adventurer who joins your journey!</p>
    </div>
    <div class = "story-scene">
-    <img class="scene" src="assets/valley_4.png" alt="backgroun image with hills and trees">
-    <img class = 'adventure_mid_break' src="assets/adventurer1.gif" alt="adventure with harp">
-    <img class = 'adventure_mid_break' src="assets/adventurer3.gif" alt="adventure with making heart shapes">
+    <img class="scene" src="${imgContent.valley4}" alt="backgroun image with hills and trees">
+    <img class = 'adventure_mid_break' src="${imgContent.adventurer1}" alt="adventurer with harp">
+    <img class = 'adventure_mid_break' src="${imgContent.adventurer3}" alt="adventurer with making heart shapes">
     </div>
 </div>
    <div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>
@@ -58,7 +55,7 @@ const mid_block_page_2 = {
 
 const mid_block_page_3 = {
   type: jsPsychAudioKeyboardResponse,
-  stimulus: `audio/19_mid_block_3.wav`,
+  stimulus: audioContent.midBlock3,
   response_allowed_while_playing: config.testingOnly,
   prompt: `
    <div>
@@ -70,10 +67,10 @@ const mid_block_page_3 = {
       In the village, you meet another adventurer who joins your journey!</p>
    </div>
    <div class = "story-scene">
-   <img class="scene" src="assets/valley_3.png" alt="backgroun image with hills and trees">
-   <img class = 'adventure_mid_break'  src="assets/adventurer1.gif" alt="adventure with harp">
-   <img class = 'adventure_mid_break'  src="assets/adventurer3.gif" alt="adventure playing rainbow">
-   <img class = 'adventure_mid_break'  src="assets/adventurer2.gif" alt="adventure making heart shapes">
+   <img class="scene" src="${imgContent.valley3}" alt="backgroun image with hills and trees">
+   <img class = 'adventure_mid_break'  src="${imgContent.adventurer1}" alt="adventurer with harp">
+   <img class = 'adventure_mid_break'  src="${imgContent.adventurer3}" alt="adventurer playing rainbow">
+   <img class = 'adventure_mid_break'  src="${imgContent.adventurer2}" alt="adventurer making heart shapes">
    </div>
 </div>
    <div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>
@@ -85,7 +82,7 @@ const mid_block_page_3 = {
 // post block page
 const post_block_page_1 = {
   type: jsPsychAudioKeyboardResponse,
-  stimulus: `audio/16_end_block_1.wav`,
+  stimulus: audioContent.endBlock1,
   response_allowed_while_playing: config.testingOnly,
   prompt: `
    <div>
@@ -97,9 +94,9 @@ const post_block_page_1 = {
    You&#39re getting closer to the gate!</p>
    </div>
    <div class = "story-scene">
-   <img class="scene" src="assets/valley.png" alt="background image of hills and trees">
-   <img class = 'wizard' src="assets/wizard_coin.gif" alt="adventure playing rainbow">
-   <img class=" guardian" src="assets/guardian1.gif" alt="adventure making heart shapes">
+   <img class="scene" src="${imgContent.valley}" alt="background image of hills and trees">
+   <img class = 'wizard' src="${imgContent.wizardCoin}" alt="adventure playing rainbow">
+   <img class=" guardian" src="${imgContent.guardian1}" alt="adventure making heart shapes">
    </div>
    </div>
    <div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>
@@ -110,7 +107,7 @@ const post_block_page_1 = {
 
 const post_block_page_2 = {
   type: jsPsychAudioKeyboardResponse,
-  stimulus: `audio/18_end_block_2.wav`,
+  stimulus: audioContent.endBlock2,
   response_allowed_while_playing: config.testingOnly,
   prompt: `
    <div>
@@ -122,9 +119,9 @@ const post_block_page_2 = {
    Just one more valley until you reach the gate!</p>
    </div>
    <div class = "story-scene">
-   <img class="scene" src="assets/valley_5.png" alt="background image of hills and trees">
-   <img class = 'wizard' src="assets/wizard_coin.gif" alt="adventure playing rainbow">
-   <img class = 'guardian' src="assets/guardian2.gif" alt="adventure making heart shapes">
+   <img class="scene" src="${imgContent.valley5}" alt="background image of hills and trees">
+   <img class = 'wizard' src="${imgContent.wizardCoin}" alt="adventure playing rainbow">
+   <img class = 'guardian' src="${imgContent.guardian2}" alt="adventure making heart shapes">
    </div>
 
 </div>
@@ -144,7 +141,7 @@ const post_block_page_list = [post_block_page_1, post_block_page_2];
 
 const final_page = {
   type: jsPsychAudioKeyboardResponse,
-  stimulus: `audio/20_end_game.wav`,
+  stimulus: audioContent.endGame,
   response_allowed_while_playing: config.testingOnly,
   prompt: `
    <div>
@@ -157,9 +154,9 @@ const final_page = {
   </p>
    </div>
    <div class = "story-scene">
-   <img class="scene" src="assets/ending_background.png" alt="background image of gate">
-   <img class = 'guardian' src="assets/guardian3.gif" alt="image of a unicorn winking">
-   <img class = 'guardian' id = "gate" src="assets/ending_gate_coinbag.gif" alt="gate">
+   <img class="scene" src="${imgContent.endingBackground}" alt="background image of gate">
+   <img class = 'guardian' src="${imgContent.guardian3}" alt="image of a unicorn winking">
+   <img class = 'guardian' id = "gate" src="${imgContent.endingGateCoinbag}" alt="gate">
    </div>
 </div>
    <div class="button">Press <span class="yellow">ANY KEY</span> to save your work</div>

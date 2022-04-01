@@ -55,6 +55,7 @@ import valley3 from "./assets/valley3.png";
 import valley4 from "./assets/valley4.png";
 import valley5 from "./assets/valley5.png";
 import endingBackground from "./assets/ending_background.png";
+import endingGateCoinbag from "./assets/ending_gate_coinbag.gif";
 
 const audioBlocks = {
   1: [
@@ -93,7 +94,7 @@ const audioBlocks = {
   ],
 };
 
-const camelCase = (inString) => inString.replace(/_([a-z])/g, (g) => g[1].toUpperCase());
+export const camelCase = (inString) => inString.replace(/_([a-z])/g, (g) => g[1].toUpperCase());
 
 const preloadObj2contentObj = (preloadObj) => {
   const contentArray = [].concat(...Object.values(preloadObj));
@@ -127,7 +128,7 @@ const imageBlocks = {
   5: [goldCoin, arrowkeyLexLeft, arrowkeyLexRight, arrowkeyLex, ending],
   6: [coinIcon, coinBag, adventurer1, adventurer2, adventurer3],
   7: [guardian1, guardian2, guardian3, valley3, valley4],
-  8: [endingBackground, valley, valley5, halfValley],
+  8: [endingBackground, valley, valley5, halfValley, endingGateCoinbag],
 };
 
 // Automatically populate the audioContent object with the audio files

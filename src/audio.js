@@ -1,5 +1,8 @@
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
 import { audioContent } from "./preload";
+import { initStore } from "./config";
+
+const store = initStore();
 
 const audio_response_correct = {
   type: jsPsychAudioKeyboardResponse,
@@ -12,9 +15,7 @@ const audio_response_correct = {
 
 const if_audio_response_correct = {
   timeline: [audio_response_correct],
-  conditional_function: function () {
-    return currentTrialCorrect == true;
-  },
+  conditional_function: () => store("currentTrialCorrect"),
 };
 
 const audio_response_wrong = {
@@ -28,9 +29,7 @@ const audio_response_wrong = {
 
 const if_audio_response_wrong = {
   timeline: [audio_response_wrong],
-  conditional_function: function () {
-    return currentTrialCorrect == false;
-  },
+  conditional_function: () => !store("currentTrialCorrect"),
 };
 
 export { if_audio_response_correct, if_audio_response_wrong };

@@ -88,18 +88,10 @@ export const initStore = () => {
   store.session.set("nextStimulus", []);
   store.session.set("response", "");
 
-  store.session.set("responseLR", "");
-  store.session.set("answerRP", "");
-  store.session.set("correctRP", "");
-  store.session.set("answerColor", "");
-  store.session.set("responseColor", "");
-  store.session.set("arrowDisplay", "");
-  store.session.set("correctLR", "");
-
   // variables to track current state of the experiment
   store.session.set("currentStimulus", "");
   store.session.set("currentBlock", "");
-  store.session.set("currentTrialCorrect", ""); // return true or false
+  store.session.set("currentTrialCorrect", true); // return true or false
 
   store.session.set("trialCorrectAns", ""); // for storing the correct answer on a given trial
   store.session.set("startingDifficulty", 0); // where we begin in terms of difficulty
@@ -107,6 +99,8 @@ export const initStore = () => {
   store.session.set("difficultyHistory", []); // easy logging of the participant's trajectory
   store.session.set("roarTrialNum", 1); // counter for trials
   store.session.set("coinTrackingIndex", 0);
+
+  store.session.set("initialized", true);
 
   return store.session;
 };

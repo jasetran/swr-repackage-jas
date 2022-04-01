@@ -99,8 +99,8 @@ const practice_feedback_left = {
   stimulus: () => store("practiceFeedbackAudio"),
   prompt: function () {
     return `
-<div class = stimulus_div><p class="feedback"><span class=${responseColor}>You pressed the ${responseLR} arrow key, which is for ${answerRP} words! </span>
-<br></br>${jsPsych.timelineVariable("stimulus")}<span class=${answerColor}>  is a ${correctRP}  word. Press ${correctLR} arrow key to continue.</span></p></div>
+<div class = stimulus_div><p class="feedback"><span class=${store("responseColor")}>You pressed the ${store("responseLR")} arrow key, which is for ${store("answerRP")} words! </span>
+<br></br>${jsPsych.timelineVariable("stimulus")}<span class=${store("answerColor")}> is a ${store("correctRP")}  word. Press ${store("correctLR")} arrow key to continue.</span></p></div>
 <img class="lower" src= "${imgContent.arrowkeyLexLeft}" alt="arrow keys" style=" width:698px; height:120px">
       `;
   },
@@ -116,9 +116,9 @@ const practice_feedback_right = {
   stimulus: () => store("practiceFeedbackAudio"),
   prompt: function () {
     return `<div class = stimulus_div>
-\t<p class="feedback"><span class=${responseColor}>You pressed the ${responseLR} arrow key, which is for ${answerRP} words! </span>
-<br></br>${jsPsych.timelineVariable("stimulus")}<span class=${answerColor}>  is a ${correctRP}  word. Press ${correctLR} arrow key to continue.</span></p>
-</div><img class="lower" src= "${imgContent.arrowkeyLexRight}" alt="arrow keys" style=" width:698px; height:120px"> 
+\t<p class="feedback"><span class=${store("responseColor")}>You pressed the ${store("responseLR")} arrow key, which is for ${store("answerRP")} words! </span>
+<br></br>${jsPsych.timelineVariable("stimulus")}<span class=${store("answerColor")}> is a ${store("correctRP")}  word. Press ${store("correctLR")} arrow key to continue.</span></p>
+</div><img class="lower" src="${imgContent.arrowkeyLexRight}" alt="arrow keys" style=" width:698px; height:120px"> 
       `;
   },
   choices: ["ArrowRight"],
@@ -127,15 +127,13 @@ const practice_feedback_right = {
 
 export const if_node_left = {
   timeline: [practice_feedback_left],
-  conditional_function: function () {
-    return correctRP === "made-up";
-  },
+  conditional_function: () => store("correctRP") === "made-up",
 };
 
 export const if_node_right = {
   timeline: [practice_feedback_right],
   conditional_function: function () {
-    return correctRP === "real";
+    return store("correctRP") === "real";
   },
 };
 
@@ -221,7 +219,7 @@ const coin_tracking_feedback = {
 export const if_coin_tracking = {
   timeline: [coin_tracking_feedback],
   conditional_function: function () {
-    if (Boolean(currentTrialCorrect) && coinTrackingIndex >= 10) {
+    if (store("currentTrialCorrect") && coinTrackingIndex >= 10) {
       coinTrackingIndex = 0;
       return true;
     }

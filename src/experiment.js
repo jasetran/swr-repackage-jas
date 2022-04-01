@@ -20,7 +20,9 @@ import {
   jsPsych, config, initStore, updateProgressBar,
 } from "./config";
 import { if_audio_response_correct, if_audio_response_wrong } from "./audio";
-import { preload_trials } from "./preload";
+import {
+  audioContent, camelCase, imgContent, preload_trials,
+} from "./preload";
 import {
   introduction_trials,
   post_practice_intro,
@@ -168,9 +170,7 @@ const debrief_block = {
     const trials = jsPsych.data.get().filter({ task: "test_response" });
     const correct_trials = trials.filter({ correct: true });
     const incorrect_trials = trials.filter({ correct: false });
-    const accuracy = Math.round(
-      (correct_trials.count() / trials.count()) * 100
-    );
+    const accuracy = Math.round((correct_trials.count() / trials.count()) * 100);
     const rt = Math.round(correct_trials.select("rt").mean());
     const irt = Math.round(incorrect_trials.select("rt").mean());
 
@@ -189,7 +189,7 @@ const setup_fixation_practice = {
   stimulus: function () {
     return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">+</p></div>`;
   },
-  prompt: ` <img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
+  prompt: `<img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px">`,
   choices: "NO_KEYS",
   trial_duration: config.timing.fixationTime,
   data: {
@@ -207,16 +207,16 @@ const lexicality_test_practice = {
       "stimulus",
     )}</p></div>`;
   },
-  prompt: `<img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px">`,
+  prompt: `<img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px">`,
   stimulus_duration: function () {
     store.transact("practiceIndex", (oldVal) => oldVal + 1);
     if (store("practiceIndex") > store("countSlowPractice")) {
-      stimulusTimeIndexPracticeOnly = 1;
+      return config.timing.stimulusTime;
     }
-    return config.timing.stimulusTime[stimulusTimeIndexPracticeOnly];
+    return config.timing.stimulusTimePracticeOnly;
   },
   trial_duration: function () {
-    return config.timing.trialTime[trialTimeIndex];
+    return config.timing.trialTime;
   },
   choices: ["ArrowLeft", "ArrowRight"],
   data: {
@@ -230,44 +230,34 @@ const lexicality_test_practice = {
       data.response,
       jsPsych.timelineVariable("correct_response"),
     );
-    currentTrialCorrect = data.correct;
+    store.set("currentTrialCorrect", data.correct);
     data.correct = jsPsych.pluginAPI.compareKeys(
       data.response,
       jsPsych.timelineVariable("correct_response"),
     );
     console.log(data.response);
-    if (currentTrialCorrect) {
+    if (store("currentTrialCorrect")) {
       store.set(
         "practiceFeedbackAudio",
-        `audio/practice_feedback_${jsPsych.timelineVariable("stimulus")}_correct.wav`
+        audioContent[camelCase(`feedback_${jsPsych.timelineVariable("stimulus")}_correct`)],
       );
     } else {
       store.set(
         "practiceFeedbackAudio",
-        `audio/practice_feedback_${jsPsych.timelineVariable("stimulus")}_wrong.wav`
+        audioContent[camelCase(`feedback_${jsPsych.timelineVariable("stimulus")}_wrong`)],
       );
     }
-    console.log("practiceFeedbackAudio", practiceFeedbackAudio);
-    if (data.response === "arrowleft") {
-      responseLR = "left";
-      answerRP = "made-up";
-      responseColor = "orange";
-    } else {
-      responseLR = "right";
-      answerRP = "real";
-      responseColor = "blue";
-    }
-    if (jsPsych.timelineVariable("correct_response") === "ArrowLeft") {
-      correctLR = "left";
-      correctRP = "made-up";
-      arrowDisplay = "assets/arrowkey_lex_left.gif";
-      answerColor = "orange";
-    } else {
-      correctRP = "real";
-      correctLR = "right";
-      arrowDisplay = "assets/arrowkey_lex_right.gif";
-      answerColor = "blue";
-    }
+    console.log("practiceFeedbackAudio", store("practiceFeedbackAudio"));
+
+    const isLeftResponse = data.response === "arrowleft";
+    store.set("responseLR", isLeftResponse ? "left" : "right");
+    store.set("answerRP", isLeftResponse ? "made-up" : "real");
+    store.set("responseColor", isLeftResponse ? "orange" : "blue");
+
+    const isLeftAnswer = jsPsych.timelineVariable("correct_response") === "ArrowLeft";
+    store.set("correctLR", isLeftAnswer ? "left" : "right");
+    store.set("correctRP", isLeftAnswer ? "made-up" : "real");
+    store.set("answerColor", isLeftAnswer ? "orange" : "blue");
 
     jsPsych.data.addDataToLastTrial({
       correct_response: jsPsych.timelineVariable("correct_response"),
@@ -285,7 +275,7 @@ const setup_fixation = {
   stimulus: function () {
     return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">+</p></div>`;
   },
-  prompt: `<div><img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px"></div>`,
+  prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px"></div>`,
   choices: "NO_KEYS",
   trial_duration: config.timing.fixationTime,
   data: {
@@ -304,7 +294,7 @@ const lexicality_test = {
   stimulus: function () {
     return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">${nextStimulus["stimulus"]}</p></div>`;
   },
-  prompt: `<div></div><img class="lower" src="assets/arrowkey_lex.png" alt="arrow keys" style=" width:698px; height:120px"></div>`,
+  prompt: `<div></div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px"></div>`,
   stimulus_duration: config.timing.stimulusTime,
   trial_duration: config.timing.trialTime,
   choices: ["ArrowLeft", "ArrowRight"],
@@ -318,8 +308,8 @@ const lexicality_test = {
       data.response,
       nextStimulus["correct_response"]
     );
-    currentTrialCorrect = data.correct;
-    if (currentTrialCorrect) {
+    store.set("currentTrialCorrect", data.correct);
+    if (store("currentTrialCorrect")) {
       response = 1;
     } else {
       response = 0;

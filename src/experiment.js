@@ -17,21 +17,15 @@ import { RoarFirekit } from "@bdelab/roar-firekit";
 import { rootDoc } from "./firebaseConfig";
 
 // Local modules
-import {
-  jsPsych, config, updateProgressBar,
-} from "./config";
+import { jsPsych, config, updateProgressBar } from "./config";
 import { if_audio_response_correct, if_audio_response_wrong } from "./audio";
+import { imgContent, preload_trials } from "./preload";
 import {
-  audioContent, camelCase, imgContent, preload_trials,
-} from "./preload";
-import {
-  introduction_trials,
-  post_practice_intro,
-  countdown_trials,
-  if_node_left,
-  if_node_right,
-  if_coin_tracking,
+  introduction_trials, post_practice_intro, countdown_trials, if_coin_tracking,
 } from "./introduction";
+import {
+  if_node_left, if_node_right, setup_fixation_practice, lexicality_test_practice,
+} from "./practice";
 import {
   mid_block_page_list, post_block_page_list, final_page,
 } from "./gameBreak";
@@ -176,98 +170,6 @@ const debrief_block = {
           <p>Your average response time on correct trials was ${rt}ms.</p>
           <p>Your average response time on incorrect trials was ${irt}ms.</p>
           <p>Press any key to complete the experiment. Thank you!</p>`;
-  },
-};
-
-// function to update the span as appropriate (using a 2:1 staircase procedure)
-
-/* For Practice Trial Only */
-const setup_fixation_practice = {
-  type: jsPsychHtmlKeyboardResponse,
-  stimulus: function () {
-    return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">+</p></div>`;
-  },
-  prompt: `<img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px">`,
-  choices: "NO_KEYS",
-  trial_duration: config.timing.fixationTime,
-  data: {
-    task: "fixation",
-  },
-  on_finish: function () {
-    jsPsych.setProgressBar(0);
-  },
-};
-
-const lexicality_test_practice = {
-  type: jsPsychHtmlKeyboardResponse,
-  stimulus: function () {
-    return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">${jsPsych.timelineVariable(
-      "stimulus",
-    )}</p></div>`;
-  },
-  prompt: `<img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px">`,
-  stimulus_duration: function () {
-    store.session.transact("practiceIndex", (oldVal) => oldVal + 1);
-    if (store.session("practiceIndex") > store.session("countSlowPractice")) {
-      return config.timing.stimulusTime;
-    }
-    return config.timing.stimulusTimePracticeOnly;
-  },
-  trial_duration: function () {
-    return config.timing.trialTime;
-  },
-  choices: ["ArrowLeft", "ArrowRight"],
-  data: {
-    task: "practice_response" /* tag the test trials with this taskname so we can filter data later */,
-    word: jsPsych.timelineVariable("stimulus"),
-    start_time: config.startTime.toLocaleString("PST"),
-    start_time_unix: config.startTime.getTime(),
-  },
-  on_finish: function (data) {
-    data.correct = jsPsych.pluginAPI.compareKeys(
-      data.response,
-      jsPsych.timelineVariable("correct_response"),
-    );
-    store.session.set("currentTrialCorrect", data.correct);
-    data.correct = jsPsych.pluginAPI.compareKeys(
-      data.response,
-      jsPsych.timelineVariable("correct_response"),
-    );
-    console.log(data.response);
-    if (store.session("currentTrialCorrect")) {
-      // config.practiceFeedbackAudio =
-      // audioContent[camelCase(`feedback_${jsPsych.timelineVariable("stimulus")}_correct`)];
-      store.session.set(
-        "practiceFeedbackAudio",
-        audioContent[camelCase(`feedback_${jsPsych.timelineVariable("stimulus")}_correct`)],
-      );
-    } else {
-      // config.practiceFeedbackAudio =
-      // audioContent[camelCase(`feedback_${jsPsych.timelineVariable("stimulus")}_wrong`)];
-      store.session.set(
-        "practiceFeedbackAudio",
-        audioContent[camelCase(`feedback_${jsPsych.timelineVariable("stimulus")}_wrong`)],
-      );
-    }
-    console.log("practiceFeedbackAudio", store.session("practiceFeedbackAudio"));
-
-    const isLeftResponse = data.response === "arrowleft";
-    store.session.set("responseLR", isLeftResponse ? "left" : "right");
-    store.session.set("answerRP", isLeftResponse ? "made-up" : "real");
-    store.session.set("responseColor", isLeftResponse ? "orange" : "blue");
-
-    const isLeftAnswer = jsPsych.timelineVariable("correct_response") === "ArrowLeft";
-    store.session.set("correctLR", isLeftAnswer ? "left" : "right");
-    store.session.set("correctRP", isLeftAnswer ? "made-up" : "real");
-    store.session.set("answerColor", isLeftAnswer ? "orange" : "blue");
-
-    jsPsych.data.addDataToLastTrial({
-      correct_response: jsPsych.timelineVariable("correct_response"),
-      block: "Practice",
-      pid: config.pid,
-    });
-
-    jsPsych.setProgressBar(0);
   },
 };
 

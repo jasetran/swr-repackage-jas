@@ -4,7 +4,7 @@ import { audioContent, imgContent } from "./preload";
 
 const audio_response_correct = {
   type: jsPsychAudioKeyboardResponse,
-  stimulus: audioContent.coinSound,
+  stimulus: audioContent.coin,
   choices: "NO_KEYS",
   trial_ends_after_audio: true,
   prompt: `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;"><br></p></div> 
@@ -18,7 +18,7 @@ const if_audio_response_correct = {
 
 const audio_response_wrong = {
   type: jsPsychAudioKeyboardResponse,
-  stimulus: audioContent.failSound,
+  stimulus: audioContent.fail,
   choices: "NO_KEYS",
   trial_ends_after_audio: true,
   prompt: `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;"><br></p></div> 

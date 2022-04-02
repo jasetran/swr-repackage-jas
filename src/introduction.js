@@ -1,7 +1,7 @@
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
 import store from "store2";
 import {
-  jsPsych, config, updateProgressBar,
+  config, updateProgressBar,
 } from "./config";
 import { imgContent, audioContent } from "./preload";
 
@@ -88,51 +88,6 @@ export const post_practice_intro = {
       </div>
     <div class="button">Press <span class="yellow">ANY KEY</span> to begin</div>`,
   choices: "ALL_KEYS",
-};
-
-// define practice feedback trial
-const practice_feedback_left = {
-  type: jsPsychAudioKeyboardResponse,
-  response_allowed_while_playing: config.testingOnly,
-  stimulus: () => store.session("practiceFeedbackAudio"),
-  prompt: function () {
-    return `
-<div class = stimulus_div><p class="feedback"><span class=${store.session("responseColor")}>You pressed the ${store.session("responseLR")} arrow key, which is for ${store.session("answerRP")} words! </span>
-<br></br>${jsPsych.timelineVariable("stimulus")}<span class=${store.session("answerColor")}> is a ${store.session("correctRP")}  word. Press ${store.session("correctLR")} arrow key to continue.</span></p></div>
-<img class="lower" src= "${imgContent.arrowkeyLexLeft}" alt="arrow keys" style=" width:698px; height:120px">
-      `;
-  },
-  choices: ["ArrowLeft"],
-  on_start: function () {
-    console.log("practice_feedback_left", store.session("practiceFeedbackAudio"));
-  },
-};
-
-const practice_feedback_right = {
-  type: jsPsychAudioKeyboardResponse,
-  response_allowed_while_playing: config.testingOnly,
-  stimulus: () => store.session("practiceFeedbackAudio"),
-  prompt: function () {
-    return `<div class = stimulus_div>
-\t<p class="feedback"><span class=${store.session("responseColor")}>You pressed the ${store.session("responseLR")} arrow key, which is for ${store.session("answerRP")} words! </span>
-<br></br>${jsPsych.timelineVariable("stimulus")}<span class=${store.session("answerColor")}> is a ${store.session("correctRP")}  word. Press ${store.session("correctLR")} arrow key to continue.</span></p>
-</div><img class="lower" src="${imgContent.arrowkeyLexRight}" alt="arrow keys" style=" width:698px; height:120px"> 
-      `;
-  },
-  choices: ["ArrowRight"],
-  on_start: function () {},
-};
-
-export const if_node_left = {
-  timeline: [practice_feedback_left],
-  conditional_function: () => store.session("correctRP") === "made-up",
-};
-
-export const if_node_right = {
-  timeline: [practice_feedback_right],
-  conditional_function: function () {
-    return store.session("correctRP") === "real";
-  },
 };
 
 // Countdown trial

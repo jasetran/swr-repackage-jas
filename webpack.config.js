@@ -10,6 +10,7 @@ module.exports = {
     jsPsychPavlovia: "./src/jsPsychPavlovia.js",
     preload: "./src/preload.js",
     introduction: "./src/introduction.js",
+    practice: "./src/practice.js",
     gameBreak: "./src/gameBreak.js",
     config: "./src/config.js",
     audio: "./src/audio.js",

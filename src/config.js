@@ -69,7 +69,6 @@ export const config = {
 
 export const initStore = () => {
   if (store.session.has("initialized") && store.local("initialized")) {
-    console.log("Store already initialized");
     return store.session;
   }
 
@@ -101,7 +100,6 @@ export const initStore = () => {
 
   store.session.set("initialized", true);
 
-  console.log("Initializing store");
   return store.session;
 };
 

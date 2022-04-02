@@ -40,9 +40,7 @@ export const config = {
   userMode: userMode,
   pid: urlParams.get("pid"),
   sessionId: urlParams.get("sessionId"),
-  testingOnly: urlParams.get("test")
-    ? urlParams.get("test") === "true"
-    : false,
+  testingOnly: userMode === "test",
 
   // set order and rule for the experiment
   stimulusRuleList: stimulusRuleLists[userMode],
@@ -70,7 +68,8 @@ export const config = {
 };
 
 export const initStore = () => {
-  if (store.session.has("initialized") && store.session("initialized")) {
+  if (store.session.has("initialized") && store.local("initialized")) {
+    console.log("Store already initialized");
     return store.session;
   }
 
@@ -102,8 +101,11 @@ export const initStore = () => {
 
   store.session.set("initialized", true);
 
+  console.log("Initializing store");
   return store.session;
 };
+
+initStore();
 
 export const jsPsych = initJsPsych({
   show_progress_bar: true,

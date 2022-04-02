@@ -1,11 +1,9 @@
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
+import store from "store2";
 import {
-  jsPsych, config, initStore, updateProgressBar,
+  jsPsych, config, updateProgressBar,
 } from "./config";
 import { imgContent, audioContent } from "./preload";
-
-const store = initStore();
-const startTime = new Date(store("startTime"));
 
 /* define instructions trial */
 const intro_1 = {
@@ -25,8 +23,8 @@ const intro_1 = {
         </div>
         <div class="button">Press <span class="yellow">ANY KEY</span> to continue </div>`,
   data: {
-    start_time: startTime.toLocaleString("PST"),
-    start_time_unix: startTime.getTime(),
+    start_time: config.startTime.toLocaleString("PST"),
+    start_time_unix: config.startTime.getTime(),
   },
 };
 
@@ -96,28 +94,28 @@ export const post_practice_intro = {
 const practice_feedback_left = {
   type: jsPsychAudioKeyboardResponse,
   response_allowed_while_playing: config.testingOnly,
-  stimulus: () => store("practiceFeedbackAudio"),
+  stimulus: () => store.session("practiceFeedbackAudio"),
   prompt: function () {
     return `
-<div class = stimulus_div><p class="feedback"><span class=${store("responseColor")}>You pressed the ${store("responseLR")} arrow key, which is for ${store("answerRP")} words! </span>
-<br></br>${jsPsych.timelineVariable("stimulus")}<span class=${store("answerColor")}> is a ${store("correctRP")}  word. Press ${store("correctLR")} arrow key to continue.</span></p></div>
+<div class = stimulus_div><p class="feedback"><span class=${store.session("responseColor")}>You pressed the ${store.session("responseLR")} arrow key, which is for ${store.session("answerRP")} words! </span>
+<br></br>${jsPsych.timelineVariable("stimulus")}<span class=${store.session("answerColor")}> is a ${store.session("correctRP")}  word. Press ${store.session("correctLR")} arrow key to continue.</span></p></div>
 <img class="lower" src= "${imgContent.arrowkeyLexLeft}" alt="arrow keys" style=" width:698px; height:120px">
       `;
   },
   choices: ["ArrowLeft"],
   on_start: function () {
-    console.log("practice_feedback_lef", store("practiceFeedbackAudio"));
+    console.log("practice_feedback_left", store.session("practiceFeedbackAudio"));
   },
 };
 
 const practice_feedback_right = {
   type: jsPsychAudioKeyboardResponse,
   response_allowed_while_playing: config.testingOnly,
-  stimulus: () => store("practiceFeedbackAudio"),
+  stimulus: () => store.session("practiceFeedbackAudio"),
   prompt: function () {
     return `<div class = stimulus_div>
-\t<p class="feedback"><span class=${store("responseColor")}>You pressed the ${store("responseLR")} arrow key, which is for ${store("answerRP")} words! </span>
-<br></br>${jsPsych.timelineVariable("stimulus")}<span class=${store("answerColor")}> is a ${store("correctRP")}  word. Press ${store("correctLR")} arrow key to continue.</span></p>
+\t<p class="feedback"><span class=${store.session("responseColor")}>You pressed the ${store.session("responseLR")} arrow key, which is for ${store.session("answerRP")} words! </span>
+<br></br>${jsPsych.timelineVariable("stimulus")}<span class=${store.session("answerColor")}> is a ${store.session("correctRP")}  word. Press ${store.session("correctLR")} arrow key to continue.</span></p>
 </div><img class="lower" src="${imgContent.arrowkeyLexRight}" alt="arrow keys" style=" width:698px; height:120px"> 
       `;
   },
@@ -127,13 +125,13 @@ const practice_feedback_right = {
 
 export const if_node_left = {
   timeline: [practice_feedback_left],
-  conditional_function: () => store("correctRP") === "made-up",
+  conditional_function: () => store.session("correctRP") === "made-up",
 };
 
 export const if_node_right = {
   timeline: [practice_feedback_right],
   conditional_function: function () {
-    return store("correctRP") === "real";
+    return store.session("correctRP") === "real";
   },
 };
 
@@ -186,7 +184,7 @@ const countdown_trial_0 = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: audioContent.countdown0,
   prompt: function () {
-    return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">1</p></div>
+    return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">0</p></div>
 <img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px">`;
   },
   choices: "NO_KEYS",
@@ -194,7 +192,10 @@ const countdown_trial_0 = {
   data: {
     task: "countdown",
   },
-  on_finish: updateProgressBar,
+  on_finish: () => {
+    console.log(store.session());
+    updateProgressBar();
+  }
 };
 
 export const countdown_trials = {
@@ -219,7 +220,7 @@ const coin_tracking_feedback = {
 export const if_coin_tracking = {
   timeline: [coin_tracking_feedback],
   conditional_function: function () {
-    if (store("currentTrialCorrect") && coinTrackingIndex >= 10) {
+    if (store.session("currentTrialCorrect") && coinTrackingIndex >= 10) {
       coinTrackingIndex = 0;
       return true;
     }

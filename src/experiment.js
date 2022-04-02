@@ -6,6 +6,7 @@ import { QuestUpdate, QuestQuantile } from "jsQUEST";
 import jsPsychSurveyText from "@jspsych/plugin-survey-text";
 import jsPsychFullScreen from "@jspsych/plugin-fullscreen";
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
+import store from "store2";
 
 // Import necessary for async in the top level of the experiment script
 // TODO Adam: Is this really necessary
@@ -17,7 +18,7 @@ import { rootDoc } from "./firebaseConfig";
 
 // Local modules
 import {
-  jsPsych, config, initStore, updateProgressBar,
+  jsPsych, config, updateProgressBar,
 } from "./config";
 import { if_audio_response_correct, if_audio_response_wrong } from "./audio";
 import {
@@ -40,9 +41,6 @@ import jsPsychPavlovia from "./jsPsychPavlovia";
 // CSS imports
 import "jspsych/css/jspsych.css";
 import "./css/game_v4.css";
-
-const store = initStore();
-const startTime = new Date(store("startTime"));
 
 let firekit;
 
@@ -209,8 +207,8 @@ const lexicality_test_practice = {
   },
   prompt: `<img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px">`,
   stimulus_duration: function () {
-    store.transact("practiceIndex", (oldVal) => oldVal + 1);
-    if (store("practiceIndex") > store("countSlowPractice")) {
+    store.session.transact("practiceIndex", (oldVal) => oldVal + 1);
+    if (store.session("practiceIndex") > store.session("countSlowPractice")) {
       return config.timing.stimulusTime;
     }
     return config.timing.stimulusTimePracticeOnly;
@@ -222,42 +220,46 @@ const lexicality_test_practice = {
   data: {
     task: "practice_response" /* tag the test trials with this taskname so we can filter data later */,
     word: jsPsych.timelineVariable("stimulus"),
-    start_time: startTime.toLocaleString("PST"),
-    start_time_unix: startTime.getTime(),
+    start_time: config.startTime.toLocaleString("PST"),
+    start_time_unix: config.startTime.getTime(),
   },
   on_finish: function (data) {
     data.correct = jsPsych.pluginAPI.compareKeys(
       data.response,
       jsPsych.timelineVariable("correct_response"),
     );
-    store.set("currentTrialCorrect", data.correct);
+    store.session.set("currentTrialCorrect", data.correct);
     data.correct = jsPsych.pluginAPI.compareKeys(
       data.response,
       jsPsych.timelineVariable("correct_response"),
     );
     console.log(data.response);
-    if (store("currentTrialCorrect")) {
-      store.set(
+    if (store.session("currentTrialCorrect")) {
+      // config.practiceFeedbackAudio =
+      // audioContent[camelCase(`feedback_${jsPsych.timelineVariable("stimulus")}_correct`)];
+      store.session.set(
         "practiceFeedbackAudio",
         audioContent[camelCase(`feedback_${jsPsych.timelineVariable("stimulus")}_correct`)],
       );
     } else {
-      store.set(
+      // config.practiceFeedbackAudio =
+      // audioContent[camelCase(`feedback_${jsPsych.timelineVariable("stimulus")}_wrong`)];
+      store.session.set(
         "practiceFeedbackAudio",
         audioContent[camelCase(`feedback_${jsPsych.timelineVariable("stimulus")}_wrong`)],
       );
     }
-    console.log("practiceFeedbackAudio", store("practiceFeedbackAudio"));
+    console.log("practiceFeedbackAudio", store.session("practiceFeedbackAudio"));
 
     const isLeftResponse = data.response === "arrowleft";
-    store.set("responseLR", isLeftResponse ? "left" : "right");
-    store.set("answerRP", isLeftResponse ? "made-up" : "real");
-    store.set("responseColor", isLeftResponse ? "orange" : "blue");
+    store.session.set("responseLR", isLeftResponse ? "left" : "right");
+    store.session.set("answerRP", isLeftResponse ? "made-up" : "real");
+    store.session.set("responseColor", isLeftResponse ? "orange" : "blue");
 
     const isLeftAnswer = jsPsych.timelineVariable("correct_response") === "ArrowLeft";
-    store.set("correctLR", isLeftAnswer ? "left" : "right");
-    store.set("correctRP", isLeftAnswer ? "made-up" : "real");
-    store.set("answerColor", isLeftAnswer ? "orange" : "blue");
+    store.session.set("correctLR", isLeftAnswer ? "left" : "right");
+    store.session.set("correctRP", isLeftAnswer ? "made-up" : "real");
+    store.session.set("answerColor", isLeftAnswer ? "orange" : "blue");
 
     jsPsych.data.addDataToLastTrial({
       correct_response: jsPsych.timelineVariable("correct_response"),
@@ -300,16 +302,16 @@ const lexicality_test = {
   choices: ["ArrowLeft", "ArrowRight"],
   data: {
     task: "test_response" /* tag the test trials with this taskname so we can filter data later */,
-    start_time: startTime.toLocaleString("PST"),
-    start_time_unix: startTime.getTime(),
+    start_time: config.startTime.toLocaleString("PST"),
+    start_time_unix: config.startTime.getTime(),
   },
   on_finish: function (data) {
     data.correct = jsPsych.pluginAPI.compareKeys(
       data.response,
       nextStimulus["correct_response"]
     );
-    store.set("currentTrialCorrect", data.correct);
-    if (store("currentTrialCorrect")) {
+    store.session.set("currentTrialCorrect", data.correct);
+    if (store.session("currentTrialCorrect")) {
       response = 1;
     } else {
       response = 0;

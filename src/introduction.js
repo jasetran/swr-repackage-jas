@@ -148,7 +148,7 @@ const countdown_trial_0 = {
     task: "countdown",
   },
   on_finish: () => {
-    console.log(store.session());
+    // console.log(store.session());
     updateProgressBar();
   }
 };

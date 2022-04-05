@@ -82,7 +82,8 @@ export const initStore = () => {
   store.session.set("block_new", "");
   store.session.set("currentBlockIndex", "");
   store.session.set("stimulusRule", "");
-  // store.session.set("stimulusIndex", { blockA: 0, blockB: 0, blockC: 0 });
+  store.session.set('stimulusLists', "");
+  store.session.set("stimulusIndex", { corpusA: 0, corpusB: 0, corpusC: 0 });
   store.session.set("nextStimulus", []);
   store.session.set("response", "");
 
@@ -99,6 +100,8 @@ export const initStore = () => {
   store.session.set("coinTrackingIndex", 0);
 
   store.session.set("initialized", true);
+
+  store.session.set("myquest", "");
 
   return store.session;
 };
@@ -134,7 +137,7 @@ export const readCSV = (url) =>
   });
 
 /* set QUEST param */
-const questConfig = {
+export const questConfig = {
   tGuess: 2,
   tGuessSd: 1,
   pThreshold: 0.75,
@@ -142,7 +145,7 @@ const questConfig = {
   delta: 0.05,
   gamma: 0.5,
 };
-
+/*
 export const myquest = QuestCreate(
   questConfig.tGuess,
   questConfig.tGuessSd,
@@ -150,7 +153,7 @@ export const myquest = QuestCreate(
   questConfig.beta,
   questConfig.delta,
   questConfig.gamma,
-);
+);*/
 
 const getClosest = (arr, val1, val2, target) => {
   if (target - arr[val1].difficulty >= arr[val2].difficulty - target) {

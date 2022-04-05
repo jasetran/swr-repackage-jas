@@ -1,6 +1,6 @@
 /* eslint-disable no-param-reassign */
 // QUEST imports
-import { QuestUpdate, QuestQuantile } from "jsQUEST";
+import { QuestUpdate, QuestQuantile, QuestCreate } from "jsQUEST";
 
 // jsPsych imports
 import jsPsychSurveyText from "@jspsych/plugin-survey-text";
@@ -17,7 +17,7 @@ import { RoarFirekit } from "@bdelab/roar-firekit";
 import { rootDoc } from "./firebaseConfig";
 
 // Local modules
-import { jsPsych, config, updateProgressBar, myquest, findClosest } from "./config";
+import { jsPsych, config, updateProgressBar, questConfig, findClosest } from "./config";
 import { if_audio_response_correct, if_audio_response_wrong } from "./audio";
 import { imgContent, preload_trials } from "./preload";
 import {
@@ -29,7 +29,7 @@ import {
 import {
   mid_block_page_list, post_block_page_list, final_page,
 } from "./gameBreak";
-import { stimulusLists, blockNew, blockPractice, stimulusIndex } from "./corpus";
+import { stimulusLists, blockNew, blockPractice} from "./corpus";
 import jsPsychPavlovia from "./jsPsychPavlovia";
 
 // CSS imports
@@ -37,6 +37,9 @@ import jsPsychPavlovia from "./jsPsychPavlovia";
 import "./css/game_v4.css";
 
 let firekit;
+
+store.session.set("stimulusLists",stimulusLists);
+console.log("stimulusLists",store.session("stimulusLists"));
 
 // TODO: consider editing taskInfo based on config
 const taskInfo = {
@@ -238,26 +241,33 @@ function updateQuest() {
   let closestIndex, resultStimulus, currentCorpus, corpusType;
   let randomBoolean = Math.random() < 0.5;
   randomBoolean ? (corpusType = "corpus_real") : (corpusType = "corpus_pseudo");
-  currentCorpus = stimulusLists[store.session("currentBlockIndex")][corpusType];
+  currentCorpus = store.session("stimulusLists")[store.session("currentBlockIndex")][corpusType];
+  // currentCorpus = stimulusLists[store.session("currentBlockIndex")][corpusType];
   if (currentCorpus.length < 1){
     (corpusType === "corpus_pseudo")? corpusType = "corpus_real"  : corpusType = "corpus_pseudo";
-    currentCorpus = stimulusLists[store.session("currentBlockIndex")][corpusType];
+    currentCorpus = store.session("stimulusLists")[store.session("currentBlockIndex")][corpusType];
+    // currentCorpus = stimulusLists[store.session("currentBlockIndex")][corpusType];
   }
-  console.log("stimulusIndex", stimulusIndex);
-  console.log("currentBlock", store.session("currentBlock"));
-
   // block.corpus_real : currentCorpus = block.corpus_pseudo;
-  if (stimulusIndex[store.session("currentBlock")] === 0) {
-    const tTest = QuestQuantile(myquest);
+  if (store.session("stimulusIndex")[store.session("currentBlock")] === 0) {
+    store.session.set("myquest", QuestCreate(
+        questConfig.tGuess,
+        questConfig.tGuessSd,
+        questConfig.pThreshold,
+        questConfig.beta,
+        questConfig.delta,
+        questConfig.gamma,
+    ));
+    const tTest = QuestQuantile(store.session("myquest"));
     closestIndex = findClosest(currentCorpus, tTest);
     resultStimulus = currentCorpus[closestIndex];
     console.log(
       `target ${tTest} current_difficulty ${resultStimulus.difficulty}`
     );
   } else {
-    console.log("update QUEST", store.session("nextStimulus").difficulty, store.session("response"));
-    myquest = QuestUpdate(myquest, store.session("nextStimulus").difficulty, store.session("response"));
-    const tTest = QuestQuantile(myquest);
+    console.log("update QUEST");
+    store.session.set("myquest", QuestUpdate(store.session("myquest"), store.session("nextStimulus").difficulty, store.session("response")));
+    const tTest = QuestQuantile(store.session("myquest"));
     closestIndex = findClosest(currentCorpus, tTest);
     let d_list = [];
     currentCorpus.forEach(function (item, index) {
@@ -268,23 +278,26 @@ function updateQuest() {
       `target ${tTest} current_difficulty ${resultStimulus.difficulty}`
     );
   }
-  console.log("hi", stimulusLists, closestIndex);
-  stimulusLists[store.session("currentBlockIndex")][corpusType].splice(closestIndex, 1);
-  // console.log("after cut", stimulusLists[currentBlockIndex][corpusType].length);
+  let copyStimulusLists = store.session("stimulusLists");
+  copyStimulusLists[store.session("currentBlockIndex")][corpusType].splice(closestIndex, 1);
+  store.session.set("stimulusLists",copyStimulusLists);
   return resultStimulus;
 }
 
 function getStimulus() {
   let resultStimulus;
+  const currentBlock = store.session("currentBlock");
   if (store.session("stimulusRule") === "random") {
     console.log("this is random");
     resultStimulus =
-      stimulusLists[store.session("currentBlockIndex")].corpus_random[
-          stimulusIndex[store.session("currentBlock")]
+        store.session("stimulusLists")[store.session("currentBlockIndex")].corpus_random[
+          store.session("stimulusIndex")[currentBlock]
       ];
 
     // store.session.set("stimulusIndex", {store.session("currentBlock"): store.session("currentBlock") + 1});
-    stimulusIndex[store.session("currentBlock")] += 1;
+    let copyStimulusIndex = store.session("stimulusIndex");
+    copyStimulusIndex[currentBlock] += 1;
+    store.session.set("stimulusIndex",copyStimulusIndex);
   } else {
     let count_adaptive_trials = store.session("count_adaptive_trials");
     if (count_adaptive_trials < config.totalAdaptiveTrials) {
@@ -293,17 +306,21 @@ function getStimulus() {
       // console.log("index check " + stimulusIndex.currentBlock);
       resultStimulus = updateQuest();
       // stimulusIndex[currentBlock] += 1;
-      stimulusIndex[store.session("currentBlock")] += 1;
+      let copyStimulusIndex = store.session("stimulusIndex");
+      copyStimulusIndex[currentBlock] += 1;
+      store.session.set("stimulusIndex",copyStimulusIndex);
+      // stimulusIndex[store.session("currentBlock")] += 1;
       // store.session.set("stimulusIndex", {store.session("currentBlock"): store.session("currentBlock") + 1});
     } else {
       store.session.set("stimulusRule","new");
       console.log("this is new");
-      const newword_index = session.store("newword_index");
+      const newword_index = store.session("newword_index");
       resultStimulus = blockNew[newword_index];
       store.session.set("newword_index", newword_index+1);
       // newword_index += 1;
     }
   }
+  console.log("getStimulus", store.session("stimulusLists"), store.session("stimulusIndex"))
   // should add staircase design for else condition
   // trialCorrectAns = resultStimuli['correct_response'];
   return resultStimulus;
@@ -358,7 +375,7 @@ async function roarBlocks() {
           if (stimulusCounts[i] === 0) {
             return false;
           } else {
-            store.session.set("currentBlock",stimulusLists[i].name);
+            store.session.set("currentBlock",store.session("stimulusLists")[i].name);
             store.session.set("currentBlockIndex", i);
             store.session.set("stimulusRule", config.stimulusRuleList[i]);
             return true;

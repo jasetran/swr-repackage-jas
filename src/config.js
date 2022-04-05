@@ -52,7 +52,7 @@ export const config = {
   totalAdaptiveTrials: numAdaptiveTrials[userMode],
 
   // set number of trials for practice block
-  totalTrialsPractice: 5,
+  totalTrialsPractice: 0,
 
   // TODO: Check use of timing in other js files
   timing: {
@@ -74,7 +74,7 @@ export const initStore = () => {
 
   store.session.set("practiceIndex", 0);
   // The number of practice trials that will keep stimulus on screen untill participant's input
-  store.session.set("countSlowPractice", 2);
+  store.session.set("countSlowPractice", 0);
 
   // Counting vairables
   store.session.set("count_adaptive_trials", 0);
@@ -82,7 +82,7 @@ export const initStore = () => {
   store.session.set("block_new", "");
   store.session.set("currentBlockIndex", "");
   store.session.set("stimulusRule", "");
-  store.session.set("stimulusIndex", { blockA: 0, blockB: 0, blockC: 0 });
+  // store.session.set("stimulusIndex", { blockA: 0, blockB: 0, blockC: 0 });
   store.session.set("nextStimulus", []);
   store.session.set("response", "");
 

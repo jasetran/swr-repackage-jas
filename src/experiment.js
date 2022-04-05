@@ -17,7 +17,7 @@ import { RoarFirekit } from "@bdelab/roar-firekit";
 import { rootDoc } from "./firebaseConfig";
 
 // Local modules
-import { jsPsych, config, updateProgressBar } from "./config";
+import { jsPsych, config, updateProgressBar, myquest, findClosest } from "./config";
 import { if_audio_response_correct, if_audio_response_wrong } from "./audio";
 import { imgContent, preload_trials } from "./preload";
 import {
@@ -29,11 +29,11 @@ import {
 import {
   mid_block_page_list, post_block_page_list, final_page,
 } from "./gameBreak";
-import { stimulusLists, blockNew, blockPractice } from "./corpus";
+import { stimulusLists, blockNew, blockPractice, stimulusIndex } from "./corpus";
 import jsPsychPavlovia from "./jsPsychPavlovia";
 
 // CSS imports
-import "jspsych/css/jspsych.css";
+// import "jspsych/css/jspsych.css";
 import "./css/game_v4.css";
 
 let firekit;
@@ -186,9 +186,9 @@ const setup_fixation = {
     task: "fixation",
   },
   on_finish: function () {
-    nextStimulus = getStimuli(); // get the current stimuli for the trial
-    difficultyHistory[roarTrialNum - 1] = nextStimulus.difficulty; // log the current span in an array
-    roarTrialNum += 1; // add 1 to the total trial count
+    store.session.set("nextStimulus",getStimulus()); // get the current stimuli for the trial
+    // difficultyHistory[roarTrialNum - 1] = nextStimulus.difficulty; // log the current span in an array
+    store.session.set("roarTrialNum", store.session.get("roarTrialNum") + 1); // add 1 to the total trial count
     updateProgressBar();
   },
 };
@@ -196,7 +196,7 @@ const setup_fixation = {
 const lexicality_test = {
   type: jsPsychHtmlKeyboardResponse,
   stimulus: function () {
-    return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">${nextStimulus["stimulus"]}</p></div>`;
+    return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">${store.session("nextStimulus").stimulus}</p></div>`;
   },
   prompt: `<div></div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px"></div>`,
   stimulus_duration: config.timing.stimulusTime,
@@ -210,23 +210,18 @@ const lexicality_test = {
   on_finish: function (data) {
     data.correct = jsPsych.pluginAPI.compareKeys(
       data.response,
-      nextStimulus["correct_response"]
+      store.session("nextStimulus").correct_response
     );
     store.session.set("currentTrialCorrect", data.correct);
-    if (store.session("currentTrialCorrect")) {
-      response = 1;
-    } else {
-      response = 0;
-    }
+    (store.session("currentTrialCorrect")) ? store.session.set("response",1): store.session.set("response",0);
     jsPsych.data.addDataToLastTrial({
-      word: nextStimulus["stimulus"],
-      correct_response: nextStimulus["correct_response"],
-      difficulty: nextStimulus["difficulty"],
-      block: currentBlock,
-      stimulus_rule: stimulusRule,
+      word: store.session("nextStimulus").stimulus,
+      correct_response: store.session("nextStimulus").correct_response,
+      difficulty: store.session("nextStimulus").difficulty,
+      block: store.session("currentBlock"),
+      stimulus_rule: store.session("stimulusRule"),
       pid: config.pid,
     });
-
     updateCorrectChecker();
     updateProgressBar();
   },
@@ -240,12 +235,19 @@ function updateCorrectChecker() {
 }
 
 function updateQuest() {
-  let closestIndex, resultStimulus, currentCorpus;
+  let closestIndex, resultStimulus, currentCorpus, corpusType;
   let randomBoolean = Math.random() < 0.5;
   randomBoolean ? (corpusType = "corpus_real") : (corpusType = "corpus_pseudo");
-  currentCorpus = stimulusLists[currentBlockIndex][corpusType];
+  currentCorpus = stimulusLists[store.session("currentBlockIndex")][corpusType];
+  if (currentCorpus.length < 1){
+    (corpusType === "corpus_pseudo")? corpusType = "corpus_real"  : corpusType = "corpus_pseudo";
+    currentCorpus = stimulusLists[store.session("currentBlockIndex")][corpusType];
+  }
+  console.log("stimulusIndex", stimulusIndex);
+  console.log("currentBlock", store.session("currentBlock"));
+
   // block.corpus_real : currentCorpus = block.corpus_pseudo;
-  if (stimulusIndex[currentBlock] === 0) {
+  if (stimulusIndex[store.session("currentBlock")] === 0) {
     const tTest = QuestQuantile(myquest);
     closestIndex = findClosest(currentCorpus, tTest);
     resultStimulus = currentCorpus[closestIndex];
@@ -253,8 +255,8 @@ function updateQuest() {
       `target ${tTest} current_difficulty ${resultStimulus.difficulty}`
     );
   } else {
-    console.log("update QUEST");
-    myquest = QuestUpdate(myquest, nextStimulus.difficulty, response);
+    console.log("update QUEST", store.session("nextStimulus").difficulty, store.session("response"));
+    myquest = QuestUpdate(myquest, store.session("nextStimulus").difficulty, store.session("response"));
     const tTest = QuestQuantile(myquest);
     closestIndex = findClosest(currentCorpus, tTest);
     let d_list = [];
@@ -266,37 +268,45 @@ function updateQuest() {
       `target ${tTest} current_difficulty ${resultStimulus.difficulty}`
     );
   }
-  stimulusLists[currentBlockIndex][corpusType].splice(closestIndex, 1);
+  console.log("hi", stimulusLists, closestIndex);
+  stimulusLists[store.session("currentBlockIndex")][corpusType].splice(closestIndex, 1);
   // console.log("after cut", stimulusLists[currentBlockIndex][corpusType].length);
   return resultStimulus;
 }
 
-function getStimuli() {
-  // const resultStimuli = [];
-  if (stimulusRule === "random") {
+function getStimulus() {
+  let resultStimulus;
+  if (store.session("stimulusRule") === "random") {
     console.log("this is random");
-    resultStimuli =
-      stimulusLists[currentBlockIndex].corpus_random[
-        stimulusIndex[currentBlock]
+    resultStimulus =
+      stimulusLists[store.session("currentBlockIndex")].corpus_random[
+          stimulusIndex[store.session("currentBlock")]
       ];
-    stimulusIndex[currentBlock] += 1;
+
+    // store.session.set("stimulusIndex", {store.session("currentBlock"): store.session("currentBlock") + 1});
+    stimulusIndex[store.session("currentBlock")] += 1;
   } else {
+    let count_adaptive_trials = store.session("count_adaptive_trials");
     if (count_adaptive_trials < config.totalAdaptiveTrials) {
-      count_adaptive_trials += 1;
+      store.session.set("count_adaptive_trials", count_adaptive_trials+1 )
       console.log("this is adaptive");
       // console.log("index check " + stimulusIndex.currentBlock);
-      resultStimuli = updateQuest();
-      stimulusIndex[currentBlock] += 1;
+      resultStimulus = updateQuest();
+      // stimulusIndex[currentBlock] += 1;
+      stimulusIndex[store.session("currentBlock")] += 1;
+      // store.session.set("stimulusIndex", {store.session("currentBlock"): store.session("currentBlock") + 1});
     } else {
-      stimulusRule = "new";
+      store.session.set("stimulusRule","new");
       console.log("this is new");
-      resultStimuli = blockNew[newword_index];
-      newword_index += 1;
+      const newword_index = session.store("newword_index");
+      resultStimulus = blockNew[newword_index];
+      store.session.set("newword_index", newword_index+1);
+      // newword_index += 1;
     }
   }
   // should add staircase design for else condition
   // trialCorrectAns = resultStimuli['correct_response'];
-  return resultStimuli;
+  return resultStimulus;
 }
 
 const exit_fullscreen = {
@@ -348,10 +358,9 @@ async function roarBlocks() {
           if (stimulusCounts[i] === 0) {
             return false;
           } else {
-            currentBlock = stimulusLists[i].name;
-            console.log("hi printing currentBlock ", currentBlock);
-            currentBlockIndex = i;
-            stimulusRule = config.stimulusRuleList[i];
+            store.session.set("currentBlock",stimulusLists[i].name);
+            store.session.set("currentBlockIndex", i);
+            store.session.set("stimulusRule", config.stimulusRuleList[i]);
             return true;
           }
         },
@@ -377,7 +386,7 @@ async function roarBlocks() {
 
   const total_roar_mainproc_line = [];
 
-  pushTrialsToTimeline(stimulusLists, config.stimulusCountList);
+  pushTrialsToTimeline(config.stimulusCountList);
 
   const total_roar_mainproc = {
     timeline: total_roar_mainproc_line,

@@ -175,11 +175,12 @@ const coin_tracking_feedback = {
 export const if_coin_tracking = {
   timeline: [coin_tracking_feedback],
   conditional_function: function () {
+    const coinTrackingIndex = store.session("coinTrackingindex");
     if (store.session("currentTrialCorrect") && coinTrackingIndex >= 10) {
-      coinTrackingIndex = 0;
+      store.session.set("coinTrackingindex",0);
       return true;
     }
-    coinTrackingIndex += 1;
+    store.session.set("coinTrackingindex", coinTrackingIndex + 1);
     return false;
   },
 };

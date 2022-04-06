@@ -6,6 +6,7 @@ import dataPracticeURL from "./wordlist/ldt-items-practice.csv";
 import dataValidatedURL from "./wordlist/ldt-items-difficulties-with-six-levels.csv";
 import dataNewURL from "./wordlist/ldt-new-items.csv";
 
+
 // addAsset :: (k, Promise a) -> Promise (k, a)
 const addAsset = ([name, assetPromise]) =>
   assetPromise.then((asset) => [name, asset]);
@@ -92,7 +93,7 @@ const corpusB = {
   name: "corpusB",
   corpus_pseudo: csvTransformed.validated.slice(84, 126).reverse(),
   corpus_real: csvTransformed.validated.slice(126, 168).reverse(),
-  corpus_random: shuffle(csvTransformed.validated.slice(126, 168)),
+  corpus_random: shuffle(csvTransformed.validated.slice(84, 168)),
 };
 
 const corpusC = {
@@ -112,6 +113,7 @@ const getStimulusLists = () => {
   return randomBlockList.slice(0, config.stimulusRuleList.length);
 };
 
-export const stimulusLists = getStimulusLists();
+export const stimulusLists = getStimulusLists()
+// store.session.set("stimulusLists",getStimulusLists());
 export const blockNew = shuffle(transformNewwords(csvTransformed.new));
 export const blockPractice = csvTransformed.practice.slice(0, config.totalTrialsPractice);

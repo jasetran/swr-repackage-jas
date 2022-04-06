@@ -1,4 +1,4 @@
-import { QuestCreate } from "jsQUEST";
+// import { QuestCreate } from "jsQUEST";
 import { initJsPsych } from "jspsych";
 import Papa from "papaparse";
 import store from "store2";
@@ -34,7 +34,7 @@ const trialTimeOptions = [null, 5000, 8000, 100000];
 // words and 28 new words
 const queryString = new URL(window.location).search;
 const urlParams = new URLSearchParams(queryString);
-const userMode = urlParams.get("mode");
+const userMode = urlParams.get("mode") || "regular";
 
 export const config = {
   userMode: userMode,
@@ -145,6 +145,7 @@ export const questConfig = {
   delta: 0.05,
   gamma: 0.5,
 };
+
 /*
 export const myquest = QuestCreate(
   questConfig.tGuess,
@@ -153,7 +154,7 @@ export const myquest = QuestCreate(
   questConfig.beta,
   questConfig.delta,
   questConfig.gamma,
-);*/
+); */
 
 const getClosest = (arr, val1, val2, target) => {
   if (target - arr[val1].difficulty >= arr[val2].difficulty - target) {

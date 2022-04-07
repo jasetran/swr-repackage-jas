@@ -314,7 +314,6 @@ const setup_fixation = {
     // log the current span in an array
     // difficultyHistory[roarTrialNum - 1] = nextStimulus.difficulty;
     store.session.set("roarTrialNum", store.session.get("roarTrialNum") + 1); // add 1 to the total trial count
-    updateProgressBar();
   },
 };
 
@@ -449,8 +448,7 @@ async function roarBlocks() {
   timeline.push(total_roar_mainproc);
   timeline.push(final_page);
 
-  console.log("I am printing timeline now");
-  console.log(timeline);
+  console.log("I am printing timeline now", timeline);
 
   timeline.push(debrief_block);
   timeline.push(exit_fullscreen);

@@ -25,7 +25,7 @@ const mid_block_page_1 = {
     </div>
    <div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>
    `,
-  on_finish: updateProgressBar,
+  // on_finish: updateProgressBar(0),
 };
 
 const mid_block_page_2 = {
@@ -50,7 +50,7 @@ const mid_block_page_2 = {
    <div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>
       `,
   choices: "ALL_KEYS",
-  on_finish: updateProgressBar,
+  // on_finish: updateProgressBar(0),
 };
 
 const mid_block_page_3 = {
@@ -76,7 +76,7 @@ const mid_block_page_3 = {
    <div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>
       `,
   choices: "ALL_KEYS",
-  on_finish: updateProgressBar,
+  // on_finish: updateProgressBar(0),
 };
 
 // post block page
@@ -102,7 +102,7 @@ const post_block_page_1 = {
    <div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>
       `,
   choices: "ALL_KEYS",
-  on_finish: updateProgressBar,
+  // on_finish: updateProgressBar(0),
 };
 
 const post_block_page_2 = {
@@ -128,7 +128,7 @@ const post_block_page_2 = {
    <div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>
       `,
   choices: "ALL_KEYS",
-  on_finish: updateProgressBar,
+  // on_finish: updateProgressBar(0)
 };
 
 const mid_block_page_list = [
@@ -162,7 +162,7 @@ const final_page = {
    <div class="button">Press <span class="yellow">ANY KEY</span> to save your work</div>
       `,
   // choices: "ALL_KEYS",
-  on_finish: updateProgressBar,
+  // on_finish: updateProgressBar(0),
 };
 
 export { mid_block_page_list, post_block_page_list, final_page };

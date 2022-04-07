@@ -34,7 +34,7 @@ const trialTimeOptions = [null, 5000, 8000, 100000];
 // words and 28 new words
 const queryString = new URL(window.location).search;
 const urlParams = new URLSearchParams(queryString);
-const userMode = urlParams.get("mode") || "regular";
+const userMode = urlParams.get("mode") || "test"; // change to "regular" later
 
 export const config = {
   userMode: userMode,

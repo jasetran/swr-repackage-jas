@@ -163,11 +163,11 @@ jsPsych.opts.on_finish = extend(jsPsych.opts.on_finish, () => {
 jsPsych.opts.on_data_update = extend(
   jsPsych.opts.on_data_update,
   (data) => {
-    firekit.writeTrial(data);
+    if (["test_response", "practice_response"].includes(data.task)) {
+      firekit?.writeTrial(data);
+    }
   },
 );
-
-console.log(jsPsych);
 
 /* init connection with pavlovia.org */
 const isOnPavlovia = window.location.href.includes("run.pavlovia.org");
@@ -338,6 +338,7 @@ const lexicality_test = {
     task: "test_response" /* tag the test trials with this taskname so we can filter data later */,
     start_time: config.startTime.toLocaleString("PST"),
     start_time_unix: config.startTime.getTime(),
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   },
   on_finish: function (data) {
     data.correct = jsPsych.pluginAPI.compareKeys(

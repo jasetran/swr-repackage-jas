@@ -49,6 +49,7 @@ export const lexicality_test_practice = {
     word: jsPsych.timelineVariable("stimulus"),
     start_time: config.startTime.toLocaleString("PST"),
     start_time_unix: config.startTime.getTime(),
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   },
   on_finish: function (data) {
     data.correct = jsPsych.pluginAPI.compareKeys(

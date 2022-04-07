@@ -160,15 +160,14 @@ jsPsych.opts.on_finish = extend(jsPsych.opts.on_finish, () => {
   firekit.finishRun();
 });
 
-// TO-DO: resolve the undefined "writeTrial"
-/*jsPsych.opts.on_data_update = extend(
+jsPsych.opts.on_data_update = extend(
   jsPsych.opts.on_data_update,
   (data) => {
     if (["test_response", "practice_response"].includes(data.task)) {
       firekit?.writeTrial(data);
     }
   },
-);*/
+);
 
 /* init connection with pavlovia.org */
 const isOnPavlovia = window.location.href.includes("run.pavlovia.org");

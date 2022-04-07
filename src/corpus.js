@@ -114,6 +114,5 @@ const getStimulusLists = () => {
 };
 
 export const stimulusLists = getStimulusLists()
-// store.session.set("stimulusLists",getStimulusLists());
 export const blockNew = shuffle(transformNewwords(csvTransformed.new));
 export const blockPractice = csvTransformed.practice.slice(0, config.totalTrialsPractice);

@@ -160,14 +160,15 @@ jsPsych.opts.on_finish = extend(jsPsych.opts.on_finish, () => {
   firekit.finishRun();
 });
 
-jsPsych.opts.on_data_update = extend(
+// TO-DO: resolve the undefined "writeTrial"
+/*jsPsych.opts.on_data_update = extend(
   jsPsych.opts.on_data_update,
   (data) => {
     if (["test_response", "practice_response"].includes(data.task)) {
       firekit?.writeTrial(data);
     }
   },
-);
+);*/
 
 /* init connection with pavlovia.org */
 const isOnPavlovia = window.location.href.includes("run.pavlovia.org");
@@ -314,7 +315,6 @@ const setup_fixation = {
     // log the current span in an array
     // difficultyHistory[roarTrialNum - 1] = nextStimulus.difficulty;
     store.session.set("roarTrialNum", store.session.get("roarTrialNum") + 1); // add 1 to the total trial count
-    updateProgressBar();
   },
 };
 
@@ -449,8 +449,7 @@ async function roarBlocks() {
   timeline.push(total_roar_mainproc);
   timeline.push(final_page);
 
-  console.log("I am printing timeline now");
-  console.log(timeline);
+  console.log("I am printing timeline now", timeline);
 
   timeline.push(debrief_block);
   timeline.push(exit_fullscreen);

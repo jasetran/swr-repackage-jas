@@ -102,7 +102,7 @@ const countdown_trial_3 = {
   data: {
     task: "countdown",
   },
-  on_finish: updateProgressBar,
+  // on_finish: updateProgressBar(0),
 };
 
 const countdown_trial_2 = {
@@ -117,7 +117,7 @@ const countdown_trial_2 = {
   data: {
     task: "countdown",
   },
-  on_finish: updateProgressBar,
+  // on_finish: updateProgressBar(0),
 };
 
 const countdown_trial_1 = {
@@ -132,7 +132,7 @@ const countdown_trial_1 = {
   data: {
     task: "countdown",
   },
-  on_finish: updateProgressBar,
+  // on_finish: updateProgressBar(0),
 };
 
 const countdown_trial_0 = {
@@ -147,10 +147,6 @@ const countdown_trial_0 = {
   data: {
     task: "countdown",
   },
-  on_finish: () => {
-    // console.log(store.session());
-    updateProgressBar();
-  }
 };
 
 export const countdown_trials = {
@@ -169,18 +165,17 @@ const coin_tracking_feedback = {
   prompt: `<div class = "stimulus_div"><img class = "coin_feedback" src="${imgContent.coinBag}" alt="gold"></div>`,
   choices: "NO_KEYS",
   trial_duration: 2000,
-  on_finish: updateProgressBar,
 };
 
 export const if_coin_tracking = {
   timeline: [coin_tracking_feedback],
   conditional_function: function () {
-    const coinTrackingIndex = store.session("coinTrackingindex");
+    const coinTrackingIndex = store.session("coinTrackingIndex");
     if (store.session("currentTrialCorrect") && coinTrackingIndex >= 10) {
-      store.session.set("coinTrackingindex",0);
+      store.session.set("coinTrackingIndex",0);
       return true;
     }
-    store.session.set("coinTrackingindex", coinTrackingIndex + 1);
+    store.session.set("coinTrackingIndex", coinTrackingIndex + 1);
     return false;
   },
 };

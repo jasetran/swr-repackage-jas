@@ -37,7 +37,7 @@ const trialTimeOptions = [null, 5000, 8000, 100000];
 // words and 28 new words
 const queryString = new URL(window.location).search;
 const urlParams = new URLSearchParams(queryString);
-const userMode = urlParams.get("mode") || "test"; // change to "regularaRandom" later
+const userMode = urlParams.get("mode") || "regularRandom"; // change to "regularaRandom" later
 
 export const config = {
   userMode: userMode,
@@ -81,12 +81,12 @@ export const initStore = () => {
 
   // Counting vairables
   store.session.set("count_adaptive_trials", 0);
-  store.session.set("newword_index", 0);
-  store.session.set("block_new", "");
   store.session.set("currentBlockIndex", "");
   store.session.set("stimulusRule", "");
   store.session.set('stimulusLists', "");
   store.session.set("stimulusIndex", { corpusA: 0, corpusB: 0, corpusC: 0, corpusNew: 0 });
+  store.session.set("trialNumBlock", 0); // counter for trials in block
+  store.session.set("trialNumTotal", 0); // counter for trials in experiment
   store.session.set("nextStimulus", []);
   store.session.set("response", "");
 
@@ -99,7 +99,6 @@ export const initStore = () => {
   store.session.set("startingDifficulty", 0); // where we begin in terms of difficulty
   store.session.set("currentDifficulty", 0); // to reference where participants currently are
   store.session.set("difficultyHistory", []); // easy logging of the participant's trajectory
-  store.session.set("roarTrialNum", 0); // counter for trials
   store.session.set("coinTrackingIndex", 0);
 
   store.session.set("initialized", true);

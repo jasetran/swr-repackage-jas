@@ -72,6 +72,7 @@ export const lexicality_test_practice = {
       correct: data.correct,
       correct_response: jsPsych.timelineVariable("correct_response"),
       block: "Practice",
+      trialNumPractice: store.session("practiceIndex"),
       pid: config.pid,
     });
 

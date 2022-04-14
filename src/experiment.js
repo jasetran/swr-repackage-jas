@@ -245,37 +245,32 @@ function updateQuest() {
 
 function getStimulus() {
   let resultStimulus;
-  const currentBlock = store.session("currentBlock");
+  let currentBlock = store.session("currentBlock");
+  const tracker = store.session("stimulusIndex")[currentBlock];
+  (tracker == 0) ? store.session.set("trialNumBlock", 1) : store.session.set("trialNumBlock", store.session("trialNumBlock") + 1); // add 1 to block trial count
+  store.session.set("trialNumTotal", store.session.get("trialNumTotal") + 1); // add 1 to the total trial count
   if (store.session("stimulusRule") === "random") {
-    // console.log("this is random");
     resultStimulus = store.session("stimulusLists")[store.session("currentBlockIndex")].corpus_random[
       store.session("stimulusIndex")[currentBlock]
     ];
-
-    // store.session.set("stimulusIndex", {store.session("currentBlock"):
-    // store.session("currentBlock") + 1});
-    const copyStimulusIndex = store.session("stimulusIndex");
-    copyStimulusIndex[currentBlock] += 1;
-    store.session.set("stimulusIndex", copyStimulusIndex);
-  } else {
+  } else if  (store.session("stimulusRule") === "adaptive") {
     const count_adaptive_trials = store.session("count_adaptive_trials");
     if (count_adaptive_trials < config.totalAdaptiveTrials) {
       store.session.set("count_adaptive_trials", count_adaptive_trials + 1);
-      // console.log("this is adaptive");
       resultStimulus = updateQuest();
-      // stimulusIndex[currentBlock] += 1;
-      const copyStimulusIndex = store.session("stimulusIndex");
-      copyStimulusIndex[currentBlock] += 1;
-      store.session.set("stimulusIndex", copyStimulusIndex);
     } else {
       store.session.set("stimulusRule", "new");
-      // console.log("this is new");
-      const newword_index = store.session("newword_index");
-      resultStimulus = blockNew[newword_index];
-      store.session.set("newword_index", newword_index + 1);
+      currentBlock = 'corpusNew'
+      resultStimulus = blockNew[store.session("stimulusIndex")[currentBlock]];
     }
+  } else {
+    currentBlock = 'corpusNew'
+    resultStimulus = blockNew[store.session("stimulusIndex")[currentBlock]];
   }
-  // console.log("getStimulus", store.session("stimulusLists"), store.session("stimulusIndex"));
+  const copyStimulusIndex = store.session("stimulusIndex");
+  copyStimulusIndex[currentBlock] += 1;
+  store.session.set("stimulusIndex", copyStimulusIndex);
+  console.log("getStimulus", currentBlock, store.session("trialNumBlock"));
   return resultStimulus;
 }
 
@@ -293,7 +288,6 @@ const setup_fixation = {
   },
   on_finish: function () {
     store.session.set("nextStimulus", getStimulus()); // get the current stimuli for the trial
-    store.session.set("roarTrialNum", store.session.get("roarTrialNum") + 1); // add 1 to the total trial count
   },
 };
 
@@ -301,7 +295,7 @@ const setup_fixation = {
 function updateCorrectChecker() {
   const trials = jsPsych.data.get().filter({ task: "test_response" });
   const correct_trials = trials.filter({ correct: true });
-  console.log(`CORRECT TRIALS COUNT ${correct_trials.count()}`);
+  // console.log(`CORRECT TRIALS COUNT ${correct_trials.count()}`);
 }
 
 const lexicality_test = {
@@ -338,8 +332,8 @@ const lexicality_test = {
       correctResponse: store.session("nextStimulus").correct_response,
       difficulty: store.session("nextStimulus").difficulty,
       stimulusRule: store.session("stimulusRule"),
-      trialCountTotal: store.session("roarTrialNum"),
-      // trialCountBlock:store.session("stimulusIndex")[store.session("currentBlock")],
+      trialNumTotal: store.session("trialNumTotal"),
+      trialNumBlock: store.session("trialNumBlock"),
       pid: config.pid,
     });
     updateCorrectChecker();

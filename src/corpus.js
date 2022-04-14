@@ -3,7 +3,7 @@ import { config, realpseudo2arrow, readCSV } from "./config";
 
 // Word corpus imports
 import dataPracticeURL from "./wordlist/ldt-items-practice.csv";
-import dataValidatedURL from "./wordlist/ldt-items-difficulties-with-six-levels.csv";
+import dataValidatedURL from "./wordlist/ldt-design-item-difficulties-no-rounding-sorted.csv";
 import dataNewURL from "./wordlist/ldt-new-items.csv";
 
 

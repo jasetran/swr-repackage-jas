@@ -5,19 +5,22 @@ import store from "store2";
 
 const stimulusRuleLists = {
   beginner: ["random", "adaptive"],
-  regular: ["adaptive", "random", "random"],
+  regularRandom: ["random", "random", "random"], //three adaptive blocks
+  regularAdaptive: ["adaptive", "random", "random"], //1 adaptive, 2 random blocks
   test: ["adaptive", "random", "random"],
 };
 
 const stimulusCountLists = {
   beginner: [84, 28],
-  regular: [84, 84, 84],
+  regularRandom: [84, 84, 84],
+  regularAdaptive: [84, 84, 84],
   test: [10, 4, 4],
 };
 
 const numAdaptiveTrials = {
   beginner: 0,
-  regular: 60,
+  regularRandom: 0,
+  regularAdaptive: 60,
   test: 8,
 };
 
@@ -34,7 +37,7 @@ const trialTimeOptions = [null, 5000, 8000, 100000];
 // words and 28 new words
 const queryString = new URL(window.location).search;
 const urlParams = new URLSearchParams(queryString);
-const userMode = urlParams.get("mode") || "test"; // change to "regular" later
+const userMode = urlParams.get("mode") || "test"; // change to "regularaRandom" later
 
 export const config = {
   userMode: userMode,
@@ -52,7 +55,9 @@ export const config = {
   totalAdaptiveTrials: numAdaptiveTrials[userMode],
 
   // set number of trials for practice block
-  totalTrialsPractice: 0,
+  totalTrialsPractice: 5,
+  // The number of practice trials that will keep stimulus on screen untill participant's input
+  countSlowPractice:2,
 
   // TODO: Check use of timing in other js files
   timing: {
@@ -73,8 +78,6 @@ export const initStore = () => {
   }
 
   store.session.set("practiceIndex", 0);
-  // The number of practice trials that will keep stimulus on screen untill participant's input
-  store.session.set("countSlowPractice", 0);
 
   // Counting vairables
   store.session.set("count_adaptive_trials", 0);
@@ -83,7 +86,7 @@ export const initStore = () => {
   store.session.set("currentBlockIndex", "");
   store.session.set("stimulusRule", "");
   store.session.set('stimulusLists', "");
-  store.session.set("stimulusIndex", { corpusA: 0, corpusB: 0, corpusC: 0 });
+  store.session.set("stimulusIndex", { corpusA: 0, corpusB: 0, corpusC: 0, corpusNew: 0 });
   store.session.set("nextStimulus", []);
   store.session.set("response", "");
 
@@ -96,7 +99,7 @@ export const initStore = () => {
   store.session.set("startingDifficulty", 0); // where we begin in terms of difficulty
   store.session.set("currentDifficulty", 0); // to reference where participants currently are
   store.session.set("difficultyHistory", []); // easy logging of the participant's trajectory
-  store.session.set("roarTrialNum", 1); // counter for trials
+  store.session.set("roarTrialNum", 0); // counter for trials
   store.session.set("coinTrackingIndex", 0);
 
   store.session.set("initialized", true);
@@ -138,23 +141,13 @@ export const readCSV = (url) =>
 
 /* set QUEST param */
 export const questConfig = {
-  tGuess: 2,
-  tGuessSd: 1,
+  tGuess: 0,
+  tGuessSd: 2,
   pThreshold: 0.75,
   beta: 1,
   delta: 0.05,
   gamma: 0.5,
 };
-
-/*
-export const myquest = QuestCreate(
-  questConfig.tGuess,
-  questConfig.tGuessSd,
-  questConfig.pThreshold,
-  questConfig.beta,
-  questConfig.delta,
-  questConfig.gamma,
-); */
 
 const getClosest = (arr, val1, val2, target) => {
   if (target - arr[val1].difficulty >= arr[val2].difficulty - target) {

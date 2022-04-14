@@ -42,7 +42,6 @@ import "./css/game_v4.css";
 let firekit;
 
 store.session.set("stimulusLists", stimulusLists);
-console.log("stimulusLists", store.session("stimulusLists"));
 
 // TODO: consider editing taskInfo based on config
 const taskInfo = {
@@ -207,7 +206,6 @@ function updateQuest() {
   const randomBoolean = Math.random() < 0.5;
   corpusType = randomBoolean ? "corpus_real" : "corpus_pseudo";
   currentCorpus = store.session("stimulusLists")[store.session("currentBlockIndex")][corpusType];
-  // currentCorpus = stimulusLists[store.session("currentBlockIndex")][corpusType];
   if (currentCorpus.length < 1) {
     if (corpusType === "corpus_pseudo") {
       corpusType = "corpus_real";
@@ -215,9 +213,7 @@ function updateQuest() {
       corpusType = "corpus_pseudo";
     }
     currentCorpus = store.session("stimulusLists")[store.session("currentBlockIndex")][corpusType];
-    // currentCorpus = stimulusLists[store.session("currentBlockIndex")][corpusType];
   }
-  // block.corpus_real : currentCorpus = block.corpus_pseudo;
   if (store.session("stimulusIndex")[store.session("currentBlock")] === 0) {
     store.session.set("myquest", QuestCreate(
       questConfig.tGuess,
@@ -230,11 +226,7 @@ function updateQuest() {
     const tTest = QuestQuantile(store.session("myquest"));
     closestIndex = findClosest(currentCorpus, tTest);
     resultStimulus = currentCorpus[closestIndex];
-    console.log(
-      `target ${tTest} current_difficulty ${resultStimulus.difficulty}`,
-    );
   } else {
-    console.log("update QUEST");
     store.session.set("myquest", QuestUpdate(store.session("myquest"), store.session("nextStimulus").difficulty, store.session("response")));
     const tTest = QuestQuantile(store.session("myquest"));
     closestIndex = findClosest(currentCorpus, tTest);
@@ -243,9 +235,6 @@ function updateQuest() {
       d_list.push(item.difficulty);
     });
     resultStimulus = currentCorpus[closestIndex];
-    console.log(
-      `target ${tTest} current_difficulty ${resultStimulus.difficulty}`,
-    );
   }
 
   const copyStimulusLists = store.session("stimulusLists");
@@ -258,7 +247,7 @@ function getStimulus() {
   let resultStimulus;
   const currentBlock = store.session("currentBlock");
   if (store.session("stimulusRule") === "random") {
-    console.log("this is random");
+    // console.log("this is random");
     resultStimulus = store.session("stimulusLists")[store.session("currentBlockIndex")].corpus_random[
       store.session("stimulusIndex")[currentBlock]
     ];
@@ -272,28 +261,21 @@ function getStimulus() {
     const count_adaptive_trials = store.session("count_adaptive_trials");
     if (count_adaptive_trials < config.totalAdaptiveTrials) {
       store.session.set("count_adaptive_trials", count_adaptive_trials + 1);
-      console.log("this is adaptive");
-      // console.log("index check " + stimulusIndex.currentBlock);
+      // console.log("this is adaptive");
       resultStimulus = updateQuest();
       // stimulusIndex[currentBlock] += 1;
       const copyStimulusIndex = store.session("stimulusIndex");
       copyStimulusIndex[currentBlock] += 1;
       store.session.set("stimulusIndex", copyStimulusIndex);
-      // stimulusIndex[store.session("currentBlock")] += 1;
-      // store.session.set("stimulusIndex", {store.session("currentBlock") :
-      // store.session("currentBlock") + 1});
     } else {
       store.session.set("stimulusRule", "new");
-      console.log("this is new");
+      // console.log("this is new");
       const newword_index = store.session("newword_index");
       resultStimulus = blockNew[newword_index];
       store.session.set("newword_index", newword_index + 1);
-      // newword_index += 1;
     }
   }
-  console.log("getStimulus", store.session("stimulusLists"), store.session("stimulusIndex"));
-  // should add staircase design for else condition
-  // trialCorrectAns = resultStimuli['correct_response'];
+  // console.log("getStimulus", store.session("stimulusLists"), store.session("stimulusIndex"));
   return resultStimulus;
 }
 
@@ -311,8 +293,6 @@ const setup_fixation = {
   },
   on_finish: function () {
     store.session.set("nextStimulus", getStimulus()); // get the current stimuli for the trial
-    // log the current span in an array
-    // difficultyHistory[roarTrialNum - 1] = nextStimulus.difficulty;
     store.session.set("roarTrialNum", store.session.get("roarTrialNum") + 1); // add 1 to the total trial count
   },
 };
@@ -351,11 +331,15 @@ const lexicality_test = {
       store.session.set("response", 0);
     }
     jsPsych.data.addDataToLastTrial({
+      block: store.session("currentBlockIndex"),
+      corpusId: store.session("currentBlock"),
       word: store.session("nextStimulus").stimulus,
-      correct_response: store.session("nextStimulus").correct_response,
+      correct: data.correct,
+      correctResponse: store.session("nextStimulus").correct_response,
       difficulty: store.session("nextStimulus").difficulty,
-      block: store.session("currentBlock"),
-      stimulus_rule: store.session("stimulusRule"),
+      stimulusRule: store.session("stimulusRule"),
+      trialCountTotal: store.session("roarTrialNum"),
+      // trialCountBlock:store.session("stimulusIndex")[store.session("currentBlock")],
       pid: config.pid,
     });
     updateCorrectChecker();
@@ -448,9 +432,7 @@ async function roarBlocks() {
   timeline.push(total_roar_mainproc);
   timeline.push(final_page);
 
-  console.log("I am printing timeline now", timeline);
-
-  timeline.push(debrief_block);
+  // timeline.push(debrief_block);
   timeline.push(exit_fullscreen);
 
   if (isOnPavlovia) {

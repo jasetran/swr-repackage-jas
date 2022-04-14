@@ -35,7 +35,7 @@ export const lexicality_test_practice = {
   prompt: `<img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px">`,
   stimulus_duration: function () {
     store.session.transact("practiceIndex", (oldVal) => oldVal + 1);
-    if (store.session("practiceIndex") > store.session("countSlowPractice")) {
+    if (store.session("practiceIndex") > config.countSlowPractice) {
       return config.timing.stimulusTime;
     }
     return config.timing.stimulusTimePracticeOnly;
@@ -69,6 +69,7 @@ export const lexicality_test_practice = {
     store.session.set("answerColor", isLeftAnswer ? "orange" : "blue");
 
     jsPsych.data.addDataToLastTrial({
+      correct: data.correct,
       correct_response: jsPsych.timelineVariable("correct_response"),
       block: "Practice",
       pid: config.pid,

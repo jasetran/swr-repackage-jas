@@ -39,8 +39,8 @@ h3 {
 
 
 p  {
+	text-align:center;
 	vertical-align: middle;
-	text-align: left;
 	font-family: "Source Sans Pro", Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
 	font-style: normal;
 	font-weight: normal;
@@ -80,14 +80,6 @@ p  {
 	color: rgba(0,0,0,1);
 }
 
-/*.stimulus_div {
-	width:95%;
-	margin: auto;
-	display: inline-block;
-	vertical-align: middle;
-	text-align: center;
-}*/
-
 .stimulus_div {
 	display: flex;
 	justify-content: center;
@@ -106,6 +98,7 @@ p  {
 
 .middle  {
 	position: relative;
+    text-align: left;
 	top: 50%;
 	left: 50%;
 	transform: translate(-50%, -50%);

@@ -42,42 +42,31 @@ import "./css/game_v4.css";
 let firekit;
 
 store.session.set("stimulusLists", stimulusLists);
-console.log("stimulusLists", store.session("stimulusLists"));
 
 // TODO: consider editing taskInfo based on config
 const taskInfo = {
   taskId: "swr",
   taskName: "Single Word Recognition",
-  variantName: "quest",
+  variantName: "pilot",
   taskDescription:
     "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
   variantDescription:
-    "This variant uses adaptive stimulus selection using the Quest algorithm.",
+    "This variant uses 3 random-ordered blocks.",
   blocks: [
     {
       blockNumber: 0,
-      trialMethod: "practice",
-      corpus: "practiceCorpusId",
+      trialMethod: "random",
+      corpus: "randomCorpusId",
     },
     {
       blockNumber: 1,
-      trialMethod: "adaptive",
-      corpus: "adaptiveCorpusId",
+      trialMethod: "random",
+      corpus: "randomwCorpusId",
     },
     {
       blockNumber: 2,
       trialMethod: "random",
-      corpus: "newCorpusId",
-    },
-    {
-      blockNumber: 3,
-      trialMethod: "random",
       corpus: "random1CorpusId",
-    },
-    {
-      blockNumber: 4,
-      trialMethod: "random",
-      corpus: "random2CorpusId",
     },
   ],
 };
@@ -207,7 +196,6 @@ function updateQuest() {
   const randomBoolean = Math.random() < 0.5;
   corpusType = randomBoolean ? "corpus_real" : "corpus_pseudo";
   currentCorpus = store.session("stimulusLists")[store.session("currentBlockIndex")][corpusType];
-  // currentCorpus = stimulusLists[store.session("currentBlockIndex")][corpusType];
   if (currentCorpus.length < 1) {
     if (corpusType === "corpus_pseudo") {
       corpusType = "corpus_real";
@@ -215,9 +203,7 @@ function updateQuest() {
       corpusType = "corpus_pseudo";
     }
     currentCorpus = store.session("stimulusLists")[store.session("currentBlockIndex")][corpusType];
-    // currentCorpus = stimulusLists[store.session("currentBlockIndex")][corpusType];
   }
-  // block.corpus_real : currentCorpus = block.corpus_pseudo;
   if (store.session("stimulusIndex")[store.session("currentBlock")] === 0) {
     store.session.set("myquest", QuestCreate(
       questConfig.tGuess,
@@ -230,11 +216,7 @@ function updateQuest() {
     const tTest = QuestQuantile(store.session("myquest"));
     closestIndex = findClosest(currentCorpus, tTest);
     resultStimulus = currentCorpus[closestIndex];
-    console.log(
-      `target ${tTest} current_difficulty ${resultStimulus.difficulty}`,
-    );
   } else {
-    console.log("update QUEST");
     store.session.set("myquest", QuestUpdate(store.session("myquest"), store.session("nextStimulus").difficulty, store.session("response")));
     const tTest = QuestQuantile(store.session("myquest"));
     closestIndex = findClosest(currentCorpus, tTest);
@@ -243,9 +225,6 @@ function updateQuest() {
       d_list.push(item.difficulty);
     });
     resultStimulus = currentCorpus[closestIndex];
-    console.log(
-      `target ${tTest} current_difficulty ${resultStimulus.difficulty}`,
-    );
   }
 
   const copyStimulusLists = store.session("stimulusLists");
@@ -256,44 +235,37 @@ function updateQuest() {
 
 function getStimulus() {
   let resultStimulus;
-  const currentBlock = store.session("currentBlock");
+  let currentBlock = store.session("currentBlock");
+  const tracker = store.session("stimulusIndex")[currentBlock];
+  if (tracker == 0) {
+    store.session.set("trialNumBlock", 1)
+  } else{
+    store.session.transact("trialNumBlock", (oldVal) => oldVal + 1);
+  }
+  // add 1 to block trial count
+  store.session.transact("trialNumTotal", (oldVal) => oldVal + 1); // add 1 to the total trial count
   if (store.session("stimulusRule") === "random") {
-    console.log("this is random");
     resultStimulus = store.session("stimulusLists")[store.session("currentBlockIndex")].corpus_random[
       store.session("stimulusIndex")[currentBlock]
     ];
-
-    // store.session.set("stimulusIndex", {store.session("currentBlock"):
-    // store.session("currentBlock") + 1});
-    const copyStimulusIndex = store.session("stimulusIndex");
-    copyStimulusIndex[currentBlock] += 1;
-    store.session.set("stimulusIndex", copyStimulusIndex);
-  } else {
+  } else if  (store.session("stimulusRule") === "adaptive") {
     const count_adaptive_trials = store.session("count_adaptive_trials");
     if (count_adaptive_trials < config.totalAdaptiveTrials) {
       store.session.set("count_adaptive_trials", count_adaptive_trials + 1);
-      console.log("this is adaptive");
-      // console.log("index check " + stimulusIndex.currentBlock);
       resultStimulus = updateQuest();
-      // stimulusIndex[currentBlock] += 1;
-      const copyStimulusIndex = store.session("stimulusIndex");
-      copyStimulusIndex[currentBlock] += 1;
-      store.session.set("stimulusIndex", copyStimulusIndex);
-      // stimulusIndex[store.session("currentBlock")] += 1;
-      // store.session.set("stimulusIndex", {store.session("currentBlock") :
-      // store.session("currentBlock") + 1});
     } else {
       store.session.set("stimulusRule", "new");
-      console.log("this is new");
-      const newword_index = store.session("newword_index");
-      resultStimulus = blockNew[newword_index];
-      store.session.set("newword_index", newword_index + 1);
-      // newword_index += 1;
+      currentBlock = 'corpusNew'
+      resultStimulus = blockNew[store.session("stimulusIndex")[currentBlock]];
     }
+  } else {
+    currentBlock = 'corpusNew'
+    resultStimulus = blockNew[store.session("stimulusIndex")[currentBlock]];
   }
-  console.log("getStimulus", store.session("stimulusLists"), store.session("stimulusIndex"));
-  // should add staircase design for else condition
-  // trialCorrectAns = resultStimuli['correct_response'];
+  const copyStimulusIndex = store.session("stimulusIndex");
+  copyStimulusIndex[currentBlock] += 1;
+  store.session.set("stimulusIndex", copyStimulusIndex);
+  // console.log("getStimulus", currentBlock, store.session("trialNumBlock"));
   return resultStimulus;
 }
 
@@ -311,9 +283,6 @@ const setup_fixation = {
   },
   on_finish: function () {
     store.session.set("nextStimulus", getStimulus()); // get the current stimuli for the trial
-    // log the current span in an array
-    // difficultyHistory[roarTrialNum - 1] = nextStimulus.difficulty;
-    store.session.set("roarTrialNum", store.session.get("roarTrialNum") + 1); // add 1 to the total trial count
   },
 };
 
@@ -321,7 +290,7 @@ const setup_fixation = {
 function updateCorrectChecker() {
   const trials = jsPsych.data.get().filter({ task: "test_response" });
   const correct_trials = trials.filter({ correct: true });
-  console.log(`CORRECT TRIALS COUNT ${correct_trials.count()}`);
+  // console.log(`CORRECT TRIALS COUNT ${correct_trials.count()}`);
 }
 
 const lexicality_test = {
@@ -351,11 +320,15 @@ const lexicality_test = {
       store.session.set("response", 0);
     }
     jsPsych.data.addDataToLastTrial({
+      block: store.session("currentBlockIndex"),
+      corpusId: store.session("currentBlock"),
       word: store.session("nextStimulus").stimulus,
-      correct_response: store.session("nextStimulus").correct_response,
+      correct: data.correct,
+      correctResponse: store.session("nextStimulus").correct_response,
       difficulty: store.session("nextStimulus").difficulty,
-      block: store.session("currentBlock"),
-      stimulus_rule: store.session("stimulusRule"),
+      stimulusRule: store.session("stimulusRule"),
+      trialNumTotal: store.session("trialNumTotal"),
+      trialNumBlock: store.session("trialNumBlock"),
       pid: config.pid,
     });
     updateCorrectChecker();
@@ -448,9 +421,7 @@ async function roarBlocks() {
   timeline.push(total_roar_mainproc);
   timeline.push(final_page);
 
-  console.log("I am printing timeline now", timeline);
-
-  timeline.push(debrief_block);
+  // timeline.push(debrief_block);
   timeline.push(exit_fullscreen);
 
   if (isOnPavlovia) {

@@ -47,36 +47,26 @@ store.session.set("stimulusLists", stimulusLists);
 const taskInfo = {
   taskId: "swr",
   taskName: "Single Word Recognition",
-  variantName: "quest",
+  variantName: "pilot",
   taskDescription:
     "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
   variantDescription:
-    "This variant uses adaptive stimulus selection using the Quest algorithm.",
+    "This variant uses 3 random-ordered blocks.",
   blocks: [
     {
       blockNumber: 0,
-      trialMethod: "practice",
-      corpus: "practiceCorpusId",
+      trialMethod: "random",
+      corpus: "randomCorpusId",
     },
     {
       blockNumber: 1,
-      trialMethod: "adaptive",
-      corpus: "adaptiveCorpusId",
+      trialMethod: "random",
+      corpus: "randomwCorpusId",
     },
     {
       blockNumber: 2,
       trialMethod: "random",
-      corpus: "newCorpusId",
-    },
-    {
-      blockNumber: 3,
-      trialMethod: "random",
       corpus: "random1CorpusId",
-    },
-    {
-      blockNumber: 4,
-      trialMethod: "random",
-      corpus: "random2CorpusId",
     },
   ],
 };
@@ -247,8 +237,13 @@ function getStimulus() {
   let resultStimulus;
   let currentBlock = store.session("currentBlock");
   const tracker = store.session("stimulusIndex")[currentBlock];
-  (tracker == 0) ? store.session.set("trialNumBlock", 1) : store.session.set("trialNumBlock", store.session("trialNumBlock") + 1); // add 1 to block trial count
-  store.session.set("trialNumTotal", store.session.get("trialNumTotal") + 1); // add 1 to the total trial count
+  if (tracker == 0) {
+    store.session.set("trialNumBlock", 1)
+  } else{
+    store.session.transact("trialNumBlock", (oldVal) => oldVal + 1);
+  }
+  // add 1 to block trial count
+  store.session.transact("trialNumTotal", (oldVal) => oldVal + 1); // add 1 to the total trial count
   if (store.session("stimulusRule") === "random") {
     resultStimulus = store.session("stimulusLists")[store.session("currentBlockIndex")].corpus_random[
       store.session("stimulusIndex")[currentBlock]
@@ -270,7 +265,7 @@ function getStimulus() {
   const copyStimulusIndex = store.session("stimulusIndex");
   copyStimulusIndex[currentBlock] += 1;
   store.session.set("stimulusIndex", copyStimulusIndex);
-  console.log("getStimulus", currentBlock, store.session("trialNumBlock"));
+  // console.log("getStimulus", currentBlock, store.session("trialNumBlock"));
   return resultStimulus;
 }
 

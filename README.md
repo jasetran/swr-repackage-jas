@@ -1,27 +1,23 @@
-# ROAR3 (v3.x)
+# ROAR-SWR (v3.x)
 
-Development for jsPsych  version of ROAR-LDT. 
+Development for jsPsych version of ROAR-Single Word Recognition. 
 Versions and their dependencies are packaged within
  folders to ensure continued functionality as new test versions are deployed.
 
 ## Organization 
-### Working Config File
+### Config File
 src/config.js
 
-### Working Content Code 
+### Experiment
 src/experiment.js
 
-### Working CSS
-CSS-and-HTML-Template/game_v2.css
+### CSS
+src/css/game_v4.css
+
+### Webpack
+webpack.config.js
 
 ## TODO
 
-- Seprate parameters into config.json
-- Integrate with Pavlovia (?)
-- Handle userID and authentication passed from dashboard
-- Integrate new assets and clean design
-
 ## Links
-
-- Deployed experiment available [here](https://gse-yeatmanlab.web.app)
-- Firebase Project Console available [here](https://console.firebase.google.com/project/gse-yeatmanlab/overview)
+- Deployed experiment available (https://roar-swr.web.app)

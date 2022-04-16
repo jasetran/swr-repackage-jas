@@ -165,8 +165,16 @@ if (isOnPavlovia) {
   timeline.push(pavlovia_init);
 }
 
+/*const hide_cursor = {
+  type: jsPsychCallFunction,
+  func: function() {
+    document.body.style.cursor= "none";
+  }
+};*/
+
 timeline.push(if_get_pid);
 timeline.push(enter_fullscreen);
+// timeline.push(hide_cursor);
 timeline.push(introduction_trials);
 timeline.push(countdown_trials);
 

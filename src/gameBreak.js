@@ -161,8 +161,10 @@ const final_page = {
 </div>
    <div class="button">Press <span class="yellow">ANY KEY</span> to save your work</div>
       `,
-  // choices: "ALL_KEYS",
-  // on_finish: updateProgressBar(0),
+  choices: "ALL_KEYS",
+  on_finish: function () {
+    document.body.style.cursor= "auto";
+  },
 };
 
 export { mid_block_page_list, post_block_page_list, final_page };

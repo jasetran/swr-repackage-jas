@@ -101,7 +101,7 @@ const practice_feedback_left = {
   prompt: function () {
     return `
 <div class = stimulus_div><p class="feedback"><span class=${store.session("responseColor")}>You pressed the ${store.session("responseLR")} arrow key, which is for ${store.session("answerRP")} words! </span>
-<br></br>${jsPsych.timelineVariable("stimulus")}<span class=${store.session("answerColor")}> is a ${store.session("correctRP")}  word. Press ${store.session("correctLR")} arrow key to continue.</span></p></div>
+<br></br>${jsPsych.timelineVariable("stimulus")}<span class=${store.session("answerColor")}> is a ${store.session("correctRP")}  word. Press the ${store.session("correctLR")} arrow key to continue.</span></p></div>
 <img class="lower" src= "${imgContent.arrowkeyLexLeft}" alt="arrow keys" style=" width:698px; height:120px">
       `;
   },
@@ -115,7 +115,7 @@ const practice_feedback_right = {
   prompt: function () {
     return `<div class = stimulus_div>
 \t<p class="feedback"><span class=${store.session("responseColor")}>You pressed the ${store.session("responseLR")} arrow key, which is for ${store.session("answerRP")} words! </span>
-<br></br>${jsPsych.timelineVariable("stimulus")}<span class=${store.session("answerColor")}> is a ${store.session("correctRP")}  word. Press ${store.session("correctLR")} arrow key to continue.</span></p>
+<br></br>${jsPsych.timelineVariable("stimulus")}<span class=${store.session("answerColor")}> is a ${store.session("correctRP")}  word. Press the ${store.session("correctLR")} arrow key to continue.</span></p>
 </div><img class="lower" src="${imgContent.arrowkeyLexRight}" alt="arrow keys" style=" width:698px; height:120px"> 
       `;
   },

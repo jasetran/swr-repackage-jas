@@ -26,6 +26,9 @@ const intro_1 = {
     start_time: config.startTime.toLocaleString("PST"),
     start_time_unix: config.startTime.getTime(),
   },
+  on_start: function () {
+    document.body.style.cursor= "none";
+  }
 };
 
 const intro_2 = {

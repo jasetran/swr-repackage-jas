@@ -6,8 +6,10 @@ body {
 }
 
 h1 {
-	text-align: center;
 	margin-top: 10%;
+	margin-right: 10%;
+	margin-left: 10%;
+	text-align: center;
 	padding-inline: 10px;
 	font-family: "Source Sans Pro", Gotham, "Helvetica Neue", Helvetica, Arial, "sans-serif";
 	font-weight: semi-bold;
@@ -105,8 +107,10 @@ p  {
 }
 
 .lower {
-	position: relative;
-	top: 42em;
+	position: fixed;
+	bottom: 10%;
+	left: 50%;
+	transform: translate(-50%, -50%);
 }
 
 .orange {

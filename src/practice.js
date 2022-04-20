@@ -32,7 +32,7 @@ export const lexicality_test_practice = {
       "stimulus",
     )}</p></div>`;
   },
-  prompt: `<img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px">`,
+  prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px">`,
   stimulus_duration: function () {
     store.session.transact("practiceIndex", (oldVal) => oldVal + 1);
     if (store.session("practiceIndex") > config.countSlowPractice) {

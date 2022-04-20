@@ -306,7 +306,7 @@ const lexicality_test = {
   stimulus: function () {
     return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">${store.session("nextStimulus").stimulus}</p></div>`;
   },
-  prompt: `<div></div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px"></div>`,
+  prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px"></div>`,
   stimulus_duration: config.timing.stimulusTime,
   trial_duration: config.timing.trialTime,
   choices: ["ArrowLeft", "ArrowRight"],

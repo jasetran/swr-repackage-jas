@@ -41,7 +41,7 @@ const userMode = urlParams.get("mode") || "regularRandom"; // change to "regular
 
 export const config = {
   userMode: userMode,
-  pid: urlParams.get("pid"),
+  pid: urlParams.get("participant"),
   sessionId: urlParams.get("sessionId"),
   testingOnly: userMode === "test",
 

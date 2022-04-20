@@ -14,7 +14,7 @@ const intro_1 = {
   prompt: `<h1>Welcome to the world of Lexicality!</h1>
         <div class="row">
           <div class="column_1">
-            <img class="characterleft" src="${imgContent.wizardMagic}" height="320px" alt="animation of a wizard waving a magic wand">
+            <img class="characterleft" src="${imgContent.wizardMagic}" alt="animation of a wizard waving a magic wand">
             </div>
           <div class="column_3">
             <p class="middle"> You are a wizard searching for the gate that will return you to your home on Earth. To reach the gate, you must journey over lands ruled by magical guardians.</p>
@@ -98,8 +98,8 @@ const countdown_trial_3 = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: audioContent.countdown3,
   prompt: `
-        <div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">3</p></div>
-        <img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px">`,
+        <div class = stimulus_div><p class = 'stimulus'>3</p></div>
+        <img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys">`,
   choices: "NO_KEYS",
   trial_duration: 1000,
   data: {
@@ -112,8 +112,8 @@ const countdown_trial_2 = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: audioContent.countdown2,
   prompt: function () {
-    return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">2</p></div>
-   <img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px">`;
+    return `<div class = stimulus_div><p class = 'stimulus'>2</p></div>
+   <img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" >`;
   },
   choices: "NO_KEYS",
   trial_duration: 1000,
@@ -127,8 +127,8 @@ const countdown_trial_1 = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: audioContent.countdown1,
   prompt: function () {
-    return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">1</p></div>
-<img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px">`;
+    return `<div class = stimulus_div><p class = 'stimulus'>1</p></div>
+<img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys">`;
   },
   choices: "NO_KEYS",
   trial_duration: 1000,
@@ -142,8 +142,8 @@ const countdown_trial_0 = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: audioContent.countdown0,
   prompt: function () {
-    return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">0</p></div>
-<img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px">`;
+    return `<div class = stimulus_div><p class = 'stimulus'>0</p></div>
+<img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys">`;
   },
   choices: "NO_KEYS",
   trial_duration: 1000,

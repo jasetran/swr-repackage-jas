@@ -14,5 +14,5 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp);
-export const rootDoc = doc(db, "prod", "roar-prod");
-// export const rootDoc = doc(db, "dev", "anya-swr");
+// export const rootDoc = doc(db, "prod", "roar-prod");
+export const rootDoc = doc(db, "dev", "anya-swr");

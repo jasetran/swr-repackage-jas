@@ -281,9 +281,9 @@ function getStimulus() {
 const setup_fixation = {
   type: jsPsychHtmlKeyboardResponse,
   stimulus: function () {
-    return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">+</p></div>`;
+    return `<div class = stimulus_div><p class = 'stimulus'>+</p></div>`;
   },
-  prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px"></div>`,
+  prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys"></div>`,
   choices: "NO_KEYS",
   trial_duration: config.timing.fixationTime,
   data: {
@@ -304,9 +304,9 @@ function updateCorrectChecker() {
 const lexicality_test = {
   type: jsPsychHtmlKeyboardResponse,
   stimulus: function () {
-    return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">${store.session("nextStimulus").stimulus}</p></div>`;
+    return `<div class = stimulus_div><p class = 'stimulus'>${store.session("nextStimulus").stimulus}</p></div>`;
   },
-  prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px"></div>`,
+  prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys"></div>`,
   stimulus_duration: config.timing.stimulusTime,
   trial_duration: config.timing.trialTime,
   choices: ["ArrowLeft", "ArrowRight"],

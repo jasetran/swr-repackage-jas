@@ -7,8 +7,8 @@ const audio_response_correct = {
   stimulus: audioContent.coin,
   choices: "NO_KEYS",
   trial_ends_after_audio: true,
-  prompt: `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;"><br></p></div> 
-              <img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px">`,
+  prompt: `<div class = stimulus_div><p class = 'stimulus'><br></p></div> 
+              <img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys">`,
 };
 
 const if_audio_response_correct = {
@@ -21,8 +21,8 @@ const audio_response_wrong = {
   stimulus: audioContent.fail,
   choices: "NO_KEYS",
   trial_ends_after_audio: true,
-  prompt: `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;"><br></p></div> 
-              <img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px">`,
+  prompt: `<div class = stimulus_div><p class = 'stimulus'><br></p></div> 
+              <img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys">`,
 };
 
 const if_audio_response_wrong = {

@@ -12,9 +12,9 @@ import {
 export const setup_fixation_practice = {
   type: jsPsychHtmlKeyboardResponse,
   stimulus: function () {
-    return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">+</p></div>`;
+    return `<div class = stimulus_div><p class = 'stimulus'>+</p></div>`;
   },
-  prompt: `<img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px">`,
+  prompt: `<img class="lower" src="${imgContent.arrowkeyLex}" alt = "arrow-key">`,
   choices: "NO_KEYS",
   trial_duration: config.timing.fixationTime,
   data: {
@@ -28,11 +28,11 @@ export const setup_fixation_practice = {
 export const lexicality_test_practice = {
   type: jsPsychHtmlKeyboardResponse,
   stimulus: function () {
-    return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">${jsPsych.timelineVariable(
+    return `<div class = stimulus_div><p class = 'stimulus'>${jsPsych.timelineVariable(
       "stimulus",
     )}</p></div>`;
   },
-  prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px">`,
+  prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys">`,
   stimulus_duration: function () {
     store.session.transact("practiceIndex", (oldVal) => oldVal + 1);
     if (store.session("practiceIndex") > config.countSlowPractice) {
@@ -102,7 +102,7 @@ const practice_feedback_left = {
     return `
 <div class = stimulus_div><p class="feedback"><span class=${store.session("responseColor")}>You pressed the ${store.session("responseLR")} arrow key, which is for ${store.session("answerRP")} words! </span>
 <br></br>${jsPsych.timelineVariable("stimulus")}<span class=${store.session("answerColor")}> is a ${store.session("correctRP")}  word. Press the ${store.session("correctLR")} arrow key to continue.</span></p></div>
-<img class="lower" src= "${imgContent.arrowkeyLexLeft}" alt="arrow keys" style=" width:698px; height:120px">
+<img class="lower" src= "${imgContent.arrowkeyLexLeft}" alt="arrow keys" >
       `;
   },
   choices: ["ArrowLeft"],
@@ -116,7 +116,7 @@ const practice_feedback_right = {
     return `<div class = stimulus_div>
 \t<p class="feedback"><span class=${store.session("responseColor")}>You pressed the ${store.session("responseLR")} arrow key, which is for ${store.session("answerRP")} words! </span>
 <br></br>${jsPsych.timelineVariable("stimulus")}<span class=${store.session("answerColor")}> is a ${store.session("correctRP")}  word. Press the ${store.session("correctLR")} arrow key to continue.</span></p>
-</div><img class="lower" src="${imgContent.arrowkeyLexRight}" alt="arrow keys" style=" width:698px; height:120px"> 
+</div><img class="lower" src="${imgContent.arrowkeyLexRight}" alt="arrow keys"> 
       `;
   },
   choices: ["ArrowRight"],

@@ -87,7 +87,7 @@ export const post_practice_intro = {
     <h1>Great work, you are ready to begin the journey! </h1>
       <div>
         <p class="center"> You will earn gold coins along the way.</p>
-        <img style="position: relative; top: 100px;" width="400px" src="${imgContent.goldCoin}" alt="gold">
+        <img class = "coin" src="${imgContent.goldCoin}" alt="gold">
       </div>
     <div class="button">Press <span class="yellow">ANY KEY</span> to begin</div>`,
   choices: "ALL_KEYS",

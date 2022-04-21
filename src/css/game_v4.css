@@ -51,8 +51,8 @@ p  {
 	vertical-align: middle;
 	font-style: normal;
 	font-weight: normal;
-	font-size: 6vh;
-	line-height: 6vh;
+	font-size: 5vh;
+	line-height: 5vh;
 	color: rgba(0,0,0,1);
 }
 
@@ -131,7 +131,7 @@ p  {
 
 .column_2_upper {
 	margin-top:5%;
-	padding: 0px 20px 0px 20px;
+	padding: 0 20px 0px 20px;
 	flex: 50%;
 	margin-right: 5%;
 	margin-left: 5%;
@@ -171,12 +171,12 @@ p  {
 	width:100%;
 	position: fixed;
 	display: block;
-	bottom: 80px;
+	bottom: 5vh;
 }
 
 .scene{
 	position: fixed;
-	bottom: 80px;
+	bottom: 5vh;
 	width:100%;
 	display: block;
 }
@@ -200,21 +200,20 @@ p  {
 	display: inline-flex;
 	flex-direction: row;
 	height: 30vh;
-	bottom: 10px;
+	bottom: 4vh;
 	right: 10%;
 	justify-content: center;
 }
 
 .coin{
 	position: relative;
-	height: 80px;
-	bottom: 100px;
-	margin-bottom: -10%;
+	top: 5vh;
+	height: 20vh;
 }
 
 .coin_feedback{
 	position: relative;
-	width: 15%;
+	width: 20vh;
 }
 
 .wizard{
@@ -222,20 +221,19 @@ p  {
 	height: 30vh;
 	display: inline-block;
 	right: 20%;
-	bottom: 10px;
+	bottom: 4vh;
 }
 
 .guardian{
 	position: relative;
 	height: 30vh;
-	bottom: 10px;
+	bottom: 4vh;
 	display: inline-flex;
 }
 
 #gate{
-	width: 25%;
-	height: 25%;
-	left: 200px;
+	height: 40vh;
+	left: 50vh;
 	display: inline-flex;
 }
 
@@ -245,18 +243,11 @@ p  {
 	top: 50%;
 }
 
-.plus {
-	vertical-align: middle;
-	text-align: center;
-	position: relative;
-	top:450px;
-}
-
 .key{
 	vertical-align: middle;
 	text-align: center;
 	position: relative;
-	top:600px;
+	top: 600px;
 }
 
 /* jsPsych progress bar */

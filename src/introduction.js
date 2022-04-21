@@ -105,7 +105,6 @@ const countdown_trial_3 = {
   data: {
     task: "countdown",
   },
-  // on_finish: updateProgressBar(0),
 };
 
 const countdown_trial_2 = {
@@ -120,7 +119,6 @@ const countdown_trial_2 = {
   data: {
     task: "countdown",
   },
-  // on_finish: updateProgressBar(0),
 };
 
 const countdown_trial_1 = {
@@ -135,7 +133,6 @@ const countdown_trial_1 = {
   data: {
     task: "countdown",
   },
-  // on_finish: updateProgressBar(0),
 };
 
 const countdown_trial_0 = {

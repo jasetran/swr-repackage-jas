@@ -19,7 +19,7 @@ import { rootDoc } from "./firebaseConfig";
 
 // Local modules
 import {
-  jsPsych, config, updateProgressBar, questConfig, findClosest,
+  jsPsych, config, updateProgressBar, questConfig, findClosest, taskInfo,
 } from "./config";
 import { if_audio_response_correct, if_audio_response_wrong } from "./audio";
 import { imgContent, preload_trials } from "./preload";
@@ -36,40 +36,11 @@ import { stimulusLists, blockNew, blockPractice } from "./corpus";
 import jsPsychPavlovia from "./jsPsychPavlovia";
 
 // CSS imports
-// import "jspsych/css/jspsych.css";
 import "./css/game_v4.css";
 
 let firekit;
 
 store.session.set("stimulusLists", stimulusLists);
-
-// TODO: consider editing taskInfo based on config
-const taskInfo = {
-  taskId: "swr",
-  taskName: "Single Word Recognition",
-  variantName: "pilot",
-  taskDescription:
-    "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
-  variantDescription:
-    "This variant uses 3 random-ordered blocks.",
-  blocks: [
-    {
-      blockNumber: 0,
-      trialMethod: "random",
-      corpus: "randomCorpusId",
-    },
-    {
-      blockNumber: 1,
-      trialMethod: "random",
-      corpus: "randomwCorpusId",
-    },
-    {
-      blockNumber: 2,
-      trialMethod: "random",
-      corpus: "random1CorpusId",
-    },
-  ],
-};
 
 if (config.pid) {
   const minimalUserInfo = {

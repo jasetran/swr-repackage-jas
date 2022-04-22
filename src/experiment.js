@@ -19,7 +19,7 @@ import { rootDoc } from "./firebaseConfig";
 
 // Local modules
 import {
-  jsPsych, config, updateProgressBar, questConfig, findClosest,
+  jsPsych, config, updateProgressBar, questConfig, findClosest, taskInfo,
 } from "./config";
 import { if_audio_response_correct, if_audio_response_wrong } from "./audio";
 import { imgContent, preload_trials } from "./preload";
@@ -36,40 +36,11 @@ import { stimulusLists, blockNew, blockPractice } from "./corpus";
 import jsPsychPavlovia from "./jsPsychPavlovia";
 
 // CSS imports
-// import "jspsych/css/jspsych.css";
 import "./css/game_v4.css";
 
 let firekit;
 
 store.session.set("stimulusLists", stimulusLists);
-
-// TODO: consider editing taskInfo based on config
-const taskInfo = {
-  taskId: "swr",
-  taskName: "Single Word Recognition",
-  variantName: "pilot",
-  taskDescription:
-    "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
-  variantDescription:
-    "This variant uses 3 random-ordered blocks.",
-  blocks: [
-    {
-      blockNumber: 0,
-      trialMethod: "random",
-      corpus: "randomCorpusId",
-    },
-    {
-      blockNumber: 1,
-      trialMethod: "random",
-      corpus: "randomwCorpusId",
-    },
-    {
-      blockNumber: 2,
-      trialMethod: "random",
-      corpus: "random1CorpusId",
-    },
-  ],
-};
 
 if (config.pid) {
   const minimalUserInfo = {
@@ -165,18 +136,12 @@ if (isOnPavlovia) {
   timeline.push(pavlovia_init);
 }
 
-/*const hide_cursor = {
-  type: jsPsychCallFunction,
-  func: function() {
-    document.body.style.cursor= "none";
-  }
-};*/
-
 timeline.push(if_get_pid);
 timeline.push(enter_fullscreen);
 // timeline.push(hide_cursor);
 timeline.push(introduction_trials);
 timeline.push(countdown_trials);
+
 
 // debrief trials
 const debrief_block = {
@@ -244,14 +209,16 @@ function updateQuest() {
 function getStimulus() {
   let resultStimulus;
   let currentBlock = store.session("currentBlock");
+  let demoCounter = store.session("demoCounter");
+  // update 2 trackers
   const tracker = store.session("stimulusIndex")[currentBlock];
-  if (tracker == 0) {
+  if (tracker == 0 && demoCounter == 0) {
     store.session.set("trialNumBlock", 1)
   } else{
     store.session.transact("trialNumBlock", (oldVal) => oldVal + 1);
   }
-  // add 1 to block trial count
   store.session.transact("trialNumTotal", (oldVal) => oldVal + 1); // add 1 to the total trial count
+  //
   if (store.session("stimulusRule") === "random") {
     resultStimulus = store.session("stimulusLists")[store.session("currentBlockIndex")].corpus_random[
       store.session("stimulusIndex")[currentBlock]
@@ -263,17 +230,26 @@ function getStimulus() {
       resultStimulus = updateQuest();
     } else {
       store.session.set("stimulusRule", "new");
-      currentBlock = 'corpusNew'
+      currentBlock = 'corpusNew';
       resultStimulus = blockNew[store.session("stimulusIndex")[currentBlock]];
     }
-  } else {
-    currentBlock = 'corpusNew'
+  } else if (store.session("stimulusRule") === "new") {
+    currentBlock = 'corpusNew';
     resultStimulus = blockNew[store.session("stimulusIndex")[currentBlock]];
+  } else {
+    // this is for demo version only:
+    if (demoCounter < 5){
+      currentBlock = 'corpusNew'
+      resultStimulus = blockNew[store.session("stimulusIndex")[currentBlock]];
+      store.session.transact("demoCounter", (oldVal) => oldVal + 1);
+    } else {
+      store.session.set("demoCounter", 0);
+      resultStimulus = updateQuest();
+    }
   }
   const copyStimulusIndex = store.session("stimulusIndex");
   copyStimulusIndex[currentBlock] += 1;
   store.session.set("stimulusIndex", copyStimulusIndex);
-  // console.log("getStimulus", currentBlock, store.session("trialNumBlock"));
   return resultStimulus;
 }
 
@@ -281,9 +257,9 @@ function getStimulus() {
 const setup_fixation = {
   type: jsPsychHtmlKeyboardResponse,
   stimulus: function () {
-    return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">+</p></div>`;
+    return `<div class = stimulus_div><p class = 'stimulus'>+</p></div>`;
   },
-  prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px"></div>`,
+  prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys"></div>`,
   choices: "NO_KEYS",
   trial_duration: config.timing.fixationTime,
   data: {
@@ -298,15 +274,14 @@ const setup_fixation = {
 function updateCorrectChecker() {
   const trials = jsPsych.data.get().filter({ task: "test_response" });
   const correct_trials = trials.filter({ correct: true });
-  // console.log(`CORRECT TRIALS COUNT ${correct_trials.count()}`);
 }
 
 const lexicality_test = {
   type: jsPsychHtmlKeyboardResponse,
   stimulus: function () {
-    return `<div class = stimulus_div><p class = 'stimulus' style="font-size:60px;">${store.session("nextStimulus").stimulus}</p></div>`;
+    return `<div class = stimulus_div><p class = 'stimulus'>${store.session("nextStimulus").stimulus}</p></div>`;
   },
-  prompt: `<div></div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" style=" width:698px; height:120px"></div>`,
+  prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys"></div>`,
   stimulus_duration: config.timing.stimulusTime,
   trial_duration: config.timing.trialTime,
   choices: ["ArrowLeft", "ArrowRight"],
@@ -329,7 +304,7 @@ const lexicality_test = {
     }
     jsPsych.data.addDataToLastTrial({
       block: store.session("currentBlockIndex"),
-      corpusId: store.session("currentBlock"),
+      corpusId: store.session("nextStimulus").corpus_src,
       word: store.session("nextStimulus").stimulus,
       correct: data.correct,
       correctResponse: store.session("nextStimulus").correct_response,
@@ -428,8 +403,6 @@ async function roarBlocks() {
 
   timeline.push(total_roar_mainproc);
   timeline.push(final_page);
-
-  // timeline.push(debrief_block);
   timeline.push(exit_fullscreen);
 
   if (isOnPavlovia) {

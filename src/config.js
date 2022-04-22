@@ -8,6 +8,7 @@ const stimulusRuleLists = {
   regularRandom: ["random", "random", "random"], //three adaptive blocks
   regularAdaptive: ["adaptive", "random", "random"], //1 adaptive, 2 random blocks
   test: ["adaptive", "random", "random"],
+  demo: ["demo"]
 };
 
 const stimulusCountLists = {
@@ -15,6 +16,7 @@ const stimulusCountLists = {
   regularRandom: [84, 84, 84],
   regularAdaptive: [84, 84, 84],
   test: [10, 4, 4],
+  demo: [84]
 };
 
 const numAdaptiveTrials = {
@@ -22,6 +24,7 @@ const numAdaptiveTrials = {
   regularRandom: 0,
   regularAdaptive: 60,
   test: 8,
+  demo: 24,
 };
 
 // Stimulus timing options in milliseconds
@@ -38,12 +41,141 @@ const trialTimeOptions = [null, 5000, 8000, 100000];
 const queryString = new URL(window.location).search;
 const urlParams = new URLSearchParams(queryString);
 const userMode = urlParams.get("mode") || "regularRandom"; // change to "regularaRandom" later
+const taskVariant = urlParams.get("variant")|| "pilot";
+
+function configTaskInfo() {
+  let taskInfo;
+  if (userMode === "regularRandom"){
+    taskInfo = {
+      taskId: "swr",
+      taskName: "Single Word Recognition",
+      variantName: taskVariant + "-" + userMode,
+      taskDescription:
+          "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
+      variantDescription:
+          "This variant uses 3 random-ordered blocks.",
+      blocks: [
+        {
+          blockNumber: 0,
+          trialMethod: "random",
+          corpus: "randomCorpusId",
+        },
+        {
+          blockNumber: 1,
+          trialMethod: "random",
+          corpus: "randomwCorpusId",
+        },
+        {
+          blockNumber: 2,
+          trialMethod: "random",
+          corpus: "random1CorpusId",
+        },
+      ],
+    };
+  } else if (userMode === "regularAdaptive") {
+    taskInfo = {
+      taskId: "swr",
+      taskName: "Single Word Recognition",
+      variantName: taskVariant + "-" + userMode,
+      taskDescription:
+          "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
+      variantDescription:
+          "This variant uses 1 adaptive-ordered and 2 random-order blocks. In the adaptive blocks, there are 60 validated words, and 24 new words.",
+      blocks: [
+        {
+          blockNumber: 0,
+          trialMethod: "adaptive",
+          corpus: "adaptiveCorpusId",
+        },
+        {
+          blockNumber: 1,
+          trialMethod: "random",
+          corpus: "randomCorpusId",
+        },
+        {
+          blockNumber: 2,
+          trialMethod: "random",
+          corpus: "randomCorpusId",
+        },
+      ],
+    };
+  } else if (userMode === "beginner") {
+    taskInfo = {
+      taskId: "swr",
+      taskName: "Single Word Recognition",
+      variantName: taskVariant + "-" + userMode,
+      taskDescription:
+          "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
+      variantDescription:
+          "This variant uses 1 random-ordered full block and 1 random-ordered short block with 28 new words.",
+      blocks: [
+        {
+          blockNumber: 0,
+          trialMethod: "random",
+          corpus: "randomCorpusId",
+        },
+        {
+          blockNumber: 1,
+          trialMethod: "new",
+          corpus: "newCorpusId",
+        },
+      ],
+    };
+  } else if (userMode === "demo") {
+    taskInfo = {
+      taskId: "swr",
+      taskName: "Single Word Recognition",
+      variantName: taskVariant + "-" + userMode,
+      taskDescription:
+          "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
+      variantDescription:
+          "This variant uses 1 random-ordered full with 60 new words and 24 quest-ordered words, each quest-suggested word will be followed by 5 new words.",
+      blocks: [
+        {
+          blockNumber: 0,
+          trialMethod: "random",
+          corpus: "newCorpusId",
+        },
+      ],
+    };
+  } else {
+    taskInfo = {
+      taskId: "swr",
+      taskName: "Single Word Recognition",
+      variantName: taskVariant + "-" + userMode,
+      taskDescription:
+          "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
+      variantDescription:
+          "This variant is in test mode with 1 adptive block (10 words), 2 randome blocks (4 words each).",
+      blocks: [
+        {
+          blockNumber: 0,
+          trialMethod: "adaptive",
+          corpus: "adaptiveCorpusId",
+        },
+        {
+          blockNumber: 1,
+          trialMethod: "random",
+          corpus: "randomCorpusId",
+        },
+        {
+          blockNumber: 2,
+          trialMethod: "random",
+          corpus: "randomCorpusId",
+        },
+      ],
+    };
+  }
+  return taskInfo;
+}
+
+export const taskInfo = configTaskInfo();
 
 export const config = {
   userMode: userMode,
-  pid: urlParams.get("pid"),
-  sessionId: urlParams.get("sessionId"),
-  testingOnly: userMode === "test",
+  pid: urlParams.get("participant"),
+  sessionId: taskVariant,
+  testingOnly: userMode === "test" || "demo",
 
   // set order and rule for the experiment
   stimulusRuleList: stimulusRuleLists[userMode],
@@ -87,6 +219,7 @@ export const initStore = () => {
   store.session.set("stimulusIndex", { corpusA: 0, corpusB: 0, corpusC: 0, corpusNew: 0 });
   store.session.set("trialNumBlock", 0); // counter for trials in block
   store.session.set("trialNumTotal", 0); // counter for trials in experiment
+  store.session.set("demoCounter", 0);
   store.session.set("nextStimulus", []);
   store.session.set("response", "");
 
@@ -114,9 +247,11 @@ export const jsPsych = initJsPsych({
   show_progress_bar: true,
   auto_update_progress_bar: false,
   message_progress_bar: "Progress Complete",
-  on_finish: function () {
-    /* display data on exp end - useful for dev */
+  on_finish: () => {
     // jsPsych.data.displayData();
+    if (userMode !== "demo"){
+      window.location.href = "https://reading.stanford.edu/participant-login/";
+    }
   },
 });
 

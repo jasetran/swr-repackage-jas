@@ -175,7 +175,7 @@ export const config = {
   userMode: userMode,
   pid: urlParams.get("participant"),
   sessionId: taskVariant,
-  testingOnly: userMode === "test",
+  testingOnly: userMode === "test" || "demo",
 
   // set order and rule for the experiment
   stimulusRuleList: stimulusRuleLists[userMode],
@@ -219,6 +219,7 @@ export const initStore = () => {
   store.session.set("stimulusIndex", { corpusA: 0, corpusB: 0, corpusC: 0, corpusNew: 0 });
   store.session.set("trialNumBlock", 0); // counter for trials in block
   store.session.set("trialNumTotal", 0); // counter for trials in experiment
+  store.session.set("demoCounter", 0);
   store.session.set("nextStimulus", []);
   store.session.set("response", "");
 

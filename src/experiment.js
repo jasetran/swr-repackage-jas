@@ -209,14 +209,16 @@ function updateQuest() {
 function getStimulus() {
   let resultStimulus;
   let currentBlock = store.session("currentBlock");
+  let demoCounter = store.session("demoCounter");
+  // update 2 trackers
   const tracker = store.session("stimulusIndex")[currentBlock];
-  if (tracker == 0) {
+  if (tracker == 0 && demoCounter == 0) {
     store.session.set("trialNumBlock", 1)
   } else{
     store.session.transact("trialNumBlock", (oldVal) => oldVal + 1);
   }
-  // add 1 to block trial count
   store.session.transact("trialNumTotal", (oldVal) => oldVal + 1); // add 1 to the total trial count
+  //
   if (store.session("stimulusRule") === "random") {
     resultStimulus = store.session("stimulusLists")[store.session("currentBlockIndex")].corpus_random[
       store.session("stimulusIndex")[currentBlock]
@@ -228,17 +230,26 @@ function getStimulus() {
       resultStimulus = updateQuest();
     } else {
       store.session.set("stimulusRule", "new");
-      currentBlock = 'corpusNew'
+      currentBlock = 'corpusNew';
       resultStimulus = blockNew[store.session("stimulusIndex")[currentBlock]];
     }
-  } else {
-    currentBlock = 'corpusNew'
+  } else if (store.session("stimulusRule") === "new") {
+    currentBlock = 'corpusNew';
     resultStimulus = blockNew[store.session("stimulusIndex")[currentBlock]];
+  } else {
+    // this is for demo version only:
+    if (demoCounter < 5){
+      currentBlock = 'corpusNew'
+      resultStimulus = blockNew[store.session("stimulusIndex")[currentBlock]];
+      store.session.transact("demoCounter", (oldVal) => oldVal + 1);
+    } else {
+      store.session.set("demoCounter", 0);
+      resultStimulus = updateQuest();
+    }
   }
   const copyStimulusIndex = store.session("stimulusIndex");
   copyStimulusIndex[currentBlock] += 1;
   store.session.set("stimulusIndex", copyStimulusIndex);
-  // console.log("getStimulus", currentBlock, store.session("trialNumBlock"));
   return resultStimulus;
 }
 
@@ -263,7 +274,6 @@ const setup_fixation = {
 function updateCorrectChecker() {
   const trials = jsPsych.data.get().filter({ task: "test_response" });
   const correct_trials = trials.filter({ correct: true });
-  // console.log(`CORRECT TRIALS COUNT ${correct_trials.count()}`);
 }
 
 const lexicality_test = {
@@ -294,7 +304,7 @@ const lexicality_test = {
     }
     jsPsych.data.addDataToLastTrial({
       block: store.session("currentBlockIndex"),
-      corpusId: store.session("currentBlock"),
+      corpusId: store.session("nextStimulus").corpus_src,
       word: store.session("nextStimulus").stimulus,
       correct: data.correct,
       correctResponse: store.session("nextStimulus").correct_response,
@@ -393,8 +403,6 @@ async function roarBlocks() {
 
   timeline.push(total_roar_mainproc);
   timeline.push(final_page);
-
-  // timeline.push(debrief_block);
   timeline.push(exit_fullscreen);
 
   if (isOnPavlovia) {

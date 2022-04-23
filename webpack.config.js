@@ -28,7 +28,7 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      title: "Rapid Online Assessment of Reading - ROAR",
+      title: "Rapid Online Assessment of Reading - SWR",
     }),
   ],
   module: {

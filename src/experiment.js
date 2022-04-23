@@ -7,6 +7,7 @@ import { QuestUpdate, QuestQuantile, QuestCreate } from "jsQUEST";
 import jsPsychSurveyText from "@jspsych/plugin-survey-text";
 import jsPsychFullScreen from "@jspsych/plugin-fullscreen";
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
+import jsPsychSurveyMultiSelect from "@jspsych/plugin-survey-multi-select";
 import store from "store2";
 
 // Import necessary for async in the top level of the experiment script
@@ -80,14 +81,83 @@ const enter_fullscreen = {
   fullscreen_mode: true,
 };
 
+const consent_form = {
+  type: jsPsychSurveyMultiSelect,
+  questions: [
+    {
+      prompt: ` <div>
+        <p class=" consent_form_title">STANFORD UNIVERSITY CONSENT FORM</p>
+        <p class=" consent_form_text">
+        <b>PURPOSE OF THE STUDY</b> 
+        <br>
+        Data collected through games in the web-browser will help researchers understand relationships between academic skills, reading proficiency, cognition, perception, and/or attitudes towards reading and school in individuals with a broad range of reading skills.
+        <br><br>
+        <b>STUDY PROCEDURES</b> 
+        <br>
+        In this study, you will be asked to complete computer tasks via a computer screen. Audio will be presented via headphones or speakers.
+        <br><br>
+        <b>PRIVACY AND DATA COLLECTION</b> <br>
+        We will do our best to ensure your privacy. Data that is collected through this online experiment is stored separately from identifying information such as your name. For the sake of payment, sometimes we store an email address you provide, but this is stored separately from the responses that are recorded in the online experiment. Each participant is assigned a code and that is used rather than names. This is called “coded data” and we try to ensure that the identity of our research participants is kept confidential. Data collected as part of this study may be used for many years to help discover trends in the population and explore changes due to development and education. In addition, coded data may be shared online or with collaborators to allow for new and unforeseen discoveries. Researchers may choose to include coded data in publications to support findings, or they may choose to release coded data alongside findings for replicability.
+        <br>
+        <br>
+        We will collect mouse and click, scores earned, button presses and their timestamps, or other data that may be derived from your behavior on our page. This data will be stored on servers. Incomplete data may be logged if you quit out of the experiment early. If you would like to void your data, you may request it through our contact email. 
+        <br>
+        <br>
+        <b>COMPENSATION</b>
+        <br> 
+        We value your participation in our study. You can receive a $1 Tango gift card upon completion of this study. If you have not done so already, you will have the chance to provide your email address at the end of the study. You may also choose to waive payment by not providing your email address.
+        <br>
+        <br>
+        Please note that the gift card system we use to pay participants is not affiliated with Stanford and we will need to input your name and email into this system to send you the electronic gift card payment. If you feel uncomfortable with this process, please let us know before signing the consent form. Depending on the study, we may be able to look into other forms of payment for you.     
+        <br>
+        <br>
+        <b>RISKS, STRESS, OR DISCOMFORT</b>
+        <br>
+        If there is any reason to believe you are not safe to participate in any of the tasks, please contact us at <a href="url">readingresearch@stanford.edu</a>. Some people may experience some physical discomfort or boredom due to being asked to sit for long periods. For computer tasks, some people may also experience dry eyes or eye fatigue. For some tasks that are untimed, breaks can be taken as needed during the session.
+        <br>
+        <br>
+        <b>CONTACT INFORMATION </b>
+        <br>
+        If you have any additional questions or concerns about our research, feel free to email us at <a href="url">readingresearch@stanford.edu</a>. We will be more than happy to help!
+        <br>
+        <br>
+        For general information regarding questions or concerns about [your/your child’s] rights as a research participant, please call 1-866-680-2906 to reach the Administrative Panel on Human Subjects in Medical Research, Stanford University.
+        </p>
+ </div>
+     `,
+      options: [`<b>I agree to participate in this research. Participation in this research is voluntary, and I can stop at any time without penalty. <br> I feel that I understand what I am getting into, and I know I am free to leave the experiment at any time by simply closing the web browser.
+</b>`],
+      required: true,
+      required_message: "You must check the box to continue",
+      name: 'Agree'
+    },
+  ],
+};
+
+const if_consent_form = {
+  timeline: [consent_form],
+  conditional_function: function () {
+    return Boolean(config.userMode === 'demo');
+  },
+};
+
+function makePid() {
+  let text = "";
+  const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for( let i=0; i < 16; i++ )
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  return text;
+};
+
 // collect participant id
 const survey_pid = {
   type: jsPsychSurveyText,
   questions: [
-    { prompt: "Please enter your User ID", name: "pid", required: true },
+    { prompt: "Enter your Participant ID: <br><br>" +
+          "you may leave blank to keep anonymous", name: "pid", required: false },
   ],
   on_finish: function (data) {
-    config.pid = data.response.pid;
+    config.pid = data.response.pid || makePid();
   },
 };
 
@@ -136,15 +206,33 @@ if (isOnPavlovia) {
   timeline.push(pavlovia_init);
 }
 
+const debrief_block = {
+  type: jsPsychHtmlKeyboardResponse,
+  stimulus: `<div class = "stimulus_div">
+  <p class = "debrief_text">
+  <b>Thank you for your participation!</b>
+  <br><br>
+  Click <a href="https://docs.google.com/forms/d/e/1FAIpQLSdw3U6K6YMLf1miWvth36UTl2gxG9r8AbtPKKkrj7B-6acBmg/viewform">here</a> to be redirected to a form if you would like to provide your email to receive a $1 gift card for completing this study. You will only be asked to provide your email if you are requesting payment. 
+  <br><br>
+  Otherwise, you may exit the window or close your browser.</p></div>`
+};
+
+const if_debrief_block = {
+  timeline: [debrief_block],
+  conditional_function: function () {
+    return Boolean(config.userMode === 'demo');
+  },
+};
+
+timeline.push(if_consent_form);
 timeline.push(if_get_pid);
 timeline.push(enter_fullscreen);
-// timeline.push(hide_cursor);
 timeline.push(introduction_trials);
 timeline.push(countdown_trials);
 
 
 // debrief trials
-const debrief_block = {
+/*const debrief_block = {
   type: jsPsychHtmlKeyboardResponse,
   stimulus: function () {
     const trials = jsPsych.data.get().filter({ task: "test_response" });
@@ -159,7 +247,7 @@ const debrief_block = {
           <p>Your average response time on incorrect trials was ${irt}ms.</p>
           <p>Press any key to complete the experiment. Thank you!</p>`;
   },
-};
+};*/
 
 function updateQuest() {
   let closestIndex;
@@ -404,6 +492,7 @@ async function roarBlocks() {
   timeline.push(total_roar_mainproc);
   timeline.push(final_page);
   timeline.push(exit_fullscreen);
+  timeline.push(if_debrief_block);
 
   if (isOnPavlovia) {
     timeline.push(pavlovia_finish);

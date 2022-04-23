@@ -35,7 +35,6 @@ h3 {
 	color: rgba(0,0,0,1);
 }
 
-
 p  {
 	text-align:center;
 	vertical-align: middle;
@@ -44,6 +43,35 @@ p  {
 	font-weight: normal;
 	font-size: 3vh;
 	color: rgba(0,0,0,1);
+}
+
+.consent_form_title{
+	margin-right: 10%;
+	margin-left: 10%;
+	font-size: 3vh;
+}
+
+.consent_form_text{
+	margin: 10%;
+	text-align:left;
+	font-size: 2vh;
+}
+
+.consent_form_agree{
+	margin: 5%;
+	text-align:left;
+	font-size: 2vh;
+}
+
+.debrief_text{
+	margin: 20%;
+	text-align:left;
+	font-size: 2vh;
+}
+
+.jspsych-survey-multi-select-option{
+	font-size: 2vh;
+	text-align: center;
 }
 
 .stimulus{

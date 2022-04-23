@@ -76,7 +76,6 @@ const mid_block_page_3 = {
    <div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>
       `,
   choices: "ALL_KEYS",
-  // on_finish: updateProgressBar(0),
 };
 
 // post block page

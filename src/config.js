@@ -149,7 +149,7 @@ function configTaskInfo() {
       taskDescription:
           "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
       variantDescription:
-          "This variant is in test mode with 1 adptive block (10 words), 2 randome blocks (4 words each).",
+          "This variant is in test mode with 1 adaptive block (10 words), 2 random blocks (4 words each).",
       blocks: [
         {
           blockNumber: 0,

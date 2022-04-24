@@ -38,10 +38,13 @@ const trialTimeOptions = [null, 5000, 8000, 100000];
 // "beginner": block A only with random words, a new block with 28 new words;
 // "regular":  3 blocks in random order with one block consisting 56 adaptive
 // words and 28 new words
+
+
 const queryString = new URL(window.location).search;
 const urlParams = new URLSearchParams(queryString);
-const userMode = urlParams.get("mode") || "regularRandom"; // change to "regularaRandom" later
+const userMode = urlParams.get("mode") || "regularRandom";
 const taskVariant = urlParams.get("variant")|| "pilot";
+const pid = urlParams.get("participant");
 
 function configTaskInfo() {
   let taskInfo;
@@ -146,7 +149,7 @@ function configTaskInfo() {
       taskDescription:
           "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
       variantDescription:
-          "This variant is in test mode with 1 adptive block (10 words), 2 randome blocks (4 words each).",
+          "This variant is in test mode with 1 adaptive block (10 words), 2 random blocks (4 words each).",
       blocks: [
         {
           blockNumber: 0,
@@ -173,9 +176,9 @@ export const taskInfo = configTaskInfo();
 
 export const config = {
   userMode: userMode,
-  pid: urlParams.get("participant"),
+  pid: pid,
   sessionId: taskVariant,
-  testingOnly: userMode === "test" || "demo",
+  testingOnly: userMode === "test" || userMode === "demo",
 
   // set order and rule for the experiment
   stimulusRuleList: stimulusRuleLists[userMode],
@@ -188,6 +191,7 @@ export const config = {
 
   // set number of trials for practice block
   totalTrialsPractice: 5,
+
   // The number of practice trials that will keep stimulus on screen untill participant's input
   countSlowPractice:2,
 

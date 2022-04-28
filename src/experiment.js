@@ -75,10 +75,33 @@ const pavlovia_finish = {
   command: "finish",
 };
 
+function makePid() {
+  let text = "";
+  const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for( let i=0; i < 16; i++ )
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  return text;
+};
+
 // add introduction trials
+// Ask Adam for clarification
 const enter_fullscreen = {
   type: jsPsychFullScreen,
   fullscreen_mode: true,
+  message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
+  on_finish: async () => {
+    config.pid = config.pid || makePid();
+    console.log(config.pid);
+    const minimalUserInfo = { id: config.pid, studyId: config.sessionId };
+
+    firekit = new RoarFirekit({
+      rootDoc,
+      userInfo: minimalUserInfo,
+      taskInfo,
+    });
+
+    await firekit.startRun();
+  },
 };
 
 const consent_form = {
@@ -141,14 +164,6 @@ const if_consent_form = {
   },
 };
 
-function makePid() {
-  let text = "";
-  const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  for( let i=0; i < 16; i++ )
-    text += possible.charAt(Math.floor(Math.random() * possible.length));
-  return text;
-};
-
 // collect participant id
 const survey_pid = {
   type: jsPsychSurveyText,
@@ -164,9 +179,11 @@ const survey_pid = {
 const if_get_pid = {
   timeline: [survey_pid],
   conditional_function: function () {
-    return Boolean(config.pid) !== true;
+    return (Boolean(config.pid) !== true & config.userMode !== 'demo');
   },
   on_timeline_finish: async () => {
+    config.pid = config.pid || makePid();
+    console.log(config.pid);
     const minimalUserInfo = { id: config.pid, studyId: config.sessionId };
 
     firekit = new RoarFirekit({
@@ -225,11 +242,10 @@ const if_debrief_block = {
 };
 
 timeline.push(if_consent_form);
-timeline.push(if_get_pid);
+// timeline.push(if_get_pid);
 timeline.push(enter_fullscreen);
 timeline.push(introduction_trials);
 timeline.push(countdown_trials);
-
 
 // debrief trials
 /*const debrief_block = {

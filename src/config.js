@@ -178,7 +178,7 @@ export const config = {
   userMode: userMode,
   pid: pid,
   sessionId: taskVariant,
-  testingOnly: userMode === "test" || userMode === "demo",
+  testingOnly: userMode === "test" || userMode === "demo" || taskVariant === "validate",
 
   // set order and rule for the experiment
   stimulusRuleList: stimulusRuleLists[userMode],
@@ -254,7 +254,11 @@ export const jsPsych = initJsPsych({
   on_finish: () => {
     // jsPsych.data.displayData();
     if (userMode !== "demo"){
-      window.location.href = "https://reading.stanford.edu/participant-login/";
+      if (taskVariant === "validate") {
+        window.location.href = "https://reading.stanford.edu?g=910&c=1";
+      } else {
+        window.location.href = "https://reading.stanford.edu?g=901&c=1";
+      }
     }
   },
 });

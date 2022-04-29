@@ -16,7 +16,7 @@ import "regenerator-runtime/runtime";
 
 // Firebase imports
 import { RoarFirekit } from "@bdelab/roar-firekit";
-import { rootDoc } from "./firebaseConfig";
+import { roarConfig } from "./firebaseConfig";
 
 // Local modules
 import {
@@ -84,7 +84,6 @@ function makePid() {
 };
 
 // add introduction trials
-// Ask Adam for clarification
 const enter_fullscreen = {
   type: jsPsychFullScreen,
   fullscreen_mode: true,
@@ -92,11 +91,11 @@ const enter_fullscreen = {
   on_finish: async () => {
     config.pid = config.pid || makePid();
     console.log(config.pid);
-    const minimalUserInfo = { id: config.pid, studyId: config.sessionId };
+    const userInfo = { id: config.pid, studyId: config.sessionId, userMetadata: {}}; //TO DO: add metadata object
 
     firekit = new RoarFirekit({
-      rootDoc,
-      userInfo: minimalUserInfo,
+      config: roarConfig,
+      userInfo: userInfo,
       taskInfo,
     });
 

@@ -28,6 +28,7 @@
     "@jspsych/plugin-preload": "^1.1.0",
     "@jspsych/plugin-survey-text": "^1.1.0",
     "@jspsych/plugin-survey-multi-select": "^1.1.0",
+    "@jspsych/plugin-survey-html-form": "^1.0.0",
     "babel-loader": "^8.2.4",
     "file-loader": "^6.2.0",
     "firebase": "^9.6.9",

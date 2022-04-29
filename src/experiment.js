@@ -7,6 +7,7 @@ import { QuestUpdate, QuestQuantile, QuestCreate } from "jsQUEST";
 import jsPsychSurveyText from "@jspsych/plugin-survey-text";
 import jsPsychFullScreen from "@jspsych/plugin-fullscreen";
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
+import jsPsychSurveyHtmlForm from "@jspsych/plugin-survey-html-form";
 import jsPsychSurveyMultiSelect from "@jspsych/plugin-survey-multi-select";
 import store from "store2";
 
@@ -163,14 +164,68 @@ const if_consent_form = {
   },
 };
 
+/*
+questions: [
+  { prompt: "Enter your Participant ID: <br><br>" +
+        "you may leave blank to keep anonymous", name: "pid", required: false },
+],
+*/
+
 // collect participant id
 const survey_pid = {
-  type: jsPsychSurveyText,
-  questions: [
-    { prompt: "Enter your Participant ID: <br><br>" +
-          "you may leave blank to keep anonymous", name: "pid", required: false },
-  ],
+  type: jsPsychSurveyHtmlForm,
+  preamble: '<p>How are you feeling <b>right now?</b></p>',
+  html: `<div><h1>We would love to know a bit more about you to help our model calibration!</h1></div>
+     <div className="item">
+      <span htmlFor="instructions">How old are you? (Please type a number)</span>
+      <input type = "text" id = "age" name="age" value=""/>
+    </div>
+    <br>
+    <div className="item">
+      <span>What's your highest level of education you have recieved or are pursuing?</span>
+      <select id = "edu" name = "edu">
+        <option value></option>
+        <option value="prek">preK</option>
+        <option value="k1">K1</option>
+        <option value="k2">K2</option>
+        <option value="1">Grade 1</option>
+        <option value="2">Grade 2</option>
+        <option value="3">Grade 3</option>
+        <option value="4">Grade 4</option>
+        <option value="5">Grade 5</option>
+        <option value="6">Grade 6</option>
+        <option value="7">Grade 7</option>
+        <option value="8">Grade 8</option>
+        <option value="9">Grade 9</option>
+        <option value="10">Grade 10</option>
+        <option value="11">Grade 11</option>
+        <option value="12">Grade 12</option>
+        <option value="college">College</option>
+        <option value="proSchool">Professional School</option>
+        <option value="gradSchool">Graduate School</option>
+      </select>
+    </div>
+    <br>
+    <div className="item">
+      <span>Is English your first language?</span>
+      <select id = "ELL" name = "ELL">
+        <option value></option>
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+      </select>
+    </div>
+    <br>
+    <div className="item">
+      <span>Have you taken this demo before?</span>
+      <select id = "retake" name = "retake">
+        <option value></option>
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+      </select>
+    </div>
+    <br>`,
   on_finish: function (data) {
+    console.log(data.response);
     config.pid = data.response.pid || makePid();
   },
 };
@@ -178,20 +233,7 @@ const survey_pid = {
 const if_get_pid = {
   timeline: [survey_pid],
   conditional_function: function () {
-    return (Boolean(config.pid) !== true & config.userMode !== 'demo');
-  },
-  on_timeline_finish: async () => {
-    config.pid = config.pid || makePid();
-    console.log(config.pid);
-    const minimalUserInfo = { id: config.pid, studyId: config.sessionId };
-
-    firekit = new RoarFirekit({
-      rootDoc,
-      userInfo: minimalUserInfo,
-      taskInfo,
-    });
-
-    await firekit.startRun();
+    return (config.userMode === 'demo');
   },
 };
 
@@ -241,7 +283,7 @@ const if_debrief_block = {
 };
 
 timeline.push(if_consent_form);
-// timeline.push(if_get_pid);
+timeline.push(if_get_pid);
 timeline.push(enter_fullscreen);
 timeline.push(introduction_trials);
 timeline.push(countdown_trials);

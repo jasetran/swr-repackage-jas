@@ -57,6 +57,11 @@ p  {
 	font-size: 2vh;
 }
 
+.survey_form_text{
+	text-align: center;
+	font-size: 3vh;
+}
+
 .consent_form_agree{
 	margin: 5%;
 	text-align:left;
@@ -354,3 +359,13 @@ p  {
 	left: 50%;
 	transform: translate(-50%, -50%);
 }
+
+.jspsych-survey-html-form{
+	position: fixed;
+	bottom: 20%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+}
+
+

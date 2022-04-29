@@ -91,9 +91,8 @@ const enter_fullscreen = {
   message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
   on_finish: async () => {
     config.pid = config.pid || makePid();
-    console.log(config.pid);
-    const userInfo = { id: config.pid, studyId: config.sessionId, userMetadata: {}}; //TO DO: add metadata object
-
+    const userInfo = { id: config.pid, studyId: config.sessionId, userMetadata: config.userMetadata}; //TO DO: add metadata object
+    console.log(userInfo);
     firekit = new RoarFirekit({
       config: roarConfig,
       userInfo: userInfo,
@@ -164,25 +163,18 @@ const if_consent_form = {
   },
 };
 
-/*
-questions: [
-  { prompt: "Enter your Participant ID: <br><br>" +
-        "you may leave blank to keep anonymous", name: "pid", required: false },
-],
-*/
-
 // collect participant id
 const survey_pid = {
   type: jsPsychSurveyHtmlForm,
-  preamble: '<p>How are you feeling <b>right now?</b></p>',
-  html: `<div><h1>We would love to know a bit more about you to help our model calibration!</h1></div>
+  preamble: '<div><h1>Please share a bit more to help us understand your data!</h1></div>',
+  html: `
      <div className="item">
-      <span htmlFor="instructions">How old are you? (Please type a number)</span>
+      <span htmlFor="instructions" class = "survey_form_text">How old are you? (Please type a number)</span>
       <input type = "text" id = "age" name="age" value=""/>
     </div>
     <br>
     <div className="item">
-      <span>What's your highest level of education you have recieved or are pursuing?</span>
+      <span class = "survey_form_text">What's your highest level of education you have recieved or are pursuing?</span>
       <select id = "edu" name = "edu">
         <option value></option>
         <option value="prek">preK</option>
@@ -207,16 +199,16 @@ const survey_pid = {
     </div>
     <br>
     <div className="item">
-      <span>Is English your first language?</span>
-      <select id = "ELL" name = "ELL">
+      <span class = "survey_form_text">Is English your first language?</span>
+      <select id = "ell" name = "ell">
         <option value></option>
-        <option value="0">No</option>
-        <option value="1">Yes</option>
+        <option value="1">No</option>
+        <option value="0">Yes</option>
       </select>
     </div>
     <br>
     <div className="item">
-      <span>Have you taken this demo before?</span>
+      <span class = "survey_form_text">Have you taken this demo before?</span>
       <select id = "retake" name = "retake">
         <option value></option>
         <option value="0">No</option>
@@ -224,9 +216,9 @@ const survey_pid = {
       </select>
     </div>
     <br>`,
+  autocomplete: true,
   on_finish: function (data) {
-    console.log(data.response);
-    config.pid = data.response.pid || makePid();
+    config.userMetadata = data.response;
   },
 };
 

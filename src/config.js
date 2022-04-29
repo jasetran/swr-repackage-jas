@@ -178,6 +178,7 @@ export const config = {
   userMode: userMode,
   pid: pid,
   sessionId: taskVariant,
+  userMetadata: {},
   testingOnly: userMode === "test" || userMode === "demo" || taskVariant === "validate",
 
   // set order and rule for the experiment

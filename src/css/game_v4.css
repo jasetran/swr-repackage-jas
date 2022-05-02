@@ -169,27 +169,27 @@ p  {
 }
 
 .column_1 {
-	padding: 0px 20px 0px 20px;
+	padding: 0 2vh 0 2vh;
 	flex: 33%;
 }
 
 .column_2_upper {
 	margin-top:5%;
-	padding: 0 20px 0px 20px;
+	padding: 0 2vh 0 2vh;
 	flex: 50%;
 	margin-right: 5%;
 	margin-left: 5%;
 }
 
 .column_2_lower {
-	padding: 0px 20px 0px 20px;
+	padding: 0 2vh 0 2vh;
 	flex: 50%;
 	margin-right: 5%;
 	margin-left: 5%;
 }
 
 .column_3 {
-	padding: 0px 20px 0px 20px;
+	padding: 0 2vh 0 2vh;
 	flex: 67%;
 	margin-right: 10%;
 }

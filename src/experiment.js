@@ -43,22 +43,19 @@ import "./css/game_v4.css";
 let firekit;
 
 store.session.set("stimulusLists", stimulusLists);
-
+/*
 if (config.pid) {
-  const minimalUserInfo = {
-    id: config.pid,
-    studyId: config.sessionId,
-  };
+  const userInfo = { id: config.pid, studyId: config.sessionId, userMetadata: {}};
 
   firekit = new RoarFirekit({
-    rootDoc,
-    userInfo: minimalUserInfo,
+    config: roarConfig,
+    userInfo: userInfo,
     taskInfo,
   });
 
   await firekit.startRun();
 }
-
+*/
 const timeline = [];
 
 /* init connection with pavlovia.org */
@@ -89,6 +86,17 @@ const enter_fullscreen = {
   type: jsPsychFullScreen,
   fullscreen_mode: true,
   message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
+  on_finish: async () => {
+    config.pid = config.pid || makePid();
+    console.log(config.pid);
+    const userInfo = { id: config.pid, studyId: config.sessionId, userMetadata: config.userMetadata};
+    firekit = new RoarFirekit({
+      config: roarConfig,
+      userInfo: userInfo,
+      taskInfo,
+    });
+    await firekit.startRun();
+  },
 };
 
 const consent_form = {
@@ -224,16 +232,6 @@ const if_get_pid = {
   timeline: [survey_pid],
   conditional_function: function () {
     return (config.userMode === 'demo');
-  },
-  on_finish_timeline: async () => {
-    config.pid = config.pid || makePid();
-    const userInfo = { id: config.pid, studyId: config.sessionId, userMetadata: config.userMetadata};
-    firekit = new RoarFirekit({
-      config: roarConfig,
-      userInfo: userInfo,
-      taskInfo,
-    });
-    await firekit.startRun();
   },
 };
 

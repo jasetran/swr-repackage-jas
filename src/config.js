@@ -35,7 +35,6 @@ const fixationTimeOptions = [1000, 2000, 25000];
 const trialTimeOptions = [null, 5000, 8000, 100000];
 
 /* set user mode */
-
 const queryString = new URL(window.location).search;
 const urlParams = new URLSearchParams(queryString);
 const userMode = urlParams.get("mode") || "regularRandom";

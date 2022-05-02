@@ -43,19 +43,7 @@ import "./css/game_v4.css";
 let firekit;
 
 store.session.set("stimulusLists", stimulusLists);
-/*
-if (config.pid) {
-  const userInfo = { id: config.pid, studyId: config.sessionId, userMetadata: {}};
 
-  firekit = new RoarFirekit({
-    config: roarConfig,
-    userInfo: userInfo,
-    taskInfo,
-  });
-
-  await firekit.startRun();
-}
-*/
 const timeline = [];
 
 /* init connection with pavlovia.org */
@@ -81,14 +69,12 @@ function makePid() {
   return text;
 };
 
-// add introduction trials
 const enter_fullscreen = {
   type: jsPsychFullScreen,
   fullscreen_mode: true,
   message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
   on_finish: async () => {
     config.pid = config.pid || makePid();
-    console.log(config.pid);
     const userInfo = { id: config.pid, studyId: config.sessionId, userMetadata: config.userMetadata};
     firekit = new RoarFirekit({
       config: roarConfig,

@@ -89,18 +89,6 @@ const enter_fullscreen = {
   type: jsPsychFullScreen,
   fullscreen_mode: true,
   message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
-  on_finish: async () => {
-    config.pid = config.pid || makePid();
-    const userInfo = { id: config.pid, studyId: config.sessionId, userMetadata: config.userMetadata}; //TO DO: add metadata object
-    console.log(userInfo);
-    firekit = new RoarFirekit({
-      config: roarConfig,
-      userInfo: userInfo,
-      taskInfo,
-    });
-
-    await firekit.startRun();
-  },
 };
 
 const consent_form = {
@@ -163,7 +151,7 @@ const if_consent_form = {
   },
 };
 
-// collect participant id
+/* demo survey */
 const survey_pid = {
   type: jsPsychSurveyHtmlForm,
   preamble: '<div><h1>Please share a bit more to help us understand your data!</h1></div>',
@@ -174,9 +162,9 @@ const survey_pid = {
     </div>
     <br>
     <div className="item">
-      <span class = "survey_form_text">What's your highest level of education you have recieved or are pursuing?</span>
+      <span class = "survey_form_text">What is your current grade or highest level of education?</span>
       <select id = "edu" name = "edu">
-        <option value></option>
+        <option value=""></option>
         <option value="prek">preK</option>
         <option value="k1">K1</option>
         <option value="k2">K2</option>
@@ -201,7 +189,7 @@ const survey_pid = {
     <div className="item">
       <span class = "survey_form_text">Is English your first language?</span>
       <select id = "ell" name = "ell">
-        <option value></option>
+        <option value=""></option>
         <option value="1">No</option>
         <option value="0">Yes</option>
       </select>
@@ -210,7 +198,7 @@ const survey_pid = {
     <div className="item">
       <span class = "survey_form_text">Have you taken this demo before?</span>
       <select id = "retake" name = "retake">
-        <option value></option>
+        <option value=""></option>
         <option value="0">No</option>
         <option value="1">Yes</option>
       </select>
@@ -218,7 +206,17 @@ const survey_pid = {
     <br>`,
   autocomplete: true,
   on_finish: function (data) {
-    config.userMetadata = data.response;
+    let tmpMetadata = {}
+    for (const field in data.response) {
+      if (data.response[field] === ""){
+        tmpMetadata[field] = null;
+      } else if (field === "retake" || field === "ell") {
+        tmpMetadata[field] = parseInt(data.response[field])
+      } else {
+        tmpMetadata[field] = data.response[field]
+      }
+    }
+    config.userMetadata = tmpMetadata;
   },
 };
 
@@ -226,6 +224,16 @@ const if_get_pid = {
   timeline: [survey_pid],
   conditional_function: function () {
     return (config.userMode === 'demo');
+  },
+  on_finish_timeline: async () => {
+    config.pid = config.pid || makePid();
+    const userInfo = { id: config.pid, studyId: config.sessionId, userMetadata: config.userMetadata};
+    firekit = new RoarFirekit({
+      config: roarConfig,
+      userInfo: userInfo,
+      taskInfo,
+    });
+    await firekit.startRun();
   },
 };
 

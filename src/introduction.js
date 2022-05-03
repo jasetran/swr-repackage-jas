@@ -49,7 +49,7 @@ const intro_2 = {
      <div class="column_2_lower" style="background-color:#f2f2f2;">
      <img width="100%" src="${imgContent.arrowLeftP2}" alt="Magic Word, Press the Left Arrow Key" align="right">
      </div>
-     <div class="column_2_lower" style="background-color:#f2f2f2; height: 180px;">
+     <div class="column_2_lower" style="background-color:#f2f2f2;">
      <img width="100%" src="${imgContent.arrowRightP2}" alt="Real Word, Press the Right Arrow key">
      </div>
     </div>
@@ -67,7 +67,7 @@ const intro_3 = {
   prompt: `
     <h1>Let us review which key we press for made-up words and real words.</h1>
     <div>
-        <img src="${imgContent.keyP3}" style= "margin-top: 10%" alt="arrow keys">
+        <img src="${imgContent.keyP3}" style= "margin-top: 5%" alt="arrow keys">
         <p class = "center"> Try to be as accurate as possible. </p>
         <p class = "center">Some words will be hard, and that&#39s okay. If you&#39re not sure, just give your best guess! </p>
     </div>

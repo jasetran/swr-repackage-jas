@@ -35,11 +35,6 @@ const fixationTimeOptions = [1000, 2000, 25000];
 const trialTimeOptions = [null, 5000, 8000, 100000];
 
 /* set user mode */
-// "beginner": block A only with random words, a new block with 28 new words;
-// "regular":  3 blocks in random order with one block consisting 56 adaptive
-// words and 28 new words
-
-
 const queryString = new URL(window.location).search;
 const urlParams = new URLSearchParams(queryString);
 const userMode = urlParams.get("mode") || "regularRandom";
@@ -177,7 +172,8 @@ export const taskInfo = configTaskInfo();
 export const config = {
   userMode: userMode,
   pid: pid,
-  sessionId: taskVariant,
+  sessionId: taskVariant + "-" + userMode,
+  userMetadata: {},
   testingOnly: userMode === "test" || userMode === "demo" || taskVariant === "validate",
 
   // set order and rule for the experiment
@@ -193,7 +189,7 @@ export const config = {
   totalTrialsPractice: 5,
 
   // The number of practice trials that will keep stimulus on screen untill participant's input
-  countSlowPractice:2,
+  countSlowPractice: 2,
 
   // TODO: Check use of timing in other js files
   timing: {

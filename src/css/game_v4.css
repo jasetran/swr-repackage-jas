@@ -57,6 +57,11 @@ p  {
 	font-size: 2vh;
 }
 
+.survey_form_text{
+	text-align: center;
+	font-size: 3vh;
+}
+
 .consent_form_agree{
 	margin: 5%;
 	text-align:left;
@@ -164,27 +169,27 @@ p  {
 }
 
 .column_1 {
-	padding: 0px 20px 0px 20px;
+	padding: 0 2vh 0 2vh;
 	flex: 33%;
 }
 
 .column_2_upper {
 	margin-top:5%;
-	padding: 0 20px 0px 20px;
+	padding: 0 2vh 0 2vh;
 	flex: 50%;
 	margin-right: 5%;
 	margin-left: 5%;
 }
 
 .column_2_lower {
-	padding: 0px 20px 0px 20px;
+	padding: 0 2vh 0 2vh;
 	flex: 50%;
 	margin-right: 5%;
 	margin-left: 5%;
 }
 
 .column_3 {
-	padding: 0px 20px 0px 20px;
+	padding: 0 2vh 0 2vh;
 	flex: 67%;
 	margin-right: 10%;
 }
@@ -354,3 +359,13 @@ p  {
 	left: 50%;
 	transform: translate(-50%, -50%);
 }
+
+.jspsych-survey-html-form{
+	position: fixed;
+	bottom: 20%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+
+}
+
+

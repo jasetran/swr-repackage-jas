@@ -7,6 +7,7 @@ import { QuestUpdate, QuestQuantile, QuestCreate } from "jsQUEST";
 import jsPsychSurveyText from "@jspsych/plugin-survey-text";
 import jsPsychFullScreen from "@jspsych/plugin-fullscreen";
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
+import jsPsychSurveyHtmlForm from "@jspsych/plugin-survey-html-form";
 import jsPsychSurveyMultiSelect from "@jspsych/plugin-survey-multi-select";
 import store from "store2";
 
@@ -16,7 +17,7 @@ import "regenerator-runtime/runtime";
 
 // Firebase imports
 import { RoarFirekit } from "@bdelab/roar-firekit";
-import { rootDoc } from "./firebaseConfig";
+import { roarConfig } from "./firebaseConfig";
 
 // Local modules
 import {
@@ -43,21 +44,6 @@ let firekit;
 
 store.session.set("stimulusLists", stimulusLists);
 
-if (config.pid) {
-  const minimalUserInfo = {
-    id: config.pid,
-    studyId: config.sessionId,
-  };
-
-  firekit = new RoarFirekit({
-    rootDoc,
-    userInfo: minimalUserInfo,
-    taskInfo,
-  });
-
-  await firekit.startRun();
-}
-
 const timeline = [];
 
 /* init connection with pavlovia.org */
@@ -83,23 +69,18 @@ function makePid() {
   return text;
 };
 
-// add introduction trials
-// Ask Adam for clarification
 const enter_fullscreen = {
   type: jsPsychFullScreen,
   fullscreen_mode: true,
   message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
   on_finish: async () => {
     config.pid = config.pid || makePid();
-    console.log(config.pid);
-    const minimalUserInfo = { id: config.pid, studyId: config.sessionId };
-
+    const userInfo = { id: config.pid, studyId: config.sessionId, userMetadata: config.userMetadata};
     firekit = new RoarFirekit({
-      rootDoc,
-      userInfo: minimalUserInfo,
+      config: roarConfig,
+      userInfo: userInfo,
       taskInfo,
     });
-
     await firekit.startRun();
   },
 };
@@ -164,35 +145,79 @@ const if_consent_form = {
   },
 };
 
-// collect participant id
+/* demo survey */
 const survey_pid = {
-  type: jsPsychSurveyText,
-  questions: [
-    { prompt: "Enter your Participant ID: <br><br>" +
-          "you may leave blank to keep anonymous", name: "pid", required: false },
-  ],
+  type: jsPsychSurveyHtmlForm,
+  preamble: '<div><h1>Please share a bit more to help us understand your data!</h1></div>',
+  html: `
+     <div className="item">
+      <span htmlFor="instructions" class = "survey_form_text">How old are you? (Please type a number)</span>
+      <input type = "text" id = "age" name="age" value=""/>
+    </div>
+    <br>
+    <div className="item">
+      <span class = "survey_form_text">What is your current grade or highest level of education?</span>
+      <select id = "edu" name = "edu">
+        <option value=""></option>
+        <option value="prek">preK</option>
+        <option value="k1">K1</option>
+        <option value="k2">K2</option>
+        <option value="1">Grade 1</option>
+        <option value="2">Grade 2</option>
+        <option value="3">Grade 3</option>
+        <option value="4">Grade 4</option>
+        <option value="5">Grade 5</option>
+        <option value="6">Grade 6</option>
+        <option value="7">Grade 7</option>
+        <option value="8">Grade 8</option>
+        <option value="9">Grade 9</option>
+        <option value="10">Grade 10</option>
+        <option value="11">Grade 11</option>
+        <option value="12">Grade 12</option>
+        <option value="college">College</option>
+        <option value="proSchool">Professional School</option>
+        <option value="gradSchool">Graduate School</option>
+      </select>
+    </div>
+    <br>
+    <div className="item">
+      <span class = "survey_form_text">Is English your first language?</span>
+      <select id = "ell" name = "ell">
+        <option value=""></option>
+        <option value="1">No</option>
+        <option value="0">Yes</option>
+      </select>
+    </div>
+    <br>
+    <div className="item">
+      <span class = "survey_form_text">Have you taken this demo before?</span>
+      <select id = "retake" name = "retake">
+        <option value=""></option>
+        <option value="0">No</option>
+        <option value="1">Yes</option>
+      </select>
+    </div>
+    <br>`,
+  autocomplete: true,
   on_finish: function (data) {
-    config.pid = data.response.pid || makePid();
+    let tmpMetadata = {}
+    for (const field in data.response) {
+      if (data.response[field] === ""){
+        tmpMetadata[field] = null;
+      } else if (field === "retake" || field === "ell") {
+        tmpMetadata[field] = parseInt(data.response[field])
+      } else {
+        tmpMetadata[field] = data.response[field]
+      }
+    }
+    config.userMetadata = tmpMetadata;
   },
 };
 
 const if_get_pid = {
   timeline: [survey_pid],
   conditional_function: function () {
-    return (Boolean(config.pid) !== true & config.userMode !== 'demo');
-  },
-  on_timeline_finish: async () => {
-    config.pid = config.pid || makePid();
-    console.log(config.pid);
-    const minimalUserInfo = { id: config.pid, studyId: config.sessionId };
-
-    firekit = new RoarFirekit({
-      rootDoc,
-      userInfo: minimalUserInfo,
-      taskInfo,
-    });
-
-    await firekit.startRun();
+    return (config.userMode === 'demo');
   },
 };
 
@@ -242,7 +267,7 @@ const if_debrief_block = {
 };
 
 timeline.push(if_consent_form);
-// timeline.push(if_get_pid);
+timeline.push(if_get_pid);
 timeline.push(enter_fullscreen);
 timeline.push(introduction_trials);
 timeline.push(countdown_trials);

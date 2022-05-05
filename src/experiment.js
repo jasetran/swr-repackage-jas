@@ -152,12 +152,12 @@ const survey_pid = {
   html: `
      <div className="item">
       <span htmlFor="instructions" class = "survey_form_text">How old are you? (Please type a number)</span>
-      <input type = "text" id = "age" name="age" value=""/>
+      <input type = "text" id = "age" name="age" style = "font-size: 2vh" value=""/>
     </div>
     <br>
     <div className="item">
       <span class = "survey_form_text">What is your current grade or highest level of education?</span>
-      <select id = "edu" name = "edu">
+      <select id = "edu" name = "edu" style = "font-size: 2vh">
         <option value=""></option>
         <option value="prek">preK</option>
         <option value="k1">K1</option>
@@ -182,7 +182,7 @@ const survey_pid = {
     <br>
     <div className="item">
       <span class = "survey_form_text">Is English your first language?</span>
-      <select id = "ell" name = "ell">
+      <select id = "ell" name = "ell" style = "font-size: 2vh">
         <option value=""></option>
         <option value="1">No</option>
         <option value="0">Yes</option>
@@ -191,7 +191,7 @@ const survey_pid = {
     <br>
     <div className="item">
       <span class = "survey_form_text">Have you taken this demo before?</span>
-      <select id = "retake" name = "retake">
+      <select id = "retake" name = "retake" style = "font-size: 2vh">
         <option value=""></option>
         <option value="0">No</option>
         <option value="1">Yes</option>

@@ -41,13 +41,21 @@ const userMode = urlParams.get("mode") || "regularRandom";
 const taskVariant = urlParams.get("variant")|| "pilot";
 const pid = urlParams.get("participant");
 
+/* set dashboard redirect URLs: school as default */
+const redirectInfo = {
+  validate: "https://reading.stanford.edu?g=910&c=1",
+  UCSF: "https://reading.stanford.edu?g=937&c=1",
+  RF: "https://reading.stanford.edu?g=940&c=1",
+  school: "https://reading.stanford.edu?g=901&c=1",
+};
+
 function configTaskInfo() {
   let taskInfo;
   if (userMode === "regularRandom"){
     taskInfo = {
       taskId: "swr",
       taskName: "Single Word Recognition",
-      variantName: taskVariant + "-" + userMode,
+      variantName: userMode,
       taskDescription:
           "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
       variantDescription:
@@ -74,7 +82,7 @@ function configTaskInfo() {
     taskInfo = {
       taskId: "swr",
       taskName: "Single Word Recognition",
-      variantName: taskVariant + "-" + userMode,
+      variantName: userMode,
       taskDescription:
           "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
       variantDescription:
@@ -82,18 +90,18 @@ function configTaskInfo() {
       blocks: [
         {
           blockNumber: 0,
-          trialMethod: "adaptive",
-          corpus: "adaptiveCorpusId",
+          trialMethod: "adaptive/random",
+          corpus: "adaptiveCorpusId/randomCorpusId",
         },
         {
           blockNumber: 1,
-          trialMethod: "random",
-          corpus: "randomCorpusId",
+          trialMethod: "adaptive/random",
+          corpus: "adaptiveCorpusId/randomCorpusId",
         },
         {
           blockNumber: 2,
-          trialMethod: "random",
-          corpus: "randomCorpusId",
+          trialMethod: "adaptive/random",
+          corpus: "adaptiveCorpusId/randomCorpusId",
         },
       ],
     };
@@ -101,7 +109,7 @@ function configTaskInfo() {
     taskInfo = {
       taskId: "swr",
       taskName: "Single Word Recognition",
-      variantName: taskVariant + "-" + userMode,
+      variantName: userMode,
       taskDescription:
           "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
       variantDescription:
@@ -123,7 +131,7 @@ function configTaskInfo() {
     taskInfo = {
       taskId: "swr",
       taskName: "Single Word Recognition",
-      variantName: taskVariant + "-" + userMode,
+      variantName: userMode,
       taskDescription:
           "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
       variantDescription:
@@ -140,7 +148,7 @@ function configTaskInfo() {
     taskInfo = {
       taskId: "swr",
       taskName: "Single Word Recognition",
-      variantName: taskVariant + "-" + userMode,
+      variantName: userMode,
       taskDescription:
           "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
       variantDescription:
@@ -148,18 +156,18 @@ function configTaskInfo() {
       blocks: [
         {
           blockNumber: 0,
-          trialMethod: "adaptive",
-          corpus: "adaptiveCorpusId",
+          trialMethod: "adaptive/random",
+          corpus: "adaptiveCorpusId/randomCorpusId",
         },
         {
           blockNumber: 1,
-          trialMethod: "random",
-          corpus: "randomCorpusId",
+          trialMethod: "adaptive/random",
+          corpus: "adaptiveCorpusId/randomCorpusId",
         },
         {
           blockNumber: 2,
-          trialMethod: "random",
-          corpus: "randomCorpusId",
+          trialMethod: "adaptive/random",
+          corpus: "adaptiveCorpusId/randomCorpusId",
         },
       ],
     };
@@ -250,11 +258,7 @@ export const jsPsych = initJsPsych({
   on_finish: () => {
     // jsPsych.data.displayData();
     if (userMode !== "demo"){
-      if (taskVariant === "validate") {
-        window.location.href = "https://reading.stanford.edu?g=910&c=1";
-      } else {
-        window.location.href = "https://reading.stanford.edu?g=901&c=1";
-      }
+      window.location.href = redirectInfo[taskVariant] || "https://reading.stanford.edu?g=901&c=1";
     }
   },
 });

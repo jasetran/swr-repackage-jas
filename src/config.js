@@ -3,12 +3,18 @@ import { initJsPsych } from "jspsych";
 import Papa from "papaparse";
 import store from "store2";
 
+function getRegularAdaptive() {
+  let regularAdaptive = ["random", "random", "random"];
+  regularAdaptive[Math.floor(Math.random() * 3)] = 'adaptive';
+  return regularAdaptive;
+}
+
 const stimulusRuleLists = {
   beginner: ["random", "adaptive"],
   regularRandom: ["random", "random", "random"], //three adaptive blocks
-  regularAdaptive: ["adaptive", "random", "random"], //1 adaptive, 2 random blocks
+  regularAdaptive: getRegularAdaptive(), //1 adaptive, 2 random blocks
   test: ["adaptive", "random", "random"],
-  demo: ["demo"]
+  demo: ["demo"],
 };
 
 const stimulusCountLists = {
@@ -16,7 +22,7 @@ const stimulusCountLists = {
   regularRandom: [84, 84, 84],
   regularAdaptive: [84, 84, 84],
   test: [10, 4, 4],
-  demo: [84]
+  demo: [84],
 };
 
 const numAdaptiveTrials = {

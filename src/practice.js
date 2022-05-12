@@ -70,8 +70,9 @@ export const lexicality_test_practice = {
 
     jsPsych.data.addDataToLastTrial({
       correct: data.correct,
-      correct_response: jsPsych.timelineVariable("correct_response"),
+      correctResponse: jsPsych.timelineVariable("correct_response"),
       block: "Practice",
+      corpusId: "Practice",
       trialNumPractice: store.session("practiceIndex"),
       pid: config.pid,
     });

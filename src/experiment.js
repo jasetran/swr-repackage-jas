@@ -307,26 +307,36 @@ function updateQuest() {
     currentCorpus = store.session("stimulusLists")[store.session("currentBlockIndex")][corpusType];
   }
   if (store.session("stimulusIndex")[store.session("currentBlock")] === 0) {
-    store.session.set("myquest", QuestCreate(
-      questConfig.tGuess,
-      questConfig.tGuessSd,
-      questConfig.pThreshold,
-      questConfig.beta,
-      questConfig.delta,
-      questConfig.gamma,
-    ));
+    const q = QuestCreate(
+        questConfig.tGuess,
+        questConfig.tGuessSd,
+        questConfig.pThreshold,
+        questConfig.beta,
+        questConfig.delta,
+        questConfig.gamma,
+        questConfig.grain,
+        questConfig.range,
+    );
+    q.warnPdf = 0;
+    store.session.set("myquest", q);
     const tTest = QuestQuantile(store.session("myquest"));
+    store.session.set("questEstimate", tTest);
     closestIndex = findClosest(currentCorpus, tTest);
     resultStimulus = currentCorpus[closestIndex];
+    // console.log(tTest, closestIndex);
+    // console.log(store.session("myquest"));
   } else {
     store.session.set("myquest", QuestUpdate(store.session("myquest"), store.session("nextStimulus").difficulty, store.session("response")));
     const tTest = QuestQuantile(store.session("myquest"));
+    store.session.set("questEstimate", tTest);
     closestIndex = findClosest(currentCorpus, tTest);
     const d_list = [];
     currentCorpus.forEach((item) => {
       d_list.push(item.difficulty);
     });
     resultStimulus = currentCorpus[closestIndex];
+    // console.log(tTest, closestIndex);
+    // console.log(store.session("myquest"));
   }
 
   const copyStimulusLists = store.session("stimulusLists");
@@ -437,7 +447,9 @@ const lexicality_test = {
       word: store.session("nextStimulus").stimulus,
       correct: data.correct,
       correctResponse: store.session("nextStimulus").correct_response,
+      realpseudo: store.session("nextStimulus").realpseudo,
       difficulty: store.session("nextStimulus").difficulty,
+      adaptiveEstimate: store.session("questEstimate"),
       stimulusRule: store.session("stimulusRule"),
       trialNumTotal: store.session("trialNumTotal"),
       trialNumBlock: store.session("trialNumBlock"),

@@ -11,7 +11,7 @@ function getRegularAdaptive() {
 
 const stimulusRuleLists = {
   beginner: ["random", "adaptive"],
-  regularRandom: ["random", "random", "random"], //three adaptive blocks
+  regularRandom: ["random", "random", "random"], //three random blocks
   regularAdaptive: getRegularAdaptive(), //1 adaptive, 2 random blocks
   test: ["adaptive", "random", "random"],
   demo: ["demo"],
@@ -21,15 +21,15 @@ const stimulusCountLists = {
   beginner: [84, 28],
   regularRandom: [84, 84, 84],
   regularAdaptive: [84, 84, 84],
-  test: [10, 4, 4],
+  test: [8, 4, 4],
   demo: [84],
 };
 
 const numAdaptiveTrials = {
   beginner: 0,
   regularRandom: 0,
-  regularAdaptive: 60,
-  test: 8,
+  regularAdaptive: 84, //TO DO: change to 60 later
+  test: 6,
   demo: 24,
 };
 
@@ -236,6 +236,7 @@ export const initStore = () => {
   store.session.set("demoCounter", 0);
   store.session.set("nextStimulus", []);
   store.session.set("response", "");
+  store.session.set("questEstimate", null);
 
   // variables to track current state of the experiment
   store.session.set("currentStimulus", "");
@@ -295,6 +296,8 @@ export const questConfig = {
   beta: 1,
   delta: 0.05,
   gamma: 0.5,
+  range: 10,
+  grain: 0.02,
 };
 
 const getClosest = (arr, val1, val2, target) => {

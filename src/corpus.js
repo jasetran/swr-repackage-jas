@@ -42,6 +42,7 @@ const transformCSV = (csvInput, isPractice) => csvInput.reduce((accum, row) => {
     correct_response: realpseudo2arrow(row.realpseudo),
     difficulty: isPractice ? row.difficulty : -row.b_i,
     corpus_src: row.block,
+    realpseudo: row.realpseudo,
   };
   accum.push(newRow);
   return accum;
@@ -72,6 +73,7 @@ function transformNewwords(csv_new) {
       correct_response: "ArrowRight",
       difficulty: 0, // default level
       corpus_src: "corpusNew",
+      realpseudo: "real",
     };
     splitArray.push(realRow);
     const pseudoRow = {
@@ -79,6 +81,7 @@ function transformNewwords(csv_new) {
       correct_response: "ArrowLeft",
       difficulty: 0, // default level
       corpus_src: "corpusNew",
+      realpseudo: "pseudo",
     };
     splitArray.push(pseudoRow);
   }

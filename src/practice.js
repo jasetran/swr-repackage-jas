@@ -71,6 +71,7 @@ export const lexicality_test_practice = {
     jsPsych.data.addDataToLastTrial({
       correct: data.correct,
       correctResponse: jsPsych.timelineVariable("correct_response"),
+      realpseudo: jsPsych.timelineVariable("realpseudo"),
       block: "Practice",
       corpusId: "Practice",
       trialNumPractice: store.session("practiceIndex"),

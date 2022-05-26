@@ -21,18 +21,31 @@ import { roarConfig } from "./firebaseConfig";
 
 // Local modules
 import {
-  jsPsych, config, updateProgressBar, questConfig, findClosest, taskInfo,
+  jsPsych,
+  config,
+  updateProgressBar,
+  questConfig,
+  findClosest,
+  taskInfo,
 } from "./config";
 import { if_audio_response_correct, if_audio_response_wrong } from "./audio";
 import { imgContent, preload_trials } from "./preload";
 import {
-  introduction_trials, post_practice_intro, countdown_trials, if_coin_tracking,
+  introduction_trials,
+  post_practice_intro,
+  countdown_trials,
+  if_coin_tracking,
 } from "./introduction";
 import {
-  if_node_left, if_node_right, setup_fixation_practice, lexicality_test_practice,
+  if_node_left,
+  if_node_right,
+  setup_fixation_practice,
+  lexicality_test_practice,
 } from "./practice";
 import {
-  mid_block_page_list, post_block_page_list, final_page,
+  mid_block_page_list,
+  post_block_page_list,
+  final_page,
 } from "./gameBreak";
 import { stimulusLists, blockNew, blockPractice } from "./corpus";
 import jsPsychPavlovia from "./jsPsychPavlovia";
@@ -63,11 +76,12 @@ const pavlovia_finish = {
 
 function makePid() {
   let text = "";
-  const possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-  for( let i=0; i < 16; i++ )
+  const possible =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (let i = 0; i < 16; i++)
     text += possible.charAt(Math.floor(Math.random() * possible.length));
   return text;
-};
+}
 
 const enter_fullscreen = {
   type: jsPsychFullScreen,
@@ -75,7 +89,11 @@ const enter_fullscreen = {
   message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
   on_finish: async () => {
     config.pid = config.pid || makePid();
-    const userInfo = { id: config.pid, studyId: config.sessionId, userMetadata: config.userMetadata};
+    const userInfo = {
+      id: config.pid,
+      studyId: config.sessionId,
+      userMetadata: config.userMetadata,
+    };
     firekit = new RoarFirekit({
       config: roarConfig,
       userInfo: userInfo,
@@ -129,11 +147,13 @@ const consent_form = {
         </p>
  </div>
      `,
-      options: [`<b>I agree to participate in this research. Participation in this research is voluntary, and I can stop at any time without penalty. <br> I feel that I understand what I am getting into, and I know I am free to leave the experiment at any time by simply closing the web browser.
-</b>`],
+      options: [
+        `<b>I agree to participate in this research. Participation in this research is voluntary, and I can stop at any time without penalty. <br> I feel that I understand what I am getting into, and I know I am free to leave the experiment at any time by simply closing the web browser.
+</b>`,
+      ],
       required: true,
       required_message: "You must check the box to continue",
-      name: 'Agree'
+      name: "Agree",
     },
   ],
 };
@@ -141,14 +161,15 @@ const consent_form = {
 const if_consent_form = {
   timeline: [consent_form],
   conditional_function: function () {
-    return Boolean(config.userMode === 'demo');
+    return Boolean(config.userMode === "demo");
   },
 };
 
 /* demo survey */
 const survey_pid = {
   type: jsPsychSurveyHtmlForm,
-  preamble: '<div><h1>Please share a bit more to help us understand your data!</h1></div>',
+  preamble:
+    "<div><h1>Please share a bit more to help us understand your data!</h1></div>",
   html: `
      <div className="item">
       <span htmlFor="instructions" class = "survey_form_text">How old are you? (Please type a number)</span>
@@ -200,14 +221,14 @@ const survey_pid = {
     <br>`,
   autocomplete: true,
   on_finish: function (data) {
-    let tmpMetadata = {}
+    let tmpMetadata = {};
     for (const field in data.response) {
-      if (data.response[field] === ""){
+      if (data.response[field] === "") {
         tmpMetadata[field] = null;
       } else if (field === "retake" || field === "ell") {
-        tmpMetadata[field] = parseInt(data.response[field])
+        tmpMetadata[field] = parseInt(data.response[field]);
       } else {
-        tmpMetadata[field] = data.response[field]
+        tmpMetadata[field] = data.response[field];
       }
     }
     config.userMetadata = tmpMetadata;
@@ -217,29 +238,27 @@ const survey_pid = {
 const if_get_pid = {
   timeline: [survey_pid],
   conditional_function: function () {
-    return (config.userMode === 'demo');
+    return config.userMode === "demo";
   },
 };
 
-const extend = (fn, code) => function () {
-  // eslint-disable-next-line prefer-rest-params
-  fn.apply(fn, arguments);
-  // eslint-disable-next-line prefer-rest-params
-  code.apply(fn, arguments);
-};
+const extend = (fn, code) =>
+  function () {
+    // eslint-disable-next-line prefer-rest-params
+    fn.apply(fn, arguments);
+    // eslint-disable-next-line prefer-rest-params
+    code.apply(fn, arguments);
+  };
 
 jsPsych.opts.on_finish = extend(jsPsych.opts.on_finish, () => {
   firekit.finishRun();
 });
 
-jsPsych.opts.on_data_update = extend(
-  jsPsych.opts.on_data_update,
-  (data) => {
-    if (["test_response", "practice_response"].includes(data.task)) {
-      firekit?.writeTrial(data);
-    }
-  },
-);
+jsPsych.opts.on_data_update = extend(jsPsych.opts.on_data_update, (data) => {
+  // if (["test_response", "practice_response"].includes(data.task)) {
+  firekit?.writeTrial(data);
+  // }
+});
 
 /* init connection with pavlovia.org */
 const isOnPavlovia = window.location.href.includes("run.pavlovia.org");
@@ -256,13 +275,13 @@ const debrief_block = {
   <br><br>
   Click <a href="https://docs.google.com/forms/d/e/1FAIpQLSdw3U6K6YMLf1miWvth36UTl2gxG9r8AbtPKKkrj7B-6acBmg/viewform">here</a> to be redirected to a form if you would like to provide your email to receive a $1 gift card for completing this study. You will only be asked to provide your email if you are requesting payment. 
   <br><br>
-  Otherwise, you may exit the window or close your browser.</p></div>`
+  Otherwise, you may exit the window or close your browser.</p></div>`,
 };
 
 const if_debrief_block = {
   timeline: [debrief_block],
   conditional_function: function () {
-    return Boolean(config.userMode === 'demo');
+    return Boolean(config.userMode === "demo");
   },
 };
 
@@ -297,25 +316,31 @@ function updateQuest() {
   let corpusType;
   const randomBoolean = Math.random() < 0.5;
   corpusType = randomBoolean ? "corpus_real" : "corpus_pseudo";
-  currentCorpus = store.session("stimulusLists")[store.session("currentBlockIndex")][corpusType];
+  currentCorpus =
+    store.session("stimulusLists")[store.session("currentBlockIndex")][
+      corpusType
+    ];
   if (currentCorpus.length < 1) {
     if (corpusType === "corpus_pseudo") {
       corpusType = "corpus_real";
     } else {
       corpusType = "corpus_pseudo";
     }
-    currentCorpus = store.session("stimulusLists")[store.session("currentBlockIndex")][corpusType];
+    currentCorpus =
+      store.session("stimulusLists")[store.session("currentBlockIndex")][
+        corpusType
+      ];
   }
   if (store.session("stimulusIndex")[store.session("currentBlock")] === 0) {
     const q = QuestCreate(
-        questConfig.tGuess,
-        questConfig.tGuessSd,
-        questConfig.pThreshold,
-        questConfig.beta,
-        questConfig.delta,
-        questConfig.gamma,
-        questConfig.grain,
-        questConfig.range,
+      questConfig.tGuess,
+      questConfig.tGuessSd,
+      questConfig.pThreshold,
+      questConfig.beta,
+      questConfig.delta,
+      questConfig.gamma,
+      questConfig.grain,
+      questConfig.range
     );
     q.warnPdf = 0;
     store.session.set("myquest", q);
@@ -326,7 +351,14 @@ function updateQuest() {
     // console.log(tTest, closestIndex);
     // console.log(store.session("myquest"));
   } else {
-    store.session.set("myquest", QuestUpdate(store.session("myquest"), store.session("nextStimulus").difficulty, store.session("response")));
+    store.session.set(
+      "myquest",
+      QuestUpdate(
+        store.session("myquest"),
+        store.session("nextStimulus").difficulty,
+        store.session("response")
+      )
+    );
     const tTest = QuestQuantile(store.session("myquest"));
     store.session.set("questEstimate", tTest);
     closestIndex = findClosest(currentCorpus, tTest);
@@ -340,7 +372,10 @@ function updateQuest() {
   }
 
   const copyStimulusLists = store.session("stimulusLists");
-  copyStimulusLists[store.session("currentBlockIndex")][corpusType].splice(closestIndex, 1);
+  copyStimulusLists[store.session("currentBlockIndex")][corpusType].splice(
+    closestIndex,
+    1
+  );
   store.session.set("stimulusLists", copyStimulusLists);
   return resultStimulus;
 }
@@ -352,33 +387,33 @@ function getStimulus() {
   // update 2 trackers
   const tracker = store.session("stimulusIndex")[currentBlock];
   if (tracker == 0 && demoCounter == 0) {
-    store.session.set("trialNumBlock", 1)
-  } else{
+    store.session.set("trialNumBlock", 1);
+  } else {
     store.session.transact("trialNumBlock", (oldVal) => oldVal + 1);
   }
   store.session.transact("trialNumTotal", (oldVal) => oldVal + 1); // add 1 to the total trial count
   //
   if (store.session("stimulusRule") === "random") {
-    resultStimulus = store.session("stimulusLists")[store.session("currentBlockIndex")].corpus_random[
-      store.session("stimulusIndex")[currentBlock]
-    ];
-  } else if  (store.session("stimulusRule") === "adaptive") {
+    resultStimulus =
+      store.session("stimulusLists")[store.session("currentBlockIndex")]
+        .corpus_random[store.session("stimulusIndex")[currentBlock]];
+  } else if (store.session("stimulusRule") === "adaptive") {
     const count_adaptive_trials = store.session("count_adaptive_trials");
     if (count_adaptive_trials < config.totalAdaptiveTrials) {
       store.session.set("count_adaptive_trials", count_adaptive_trials + 1);
       resultStimulus = updateQuest();
     } else {
       store.session.set("stimulusRule", "new");
-      currentBlock = 'corpusNew';
+      currentBlock = "corpusNew";
       resultStimulus = blockNew[store.session("stimulusIndex")[currentBlock]];
     }
   } else if (store.session("stimulusRule") === "new") {
-    currentBlock = 'corpusNew';
+    currentBlock = "corpusNew";
     resultStimulus = blockNew[store.session("stimulusIndex")[currentBlock]];
   } else {
     // this is for demo version only:
-    if (demoCounter < 5){
-      currentBlock = 'corpusNew'
+    if (demoCounter < 5) {
+      currentBlock = "corpusNew";
       resultStimulus = blockNew[store.session("stimulusIndex")[currentBlock]];
       store.session.transact("demoCounter", (oldVal) => oldVal + 1);
     } else {
@@ -418,7 +453,9 @@ function updateCorrectChecker() {
 const lexicality_test = {
   type: jsPsychHtmlKeyboardResponse,
   stimulus: function () {
-    return `<div class = stimulus_div><p class = 'stimulus'>${store.session("nextStimulus").stimulus}</p></div>`;
+    return `<div class = stimulus_div><p class = 'stimulus'>${
+      store.session("nextStimulus").stimulus
+    }</p></div>`;
   },
   prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys"></div>`,
   stimulus_duration: config.timing.stimulusTime,
@@ -433,7 +470,7 @@ const lexicality_test = {
   on_finish: function (data) {
     data.correct = jsPsych.pluginAPI.compareKeys(
       data.response,
-      store.session("nextStimulus").correct_response,
+      store.session("nextStimulus").correct_response
     );
     store.session.set("currentTrialCorrect", data.correct);
     if (data.correct) {
@@ -511,7 +548,10 @@ async function roarBlocks() {
           if (stimulusCounts[i] === 0) {
             return false;
           }
-          store.session.set("currentBlock", store.session("stimulusLists")[i].name);
+          store.session.set(
+            "currentBlock",
+            store.session("stimulusLists")[i].name
+          );
           store.session.set("currentBlockIndex", i);
           store.session.set("stimulusRule", config.stimulusRuleList[i]);
           return true;

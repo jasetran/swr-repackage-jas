@@ -381,6 +381,7 @@ function updateQuest() {
 }
 
 function getStimulus() {
+  console.log('getStimulus', store.session("stimulusLists").slice());
   let resultStimulus;
   let currentBlock = store.session("currentBlock");
   let demoCounter = store.session("demoCounter");
@@ -505,7 +506,7 @@ const exit_fullscreen = {
 
 async function roarBlocks() {
   // the core procedure
-  function pushPracticeToTimeline(array) {
+  function pushPracticeTotimeline(array) {
     array.forEach((element) => {
       const block = {
         timeline: [
@@ -522,7 +523,7 @@ async function roarBlocks() {
     });
   }
 
-  pushPracticeToTimeline(blockPractice);
+  pushPracticeTotimeline(blockPractice);
   timeline.push(post_practice_intro);
 
   const core_procedure = {
@@ -535,13 +536,10 @@ async function roarBlocks() {
     ],
   };
 
-  const total_roar_mainproc_line = [];
-
-  function pushTrialsToTimeline(stimulusCounts) {
+  function pushTrialsTotimeline(stimulusCounts) {
     for (let i = 0; i < stimulusCounts.length; i++) {
       // for each block: add trials
       /* add first half of block */
-      total_roar_mainproc_line.push(countdown_trials);
       const roar_mainproc_block_half_1 = {
         timeline: [core_procedure],
         conditional_function: function () {
@@ -558,9 +556,6 @@ async function roarBlocks() {
         },
         repetitions: stimulusCounts[i] / 2,
       };
-      total_roar_mainproc_line.push(roar_mainproc_block_half_1);
-      total_roar_mainproc_line.push(mid_block_page_list[i]);
-      total_roar_mainproc_line.push(countdown_trials);
       /* add second half of block */
       const roar_mainproc_block_half_2 = {
         timeline: [core_procedure],
@@ -569,20 +564,28 @@ async function roarBlocks() {
         },
         repetitions: stimulusCounts[i] / 2,
       };
-      total_roar_mainproc_line.push(roar_mainproc_block_half_2);
+      const total_roar_mainproc_line = {
+        timeline: [
+          countdown_trials,
+          roar_mainproc_block_half_1,
+          mid_block_page_list[i],
+          countdown_trials,
+          roar_mainproc_block_half_2,
+        ],
+      }
+
+      timeline.push(total_roar_mainproc_line);
+
       if (i < stimulusCounts.length - 1) {
-        total_roar_mainproc_line.push(post_block_page_list[i]);
+        timeline.push(post_block_page_list[i]);
       }
     }
   }
 
-  pushTrialsToTimeline(config.stimulusCountList);
+  pushTrialsTotimeline(config.stimulusCountList);
 
-  const total_roar_mainproc = {
-    timeline: total_roar_mainproc_line,
-  };
+  console.log(timeline.slice());
 
-  timeline.push(total_roar_mainproc);
   timeline.push(final_page);
   timeline.push(exit_fullscreen);
   timeline.push(if_debrief_block);
@@ -590,8 +593,9 @@ async function roarBlocks() {
   if (isOnPavlovia) {
     timeline.push(pavlovia_finish);
   }
-
+  console.log(timeline.slice())
   jsPsych.run(timeline);
+
 }
 
 roarBlocks();

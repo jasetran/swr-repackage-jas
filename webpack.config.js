@@ -41,11 +41,11 @@ module.exports = {
         test: /\.(png|svg|jpg|jpeg|gif)$/i,
         type: "asset/resource",
         generator: {
-          filename: 'img/[name][ext]',
+          filename: "img/[name][ext]",
         },
       },
       {
-        test: /\.wav$/,
+        test: /\.mp3$/,
         use: [
           {
             loader: "file-loader",

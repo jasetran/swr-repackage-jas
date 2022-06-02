@@ -1,34 +1,34 @@
 import jsPsychPreload from "@jspsych/plugin-preload";
 
 // Audio files
-import intro1 from "./audio/intro1.wav";
-import intro2 from "./audio/intro2.wav";
-import intro3 from "./audio/intro3.wav";
-import countdown0 from "./audio/countdown0.wav";
-import countdown1 from "./audio/countdown1.wav";
-import countdown2 from "./audio/countdown2.wav";
-import countdown3 from "./audio/countdown3.wav";
-import coinIntro from "./audio/coinIntro.wav";
-import midBlock1 from "./audio/midBlock1.wav";
-import endBlock1 from "./audio/endBlock1.wav";
-import midBlock2 from "./audio/midBlock2.wav";
-import endBlock2 from "./audio/endBlock2.wav";
-import midBlock3 from "./audio/midBlock3.wav";
-import endGame from "./audio/endGame.wav";
-import beep from "./audio/beep.wav";
-import coin from "./audio/coin.wav";
-import fail from "./audio/fail.wav";
-import fairyCoin from "./audio/fairyCoin.wav";
-import feedbackXopCorrect from "./audio/feedback_xop_correct.wav";
-import feedbackXopWrong from "./audio/feedback_xop_wrong.wav";
-import feedbackHowCorrect from "./audio/feedback_how_correct.wav";
-import feedbackHowWrong from "./audio/feedback_how_wrong.wav";
-import feedbackAfterCorrect from "./audio/feedback_after_correct.wav";
-import feedbackAfterWrong from "./audio/feedback_after_wrong.wav";
-import feedbackAulerCorrect from "./audio/feedback_auler_correct.wav";
-import feedbackAulerWrong from "./audio/feedback_auler_wrong.wav";
-import feedbackHomCorrect from "./audio/feedback_hom_correct.wav";
-import feedbackHomWrong from "./audio/feedback_hom_wrong.wav";
+import intro1 from "./audio/intro1.mp3";
+import intro2 from "./audio/intro2.mp3";
+import intro3 from "./audio/intro3.mp3";
+import countdown0 from "./audio/countdown0.mp3";
+import countdown1 from "./audio/countdown1.mp3";
+import countdown2 from "./audio/countdown2.mp3";
+import countdown3 from "./audio/countdown3.mp3";
+import coinIntro from "./audio/coinIntro.mp3";
+import midBlock1 from "./audio/midBlock1.mp3";
+import endBlock1 from "./audio/endBlock1.mp3";
+import midBlock2 from "./audio/midBlock2.mp3";
+import endBlock2 from "./audio/endBlock2.mp3";
+import midBlock3 from "./audio/midBlock3.mp3";
+import endGame from "./audio/endGame.mp3";
+import beep from "./audio/beep.mp3";
+import coin from "./audio/coin.mp3";
+import fail from "./audio/fail.mp3";
+import fairyCoin from "./audio/fairyCoin.mp3";
+import feedbackXopCorrect from "./audio/feedback_xop_correct.mp3";
+import feedbackXopWrong from "./audio/feedback_xop_wrong.mp3";
+import feedbackHowCorrect from "./audio/feedback_how_correct.mp3";
+import feedbackHowWrong from "./audio/feedback_how_wrong.mp3";
+import feedbackAfterCorrect from "./audio/feedback_after_correct.mp3";
+import feedbackAfterWrong from "./audio/feedback_after_wrong.mp3";
+import feedbackAulerCorrect from "./audio/feedback_auler_correct.mp3";
+import feedbackAulerWrong from "./audio/feedback_auler_wrong.mp3";
+import feedbackHomCorrect from "./audio/feedback_hom_correct.mp3";
+import feedbackHomWrong from "./audio/feedback_hom_wrong.mp3";
 
 // Image files
 import wizardMagic from "./assets/wizard_magic.gif";
@@ -94,7 +94,8 @@ const audioBlocks = {
   ],
 };
 
-export const camelCase = (inString) => inString.replace(/_([a-z])/g, (g) => g[1].toUpperCase());
+export const camelCase = (inString) =>
+  inString.replace(/_([a-z])/g, (g) => g[1].toUpperCase());
 
 const preloadObj2contentObj = (preloadObj) => {
   const contentArray = [].concat(...Object.values(preloadObj));

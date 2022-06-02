@@ -9,7 +9,5 @@ export const roarConfig = {
     appId: "1:292331000426:web:91a04220991e3405737013",
     measurementId: "G-0TBTMDS993",
   },
-  rootDoc: ["dev", "anya-swr"],
+  rootDoc: ["dev", "anya-swr"],//["prod", "roar-prod"],
 };
-
-// ["prod", "roar-prod"],

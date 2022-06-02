@@ -14,6 +14,7 @@ module.exports = {
     gameBreak: "./src/gameBreak.js",
     config: "./src/config.js",
     audio: "./src/audio.js",
+    corpus: "./src/corpus.js",
   },
   devtool: "inline-source-map",
   devServer: {

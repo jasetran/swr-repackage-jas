@@ -117,7 +117,7 @@ const preload_audio_trials = Object.entries(audioBlocks).map((element) => {
   return {
     type: jsPsychPreload,
     audios: audio_block,
-    auto_preload: true,
+    auto_preload: false,
     message: `${idx} Please wait while the experiment loads. This may take a few minutes.`,
     show_progress_bar: true,
     show_detailed_errors: true,
@@ -140,8 +140,8 @@ const preload_img_trials = Object.entries(imageBlocks).map((element) => {
   const img_block = element[1];
   return {
     type: jsPsychPreload,
-    audios: img_block,
-    auto_preload: true,
+    images: img_block,
+    auto_preload: false,
     message: `${idx} Please wait while the experiment loads. This may take a few minutes.`,
     show_progress_bar: true,
     show_detailed_errors: true,

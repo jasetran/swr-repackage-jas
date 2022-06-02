@@ -67,7 +67,7 @@ const intro_3 = {
   prompt: `
     <h1>Let us review which key we press for made-up words and real words.</h1>
     <div>
-        <img src="${imgContent.keyP3}" style= "margin-top: 5%" alt="arrow keys">
+        <img class = 'cues' src="${imgContent.keyP3}" alt="arrow keys">
         <p class = "center"> Try to be as accurate as possible. </p>
         <p class = "center">Some words will be hard, and that&#39s okay. If you&#39re not sure, just give your best guess! </p>
     </div>

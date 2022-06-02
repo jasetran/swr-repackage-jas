@@ -255,9 +255,9 @@ jsPsych.opts.on_finish = extend(jsPsych.opts.on_finish, () => {
 });
 
 jsPsych.opts.on_data_update = extend(jsPsych.opts.on_data_update, (data) => {
-  // if (["test_response", "practice_response"].includes(data.task)) {
+  if (["test_response", "practice_response"].includes(data.task)) {
   firekit?.writeTrial(data);
-  // }
+  }
 });
 
 /* init connection with pavlovia.org */

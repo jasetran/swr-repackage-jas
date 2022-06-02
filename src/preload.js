@@ -116,7 +116,7 @@ const preload_audio_trials = Object.entries(audioBlocks).map((element) => {
   const audio_block = element[1];
   return {
     type: jsPsychPreload,
-    audios: audio_block,
+    audio: audio_block,
     auto_preload: false,
     message: `${idx} Please wait while the experiment loads. This may take a few minutes.`,
     show_progress_bar: true,

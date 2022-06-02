@@ -5,3 +5,4 @@ dist
 **/.ipynb_checkpoints
 .idea
 .DS_Store.firebase/*.cache
+**/.DS_Store

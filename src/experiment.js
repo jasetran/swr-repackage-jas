@@ -486,7 +486,6 @@ const lexicality_test = {
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   },
   on_finish: function (data) {
-    // throw "This is an error message";
     data.correct = jsPsych.pluginAPI.compareKeys(
       data.response,
       store.session("nextStimulus").correct_response

@@ -264,6 +264,19 @@ jsPsych.opts.on_data_update = extend(jsPsych.opts.on_data_update, (data) => {
   }*/
 });
 
+window.onerror = function (msg, url, lineNo, columnNo, error) {
+  firekit?.writeTrial({
+      task: "error",
+      lastTrial: jsPsych.data.getLastTrialData().trials[0],
+      message: String(msg),
+      source: url || null,
+      lineNo: String(lineNo || null),
+      colNo: String(columnNo || null),
+      error: JSON.stringify(error || null),
+  })
+  return false;
+};
+
 /* init connection with pavlovia.org */
 const isOnPavlovia = window.location.href.includes("run.pavlovia.org");
 
@@ -473,6 +486,7 @@ const lexicality_test = {
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   },
   on_finish: function (data) {
+    // throw "This is an error message";
     data.correct = jsPsych.pluginAPI.compareKeys(
       data.response,
       store.session("nextStimulus").correct_response

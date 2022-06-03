@@ -255,9 +255,13 @@ jsPsych.opts.on_finish = extend(jsPsych.opts.on_finish, () => {
 });
 
 jsPsych.opts.on_data_update = extend(jsPsych.opts.on_data_update, (data) => {
-  if (["test_response", "practice_response"].includes(data.task)) {
+  // firekit?.writeTrial(data);
+  if (data.trial_index >= 15) {
     firekit?.writeTrial(data);
   }
+  /*if (["test_response", "practice_response"].includes(data.task)) {
+    firekit?.writeTrial(data);
+  }*/
 });
 
 /* init connection with pavlovia.org */
@@ -593,7 +597,6 @@ async function roarBlocks() {
   if (isOnPavlovia) {
     timeline.push(pavlovia_finish);
   }
-  // console.log(timeline.slice());
   jsPsych.run(timeline);
 }
 

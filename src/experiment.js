@@ -264,6 +264,19 @@ jsPsych.opts.on_data_update = extend(jsPsych.opts.on_data_update, (data) => {
   }*/
 });
 
+window.onerror = function (msg, url, lineNo, columnNo, error) {
+  firekit?.writeTrial({
+      task: "error",
+      lastTrial: jsPsych.data.getLastTrialData().trials[0],
+      message: String(msg),
+      source: url || null,
+      lineNo: String(lineNo || null),
+      colNo: String(columnNo || null),
+      error: JSON.stringify(error || null),
+  })
+  return false;
+};
+
 /* init connection with pavlovia.org */
 const isOnPavlovia = window.location.href.includes("run.pavlovia.org");
 

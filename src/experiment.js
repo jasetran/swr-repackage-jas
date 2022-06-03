@@ -256,7 +256,7 @@ jsPsych.opts.on_finish = extend(jsPsych.opts.on_finish, () => {
 
 jsPsych.opts.on_data_update = extend(jsPsych.opts.on_data_update, (data) => {
   if (["test_response", "practice_response"].includes(data.task)) {
-  firekit?.writeTrial(data);
+    firekit?.writeTrial(data);
   }
 });
 
@@ -381,7 +381,7 @@ function updateQuest() {
 }
 
 function getStimulus() {
-  console.log('getStimulus', store.session("stimulusLists").slice());
+  // console.log("getStimulus", store.session("stimulusLists").slice());
   let resultStimulus;
   let currentBlock = store.session("currentBlock");
   let demoCounter = store.session("demoCounter");
@@ -572,7 +572,7 @@ async function roarBlocks() {
           countdown_trials,
           roar_mainproc_block_half_2,
         ],
-      }
+      };
 
       timeline.push(total_roar_mainproc_line);
 
@@ -584,7 +584,7 @@ async function roarBlocks() {
 
   pushTrialsTotimeline(config.stimulusCountList);
 
-  console.log(timeline.slice());
+  // console.log(timeline.slice());
 
   timeline.push(final_page);
   timeline.push(exit_fullscreen);
@@ -593,9 +593,8 @@ async function roarBlocks() {
   if (isOnPavlovia) {
     timeline.push(pavlovia_finish);
   }
-  console.log(timeline.slice())
+  // console.log(timeline.slice());
   jsPsych.run(timeline);
-
 }
 
 roarBlocks();

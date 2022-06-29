@@ -188,7 +188,7 @@ export const config = {
   pid: pid,
   sessionId: taskVariant + "-" + userMode,
   userMetadata: {},
-  testingOnly: userMode === "test" || userMode === "demo" || taskVariant === "validate",
+  testingOnly: true, //userMode === "test" || userMode === "demo" || taskVariant === "validate",
 
   // set order and rule for the experiment
   stimulusRuleList: stimulusRuleLists[userMode],

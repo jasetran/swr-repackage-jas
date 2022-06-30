@@ -44,8 +44,9 @@ const trialTimeOptions = [null, 5000, 8000, 100000];
 const queryString = new URL(window.location).search;
 const urlParams = new URLSearchParams(queryString);
 const userMode = urlParams.get("mode") || "regularRandom";
-const taskVariant = urlParams.get("variant")|| "pilot";
+const taskVariant = urlParams.get("variant") || "pilot";
 const pid = urlParams.get("participant");
+const skip = urlParams.get("skip");
 
 /* set dashboard redirect URLs: school as default */
 const redirectInfo = {
@@ -188,7 +189,7 @@ export const config = {
   pid: pid,
   sessionId: taskVariant + "-" + userMode,
   userMetadata: {},
-  testingOnly: userMode === "test" || userMode === "demo" || taskVariant === "validate",
+  testingOnly: skip === null, //userMode === "test" || userMode === "demo" || taskVariant === "validate",
 
   // set order and rule for the experiment
   stimulusRuleList: stimulusRuleLists[userMode],
@@ -213,7 +214,6 @@ export const config = {
     trialTimePracticeOnly: trialTimeOptions[0],
     trialTime: trialTimeOptions[0],
   },
-
   /* record date */
   startTime: new Date(),
 };

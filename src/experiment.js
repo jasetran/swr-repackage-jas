@@ -89,9 +89,15 @@ const enter_fullscreen = {
   message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
   on_finish: async () => {
     config.pid = config.pid || makePid();
+    let prefix = config.pid;
+    prefix = prefix.substring(0, prefix.indexOf('-'));
+    if (!Boolean(prefix) | config.taskVariant !== 'school'){
+       prefix = null;
+    }
     const userInfo = {
       id: config.pid,
-      studyId: config.sessionId,
+      studyId: config.taskVariant + "-" + config.userMode,
+      schoolId: prefix,
       userMetadata: config.userMetadata,
     };
     firekit = new RoarFirekit({
@@ -255,8 +261,8 @@ jsPsych.opts.on_finish = extend(jsPsych.opts.on_finish, () => {
 });
 
 jsPsych.opts.on_data_update = extend(jsPsych.opts.on_data_update, (data) => {
-  // firekit?.writeTrial(data);
-  if (data.trial_index >= 15) {
+  firekit?.writeTrial(data);
+  if (data.trial_index >= 10) {
     firekit?.writeTrial(data);
   }
   /*if (["test_response", "practice_response"].includes(data.task)) {

@@ -187,7 +187,7 @@ export const taskInfo = configTaskInfo();
 export const config = {
   userMode: userMode,
   pid: pid,
-  sessionId: taskVariant + "-" + userMode,
+  taskVariant: taskVariant,
   userMetadata: {},
   testingOnly: skip === null, //userMode === "test" || userMode === "demo" || taskVariant === "validate",
 

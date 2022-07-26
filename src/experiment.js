@@ -89,9 +89,8 @@ const enter_fullscreen = {
   message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
   on_finish: async () => {
     config.pid = config.pid || makePid();
-    let prefix = config.pid;
-    prefix = prefix.substring(0, prefix.indexOf('-'));
-    if (!Boolean(prefix) | config.taskVariant !== 'school'){
+    let prefix = config.pid.split("-")[0];
+    if (prefix === config.pid | config.taskVariant !== 'school'){
        prefix = null;
     }
     const userInfo = {

@@ -260,7 +260,7 @@ jsPsych.opts.on_finish = extend(jsPsych.opts.on_finish, () => {
 });
 
 jsPsych.opts.on_data_update = extend(jsPsych.opts.on_data_update, (data) => {
-  firekit?.writeTrial(data);
+  //firekit?.writeTrial(data);
   if (data.trial_index >= 10) {
     firekit?.writeTrial(data);
   }

@@ -3,6 +3,7 @@
 // QUEST imports
 import { QuestUpdate, QuestQuantile, QuestCreate } from "jsQUEST";
 
+import { estimateAbility, findNextItem } from '@bdelab/jscat';
 // jsPsych imports
 import jsPsychSurveyText from "@jspsych/plugin-survey-text";
 import jsPsychFullScreen from "@jspsych/plugin-fullscreen";
@@ -313,24 +314,6 @@ timeline.push(enter_fullscreen);
 timeline.push(introduction_trials);
 timeline.push(countdown_trials);
 
-// debrief trials
-/*const debrief_block = {
-  type: jsPsychHtmlKeyboardResponse,
-  stimulus: function () {
-    const trials = jsPsych.data.get().filter({ task: "test_response" });
-    const correct_trials = trials.filter({ correct: true });
-    const incorrect_trials = trials.filter({ correct: false });
-    const accuracy = Math.round((correct_trials.count() / trials.count()) * 100);
-    const rt = Math.round(correct_trials.select("rt").mean());
-    const irt = Math.round(incorrect_trials.select("rt").mean());
-
-    return `<p>You responded correctly on ${accuracy}% of the trials.</p>
-          <p>Your average response time on correct trials was ${rt}ms.</p>
-          <p>Your average response time on incorrect trials was ${irt}ms.</p>
-          <p>Press any key to complete the experiment. Thank you!</p>`;
-  },
-};*/
-
 function updateQuest() {
   let closestIndex;
   let resultStimulus;
@@ -402,11 +385,62 @@ function updateQuest() {
   return resultStimulus;
 }
 
+function updateCAT() {
+  let closestIndex;
+  let resultStimulus;
+  let currentCorpus;
+  let corpusType;
+  let itemSuggestion;
+  const randomBoolean = Math.random() < 0.5;
+  corpusType = randomBoolean ? "corpus_real" : "corpus_pseudo";
+  currentCorpus =
+      store.session("stimulusLists")[store.session("currentBlockIndex")][
+          corpusType
+          ];
+  if (currentCorpus.length < 1) {
+    if (corpusType === "corpus_pseudo") {
+      corpusType = "corpus_real";
+    } else {
+      corpusType = "corpus_pseudo";
+    }
+    currentCorpus =
+        store.session("stimulusLists")[store.session("currentBlockIndex")][
+            corpusType
+            ];
+  }
+  const currentIndex = store.session("stimulusIndex")[store.session("currentBlock")];
+  if (currentIndex == 0){
+    itemSuggestion = findNextItem(currentCorpus, store.session('catTheta'), 'random');
+  } else if(currentIndex < 5) {
+    console.log("zetas", store.session("zetas"));
+    store.session.set("catTheta",estimateAbility(store.session("catResponses"), store.session("zetas"), 'MLE'));
+    itemSuggestion = findNextItem(currentCorpus, store.session('catTheta'), 'random');
+  } else{
+    store.session.set("catTheta",estimateAbility(store.session("catResponses"), store.session("zetas"), 'MLE'));
+    itemSuggestion = findNextItem(currentCorpus, store.session('catTheta'), 'MFI');
+  }
+
+  const copyStimulusLists = store.session("stimulusLists");
+  copyStimulusLists[store.session("currentBlockIndex")][corpusType] = itemSuggestion.remainingStimuli;
+  store.session.set("stimulusLists", copyStimulusLists);
+  const nextStimulus = itemSuggestion.nextStimulus;
+  const copyZetas = store.session("zetas");
+  copyZetas.push({a: 1, b: nextStimulus.difficulty, c: 0.5, d: 1});
+  store.session.set("zetas", copyZetas);
+  return itemSuggestion.nextStimulus;
+}
+
 function getStimulus() {
   // console.log("getStimulus", store.session("stimulusLists").slice());
   let resultStimulus;
   let currentBlock = store.session("currentBlock");
   let demoCounter = store.session("demoCounter");
+  // reset jsCAT
+  if (store.session('trialNumBlock') === 0){
+    store.session.set("zetas", []);
+    store.session.set("catResponses", []);
+    store.session.set("catTheta", 0);
+  }
   // update 2 trackers
   const tracker = store.session("stimulusIndex")[currentBlock];
   if (tracker == 0 && demoCounter == 0) {
@@ -424,7 +458,7 @@ function getStimulus() {
     const count_adaptive_trials = store.session("count_adaptive_trials");
     if (count_adaptive_trials < config.totalAdaptiveTrials) {
       store.session.set("count_adaptive_trials", count_adaptive_trials + 1);
-      resultStimulus = updateQuest();
+      resultStimulus = updateCAT();
     } else {
       store.session.set("stimulusRule", "new");
       currentBlock = "corpusNew";
@@ -441,7 +475,7 @@ function getStimulus() {
       store.session.transact("demoCounter", (oldVal) => oldVal + 1);
     } else {
       store.session.set("demoCounter", 0);
-      resultStimulus = updateQuest();
+      resultStimulus = updateCAT();
     }
   }
   const copyStimulusIndex = store.session("stimulusIndex");
@@ -496,11 +530,18 @@ const lexicality_test = {
       store.session("nextStimulus").correct_response
     );
     store.session.set("currentTrialCorrect", data.correct);
+    const catResponses = store.session("catResponses");
+
     if (data.correct) {
       store.session.set("response", 1);
+      catResponses.push(1);
     } else {
       store.session.set("response", 0);
+      catResponses.push(0);
     }
+    store.session.set("catResponses", catResponses);
+    console.log(store.session("trialNumBlock"), " theta ", store.session("catTheta"));
+    console.log(store.session("nextStimulus"));
     jsPsych.data.addDataToLastTrial({
       block: store.session("currentBlockIndex"),
       corpusId: store.session("nextStimulus").corpus_src,
@@ -509,7 +550,7 @@ const lexicality_test = {
       correctResponse: store.session("nextStimulus").correct_response,
       realpseudo: store.session("nextStimulus").realpseudo,
       difficulty: store.session("nextStimulus").difficulty,
-      adaptiveEstimate: store.session("questEstimate"),
+      adaptiveEstimate: store.session("catTheta"),
       stimulusRule: store.session("stimulusRule"),
       trialNumTotal: store.session("trialNumTotal"),
       trialNumBlock: store.session("trialNumBlock"),

@@ -21,7 +21,7 @@ const stimulusCountLists = {
   beginner: [84, 28],
   regularRandom: [84, 84, 84],
   regularAdaptive: [84, 84, 84],
-  test: [8, 4, 4],
+  test: [12, 4, 4],
   demo: [84],
 };
 
@@ -29,7 +29,7 @@ const numAdaptiveTrials = {
   beginner: 0,
   regularRandom: 0,
   regularAdaptive: 84, //TO DO: change to 60 later
-  test: 6,
+  test: 11,
   demo: 24,
 };
 
@@ -226,6 +226,13 @@ export const initStore = () => {
   store.session.set("practiceIndex", 0);
 
   // Counting vairables
+  //CAT variables
+  store.session.set("catTheta", 0);
+  store.session.set("catResponses", []);
+  store.session.set("zetas", []);
+
+
+
   store.session.set("count_adaptive_trials", 0);
   store.session.set("currentBlockIndex", "");
   store.session.set("stimulusRule", "");

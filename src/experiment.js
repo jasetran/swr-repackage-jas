@@ -417,7 +417,7 @@ function updateCAT() {
     itemSuggestion = findNextItem(currentCorpus, store.session('catTheta'), 'random');
   } else{
     store.session.set("catTheta",estimateAbility(store.session("catResponses"), store.session("zetas"), 'MLE'));
-    itemSuggestion = findNextItem(currentCorpus, store.session('catTheta'), 'MFI');
+    itemSuggestion = findNextItem(currentCorpus, store.session('catTheta'), 'closest');
   }
 
   const copyStimulusLists = store.session("stimulusLists");

@@ -143,7 +143,7 @@ function configTaskInfo() {
       taskDescription:
           "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
       variantDescription:
-          "This variant uses 1 random-ordered full with 60 new words and 24 quest-ordered words, each quest-suggested word will be followed by 5 new words.",
+          "This variant uses 1 random-ordered full with 60 new words and 24 adaptive-ordered words, each cat-suggested word will be followed by 5 new words.",
       blocks: [
         {
           blockNumber: 0,
@@ -242,7 +242,6 @@ export const initStore = () => {
   store.session.set("demoCounter", 0);
   store.session.set("nextStimulus", []);
   store.session.set("response", "");
-  store.session.set("questEstimate", null);
 
   // variables to track current state of the experiment
   store.session.set("currentStimulus", "");
@@ -256,8 +255,6 @@ export const initStore = () => {
   store.session.set("coinTrackingIndex", 0);
 
   store.session.set("initialized", true);
-
-  store.session.set("myquest", "");
 
   return store.session;
 };

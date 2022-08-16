@@ -1,8 +1,5 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-param-reassign */
-// QUEST imports
-import { QuestUpdate, QuestQuantile, QuestCreate } from "jsQUEST";
-
 import { estimateAbility, findNextItem } from '@bdelab/jscat';
 // jsPsych imports
 import jsPsychSurveyText from "@jspsych/plugin-survey-text";
@@ -25,7 +22,6 @@ import {
   jsPsych,
   config,
   updateProgressBar,
-  questConfig,
   findClosest,
   taskInfo,
 } from "./config";

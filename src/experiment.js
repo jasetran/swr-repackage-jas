@@ -29,7 +29,7 @@ import {
   findClosest,
   taskInfo,
 } from "./config";
-import { if_audio_response_correct, if_audio_response_wrong } from "./audio";
+import { if_audio_response_correct, if_audio_response_wrong, if_audio_response_neutral } from "./audio";
 import { imgContent, preload_trials } from "./preload";
 import {
   introduction_trials,
@@ -314,77 +314,6 @@ timeline.push(enter_fullscreen);
 timeline.push(introduction_trials);
 timeline.push(countdown_trials);
 
-function updateQuest() {
-  let closestIndex;
-  let resultStimulus;
-  let currentCorpus;
-  let corpusType;
-  const randomBoolean = Math.random() < 0.5;
-  corpusType = randomBoolean ? "corpus_real" : "corpus_pseudo";
-  currentCorpus =
-    store.session("stimulusLists")[store.session("currentBlockIndex")][
-      corpusType
-    ];
-  if (currentCorpus.length < 1) {
-    if (corpusType === "corpus_pseudo") {
-      corpusType = "corpus_real";
-    } else {
-      corpusType = "corpus_pseudo";
-    }
-    currentCorpus =
-      store.session("stimulusLists")[store.session("currentBlockIndex")][
-        corpusType
-      ];
-  }
-  if (store.session("stimulusIndex")[store.session("currentBlock")] === 0) {
-    const q = QuestCreate(
-      questConfig.tGuess,
-      questConfig.tGuessSd,
-      questConfig.pThreshold,
-      questConfig.beta,
-      questConfig.delta,
-      questConfig.gamma,
-      questConfig.grain,
-      questConfig.range
-    );
-    q.warnPdf = 0;
-    store.session.set("myquest", q);
-    const tTest = QuestQuantile(store.session("myquest"));
-    store.session.set("questEstimate", tTest);
-    closestIndex = findClosest(currentCorpus, tTest);
-    resultStimulus = currentCorpus[closestIndex];
-    // console.log(tTest, closestIndex);
-    // console.log(store.session("myquest"));
-  } else {
-    store.session.set(
-      "myquest",
-      QuestUpdate(
-        store.session("myquest"),
-        store.session("nextStimulus").difficulty,
-        store.session("response")
-      )
-    );
-    const tTest = QuestQuantile(store.session("myquest"));
-    store.session.set("questEstimate", tTest);
-    closestIndex = findClosest(currentCorpus, tTest);
-    const d_list = [];
-    currentCorpus.forEach((item) => {
-      d_list.push(item.difficulty);
-    });
-    resultStimulus = currentCorpus[closestIndex];
-    // console.log(tTest, closestIndex);
-    // console.log(store.session("myquest"));
-  }
-
-  const copyStimulusLists = store.session("stimulusLists");
-  copyStimulusLists[store.session("currentBlockIndex")][corpusType].splice(
-    closestIndex,
-    1
-  );
-  store.session.set("stimulusLists", copyStimulusLists);
-  return resultStimulus;
-}
-
 function updateCAT() {
   let closestIndex;
   let resultStimulus;
@@ -575,6 +504,7 @@ async function roarBlocks() {
         timeline: [
           setup_fixation_practice,
           lexicality_test_practice,
+          if_audio_response_neutral,
           if_audio_response_correct,
           if_audio_response_wrong,
           if_node_left,
@@ -593,6 +523,7 @@ async function roarBlocks() {
     timeline: [
       setup_fixation,
       lexicality_test,
+      if_audio_response_neutral,
       if_audio_response_correct,
       if_audio_response_wrong,
       if_coin_tracking,
@@ -646,8 +577,6 @@ async function roarBlocks() {
   }
 
   pushTrialsTotimeline(config.stimulusCountList);
-
-  // console.log(timeline.slice());
 
   timeline.push(final_page);
   timeline.push(exit_fullscreen);

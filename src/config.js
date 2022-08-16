@@ -47,6 +47,7 @@ const userMode = urlParams.get("mode") || "regularRandom";
 const taskVariant = urlParams.get("variant") || "pilot";
 const pid = urlParams.get("participant");
 const skip = urlParams.get("skip");
+const audioFeedback = urlParams.get("feedback") || "binary";
 
 /* set dashboard redirect URLs: school as default */
 const redirectInfo = {
@@ -190,6 +191,7 @@ export const config = {
   taskVariant: taskVariant,
   userMetadata: {},
   testingOnly: skip === null, //userMode === "test" || userMode === "demo" || taskVariant === "validate",
+  audioFeedback: audioFeedback,
 
   // set order and rule for the experiment
   stimulusRuleList: stimulusRuleLists[userMode],
@@ -230,9 +232,6 @@ export const initStore = () => {
   store.session.set("catTheta", 0);
   store.session.set("catResponses", []);
   store.session.set("zetas", []);
-
-
-
   store.session.set("count_adaptive_trials", 0);
   store.session.set("currentBlockIndex", "");
   store.session.set("stimulusRule", "");
@@ -294,59 +293,6 @@ export const readCSV = (url) =>
       },
     });
   });
-
-/* set QUEST param */
-export const questConfig = {
-  tGuess: 0,
-  tGuessSd: 2,
-  pThreshold: 0.75,
-  beta: 1,
-  delta: 0.05,
-  gamma: 0.5,
-  range: 10,
-  grain: 0.02,
-};
-
-const getClosest = (arr, val1, val2, target) => {
-  if (target - arr[val1].difficulty >= arr[val2].difficulty - target) {
-    return val2;
-  }
-  return val1;
-};
-
-export const findClosest = (arr, target) => {
-  const n = arr.length;
-  // Corner cases
-  if (target <= arr[0].difficulty) return 0;
-  if (target >= arr[n - 1].difficulty) return n - 1;
-  // Doing binary search
-  let i = 0;
-  let j = n;
-  let mid = 0;
-  while (i < j) {
-    mid = Math.ceil((i + j) / 2);
-    if (arr[mid].difficulty === target) return mid;
-    // If target is less than array
-    // element,then search in left
-    if (target < arr[mid].difficulty) {
-      // If target is greater than previous
-      // to mid, return closest of two
-      if (mid > 0 && target > arr[mid - 1].difficulty) {
-        return getClosest(arr, mid - 1, mid, target);
-      }
-      // Repeat for left half
-      j = mid;
-    } else {
-      // If target is greater than mid
-      if (mid < n - 1 && target < arr[mid + 1].difficulty) {
-        return getClosest(arr, mid, mid + 1, target);
-      }
-      i = mid + 1; // update i
-    }
-  }
-  // Only single element left after search
-  return mid;
-};
 
 export const updateProgressBar = () => {
   const curr_progress_bar_value = jsPsych.getProgressBarCompleted();

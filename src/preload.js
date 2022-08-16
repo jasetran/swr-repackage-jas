@@ -29,6 +29,7 @@ import feedbackAulerCorrect from "./audio/feedback_auler_correct.mp3";
 import feedbackAulerWrong from "./audio/feedback_auler_wrong.mp3";
 import feedbackHomCorrect from "./audio/feedback_hom_correct.mp3";
 import feedbackHomWrong from "./audio/feedback_hom_wrong.mp3";
+import select from "./audio/select.mp3";
 
 // Image files
 import wizardMagic from "./assets/wizard_magic.gif";
@@ -91,6 +92,7 @@ const audioBlocks = {
     coin,
     fail,
     fairyCoin,
+    select
   ],
 };
 

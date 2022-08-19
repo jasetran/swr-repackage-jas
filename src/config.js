@@ -21,7 +21,7 @@ const stimulusCountLists = {
   beginner: [84, 28],
   regularRandom: [84, 84, 84],
   regularAdaptive: [84, 84, 84],
-  test: [8, 4, 4],
+  test: [12, 4, 4],
   demo: [84],
 };
 
@@ -29,7 +29,7 @@ const numAdaptiveTrials = {
   beginner: 0,
   regularRandom: 0,
   regularAdaptive: 84, //TO DO: change to 60 later
-  test: 6,
+  test: 11,
   demo: 24,
 };
 
@@ -47,6 +47,7 @@ const userMode = urlParams.get("mode") || "regularRandom";
 const taskVariant = urlParams.get("variant") || "pilot";
 const pid = urlParams.get("participant");
 const skip = urlParams.get("skip");
+const audioFeedback = urlParams.get("feedback") || "binary";
 
 /* set dashboard redirect URLs: school as default */
 const redirectInfo = {
@@ -76,12 +77,12 @@ function configTaskInfo() {
         {
           blockNumber: 1,
           trialMethod: "random",
-          corpus: "randomwCorpusId",
+          corpus: "randomCorpusId",
         },
         {
           blockNumber: 2,
           trialMethod: "random",
-          corpus: "random1CorpusId",
+          corpus: "randomCorpusId",
         },
       ],
     };
@@ -142,7 +143,7 @@ function configTaskInfo() {
       taskDescription:
           "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
       variantDescription:
-          "This variant uses 1 random-ordered full with 60 new words and 24 quest-ordered words, each quest-suggested word will be followed by 5 new words.",
+          "This variant uses 1 random-ordered full with 60 new words and 24 adaptive-ordered words, each cat-suggested word will be followed by 5 new words.",
       blocks: [
         {
           blockNumber: 0,
@@ -190,6 +191,7 @@ export const config = {
   taskVariant: taskVariant,
   userMetadata: {},
   testingOnly: skip === null, //userMode === "test" || userMode === "demo" || taskVariant === "validate",
+  audioFeedback: audioFeedback,
 
   // set order and rule for the experiment
   stimulusRuleList: stimulusRuleLists[userMode],
@@ -205,6 +207,9 @@ export const config = {
 
   // The number of practice trials that will keep stimulus on screen untill participant's input
   countSlowPractice: 2,
+
+  // set number of trials to keep random in adaptive block
+  nRandom: 5,
 
   // TODO: Check use of timing in other js files
   timing: {
@@ -224,8 +229,13 @@ export const initStore = () => {
   }
 
   store.session.set("practiceIndex", 0);
+  // Counting variables
 
-  // Counting vairables
+  //CAT variables
+  store.session.set("catTheta", 0);
+  store.session.set("catSEM", 0);
+  store.session.set("catResponses", []);
+  store.session.set("zetas", []);
   store.session.set("count_adaptive_trials", 0);
   store.session.set("currentBlockIndex", "");
   store.session.set("stimulusRule", "");
@@ -236,7 +246,6 @@ export const initStore = () => {
   store.session.set("demoCounter", 0);
   store.session.set("nextStimulus", []);
   store.session.set("response", "");
-  store.session.set("questEstimate", null);
 
   // variables to track current state of the experiment
   store.session.set("currentStimulus", "");
@@ -250,8 +259,6 @@ export const initStore = () => {
   store.session.set("coinTrackingIndex", 0);
 
   store.session.set("initialized", true);
-
-  store.session.set("myquest", "");
 
   return store.session;
 };
@@ -287,59 +294,6 @@ export const readCSV = (url) =>
       },
     });
   });
-
-/* set QUEST param */
-export const questConfig = {
-  tGuess: 0,
-  tGuessSd: 2,
-  pThreshold: 0.75,
-  beta: 1,
-  delta: 0.05,
-  gamma: 0.5,
-  range: 10,
-  grain: 0.02,
-};
-
-const getClosest = (arr, val1, val2, target) => {
-  if (target - arr[val1].difficulty >= arr[val2].difficulty - target) {
-    return val2;
-  }
-  return val1;
-};
-
-export const findClosest = (arr, target) => {
-  const n = arr.length;
-  // Corner cases
-  if (target <= arr[0].difficulty) return 0;
-  if (target >= arr[n - 1].difficulty) return n - 1;
-  // Doing binary search
-  let i = 0;
-  let j = n;
-  let mid = 0;
-  while (i < j) {
-    mid = Math.ceil((i + j) / 2);
-    if (arr[mid].difficulty === target) return mid;
-    // If target is less than array
-    // element,then search in left
-    if (target < arr[mid].difficulty) {
-      // If target is greater than previous
-      // to mid, return closest of two
-      if (mid > 0 && target > arr[mid - 1].difficulty) {
-        return getClosest(arr, mid - 1, mid, target);
-      }
-      // Repeat for left half
-      j = mid;
-    } else {
-      // If target is greater than mid
-      if (mid < n - 1 && target < arr[mid + 1].difficulty) {
-        return getClosest(arr, mid, mid + 1, target);
-      }
-      i = mid + 1; // update i
-    }
-  }
-  // Only single element left after search
-  return mid;
-};
 
 export const updateProgressBar = () => {
   const curr_progress_bar_value = jsPsych.getProgressBarCompleted();

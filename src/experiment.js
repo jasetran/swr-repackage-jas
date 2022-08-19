@@ -1,8 +1,6 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-param-reassign */
-// QUEST imports
-import { QuestUpdate, QuestQuantile, QuestCreate } from "jsQUEST";
-
+import { estimateAbility, findNextItem, SEM} from '@bdelab/jscat';
 // jsPsych imports
 import jsPsychSurveyText from "@jspsych/plugin-survey-text";
 import jsPsychFullScreen from "@jspsych/plugin-fullscreen";
@@ -24,11 +22,10 @@ import {
   jsPsych,
   config,
   updateProgressBar,
-  questConfig,
   findClosest,
   taskInfo,
 } from "./config";
-import { if_audio_response_correct, if_audio_response_wrong } from "./audio";
+import { if_audio_response_correct, if_audio_response_wrong, if_audio_response_neutral } from "./audio";
 import { imgContent, preload_trials } from "./preload";
 import {
   introduction_trials,
@@ -48,10 +45,9 @@ import {
   final_page,
 } from "./gameBreak";
 import { stimulusLists, blockNew, blockPractice } from "./corpus";
-import jsPsychPavlovia from "./jsPsychPavlovia";
 
 // CSS imports
-import "./css/game_v4.css";
+import "./css/game.css";
 
 let firekit;
 
@@ -59,20 +55,9 @@ store.session.set("stimulusLists", stimulusLists);
 
 const timeline = [];
 
-/* init connection with pavlovia.org */
-const pavlovia_init = {
-  type: jsPsychPavlovia,
-  command: "init",
-};
-
 preload_trials.forEach((trial) => {
   timeline.push(trial);
 });
-
-const pavlovia_finish = {
-  type: jsPsychPavlovia,
-  command: "finish",
-};
 
 function makePid() {
   let text = "";
@@ -260,13 +245,12 @@ jsPsych.opts.on_finish = extend(jsPsych.opts.on_finish, () => {
 });
 
 jsPsych.opts.on_data_update = extend(jsPsych.opts.on_data_update, (data) => {
-  //firekit?.writeTrial(data);
-  if (data.trial_index >= 10) {
-    firekit?.writeTrial(data);
-  }
-  /*if (["test_response", "practice_response"].includes(data.task)) {
+  /*if (data.trial_index >= 10) {
     firekit?.writeTrial(data);
   }*/
+  if (["test_response", "practice_response"].includes(data.task)) {
+    firekit?.writeTrial(data);
+  }
 });
 
 window.onerror = function (msg, url, lineNo, columnNo, error) {
@@ -281,13 +265,6 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
   })
   return false;
 };
-
-/* init connection with pavlovia.org */
-const isOnPavlovia = window.location.href.includes("run.pavlovia.org");
-
-if (isOnPavlovia) {
-  timeline.push(pavlovia_init);
-}
 
 const debrief_block = {
   type: jsPsychHtmlKeyboardResponse,
@@ -307,41 +284,16 @@ const if_debrief_block = {
   },
 };
 
-timeline.push(if_consent_form);
-timeline.push(if_get_pid);
-timeline.push(enter_fullscreen);
-timeline.push(introduction_trials);
-timeline.push(countdown_trials);
+timeline.push(if_consent_form, if_get_pid, enter_fullscreen, introduction_trials, countdown_trials);
 
-// debrief trials
-/*const debrief_block = {
-  type: jsPsychHtmlKeyboardResponse,
-  stimulus: function () {
-    const trials = jsPsych.data.get().filter({ task: "test_response" });
-    const correct_trials = trials.filter({ correct: true });
-    const incorrect_trials = trials.filter({ correct: false });
-    const accuracy = Math.round((correct_trials.count() / trials.count()) * 100);
-    const rt = Math.round(correct_trials.select("rt").mean());
-    const irt = Math.round(incorrect_trials.select("rt").mean());
-
-    return `<p>You responded correctly on ${accuracy}% of the trials.</p>
-          <p>Your average response time on correct trials was ${rt}ms.</p>
-          <p>Your average response time on incorrect trials was ${irt}ms.</p>
-          <p>Press any key to complete the experiment. Thank you!</p>`;
-  },
-};*/
-
-function updateQuest() {
-  let closestIndex;
-  let resultStimulus;
-  let currentCorpus;
-  let corpusType;
+function updateCAT(itemSelector) {
+  let currentCorpus, corpusType, itemSuggestion, catTheta;
   const randomBoolean = Math.random() < 0.5;
   corpusType = randomBoolean ? "corpus_real" : "corpus_pseudo";
   currentCorpus =
-    store.session("stimulusLists")[store.session("currentBlockIndex")][
-      corpusType
-    ];
+      store.session("stimulusLists")[store.session("currentBlockIndex")][
+          corpusType
+          ];
   if (currentCorpus.length < 1) {
     if (corpusType === "corpus_pseudo") {
       corpusType = "corpus_real";
@@ -349,57 +301,32 @@ function updateQuest() {
       corpusType = "corpus_pseudo";
     }
     currentCorpus =
-      store.session("stimulusLists")[store.session("currentBlockIndex")][
-        corpusType
-      ];
+        store.session("stimulusLists")[store.session("currentBlockIndex")][
+            corpusType
+            ];
   }
-  if (store.session("stimulusIndex")[store.session("currentBlock")] === 0) {
-    const q = QuestCreate(
-      questConfig.tGuess,
-      questConfig.tGuessSd,
-      questConfig.pThreshold,
-      questConfig.beta,
-      questConfig.delta,
-      questConfig.gamma,
-      questConfig.grain,
-      questConfig.range
-    );
-    q.warnPdf = 0;
-    store.session.set("myquest", q);
-    const tTest = QuestQuantile(store.session("myquest"));
-    store.session.set("questEstimate", tTest);
-    closestIndex = findClosest(currentCorpus, tTest);
-    resultStimulus = currentCorpus[closestIndex];
-    // console.log(tTest, closestIndex);
-    // console.log(store.session("myquest"));
+  const currentIndex = store.session("stimulusIndex")[store.session("currentBlock")];
+  if (currentIndex === 0){
+    store.session.set("catResponses", []);
+    store.session.set("zetas", []);
   } else {
-    store.session.set(
-      "myquest",
-      QuestUpdate(
-        store.session("myquest"),
-        store.session("nextStimulus").difficulty,
-        store.session("response")
-      )
-    );
-    const tTest = QuestQuantile(store.session("myquest"));
-    store.session.set("questEstimate", tTest);
-    closestIndex = findClosest(currentCorpus, tTest);
-    const d_list = [];
-    currentCorpus.forEach((item) => {
-      d_list.push(item.difficulty);
-    });
-    resultStimulus = currentCorpus[closestIndex];
-    // console.log(tTest, closestIndex);
-    // console.log(store.session("myquest"));
+    catTheta = estimateAbility(store.session("catResponses"), store.session("zetas"), 'MLE');
+    store.session.set("catTheta", catTheta);
+    store.session.set("catSEM", SEM(catTheta, store.session("zetas")));
+  }
+  if(currentIndex < config.nRandom && itemSelector !== "random") {
+    itemSuggestion = findNextItem(currentCorpus, catTheta, 'middle');
+  } else {
+    itemSuggestion = findNextItem(currentCorpus, catTheta, itemSelector);
   }
 
   const copyStimulusLists = store.session("stimulusLists");
-  copyStimulusLists[store.session("currentBlockIndex")][corpusType].splice(
-    closestIndex,
-    1
-  );
+  copyStimulusLists[store.session("currentBlockIndex")][corpusType] = itemSuggestion.remainingStimuli;
   store.session.set("stimulusLists", copyStimulusLists);
-  return resultStimulus;
+  const copyZetas = store.session("zetas");
+  copyZetas.push({a: 1, b: itemSuggestion.nextStimulus.difficulty, c: 0.5, d: 1});
+  store.session.set("zetas", copyZetas);
+  return itemSuggestion.nextStimulus;
 }
 
 function getStimulus() {
@@ -407,9 +334,16 @@ function getStimulus() {
   let resultStimulus;
   let currentBlock = store.session("currentBlock");
   let demoCounter = store.session("demoCounter");
+  // reset jsCAT
+  if (store.session('trialNumBlock') === 0){
+    store.session.set("zetas", []);
+    store.session.set("catResponses", []);
+    store.session.set("catTheta", 0);
+    store.session.set("catSEM", 0);
+  }
   // update 2 trackers
   const tracker = store.session("stimulusIndex")[currentBlock];
-  if (tracker == 0 && demoCounter == 0) {
+  if (tracker === 0 && demoCounter === 0) {
     store.session.set("trialNumBlock", 1);
   } else {
     store.session.transact("trialNumBlock", (oldVal) => oldVal + 1);
@@ -417,14 +351,12 @@ function getStimulus() {
   store.session.transact("trialNumTotal", (oldVal) => oldVal + 1); // add 1 to the total trial count
   //
   if (store.session("stimulusRule") === "random") {
-    resultStimulus =
-      store.session("stimulusLists")[store.session("currentBlockIndex")]
-        .corpus_random[store.session("stimulusIndex")[currentBlock]];
+    resultStimulus = updateCAT("random");
   } else if (store.session("stimulusRule") === "adaptive") {
     const count_adaptive_trials = store.session("count_adaptive_trials");
     if (count_adaptive_trials < config.totalAdaptiveTrials) {
       store.session.set("count_adaptive_trials", count_adaptive_trials + 1);
-      resultStimulus = updateQuest();
+      resultStimulus = updateCAT("mfi");
     } else {
       store.session.set("stimulusRule", "new");
       currentBlock = "corpusNew";
@@ -441,7 +373,7 @@ function getStimulus() {
       store.session.transact("demoCounter", (oldVal) => oldVal + 1);
     } else {
       store.session.set("demoCounter", 0);
-      resultStimulus = updateQuest();
+      resultStimulus = updateCAT("mfi");
     }
   }
   const copyStimulusIndex = store.session("stimulusIndex");
@@ -496,11 +428,16 @@ const lexicality_test = {
       store.session("nextStimulus").correct_response
     );
     store.session.set("currentTrialCorrect", data.correct);
+    const catResponses = store.session("catResponses");
+
     if (data.correct) {
       store.session.set("response", 1);
+      catResponses.push(1);
     } else {
       store.session.set("response", 0);
+      catResponses.push(0);
     }
+    store.session.set("catResponses", catResponses);
     jsPsych.data.addDataToLastTrial({
       block: store.session("currentBlockIndex"),
       corpusId: store.session("nextStimulus").corpus_src,
@@ -509,7 +446,8 @@ const lexicality_test = {
       correctResponse: store.session("nextStimulus").correct_response,
       realpseudo: store.session("nextStimulus").realpseudo,
       difficulty: store.session("nextStimulus").difficulty,
-      adaptiveEstimate: store.session("questEstimate"),
+      thetaEstimate: store.session("catTheta"),
+      thetaSE: store.session("catSEM"),
       stimulusRule: store.session("stimulusRule"),
       trialNumTotal: store.session("trialNumTotal"),
       trialNumBlock: store.session("trialNumBlock"),
@@ -534,6 +472,7 @@ async function roarBlocks() {
         timeline: [
           setup_fixation_practice,
           lexicality_test_practice,
+          if_audio_response_neutral,
           if_audio_response_correct,
           if_audio_response_wrong,
           if_node_left,
@@ -552,6 +491,7 @@ async function roarBlocks() {
     timeline: [
       setup_fixation,
       lexicality_test,
+      if_audio_response_neutral,
       if_audio_response_correct,
       if_audio_response_wrong,
       if_coin_tracking,
@@ -595,26 +535,14 @@ async function roarBlocks() {
           roar_mainproc_block_half_2,
         ],
       };
-
       timeline.push(total_roar_mainproc_line);
-
       if (i < stimulusCounts.length - 1) {
         timeline.push(post_block_page_list[i]);
       }
     }
   }
-
   pushTrialsTotimeline(config.stimulusCountList);
-
-  // console.log(timeline.slice());
-
-  timeline.push(final_page);
-  timeline.push(exit_fullscreen);
-  timeline.push(if_debrief_block);
-
-  if (isOnPavlovia) {
-    timeline.push(pavlovia_finish);
-  }
+  timeline.push(final_page, exit_fullscreen, if_debrief_block);
   jsPsych.run(timeline);
 }
 

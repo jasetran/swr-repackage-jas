@@ -3,7 +3,7 @@ import { config, realpseudo2arrow, readCSV } from "./config";
 
 // Word corpus imports
 import dataPracticeURL from "./wordlist/ldt-items-practice.csv";
-import dataValidatedURL from "./wordlist/ldt-design-item-difficulties-no-rounding-sorted.csv";
+import dataValidatedURL from "./wordlist/item_bank.csv";
 import dataNewURL from "./wordlist/ldt-new-items.csv";
 
 
@@ -40,8 +40,8 @@ const transformCSV = (csvInput, isPractice) => csvInput.reduce((accum, row) => {
   const newRow = {
     stimulus: row.word,
     correct_response: realpseudo2arrow(row.realpseudo),
-    difficulty: isPractice ? row.difficulty : -row.b_i,
-    corpus_src: row.block,
+    difficulty: isPractice ? row.difficulty : row.b,
+    corpus_src: isPractice ? row.block : row.corpusId,
     realpseudo: row.realpseudo,
   };
   accum.push(newRow);
@@ -71,7 +71,7 @@ function transformNewwords(csv_new) {
     const realRow = {
       stimulus: newArray[i].realword,
       correct_response: "ArrowRight",
-      difficulty: 0, // default level
+      difficulty: null, // default level
       corpus_src: "corpusNew",
       realpseudo: "real",
     };
@@ -79,7 +79,7 @@ function transformNewwords(csv_new) {
     const pseudoRow = {
       stimulus: newArray[i].pseudoword,
       correct_response: "ArrowLeft",
-      difficulty: 0, // default level
+      difficulty: null, // default level
       corpus_src: "corpusNew",
       realpseudo: "pseudo",
     };
@@ -90,24 +90,27 @@ function transformNewwords(csv_new) {
 
 const corpusA = {
   name: "corpusA",
-  corpus_pseudo: csvTransformed.validated.slice(0, 42).reverse(),
-  corpus_real: csvTransformed.validated.slice(42, 84).reverse(),
-  corpus_random: shuffle(csvTransformed.validated.slice(0, 84)),
+  corpus_pseudo: csvTransformed.validated.filter(row => (row.corpus_src === "A" && row.realpseudo === "pseudo")),
+  corpus_real: csvTransformed.validated.filter(row => (row.corpus_src === "A" && row.realpseudo === "real"))
 };
 
 const corpusB = {
   name: "corpusB",
-  corpus_pseudo: csvTransformed.validated.slice(84, 126).reverse(),
-  corpus_real: csvTransformed.validated.slice(126, 168).reverse(),
-  corpus_random: shuffle(csvTransformed.validated.slice(84, 168)),
+  corpus_pseudo: csvTransformed.validated.filter(row => (row.corpus_src === "B" && row.realpseudo === "pseudo")),
+  corpus_real: csvTransformed.validated.filter(row => (row.corpus_src === "B" && row.realpseudo === "real"))
 };
 
 const corpusC = {
   name: "corpusC",
-  corpus_pseudo: csvTransformed.validated.slice(168, 210).reverse(),
-  corpus_real: csvTransformed.validated.slice(210, 252).reverse(),
-  corpus_random: shuffle(csvTransformed.validated.slice(168, 252)),
+  corpus_pseudo: csvTransformed.validated.filter(row => (row.corpus_src === "C" && row.realpseudo === "pseudo")),
+  corpus_real: csvTransformed.validated.filter(row => (row.corpus_src === "C" && row.realpseudo === "real"))
 };
+
+const corpusAll = {
+  name: "corpusAll",
+  corpus_pseudo: csvTransformed.validated.filter(row => row.realpseudo === "pseudo"),
+  corpus_real: csvTransformed.validated.filter(row => row.realpseudo === "real")
+}
 
 const fixedBlockList = [corpusA, corpusB, corpusC]; // always starts from Block A
 const randomBlockList = shuffle(fixedBlockList); // every block is randomized

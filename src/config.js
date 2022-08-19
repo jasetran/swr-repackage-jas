@@ -77,12 +77,12 @@ function configTaskInfo() {
         {
           blockNumber: 1,
           trialMethod: "random",
-          corpus: "randomwCorpusId",
+          corpus: "randomCorpusId",
         },
         {
           blockNumber: 2,
           trialMethod: "random",
-          corpus: "random1CorpusId",
+          corpus: "randomCorpusId",
         },
       ],
     };
@@ -208,6 +208,9 @@ export const config = {
   // The number of practice trials that will keep stimulus on screen untill participant's input
   countSlowPractice: 2,
 
+  // set number of trials to keep random in adaptive block
+  nRandom: 5,
+
   // TODO: Check use of timing in other js files
   timing: {
     stimulusTimePracticeOnly: stimulusTimeOptions[0], // null as default for practice trial only
@@ -226,10 +229,11 @@ export const initStore = () => {
   }
 
   store.session.set("practiceIndex", 0);
+  // Counting variables
 
-  // Counting vairables
   //CAT variables
   store.session.set("catTheta", 0);
+  store.session.set("catSEM", 0);
   store.session.set("catResponses", []);
   store.session.set("zetas", []);
   store.session.set("count_adaptive_trials", 0);

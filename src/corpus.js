@@ -106,7 +106,7 @@ const corpusC = {
   corpus_real: csvTransformed.validated.filter(row => (row.corpus_src === "C" && row.realpseudo === "real"))
 };
 
-const corpusAll = {
+export const corpusAll = {
   name: "corpusAll",
   corpus_pseudo: csvTransformed.validated.filter(row => row.realpseudo === "pseudo"),
   corpus_real: csvTransformed.validated.filter(row => row.realpseudo === "real")
@@ -122,6 +122,6 @@ const getStimulusLists = () => {
   return randomBlockList.slice(0, config.stimulusRuleList.length);
 };
 
-export const stimulusLists = getStimulusLists()
+export const stimulusLists = getStimulusLists();
 export const blockNew = shuffle(transformNewwords(csvTransformed.new));
 export const blockPractice = csvTransformed.practice.slice(0, config.totalTrialsPractice);

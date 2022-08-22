@@ -44,7 +44,7 @@ import {
   post_block_page_list,
   final_page,
 } from "./gameBreak";
-import { stimulusLists, blockNew, blockPractice } from "./corpus";
+import { stimulusLists, blockNew, blockPractice, corpusAll } from "./corpus";
 
 // CSS imports
 import "./css/game.css";
@@ -52,6 +52,7 @@ import "./css/game.css";
 let firekit;
 
 store.session.set("stimulusLists", stimulusLists);
+store.session.set("corpusAll", corpusAll);
 
 const timeline = [];
 
@@ -286,26 +287,37 @@ const if_debrief_block = {
 
 timeline.push(if_consent_form, if_get_pid, enter_fullscreen, introduction_trials, countdown_trials);
 
-function updateCAT(itemSelector) {
-  let currentCorpus, corpusType, itemSuggestion, catTheta;
+function updateCAT(itemSelector, whichCorpus) {
+  let currentCorpus, corpusType, itemSuggestion, catTheta, currentIndex;
   const randomBoolean = Math.random() < 0.5;
   corpusType = randomBoolean ? "corpus_real" : "corpus_pseudo";
-  currentCorpus =
-      store.session("stimulusLists")[store.session("currentBlockIndex")][
-          corpusType
-          ];
-  if (currentCorpus.length < 1) {
-    if (corpusType === "corpus_pseudo") {
-      corpusType = "corpus_real";
-    } else {
-      corpusType = "corpus_pseudo";
-    }
+
+  if (whichCorpus === "block") {
     currentCorpus =
-        store.session("stimulusLists")[store.session("currentBlockIndex")][
-            corpusType
-            ];
+        store.session("stimulusLists")[store.session("currentBlockIndex")][corpusType];
+    if (currentCorpus.length < 1) {
+      if (corpusType === "corpus_pseudo") {
+        corpusType = "corpus_real";
+      } else {
+        corpusType = "corpus_pseudo";
+      }
+      currentCorpus =
+          store.session("stimulusLists")[store.session("currentBlockIndex")][corpusType];
+    }
+    currentIndex = store.session("stimulusIndex")[store.session("currentBlock")];
+  } else {
+    currentCorpus = store.session("corpusAll")[corpusType];
+    if (currentCorpus.length < 1) {
+      if (corpusType === "corpus_pseudo") {
+        corpusType = "corpus_real";
+      } else {
+        corpusType = "corpus_pseudo";
+      }
+      currentCorpus = store.session("corpusAll")[corpusType];
+    }
+    currentIndex = store.session("stimulusIndex").corpusAll;
   }
-  const currentIndex = store.session("stimulusIndex")[store.session("currentBlock")];
+
   if (currentIndex === 0){
     store.session.set("catResponses", []);
     store.session.set("zetas", []);
@@ -314,23 +326,32 @@ function updateCAT(itemSelector) {
     store.session.set("catTheta", catTheta);
     store.session.set("catSEM", SEM(catTheta, store.session("zetas")));
   }
+
   if(currentIndex < config.nRandom && itemSelector !== "random") {
     itemSuggestion = findNextItem(currentCorpus, catTheta, 'middle');
   } else {
     itemSuggestion = findNextItem(currentCorpus, catTheta, itemSelector);
   }
 
-  const copyStimulusLists = store.session("stimulusLists");
-  copyStimulusLists[store.session("currentBlockIndex")][corpusType] = itemSuggestion.remainingStimuli;
-  store.session.set("stimulusLists", copyStimulusLists);
   const copyZetas = store.session("zetas");
   copyZetas.push({a: 1, b: itemSuggestion.nextStimulus.difficulty, c: 0.5, d: 1});
   store.session.set("zetas", copyZetas);
+
+  if (whichCorpus === "block") {
+    const copyStimulusLists = store.session("stimulusLists");
+    copyStimulusLists[store.session("currentBlockIndex")][corpusType] = itemSuggestion.remainingStimuli;
+    store.session.set("stimulusLists", copyStimulusLists);
+  } else {
+    const copyCorpusAll = store.session("corpusAll");
+    copyCorpusAll[corpusType] = itemSuggestion.remainingStimuli;
+    store.session.set("corpusAll", copyCorpusAll);
+  }
+  //console.log(store.session("catTheta"));
+  //console.log(store.session("stimulusIndex").corpusAll, itemSuggestion.nextStimulus, store.session("corpusAll"));
   return itemSuggestion.nextStimulus;
 }
 
 function getStimulus() {
-  // console.log("getStimulus", store.session("stimulusLists").slice());
   let resultStimulus;
   let currentBlock = store.session("currentBlock");
   let demoCounter = store.session("demoCounter");
@@ -349,14 +370,14 @@ function getStimulus() {
     store.session.transact("trialNumBlock", (oldVal) => oldVal + 1);
   }
   store.session.transact("trialNumTotal", (oldVal) => oldVal + 1); // add 1 to the total trial count
-  //
+
   if (store.session("stimulusRule") === "random") {
-    resultStimulus = updateCAT("random");
+    resultStimulus = updateCAT("random", "block");
   } else if (store.session("stimulusRule") === "adaptive") {
     const count_adaptive_trials = store.session("count_adaptive_trials");
     if (count_adaptive_trials < config.totalAdaptiveTrials) {
       store.session.set("count_adaptive_trials", count_adaptive_trials + 1);
-      resultStimulus = updateCAT("mfi");
+      resultStimulus = updateCAT("mfi", "block");
     } else {
       store.session.set("stimulusRule", "new");
       currentBlock = "corpusNew";
@@ -372,8 +393,9 @@ function getStimulus() {
       resultStimulus = blockNew[store.session("stimulusIndex")[currentBlock]];
       store.session.transact("demoCounter", (oldVal) => oldVal + 1);
     } else {
+      currentBlock = "corpusAll";
       store.session.set("demoCounter", 0);
-      resultStimulus = updateCAT("mfi");
+      resultStimulus = updateCAT("mfi", "all");
     }
   }
   const copyStimulusIndex = store.session("stimulusIndex");

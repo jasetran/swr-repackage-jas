@@ -240,7 +240,7 @@ export const initStore = () => {
   store.session.set("currentBlockIndex", "");
   store.session.set("stimulusRule", "");
   store.session.set('stimulusLists', "");
-  store.session.set("stimulusIndex", { corpusA: 0, corpusB: 0, corpusC: 0, corpusNew: 0 });
+  store.session.set("stimulusIndex", { corpusA: 0, corpusB: 0, corpusC: 0, corpusNew: 0, corpusAll: 0 });
   store.session.set("trialNumBlock", 0); // counter for trials in block
   store.session.set("trialNumTotal", 0); // counter for trials in experiment
   store.session.set("demoCounter", 0);

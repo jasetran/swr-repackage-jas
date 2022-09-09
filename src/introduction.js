@@ -27,7 +27,7 @@ const intro_1 = {
     start_time_unix: config.startTime.getTime(),
   },
   on_start: function () {
-    document.body.style.cursor= "none";
+    document.body.style.cursor = "none";
   }
 };
 

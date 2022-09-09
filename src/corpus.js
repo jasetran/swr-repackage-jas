@@ -3,9 +3,8 @@ import { config, realpseudo2arrow, readCSV } from "./config";
 
 // Word corpus imports
 import dataPracticeURL from "./wordlist/ldt-items-practice.csv";
-import dataValidatedURL from "./wordlist/item_bank.csv";
+import dataValidatedURL from "./wordlist/item_bank_new.csv";
 import dataNewURL from "./wordlist/ldt-new-items.csv";
-
 
 // addAsset :: (k, Promise a) -> Promise (k, a)
 const addAsset = ([name, assetPromise]) =>
@@ -96,13 +95,13 @@ const corpusA = {
 
 const corpusB = {
   name: "corpusB",
-  corpus_pseudo: csvTransformed.validated.filter(row => (row.corpus_src === "B" && row.realpseudo === "pseudo")),
+  corpus_pseudo: csvTransformed.validated.filter((row) => (row.corpus_src === "B" && row.realpseudo === "pseudo")),
   corpus_real: csvTransformed.validated.filter(row => (row.corpus_src === "B" && row.realpseudo === "real"))
 };
 
 const corpusC = {
   name: "corpusC",
-  corpus_pseudo: csvTransformed.validated.filter(row => (row.corpus_src === "C" && row.realpseudo === "pseudo")),
+  corpus_pseudo: csvTransformed.validated.filter((row) => (row.corpus_src === "C" && row.realpseudo === "pseudo")),
   corpus_real: csvTransformed.validated.filter(row => (row.corpus_src === "C" && row.realpseudo === "real"))
 };
 

@@ -4,31 +4,31 @@ import Papa from "papaparse";
 import store from "store2";
 
 function getRegularAdaptive() {
-  let regularAdaptive = ["random", "random", "random"];
+  const regularAdaptive = ["random", "random", "random"];
   regularAdaptive[Math.floor(Math.random() * 3)] = 'adaptive';
   return regularAdaptive;
 }
 
 const stimulusRuleLists = {
   beginner: ["random", "adaptive"],
-  regularRandom: ["random", "random", "random"], //three random blocks
-  regularAdaptive: getRegularAdaptive(), //1 adaptive, 2 random blocks
+  regularRandom: ["random", "random", "random"], // three random blocks
+  regularAdaptive: getRegularAdaptive(), // 1 adaptive, 2 random blocks
   test: ["adaptive", "random", "random"],
   demo: ["demo"],
 };
 
 const stimulusCountLists = {
-  beginner: [84, 28],
-  regularRandom: [84, 84, 84],
-  regularAdaptive: [84, 84, 84],
+  beginner: [82, 28],
+  regularRandom: [82, 82, 82],
+  regularAdaptive: [82, 82, 82],
   test: [12, 4, 4],
-  demo: [84],
+  demo: [82],
 };
 
 const numAdaptiveTrials = {
   beginner: 0,
   regularRandom: 0,
-  regularAdaptive: 84, //TO DO: change to 60 later
+  regularAdaptive: 82, // TO DO: change to 60 later
   test: 11,
   demo: 24,
 };
@@ -59,7 +59,7 @@ const redirectInfo = {
 
 function configTaskInfo() {
   let taskInfo;
-  if (userMode === "regularRandom"){
+  if (userMode === "regularRandom") {
     taskInfo = {
       taskId: "swr",
       taskName: "Single Word Recognition",
@@ -190,7 +190,7 @@ export const config = {
   pid: pid,
   taskVariant: taskVariant,
   userMetadata: {},
-  testingOnly: skip === null, //userMode === "test" || userMode === "demo" || taskVariant === "validate",
+  testingOnly: skip === null,
   audioFeedback: audioFeedback,
 
   // set order and rule for the experiment
@@ -231,7 +231,7 @@ export const initStore = () => {
   store.session.set("practiceIndex", 0);
   // Counting variables
 
-  //CAT variables
+  // CAT variables
   store.session.set("catTheta", 0);
   store.session.set("catSEM", 0);
   store.session.set("catResponses", []);
@@ -240,7 +240,9 @@ export const initStore = () => {
   store.session.set("currentBlockIndex", "");
   store.session.set("stimulusRule", "");
   store.session.set('stimulusLists', "");
-  store.session.set("stimulusIndex", { corpusA: 0, corpusB: 0, corpusC: 0, corpusNew: 0, corpusAll: 0 });
+  store.session.set("stimulusIndex", {
+    corpusA: 0, corpusB: 0, corpusC: 0, corpusNew: 0, corpusAll: 0,
+  });
   store.session.set("trialNumBlock", 0); // counter for trials in block
   store.session.set("trialNumTotal", 0); // counter for trials in experiment
   store.session.set("demoCounter", 0);
@@ -271,7 +273,7 @@ export const jsPsych = initJsPsych({
   message_progress_bar: "Progress Complete",
   on_finish: () => {
     // jsPsych.data.displayData();
-    if (userMode !== "demo"){
+    if (userMode !== "demo") {
       window.location.href = redirectInfo[taskVariant] || "https://reading.stanford.edu?g=901&c=1";
     }
   },

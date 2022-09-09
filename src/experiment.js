@@ -1,6 +1,6 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-param-reassign */
-import { estimateAbility, findNextItem, SEM} from '@bdelab/jscat';
+import { Cat } from '@bdelab/jscat';
 // jsPsych imports
 import jsPsychSurveyText from "@jspsych/plugin-survey-text";
 import jsPsychFullScreen from "@jspsych/plugin-fullscreen";

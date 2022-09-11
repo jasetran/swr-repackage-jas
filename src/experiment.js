@@ -22,7 +22,7 @@ import {
   jsPsych,
   config,
   updateProgressBar,
-  findClosest,
+  stimulusCountLists,
   taskInfo,
 } from "./config";
 import { if_audio_response_correct, if_audio_response_wrong, if_audio_response_neutral } from "./audio";
@@ -55,6 +55,8 @@ store.session.set("stimulusLists", stimulusLists);
 store.session.set("corpusAll", corpusAll);
 
 const timeline = [];
+console.log(store.session("itemSelect"));
+const cat = new Cat({method: 'MLE', itemSelect: store.session("itemSelect")});
 
 preload_trials.forEach((trial) => {
   timeline.push(trial);
@@ -352,24 +354,46 @@ function updateCAT(itemSelector, whichCorpus) {
 }
 
 function getStimulus() {
-  let resultStimulus;
-  let currentBlock = store.session("currentBlock");
-  let demoCounter = store.session("demoCounter");
-  // reset jsCAT
-  if (store.session('trialNumBlock') === 0){
-    store.session.set("zetas", []);
-    store.session.set("catResponses", []);
-    store.session.set("catTheta", 0);
-    store.session.set("catSEM", 0);
+  // get target corpus
+  let currentCorpus, corpusType;
+  corpusType = (Math.random() < 0.5) ? "corpus_real" : "corpus_pseudo";
+  const corpus = store.session("corpusAll");
+  currentCorpus = corpus[corpusType];
+  if (currentCorpus.length < 1) {
+    if (corpusType === "corpus_pseudo") {
+      corpusType = "corpus_real";
+    } else {
+      corpusType = "corpus_pseudo";
+    }
+    currentCorpus = corpus[corpusType];
   }
+
+  // update next stimulus
+  const itemSuggestion = cat.findNextItem(currentCorpus);
+  store.session.set("nextStimulus", itemSuggestion.nextStimulus);
+  corpus[corpusType] = itemSuggestion.remainingStimuli;
+  store.session.set("corpusAll", corpus);
+
   // update 2 trackers
-  const tracker = store.session("stimulusIndex")[currentBlock];
-  if (tracker === 0 && demoCounter === 0) {
+  const currentBlockIndex = store.session("currentBlockIndex");
+  const demoCounter = store.session("demoCounter");
+  const tracker = store.session("trialNumBlock");
+  if (tracker === 0 | tracker === stimulusCountLists[config.userMode][currentBlockIndex]) {
     store.session.set("trialNumBlock", 1);
   } else {
     store.session.transact("trialNumBlock", (oldVal) => oldVal + 1);
   }
-  store.session.transact("trialNumTotal", (oldVal) => oldVal + 1); // add 1 to the total trial count
+  store.session.transact("trialNumTotal", (oldVal) => oldVal + 1);
+
+  // pring for checking
+  console.log("TrialNumBlock", store.session('trialNumBlock'), store.session('trialNumTotal'));
+  console.log(cat.theta, itemSuggestion.nextStimulus);
+
+  /**
+  if (store.session('trialNumBlock') === 0 ){
+    store.session.set("catTheta", 0);
+    store.session.set("catSEM", 0);
+  }
 
   if (store.session("stimulusRule") === "random") {
     resultStimulus = updateCAT("random", "block");
@@ -402,6 +426,7 @@ function getStimulus() {
   copyStimulusIndex[currentBlock] += 1;
   store.session.set("stimulusIndex", copyStimulusIndex);
   return resultStimulus;
+   **/
 }
 
 // set-up screen
@@ -417,7 +442,7 @@ const setup_fixation = {
     task: "fixation",
   },
   on_finish: function () {
-    store.session.set("nextStimulus", getStimulus()); // get the current stimuli for the trial
+    getStimulus(); // get the current stimuli for the trial
   },
 };
 
@@ -450,16 +475,15 @@ const lexicality_test = {
       store.session("nextStimulus").correct_response
     );
     store.session.set("currentTrialCorrect", data.correct);
-    const catResponses = store.session("catResponses");
 
     if (data.correct) {
       store.session.set("response", 1);
-      catResponses.push(1);
     } else {
       store.session.set("response", 0);
-      catResponses.push(0);
     }
-    store.session.set("catResponses", catResponses);
+    if (store.session('trialNumTotal') !== 0){
+      cat.updateAbilityEstimate([{a: 1, b: store.session('nextStimulus').difficulty, c: 0.5, d: 1}], [store.session('response')])
+    }
     jsPsych.data.addDataToLastTrial({
       block: store.session("currentBlockIndex"),
       corpusId: store.session("nextStimulus").corpus_src,
@@ -468,9 +492,9 @@ const lexicality_test = {
       correctResponse: store.session("nextStimulus").correct_response,
       realpseudo: store.session("nextStimulus").realpseudo,
       difficulty: store.session("nextStimulus").difficulty,
-      thetaEstimate: store.session("catTheta"),
-      thetaSE: store.session("catSEM"),
-      stimulusRule: store.session("stimulusRule"),
+      thetaEstimate: cat.theta,
+      thetaSE: cat.seMeasurement,
+      stimulusRule: store.session("itemSelect"),
       trialNumTotal: store.session("trialNumTotal"),
       trialNumBlock: store.session("trialNumBlock"),
       pid: config.pid,

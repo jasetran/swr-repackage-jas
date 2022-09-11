@@ -89,27 +89,27 @@ function transformNewwords(csv_new) {
 
 const corpusA = {
   name: "corpusA",
-  corpus_pseudo: csvTransformed.validated.filter(row => (row.corpus_src === "A" && row.realpseudo === "pseudo")),
-  corpus_real: csvTransformed.validated.filter(row => (row.corpus_src === "A" && row.realpseudo === "real"))
+  corpus_pseudo: csvTransformed.validated.filter((row) => (row.corpus_src === "A" && row.realpseudo === "pseudo")),
+  corpus_real: csvTransformed.validated.filter((row) => (row.corpus_src === "A" && row.realpseudo === "real")),
 };
 
 const corpusB = {
   name: "corpusB",
   corpus_pseudo: csvTransformed.validated.filter((row) => (row.corpus_src === "B" && row.realpseudo === "pseudo")),
-  corpus_real: csvTransformed.validated.filter(row => (row.corpus_src === "B" && row.realpseudo === "real"))
+  corpus_real: csvTransformed.validated.filter((row) => (row.corpus_src === "B" && row.realpseudo === "real")),
 };
 
 const corpusC = {
   name: "corpusC",
   corpus_pseudo: csvTransformed.validated.filter((row) => (row.corpus_src === "C" && row.realpseudo === "pseudo")),
-  corpus_real: csvTransformed.validated.filter(row => (row.corpus_src === "C" && row.realpseudo === "real"))
+  corpus_real: csvTransformed.validated.filter((row) => (row.corpus_src === "C" && row.realpseudo === "real")),
 };
 
 export const corpusAll = {
   name: "corpusAll",
-  corpus_pseudo: csvTransformed.validated.filter(row => row.realpseudo === "pseudo"),
-  corpus_real: csvTransformed.validated.filter(row => row.realpseudo === "real")
-}
+  corpus_pseudo: csvTransformed.validated.filter((row) => row.realpseudo === "pseudo"),
+  corpus_real: csvTransformed.validated.filter((row) => row.realpseudo === "real"),
+};
 
 const fixedBlockList = [corpusA, corpusB, corpusC]; // always starts from Block A
 const randomBlockList = shuffle(fixedBlockList); // every block is randomized

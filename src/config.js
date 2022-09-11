@@ -1,4 +1,3 @@
-// import { QuestCreate } from "jsQUEST";
 import { initJsPsych } from "jspsych";
 import Papa from "papaparse";
 import store from "store2";
@@ -9,19 +8,33 @@ function getRegularAdaptive() {
   return regularAdaptive;
 }
 
+function randomAssignment(mode) {
+  if (mode === "test") {
+    return (Math.random() < 0.5) ? 'testAdaptive' : 'testRandom';
+  } if (mode === "full") {
+    return (Math.random() < 0.5) ? 'fullAdaptive' : 'fullRandom';
+  } return mode;
+}
+
 const stimulusRuleLists = {
   beginner: ["random", "adaptive"],
   regularRandom: ["random", "random", "random"], // three random blocks
   regularAdaptive: getRegularAdaptive(), // 1 adaptive, 2 random blocks
-  test: ["adaptive", "random", "random"],
+  fullRandom: ["random", "random", "random"],
+  fullAdaptive: ["adaptive", "adaptive", "adaptive"],
+  testRandom: ["adaptive", "random", "random"],
+  testAdaptive: ["adaptive", "adaptive", "adaptive"],
   demo: ["demo"],
 };
 
-const stimulusCountLists = {
+export const stimulusCountLists = {
   beginner: [82, 28],
   regularRandom: [82, 82, 82],
   regularAdaptive: [82, 82, 82],
-  test: [12, 4, 4],
+  fullAdaptive: [82, 82, 82],
+  fullRandom: [82, 82, 82],
+  testAdaptive: [4, 4, 4],
+  testRandom: [4, 4, 4],
   demo: [82],
 };
 
@@ -43,7 +56,7 @@ const trialTimeOptions = [null, 5000, 8000, 100000];
 /* set user mode */
 const queryString = new URL(window.location).search;
 const urlParams = new URLSearchParams(queryString);
-const userMode = urlParams.get("mode") || "regularRandom";
+const userMode = randomAssignment(urlParams.get("mode")) || "fullAdaptive";
 const taskVariant = urlParams.get("variant") || "pilot";
 const pid = urlParams.get("participant");
 const skip = urlParams.get("skip");
@@ -56,6 +69,8 @@ const redirectInfo = {
   RF: "https://reading.stanford.edu?g=940&c=1",
   school: "https://reading.stanford.edu?g=901&c=1",
 };
+
+console.log("This is userMode", userMode);
 
 function configTaskInfo() {
   let taskInfo;
@@ -152,6 +167,60 @@ function configTaskInfo() {
         },
       ],
     };
+  } else if (userMode === "fullRandom") {
+    taskInfo = {
+      taskId: "swr",
+      taskName: "Single Word Recognition",
+      variantName: userMode,
+      taskDescription:
+        "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
+      variantDescription:
+        "This variant uses fully random design split into 3 game blocks (82 each).",
+      blocks: [
+        {
+          blockNumber: 0,
+          trialMethod: "random",
+          corpus: "full246",
+        },
+        {
+          blockNumber: 1,
+          trialMethod: "random",
+          corpus: "full246",
+        },
+        {
+          blockNumber: 2,
+          trialMethod: "random",
+          corpus: "full246",
+        },
+      ],
+    };
+  } else if (userMode === "fullAdaptive") {
+    taskInfo = {
+      taskId: "swr",
+      taskName: "Single Word Recognition",
+      variantName: userMode,
+      taskDescription:
+        "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
+      variantDescription:
+        "This variant uses fully adaptive design split into 3 game blocks (82 each).",
+      blocks: [
+        {
+          blockNumber: 0,
+          trialMethod: "adaptive",
+          corpus: "full246",
+        },
+        {
+          blockNumber: 1,
+          trialMethod: "adaptive",
+          corpus: "full246",
+        },
+        {
+          blockNumber: 2,
+          trialMethod: "adaptive",
+          corpus: "full246",
+        },
+      ],
+    };
   } else {
     taskInfo = {
       taskId: "swr",
@@ -203,7 +272,7 @@ export const config = {
   totalAdaptiveTrials: numAdaptiveTrials[userMode],
 
   // set number of trials for practice block
-  totalTrialsPractice: 5,
+  totalTrialsPractice: 0,
 
   // The number of practice trials that will keep stimulus on screen untill participant's input
   countSlowPractice: 2,
@@ -227,26 +296,25 @@ export const initStore = () => {
   if (store.session.has("initialized") && store.local("initialized")) {
     return store.session;
   }
+  console.log(userMode);
+  if ((userMode === 'fullAdaptive') || (userMode === 'testAdaptive')) {
+    store.session.set("itemSelect", "mfi");
+  } else {
+    store.session.set("itemSelect", "random");
+  }
 
   store.session.set("practiceIndex", 0);
   // Counting variables
-
-  // CAT variables
-  store.session.set("catTheta", 0);
-  store.session.set("catSEM", 0);
-  store.session.set("catResponses", []);
-  store.session.set("zetas", []);
-  store.session.set("count_adaptive_trials", 0);
-  store.session.set("currentBlockIndex", "");
+  store.session.set("currentBlockIndex", 0);
   store.session.set("stimulusRule", "");
-  store.session.set('stimulusLists', "");
+  store.session.set("stimulusLists", "");
   store.session.set("stimulusIndex", {
     corpusA: 0, corpusB: 0, corpusC: 0, corpusNew: 0, corpusAll: 0,
   });
   store.session.set("trialNumBlock", 0); // counter for trials in block
   store.session.set("trialNumTotal", 0); // counter for trials in experiment
   store.session.set("demoCounter", 0);
-  store.session.set("nextStimulus", []);
+  store.session.set("nextStimulus", null);
   store.session.set("response", "");
 
   // variables to track current state of the experiment

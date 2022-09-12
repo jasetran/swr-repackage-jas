@@ -10,7 +10,6 @@ import jsPsychSurveyMultiSelect from "@jspsych/plugin-survey-multi-select";
 import store from "store2";
 
 // Import necessary for async in the top level of the experiment script
-// TODO Adam: Is this really necessary
 import "regenerator-runtime/runtime";
 
 // Firebase imports
@@ -281,7 +280,7 @@ const debrief_block = {
 
 const if_debrief_block = {
   timeline: [debrief_block],
-  conditional_function: function () {
+  conditional_function: () => {
     return Boolean(config.userMode === "demo");
   },
 };
@@ -340,9 +339,9 @@ const getStimulus = () => {
   }
   store.session.transact("trialNumTotal", (oldVal) => oldVal + 1);
 
-  // pring for checking
-  console.log("TrialNumBlock", store.session('trialNumBlock'), store.session('trialNumTotal'));
-  console.log(cat.theta, itemSuggestion.nextStimulus);
+  // print for checking
+  // console.log("TrialNumBlock", store.session('trialNumBlock'), store.session('trialNumTotal'));
+  // console.log(cat.theta, itemSuggestion.nextStimulus);
 }
 
 // set-up screen
@@ -357,7 +356,7 @@ const setup_fixation = {
   data: {
     task: "fixation",
   },
-  on_finish: function () {
+  on_finish: () => {
     getStimulus(); // get the current stimuli for the trial
   },
 };
@@ -370,7 +369,7 @@ const updateCorrectChecker = () => {
 
 const lexicality_test = {
   type: jsPsychHtmlKeyboardResponse,
-  stimulus: function () {
+  stimulus: () => {
     return `<div class = stimulus_div><p class = 'stimulus'>${
       store.session("nextStimulus").stimulus
     }</p></div>`;
@@ -385,7 +384,7 @@ const lexicality_test = {
     start_time_unix: config.startTime.getTime(),
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   },
-  on_finish: function (data) {
+  on_finish: (data) => {
     const nextStimulus = store.session("nextStimulus");
     data.correct = jsPsych.pluginAPI.compareKeys(
       data.response,
@@ -467,7 +466,7 @@ async function roarBlocks() {
       /* add first half of block */
       const roar_mainproc_block_half_1 = {
         timeline: [core_procedure],
-        conditional_function: function () {
+        conditional_function: () => {
           if (stimulusCounts[i] === 0) {
             return false;
           }

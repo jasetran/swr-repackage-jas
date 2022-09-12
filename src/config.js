@@ -2,24 +2,22 @@ import { initJsPsych } from "jspsych";
 import Papa from "papaparse";
 import store from "store2";
 
-function getRegularAdaptive() {
-  const regularAdaptive = ["random", "random", "random"];
-  regularAdaptive[Math.floor(Math.random() * 3)] = 'adaptive';
-  return regularAdaptive;
-}
+// const getRegularAdaptive = () => {
+//   const regularAdaptive = ["random", "random", "random"];
+//   regularAdaptive[Math.floor(Math.random() * 3)] = 'adaptive';
+//   return regularAdaptive;
+// };
 
-function randomAssignment(mode) {
+const randomAssignment = (mode) => {
   if (mode === "test") {
     return (Math.random() < 0.5) ? 'testAdaptive' : 'testRandom';
   } if (mode === "full") {
     return (Math.random() < 0.5) ? 'fullAdaptive' : 'fullRandom';
   } return mode;
-}
+};
 
 const stimulusRuleLists = {
   beginner: ["random", "adaptive"],
-  regularRandom: ["random", "random", "random"], // three random blocks
-  regularAdaptive: getRegularAdaptive(), // 1 adaptive, 2 random blocks
   fullRandom: ["random", "random", "random"],
   fullAdaptive: ["adaptive", "adaptive", "adaptive"],
   testRandom: ["adaptive", "random", "random"],
@@ -29,21 +27,11 @@ const stimulusRuleLists = {
 
 export const stimulusCountLists = {
   beginner: [82, 28],
-  regularRandom: [82, 82, 82],
-  regularAdaptive: [82, 82, 82],
   fullAdaptive: [82, 82, 82],
   fullRandom: [82, 82, 82],
   testAdaptive: [4, 4, 4],
   testRandom: [4, 4, 4],
   demo: [84],
-};
-
-const numAdaptiveTrials = {
-  beginner: 0,
-  regularRandom: 0,
-  regularAdaptive: 82, // TO DO: change to 60 later
-  test: 11,
-  demo: 24,
 };
 
 // Stimulus timing options in milliseconds
@@ -70,7 +58,7 @@ const redirectInfo = {
   school: "https://reading.stanford.edu?g=901&c=1",
 };
 
-function configTaskInfo() {
+const configTaskInfo = () => {
   let taskInfo;
   if (userMode === "regularRandom") {
     taskInfo = {
@@ -248,7 +236,7 @@ function configTaskInfo() {
     };
   }
   return taskInfo;
-}
+};
 
 export const taskInfo = configTaskInfo();
 
@@ -266,11 +254,8 @@ export const config = {
   // Number of trials in each block of the experiment
   stimulusCountList: stimulusCountLists[userMode],
 
-  // number of adaptive trials
-  totalAdaptiveTrials: numAdaptiveTrials[userMode],
-
   // set number of trials for practice block
-  totalTrialsPractice: 0,
+  totalTrialsPractice: 5,
 
   // The number of practice trials that will keep stimulus on screen untill participant's input
   countSlowPractice: 2,

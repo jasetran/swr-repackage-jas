@@ -11,9 +11,7 @@ import {
 /* For Practice Trial Only */
 export const setup_fixation_practice = {
   type: jsPsychHtmlKeyboardResponse,
-  stimulus: function () {
-    return `<div class = stimulus_div><p class = 'stimulus'>+</p></div>`;
-  },
+  stimulus: () => `<div class = stimulus_div><p class = 'stimulus'>+</p></div>`,
   prompt: `<img class="lower" src="${imgContent.arrowkeyLex}" alt = "arrow-key">`,
   choices: "NO_KEYS",
   trial_duration: config.timing.fixationTime,
@@ -27,22 +25,16 @@ export const setup_fixation_practice = {
 
 export const lexicality_test_practice = {
   type: jsPsychHtmlKeyboardResponse,
-  stimulus: function () {
-    return `<div class = stimulus_div><p class = 'stimulus'>${jsPsych.timelineVariable(
-      "stimulus",
-    )}</p></div>`;
-  },
+  stimulus: () => `<div class = stimulus_div><p class = 'stimulus'>${jsPsych.timelineVariable("stimulus")}</p></div>`,
   prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys">`,
-  stimulus_duration: function () {
+  stimulus_duration: () => {
     store.session.transact("practiceIndex", (oldVal) => oldVal + 1);
     if (store.session("practiceIndex") > config.countSlowPractice) {
       return config.timing.stimulusTime;
     }
     return config.timing.stimulusTimePracticeOnly;
   },
-  trial_duration: function () {
-    return config.timing.trialTime;
-  },
+  trial_duration: config.timing.trialTime,
   choices: ["ArrowLeft", "ArrowRight"],
   data: {
     task: "practice_response" /* tag the test trials with this taskname so we can filter data later */,
@@ -51,7 +43,7 @@ export const lexicality_test_practice = {
     start_time_unix: config.startTime.getTime(),
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   },
-  on_finish: function (data) {
+  on_finish: (data) => {
     data.correct = jsPsych.pluginAPI.compareKeys(
       data.response,
       jsPsych.timelineVariable("correct_response"),
@@ -100,13 +92,11 @@ const practice_feedback_left = {
   type: jsPsychAudioKeyboardResponse,
   response_allowed_while_playing: config.testingOnly,
   stimulus: feedbackStimulus,
-  prompt: function () {
-    return `
+  prompt: () => `
 <div class = stimulus_div><p class="feedback"><span class=${store.session("responseColor")}>You pressed the ${store.session("responseLR")} arrow key, which is for ${store.session("answerRP")} words! </span>
 <br></br>${jsPsych.timelineVariable("stimulus")}<span class=${store.session("answerColor")}> is a ${store.session("correctRP")}  word. Press the ${store.session("correctLR")} arrow key to continue.</span></p></div>
 <img class="lower" src= "${imgContent.arrowkeyLexLeft}" alt="arrow keys" >
-      `;
-  },
+      `,
   choices: ["ArrowLeft"],
 };
 
@@ -114,15 +104,12 @@ const practice_feedback_right = {
   type: jsPsychAudioKeyboardResponse,
   response_allowed_while_playing: config.testingOnly,
   stimulus: feedbackStimulus,
-  prompt: function () {
-    return `<div class = stimulus_div>
+  prompt: () => `<div class = stimulus_div>
 \t<p class="feedback"><span class=${store.session("responseColor")}>You pressed the ${store.session("responseLR")} arrow key, which is for ${store.session("answerRP")} words! </span>
 <br></br>${jsPsych.timelineVariable("stimulus")}<span class=${store.session("answerColor")}> is a ${store.session("correctRP")}  word. Press the ${store.session("correctLR")} arrow key to continue.</span></p>
 </div><img class="lower" src="${imgContent.arrowkeyLexRight}" alt="arrow keys"> 
-      `;
-  },
+      `,
   choices: ["ArrowRight"],
-  on_start: function () {},
 };
 
 export const if_node_left = {

@@ -44,7 +44,7 @@ import {
   post_block_page_list,
   final_page,
 } from "./gameBreak";
-import { stimulusLists, corpusNew, blockPractice, corpusAll } from "./corpus";
+import {corpusNew, blockPractice, corpusAll } from "./corpus";
 
 // CSS imports
 import "./css/game.css";
@@ -53,7 +53,6 @@ let firekit;
 
 store.session.set("corpusAll", corpusAll);
 store.session.set("corpusNew", corpusNew);
-store.session.set("stimulusLists", stimulusLists);
 
 const timeline = [];
 const cat = new Cat({method: 'MLE', itemSelect: store.session("itemSelect")});
@@ -310,11 +309,13 @@ const getStimulus = () => {
     if (demoCounter === 5 ) {
       corpus = store.session("corpusAll");
       corpusType = checkRealPseudo(corpus);
+      store.session.set("itemSelect", "random");
       itemSuggestion = cat.findNextItem(corpus[corpusType], 'random');
       store.session.set("demoCounter",0);
     } else {
       corpus = store.session("corpusNew");
       corpusType = checkRealPseudo(corpus);
+      store.session.set("itemSelect", "mfi");
       itemSuggestion = cat.findNextItem(corpus[corpusType]);
       store.session.transact("demoCounter", (oldVal) => oldVal + 1);
     }
@@ -470,12 +471,7 @@ async function roarBlocks() {
           if (stimulusCounts[i] === 0) {
             return false;
           }
-          store.session.set(
-            "currentBlock",
-            store.session("stimulusLists")[i].name
-          );
           store.session.set("currentBlockIndex", i);
-          store.session.set("stimulusRule", config.stimulusRuleList[i]);
           return true;
         },
         repetitions: stimulusCounts[i] / 2,

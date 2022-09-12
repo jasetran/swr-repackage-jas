@@ -70,8 +70,6 @@ const redirectInfo = {
   school: "https://reading.stanford.edu?g=901&c=1",
 };
 
-console.log("This is userMode", userMode);
-
 function configTaskInfo() {
   let taskInfo;
   if (userMode === "regularRandom") {
@@ -296,21 +294,14 @@ export const initStore = () => {
   if (store.session.has("initialized") && store.local("initialized")) {
     return store.session;
   }
-  console.log(userMode);
   if ((userMode === 'fullAdaptive') || (userMode === 'testAdaptive')) {
     store.session.set("itemSelect", "mfi");
   } else {
     store.session.set("itemSelect", "random");
   }
-
   store.session.set("practiceIndex", 0);
   // Counting variables
   store.session.set("currentBlockIndex", 0);
-  store.session.set("stimulusRule", "");
-  store.session.set("stimulusLists", "");
-  store.session.set("stimulusIndex", {
-    corpusA: 0, corpusB: 0, corpusC: 0, corpusNew: 0, corpusAll: 0,
-  });
   store.session.set("trialNumBlock", 0); // counter for trials in block
   store.session.set("trialNumTotal", 0); // counter for trials in experiment
   store.session.set("demoCounter", 0);
@@ -318,14 +309,7 @@ export const initStore = () => {
   store.session.set("response", "");
 
   // variables to track current state of the experiment
-  store.session.set("currentStimulus", "");
-  store.session.set("currentBlock", "");
   store.session.set("currentTrialCorrect", true); // return true or false
-
-  store.session.set("trialCorrectAns", ""); // for storing the correct answer on a given trial
-  store.session.set("startingDifficulty", 0); // where we begin in terms of difficulty
-  store.session.set("currentDifficulty", 0); // to reference where participants currently are
-  store.session.set("difficultyHistory", []); // easy logging of the participant's trajectory
   store.session.set("coinTrackingIndex", 0);
 
   store.session.set("initialized", true);

@@ -87,47 +87,53 @@ function transformNewwords(csv_new) {
   return shuffle(splitArray);
 }
 
-const corpusA = {
-  name: "corpusA",
-  corpus_pseudo: csvTransformed.validated.filter((row) => (row.corpus_src === "A" && row.realpseudo === "pseudo")),
-  corpus_real: csvTransformed.validated.filter((row) => (row.corpus_src === "A" && row.realpseudo === "real")),
-};
-
-const corpusB = {
-  name: "corpusB",
-  corpus_pseudo: csvTransformed.validated.filter((row) => (row.corpus_src === "B" && row.realpseudo === "pseudo")),
-  corpus_real: csvTransformed.validated.filter((row) => (row.corpus_src === "B" && row.realpseudo === "real")),
-};
-
-const corpusC = {
-  name: "corpusC",
-  corpus_pseudo: csvTransformed.validated.filter((row) => (row.corpus_src === "C" && row.realpseudo === "pseudo")),
-  corpus_real: csvTransformed.validated.filter((row) => (row.corpus_src === "C" && row.realpseudo === "real")),
-};
-
 export const corpusAll = {
   name: "corpusAll",
   corpus_pseudo: csvTransformed.validated.filter((row) => row.realpseudo === "pseudo"),
   corpus_real: csvTransformed.validated.filter((row) => row.realpseudo === "real"),
 };
 
+export const blockPractice = csvTransformed.practice.slice(0, config.totalTrialsPractice);
 const blockNew = shuffle(transformNewwords(csvTransformed.new));
-
 export const corpusNew = {
   name: "corpusNew",
   corpus_pseudo: blockNew.filter((row) => row.realpseudo === "pseudo"),
   corpus_real: blockNew.filter((row) => row.realpseudo === "real"),
 };
 
-const fixedBlockList = [corpusA, corpusB, corpusC]; // always starts from Block A
-const randomBlockList = shuffle(fixedBlockList); // every block is randomized
-
-const getStimulusLists = () => {
-  if (config.userMode === "beginner") {
-    return fixedBlockList.slice(0, config.stimulusRuleList.length);
-  }
-  return randomBlockList.slice(0, config.stimulusRuleList.length);
-};
-
-export const stimulusLists = getStimulusLists();
-export const blockPractice = csvTransformed.practice.slice(0, config.totalTrialsPractice);
+// const corpusA = {
+//   name: "corpusA",
+// eslint-disable-next-line max-len
+//   corpus_pseudo: csvTransformed.validated.filter((row) => (row.corpus_src === "A" && row.realpseudo === "pseudo")),
+//   // eslint-disable-next-line max-len
+// eslint-disable-next-line max-len
+//   corpus_real: csvTransformed.validated.filter((row) => (row.corpus_src === "A" && row.realpseudo === "real")),
+// };
+//
+// const corpusB = {
+//   name: "corpusB",
+// eslint-disable-next-line max-len
+//   corpus_pseudo: csvTransformed.validated.filter((row) => (row.corpus_src === "B" && row.realpseudo === "pseudo")),
+// eslint-disable-next-line max-len
+//   corpus_real: csvTransformed.validated.filter((row) => (row.corpus_src === "B" && row.realpseudo === "real")),
+// };
+//
+// const corpusC = {
+//   name: "corpusC",
+// eslint-disable-next-line max-len
+//   corpus_pseudo: csvTransformed.validated.filter((row) => (row.corpus_src === "C" && row.realpseudo === "pseudo")),
+// eslint-disable-next-line max-len
+//   corpus_real: csvTransformed.validated.filter((row) => (row.corpus_src === "C" && row.realpseudo === "real")),
+// };
+//
+// const fixedBlockList = [corpusA, corpusB, corpusC]; // always starts from Block A
+// const randomBlockList = shuffle(fixedBlockList); // every block is randomized
+//
+// const getStimulusLists = () => {
+//   if (config.userMode === "beginner") {
+//     return fixedBlockList.slice(0, config.stimulusRuleList.length);
+//   }
+//   return randomBlockList.slice(0, config.stimulusRuleList.length);
+// };
+//
+// export const stimulusLists = getStimulusLists();

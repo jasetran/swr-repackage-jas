@@ -1,7 +1,7 @@
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
 import store from "store2";
 import {
-  config, updateProgressBar,
+  config,
 } from "./config";
 import { imgContent, audioContent } from "./preload";
 
@@ -26,9 +26,9 @@ const intro_1 = {
     start_time: config.startTime.toLocaleString("PST"),
     start_time_unix: config.startTime.getTime(),
   },
-  on_start: function () {
-    document.body.style.cursor= "none";
-  }
+  on_start: () => {
+    document.body.style.cursor = "none";
+  },
 };
 
 const intro_2 = {
@@ -110,10 +110,8 @@ const countdown_trial_3 = {
 const countdown_trial_2 = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: audioContent.countdown2,
-  prompt: function () {
-    return `<div class = stimulus_div><p class = 'stimulus'>2</p></div>
-   <img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" >`;
-  },
+  prompt: `<div class = stimulus_div><p class = 'stimulus'>2</p></div>
+   <img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys" >`,
   choices: "NO_KEYS",
   trial_duration: 1000,
   data: {
@@ -124,10 +122,8 @@ const countdown_trial_2 = {
 const countdown_trial_1 = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: audioContent.countdown1,
-  prompt: function () {
-    return `<div class = stimulus_div><p class = 'stimulus'>1</p></div>
-<img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys">`;
-  },
+  prompt: `<div class = stimulus_div><p class = 'stimulus'>1</p></div>
+<img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys">`,
   choices: "NO_KEYS",
   trial_duration: 1000,
   data: {
@@ -138,10 +134,8 @@ const countdown_trial_1 = {
 const countdown_trial_0 = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: audioContent.countdown0,
-  prompt: function () {
-    return `<div class = stimulus_div><p class = 'stimulus'>0</p></div>
-<img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys">`;
-  },
+  prompt: `<div class = stimulus_div><p class = 'stimulus'>0</p></div>
+<img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys">`,
   choices: "NO_KEYS",
   trial_duration: 1000,
   data: {
@@ -169,10 +163,10 @@ const coin_tracking_feedback = {
 
 export const if_coin_tracking = {
   timeline: [coin_tracking_feedback],
-  conditional_function: function () {
+  conditional_function: () => {
     const coinTrackingIndex = store.session("coinTrackingIndex");
     if (store.session("currentTrialCorrect") && coinTrackingIndex >= 10) {
-      store.session.set("coinTrackingIndex",0);
+      store.session.set("coinTrackingIndex", 0);
       return true;
     }
     store.session.set("coinTrackingIndex", coinTrackingIndex + 1);

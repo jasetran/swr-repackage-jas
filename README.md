@@ -12,7 +12,7 @@ src/config.js
 src/experiment.js
 
 ### CSS
-src/css/game_v4.css
+src/css/game.css
 
 ### Webpack
 webpack.config.js

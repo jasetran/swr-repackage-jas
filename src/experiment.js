@@ -1,6 +1,6 @@
 /* eslint-disable no-plusplus */
 /* eslint-disable no-param-reassign */
-import { estimateAbility, findNextItem, SEM} from '@bdelab/jscat';
+import { Cat } from '@bdelab/jscat';
 // jsPsych imports
 import jsPsychSurveyText from "@jspsych/plugin-survey-text";
 import jsPsychFullScreen from "@jspsych/plugin-fullscreen";
@@ -10,7 +10,6 @@ import jsPsychSurveyMultiSelect from "@jspsych/plugin-survey-multi-select";
 import store from "store2";
 
 // Import necessary for async in the top level of the experiment script
-// TODO Adam: Is this really necessary
 import "regenerator-runtime/runtime";
 
 // Firebase imports
@@ -22,7 +21,7 @@ import {
   jsPsych,
   config,
   updateProgressBar,
-  findClosest,
+  stimulusCountLists,
   taskInfo,
 } from "./config";
 import { if_audio_response_correct, if_audio_response_wrong, if_audio_response_neutral } from "./audio";
@@ -44,22 +43,24 @@ import {
   post_block_page_list,
   final_page,
 } from "./gameBreak";
-import { stimulusLists, blockNew, blockPractice } from "./corpus";
+import {corpusNew, blockPractice, corpusAll } from "./corpus";
 
 // CSS imports
 import "./css/game.css";
 
 let firekit;
 
-store.session.set("stimulusLists", stimulusLists);
+store.session.set("corpusAll", corpusAll);
+store.session.set("corpusNew", corpusNew);
 
 const timeline = [];
+const cat = new Cat({method: 'MLE', itemSelect: store.session("itemSelect")});
 
 preload_trials.forEach((trial) => {
   timeline.push(trial);
 });
 
-function makePid() {
+const makePid = () => {
   let text = "";
   const possible =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -150,7 +151,7 @@ const consent_form = {
 
 const if_consent_form = {
   timeline: [consent_form],
-  conditional_function: function () {
+  conditional_function: () => {
     return Boolean(config.userMode === "demo");
   },
 };
@@ -210,7 +211,7 @@ const survey_pid = {
     </div>
     <br>`,
   autocomplete: true,
-  on_finish: function (data) {
+  on_finish: (data) => {
     let tmpMetadata = {};
     for (const field in data.response) {
       if (data.response[field] === "") {
@@ -227,7 +228,7 @@ const survey_pid = {
 
 const if_get_pid = {
   timeline: [survey_pid],
-  conditional_function: function () {
+  conditional_function: () => {
     return config.userMode === "demo";
   },
 };
@@ -279,107 +280,68 @@ const debrief_block = {
 
 const if_debrief_block = {
   timeline: [debrief_block],
-  conditional_function: function () {
+  conditional_function: () => {
     return Boolean(config.userMode === "demo");
   },
 };
 
 timeline.push(if_consent_form, if_get_pid, enter_fullscreen, introduction_trials, countdown_trials);
 
-function updateCAT(itemSelector) {
-  let currentCorpus, corpusType, itemSuggestion, catTheta;
-  const randomBoolean = Math.random() < 0.5;
-  corpusType = randomBoolean ? "corpus_real" : "corpus_pseudo";
-  currentCorpus =
-      store.session("stimulusLists")[store.session("currentBlockIndex")][
-          corpusType
-          ];
+const checkRealPseudo = (corpus) => {
+  let corpusType = (Math.random() < 0.5) ? "corpus_real" : "corpus_pseudo";
+  let currentCorpus = corpus[corpusType];
   if (currentCorpus.length < 1) {
     if (corpusType === "corpus_pseudo") {
       corpusType = "corpus_real";
     } else {
       corpusType = "corpus_pseudo";
     }
-    currentCorpus =
-        store.session("stimulusLists")[store.session("currentBlockIndex")][
-            corpusType
-            ];
   }
-  const currentIndex = store.session("stimulusIndex")[store.session("currentBlock")];
-  if (currentIndex === 0){
-    store.session.set("catResponses", []);
-    store.session.set("zetas", []);
-  } else {
-    catTheta = estimateAbility(store.session("catResponses"), store.session("zetas"), 'MLE');
-    store.session.set("catTheta", catTheta);
-    store.session.set("catSEM", SEM(catTheta, store.session("zetas")));
-  }
-  if(currentIndex < config.nRandom && itemSelector !== "random") {
-    itemSuggestion = findNextItem(currentCorpus, catTheta, 'middle');
-  } else {
-    itemSuggestion = findNextItem(currentCorpus, catTheta, itemSelector);
-  }
-
-  const copyStimulusLists = store.session("stimulusLists");
-  copyStimulusLists[store.session("currentBlockIndex")][corpusType] = itemSuggestion.remainingStimuli;
-  store.session.set("stimulusLists", copyStimulusLists);
-  const copyZetas = store.session("zetas");
-  copyZetas.push({a: 1, b: itemSuggestion.nextStimulus.difficulty, c: 0.5, d: 1});
-  store.session.set("zetas", copyZetas);
-  return itemSuggestion.nextStimulus;
+  return corpusType;
 }
 
-function getStimulus() {
-  // console.log("getStimulus", store.session("stimulusLists").slice());
-  let resultStimulus;
-  let currentBlock = store.session("currentBlock");
-  let demoCounter = store.session("demoCounter");
-  // reset jsCAT
-  if (store.session('trialNumBlock') === 0){
-    store.session.set("zetas", []);
-    store.session.set("catResponses", []);
-    store.session.set("catTheta", 0);
-    store.session.set("catSEM", 0);
+const getStimulus = () => {
+  // decide which corpus to use
+  const demoCounter = store.session("demoCounter");
+  let corpus, corpusType, itemSuggestion;
+  if (config.userMode === 'demo') {
+    if (demoCounter === 5 ) {
+      corpus = store.session("corpusAll");
+      corpusType = checkRealPseudo(corpus);
+      store.session.set("itemSelect", "random");
+      itemSuggestion = cat.findNextItem(corpus[corpusType], 'random');
+      store.session.set("demoCounter",0);
+    } else {
+      corpus = store.session("corpusNew");
+      corpusType = checkRealPseudo(corpus);
+      store.session.set("itemSelect", "mfi");
+      itemSuggestion = cat.findNextItem(corpus[corpusType]);
+      store.session.transact("demoCounter", (oldVal) => oldVal + 1);
+    }
+  } else {
+    corpus = store.session("corpusAll");
+    corpusType = checkRealPseudo(corpus);
+    itemSuggestion = cat.findNextItem(corpus[corpusType]);
   }
+
+  // update next stimulus
+  store.session.set("nextStimulus", itemSuggestion.nextStimulus);
+  corpus[corpusType] = itemSuggestion.remainingStimuli;
+  store.session.set("corpusAll", corpus);
+
   // update 2 trackers
-  const tracker = store.session("stimulusIndex")[currentBlock];
-  if (tracker === 0 && demoCounter === 0) {
+  const currentBlockIndex = store.session("currentBlockIndex");
+  const tracker = store.session("trialNumBlock");
+  if (tracker === 0 | tracker === stimulusCountLists[config.userMode][currentBlockIndex]) {
     store.session.set("trialNumBlock", 1);
   } else {
     store.session.transact("trialNumBlock", (oldVal) => oldVal + 1);
   }
-  store.session.transact("trialNumTotal", (oldVal) => oldVal + 1); // add 1 to the total trial count
-  //
-  if (store.session("stimulusRule") === "random") {
-    resultStimulus = updateCAT("random");
-  } else if (store.session("stimulusRule") === "adaptive") {
-    const count_adaptive_trials = store.session("count_adaptive_trials");
-    if (count_adaptive_trials < config.totalAdaptiveTrials) {
-      store.session.set("count_adaptive_trials", count_adaptive_trials + 1);
-      resultStimulus = updateCAT("mfi");
-    } else {
-      store.session.set("stimulusRule", "new");
-      currentBlock = "corpusNew";
-      resultStimulus = blockNew[store.session("stimulusIndex")[currentBlock]];
-    }
-  } else if (store.session("stimulusRule") === "new") {
-    currentBlock = "corpusNew";
-    resultStimulus = blockNew[store.session("stimulusIndex")[currentBlock]];
-  } else {
-    // this is for demo version only:
-    if (demoCounter < 5) {
-      currentBlock = "corpusNew";
-      resultStimulus = blockNew[store.session("stimulusIndex")[currentBlock]];
-      store.session.transact("demoCounter", (oldVal) => oldVal + 1);
-    } else {
-      store.session.set("demoCounter", 0);
-      resultStimulus = updateCAT("mfi");
-    }
-  }
-  const copyStimulusIndex = store.session("stimulusIndex");
-  copyStimulusIndex[currentBlock] += 1;
-  store.session.set("stimulusIndex", copyStimulusIndex);
-  return resultStimulus;
+  store.session.transact("trialNumTotal", (oldVal) => oldVal + 1);
+
+  // print for checking
+  // console.log("TrialNumBlock", store.session('trialNumBlock'), store.session('trialNumTotal'));
+  // console.log(cat.theta, itemSuggestion.nextStimulus);
 }
 
 // set-up screen
@@ -394,20 +356,20 @@ const setup_fixation = {
   data: {
     task: "fixation",
   },
-  on_finish: function () {
-    store.session.set("nextStimulus", getStimulus()); // get the current stimuli for the trial
+  on_finish: () => {
+    getStimulus(); // get the current stimuli for the trial
   },
 };
 
 // This is to track correct trials
-function updateCorrectChecker() {
+const updateCorrectChecker = () => {
   const trials = jsPsych.data.get().filter({ task: "test_response" });
   const correct_trials = trials.filter({ correct: true });
 }
 
 const lexicality_test = {
   type: jsPsychHtmlKeyboardResponse,
-  stimulus: function () {
+  stimulus: () => {
     return `<div class = stimulus_div><p class = 'stimulus'>${
       store.session("nextStimulus").stimulus
     }</p></div>`;
@@ -422,33 +384,33 @@ const lexicality_test = {
     start_time_unix: config.startTime.getTime(),
     timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   },
-  on_finish: function (data) {
+  on_finish: (data) => {
+    const nextStimulus = store.session("nextStimulus");
     data.correct = jsPsych.pluginAPI.compareKeys(
       data.response,
-      store.session("nextStimulus").correct_response
+      nextStimulus.correct_response
     );
     store.session.set("currentTrialCorrect", data.correct);
-    const catResponses = store.session("catResponses");
 
     if (data.correct) {
       store.session.set("response", 1);
-      catResponses.push(1);
     } else {
       store.session.set("response", 0);
-      catResponses.push(0);
     }
-    store.session.set("catResponses", catResponses);
+    if (store.session('trialNumTotal') !== 0){
+      cat.updateAbilityEstimate({a: 1, b:nextStimulus.difficulty, c: 0.5, d: 1}, store.session('response'))
+    }
     jsPsych.data.addDataToLastTrial({
       block: store.session("currentBlockIndex"),
       corpusId: store.session("nextStimulus").corpus_src,
-      word: store.session("nextStimulus").stimulus,
-      correct: data.correct,
-      correctResponse: store.session("nextStimulus").correct_response,
-      realpseudo: store.session("nextStimulus").realpseudo,
-      difficulty: store.session("nextStimulus").difficulty,
-      thetaEstimate: store.session("catTheta"),
-      thetaSE: store.session("catSEM"),
-      stimulusRule: store.session("stimulusRule"),
+      word: nextStimulus.stimulus,
+      correct: store.session("response"),
+      correctResponse: nextStimulus.correct_response,
+      realpseudo: nextStimulus.realpseudo,
+      difficulty: nextStimulus.difficulty,
+      thetaEstimate: cat.theta,
+      thetaSE: cat.seMeasurement,
+      stimulusRule: store.session("itemSelect"),
       trialNumTotal: store.session("trialNumTotal"),
       trialNumBlock: store.session("trialNumBlock"),
       pid: config.pid,
@@ -466,7 +428,7 @@ const exit_fullscreen = {
 
 async function roarBlocks() {
   // the core procedure
-  function pushPracticeTotimeline(array) {
+  const pushPracticeTotimeline = (array) => {
     array.forEach((element) => {
       const block = {
         timeline: [
@@ -498,22 +460,17 @@ async function roarBlocks() {
     ],
   };
 
-  function pushTrialsTotimeline(stimulusCounts) {
+  const pushTrialsTotimeline = (stimulusCounts) => {
     for (let i = 0; i < stimulusCounts.length; i++) {
       // for each block: add trials
       /* add first half of block */
       const roar_mainproc_block_half_1 = {
         timeline: [core_procedure],
-        conditional_function: function () {
+        conditional_function: () => {
           if (stimulusCounts[i] === 0) {
             return false;
           }
-          store.session.set(
-            "currentBlock",
-            store.session("stimulusLists")[i].name
-          );
           store.session.set("currentBlockIndex", i);
-          store.session.set("stimulusRule", config.stimulusRuleList[i]);
           return true;
         },
         repetitions: stimulusCounts[i] / 2,
@@ -521,7 +478,7 @@ async function roarBlocks() {
       /* add second half of block */
       const roar_mainproc_block_half_2 = {
         timeline: [core_procedure],
-        conditional_function: function () {
+        conditional_function: () => {
           return stimulusCounts[i] !== 0;
         },
         repetitions: stimulusCounts[i] / 2,

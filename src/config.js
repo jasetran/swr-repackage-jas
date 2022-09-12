@@ -2,12 +2,6 @@ import { initJsPsych } from "jspsych";
 import Papa from "papaparse";
 import store from "store2";
 
-// const getRegularAdaptive = () => {
-//   const regularAdaptive = ["random", "random", "random"];
-//   regularAdaptive[Math.floor(Math.random() * 3)] = 'adaptive';
-//   return regularAdaptive;
-// };
-
 const randomAssignment = (mode) => {
   if (mode === "test") {
     return (Math.random() < 0.5) ? 'testAdaptive' : 'testRandom';

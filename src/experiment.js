@@ -230,13 +230,13 @@ const survey_pid = {
 
 const if_get_pid = {
   timeline: [survey_pid],
-  conditional_function: function () {
+  conditional_function: () => {
     return config.userMode === "demo";
   },
 };
 
 const extend = (fn, code) =>
-  () => {
+  function () {
     // eslint-disable-next-line prefer-rest-params
     fn.apply(fn, arguments);
     // eslint-disable-next-line prefer-rest-params

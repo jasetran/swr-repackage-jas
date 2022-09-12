@@ -35,7 +35,7 @@ export const stimulusCountLists = {
   fullRandom: [82, 82, 82],
   testAdaptive: [4, 4, 4],
   testRandom: [4, 4, 4],
-  demo: [82],
+  demo: [84],
 };
 
 const numAdaptiveTrials = {
@@ -56,7 +56,7 @@ const trialTimeOptions = [null, 5000, 8000, 100000];
 /* set user mode */
 const queryString = new URL(window.location).search;
 const urlParams = new URLSearchParams(queryString);
-const userMode = randomAssignment(urlParams.get("mode")) || "fullAdaptive";
+const userMode = randomAssignment(urlParams.get("mode")) || randomAssignment("full");
 const taskVariant = urlParams.get("variant") || "pilot";
 const pid = urlParams.get("participant");
 const skip = urlParams.get("skip");

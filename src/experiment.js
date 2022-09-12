@@ -398,7 +398,7 @@ const lexicality_test = {
       store.session.set("response", 0);
     }
     if (store.session('trialNumTotal') !== 0){
-      cat.updateAbilityEstimate([{a: 1, b:nextStimulus.difficulty, c: 0.5, d: 1}], [store.session('response')])
+      cat.updateAbilityEstimate({a: 1, b:nextStimulus.difficulty, c: 0.5, d: 1}, store.session('response'))
     }
     jsPsych.data.addDataToLastTrial({
       block: store.session("currentBlockIndex"),

@@ -70,7 +70,7 @@ function transformNewwords(csv_new) {
     const realRow = {
       stimulus: newArray[i].realword,
       correct_response: "ArrowRight",
-      difficulty: null, // default level
+      difficulty: 0, // default level
       corpus_src: "corpusNew",
       realpseudo: "real",
     };
@@ -78,7 +78,7 @@ function transformNewwords(csv_new) {
     const pseudoRow = {
       stimulus: newArray[i].pseudoword,
       correct_response: "ArrowLeft",
-      difficulty: null, // default level
+      difficulty: 0, // default level
       corpus_src: "corpusNew",
       realpseudo: "pseudo",
     };
@@ -111,6 +111,14 @@ export const corpusAll = {
   corpus_real: csvTransformed.validated.filter((row) => row.realpseudo === "real"),
 };
 
+const blockNew = shuffle(transformNewwords(csvTransformed.new));
+
+export const corpusNew = {
+  name: "corpusNew",
+  corpus_pseudo: blockNew.filter((row) => row.realpseudo === "pseudo"),
+  corpus_real: blockNew.filter((row) => row.realpseudo === "real"),
+};
+
 const fixedBlockList = [corpusA, corpusB, corpusC]; // always starts from Block A
 const randomBlockList = shuffle(fixedBlockList); // every block is randomized
 
@@ -122,5 +130,4 @@ const getStimulusLists = () => {
 };
 
 export const stimulusLists = getStimulusLists();
-export const blockNew = shuffle(transformNewwords(csvTransformed.new));
 export const blockPractice = csvTransformed.practice.slice(0, config.totalTrialsPractice);

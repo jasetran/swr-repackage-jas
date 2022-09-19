@@ -85,6 +85,7 @@ const enter_fullscreen = {
       schoolId: prefix,
       userMetadata: config.userMetadata,
     };
+
     firekit = new RoarFirekit({
       config: roarConfig,
       userInfo: userInfo,
@@ -397,9 +398,9 @@ const lexicality_test = {
     } else {
       store.session.set("response", 0);
     }
-    if (store.session('trialNumTotal') !== 0){
-      cat.updateAbilityEstimate({a: 1, b:nextStimulus.difficulty, c: 0.5, d: 1}, store.session('response'))
-    }
+
+    cat.updateAbilityEstimate({a: 1, b:nextStimulus.difficulty, c: 0.5, d: 1}, store.session('response'))
+
     jsPsych.data.addDataToLastTrial({
       block: store.session("currentBlockIndex"),
       corpusId: store.session("nextStimulus").corpus_src,

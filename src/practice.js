@@ -48,6 +48,11 @@ export const lexicality_test_practice = {
       data.response,
       jsPsych.timelineVariable("correct_response"),
     );
+    if (data.correct) {
+      store.session.set("response", 1);
+    } else {
+      store.session.set("response", 0);
+    }
     store.session.set("currentTrialCorrect", data.correct);
 
     const isLeftResponse = data.response === "arrowleft";
@@ -61,7 +66,7 @@ export const lexicality_test_practice = {
     store.session.set("answerColor", isLeftAnswer ? "orange" : "blue");
 
     jsPsych.data.addDataToLastTrial({
-      correct: data.correct,
+      correct: store.session("response"),
       correctResponse: jsPsych.timelineVariable("correct_response"),
       realpseudo: jsPsych.timelineVariable("realpseudo"),
       block: "Practice",

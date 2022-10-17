@@ -100,4 +100,3 @@ export const corpusNew = {
   corpus_pseudo: blockNew.filter((row) => row.realpseudo === "pseudo"),
   corpus_real: blockNew.filter((row) => row.realpseudo === "real"),
 };
-

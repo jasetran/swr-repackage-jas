@@ -289,7 +289,7 @@ export const jsPsych = initJsPsych({
       UCSF: "https://reading.stanford.edu?g=937&c=1",
       RF: "https://reading.stanford.edu?g=940&c=1",
     };
-    if (taskVariant !== "demo") {
+    if ((taskVariant !== "demo") && (taskVariant !== "otherLabs")) {
       if (taskVariant === 'school') {
         if (userMode === "shortAdaptive") {
           window.location.href = "https://reading.stanford.edu?g=1154&c=1";

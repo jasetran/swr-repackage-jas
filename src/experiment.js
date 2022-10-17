@@ -69,29 +69,18 @@ const makePid = () => {
   return text;
 }
 
-const enter_fullscreen = {
-  type: jsPsychFullScreen,
-  fullscreen_mode: true,
-  message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
-  on_finish: async () => {
-    config.pid = config.pid || makePid();
-    let prefix = config.pid.split("-")[0];
-    if (prefix === config.pid | config.taskVariant !== 'school'){
-       prefix = null;
-    }
-    const userInfo = {
-      id: config.pid,
-      studyId: config.taskVariant + "-" + config.userMode,
-      schoolId: prefix,
-      userMetadata: config.userMetadata,
-    };
-
-    firekit = new RoarFirekit({
-      config: roarConfig,
-      userInfo: userInfo,
-      taskInfo,
-    });
-    await firekit.startRun();
+const getPid = {
+  type: jsPsychSurveyText,
+  questions: [
+    {
+      prompt: 'Participant ID:',
+      name: 'pid',
+      placeholder: '0000',
+      required: true,
+    },
+  ],
+  on_finish: (data) => {
+    config.pid = data.response.pid;
   },
 };
 
@@ -203,7 +192,7 @@ const survey_pid = {
     </div>
     <br>
     <div className="item">
-      <span class = "survey_form_text">Have you taken this demo before?</span>
+      <span class = "survey_form_text">Have you taken this game before?</span>
       <select id = "retake" name = "retake" style = "font-size: 2vh">
         <option value=""></option>
         <option value="0">No</option>
@@ -227,10 +216,43 @@ const survey_pid = {
   },
 };
 
-const if_get_pid = {
+const if_get_survey = {
   timeline: [survey_pid],
   conditional_function: () => {
-    return config.userMode === "demo";
+    return (config.userMode === "demo");
+  },
+};
+
+const if_get_pid = {
+  timeline: [getPid, survey_pid],
+  conditional_function: function () {
+    return config.taskVariant === 'otherLabs';
+  },
+};
+
+const enter_fullscreen = {
+  type: jsPsychFullScreen,
+  fullscreen_mode: true,
+  message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
+  on_finish: async () => {
+    config.pid = config.pid || makePid();
+    let prefix = config.pid.split("-")[0];
+    if (prefix === config.pid | config.taskVariant !== 'school'){
+      prefix = null;
+    }
+    const userInfo = {
+      id: config.pid,
+      studyId: config.taskVariant + "-" + config.userMode,
+      schoolId: prefix,
+      userMetadata: config.userMetadata,
+    };
+
+    firekit = new RoarFirekit({
+      config: roarConfig,
+      userInfo: userInfo,
+      taskInfo,
+    });
+    await firekit.startRun();
   },
 };
 
@@ -286,7 +308,7 @@ const if_debrief_block = {
   },
 };
 
-timeline.push(if_consent_form, if_get_pid, enter_fullscreen, introduction_trials, countdown_trials);
+timeline.push(if_consent_form, if_get_pid, if_get_survey, enter_fullscreen, introduction_trials, countdown_trials);
 
 const checkRealPseudo = (corpus) => {
   let corpusType = (Math.random() < 0.5) ? "corpus_real" : "corpus_pseudo";

@@ -307,6 +307,7 @@ const getStimulus = () => {
   let corpus, corpusType, itemSuggestion;
   if (config.userMode === 'demo') {
     if (demoCounter === 5 ) {
+      // validated corpus
       corpus = store.session("corpusAll");
       corpusType = checkRealPseudo(corpus);
       store.session.set("itemSelect", "mfi");
@@ -317,6 +318,7 @@ const getStimulus = () => {
       corpus[corpusType] = itemSuggestion.remainingStimuli;
       store.session.set("corpusAll", corpus);
     } else {
+      // new corpus
       corpus = store.session("corpusNew");
       corpusType = checkRealPseudo(corpus);
       store.session.set("itemSelect", "random");
@@ -430,13 +432,13 @@ const lexicality_test = {
       store.session.set("response", 0);
     }
 
-    if (store.session("demoCounter") !== 0) {
+    if (nextStimulus.corpus_src !== 'corpusNew') {
       cat.updateAbilityEstimate({a: 1, b: nextStimulus.difficulty, c: 0.5, d: 1}, store.session('response'));
     }
 
     jsPsych.data.addDataToLastTrial({
       block: store.session("currentBlockIndex"),
-      corpusId: store.session("nextStimulus").corpus_src,
+      corpusId: nextStimulus.corpus_src,
       word: nextStimulus.stimulus,
       correct: store.session("response"),
       correctResponse: nextStimulus.correct_response,

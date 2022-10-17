@@ -1,5 +1,5 @@
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
-import { config, updateProgressBar } from "./config";
+import { config } from "./config";
 import { audioContent, imgContent } from "./preload";
 
 /* mid block page */
@@ -162,7 +162,7 @@ const final_page = {
       `,
   choices: "ALL_KEYS",
   on_finish: function () {
-    document.body.style.cursor= "auto";
+    document.body.style.cursor = "auto";
   },
 };
 

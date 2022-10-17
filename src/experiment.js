@@ -309,26 +309,57 @@ const getStimulus = () => {
     if (demoCounter === 5 ) {
       corpus = store.session("corpusAll");
       corpusType = checkRealPseudo(corpus);
-      store.session.set("itemSelect", "random");
-      itemSuggestion = cat.findNextItem(corpus[corpusType], 'random');
+      store.session.set("itemSelect", "mfi");
+      itemSuggestion = cat.findNextItem(corpus[corpusType]);
       store.session.set("demoCounter",0);
+      // update next stimulus
+      store.session.set("nextStimulus", itemSuggestion.nextStimulus);
+      corpus[corpusType] = itemSuggestion.remainingStimuli;
+      store.session.set("corpusAll", corpus);
     } else {
       corpus = store.session("corpusNew");
+      corpusType = checkRealPseudo(corpus);
+      store.session.set("itemSelect", "random");
+      itemSuggestion = cat.findNextItem(corpus[corpusType], 'random');
+      store.session.transact("demoCounter", (oldVal) => oldVal + 1);
+      // update next stimulus
+      store.session.set("nextStimulus", itemSuggestion.nextStimulus);
+      corpus[corpusType] = itemSuggestion.remainingStimuli;
+      store.session.set("corpusNew", corpus);
+    }
+  } else if (config.userMode === 'shortAdaptive') {
+    if (demoCounter !== config.adaptive2new) {
+      // validated corpus
+      corpus = store.session("corpusAll");
       corpusType = checkRealPseudo(corpus);
       store.session.set("itemSelect", "mfi");
       itemSuggestion = cat.findNextItem(corpus[corpusType]);
       store.session.transact("demoCounter", (oldVal) => oldVal + 1);
+      // update next stimulus
+      store.session.set("nextStimulus", itemSuggestion.nextStimulus);
+      corpus[corpusType] = itemSuggestion.remainingStimuli;
+      store.session.set("corpusAll", corpus);
+    } else {
+      // new corpus
+      corpus = store.session("corpusNew");
+      corpusType = checkRealPseudo(corpus);
+      store.session.set("itemSelect", "random");
+      itemSuggestion = cat.findNextItem(corpus[corpusType], 'random');
+      store.session.set("demoCounter",0);
+      // update next stimulus
+      store.session.set("nextStimulus", itemSuggestion.nextStimulus);
+      corpus[corpusType] = itemSuggestion.remainingStimuli;
+      store.session.set("corpusNew", corpus);
     }
   } else {
     corpus = store.session("corpusAll");
     corpusType = checkRealPseudo(corpus);
     itemSuggestion = cat.findNextItem(corpus[corpusType]);
+    // update next stimulus
+    store.session.set("nextStimulus", itemSuggestion.nextStimulus);
+    corpus[corpusType] = itemSuggestion.remainingStimuli;
+    store.session.set("corpusAll", corpus);
   }
-
-  // update next stimulus
-  store.session.set("nextStimulus", itemSuggestion.nextStimulus);
-  corpus[corpusType] = itemSuggestion.remainingStimuli;
-  store.session.set("corpusAll", corpus);
 
   // update 2 trackers
   const currentBlockIndex = store.session("currentBlockIndex");
@@ -341,8 +372,8 @@ const getStimulus = () => {
   store.session.transact("trialNumTotal", (oldVal) => oldVal + 1);
 
   // print for checking
-  // console.log("TrialNumBlock", store.session('trialNumBlock'), store.session('trialNumTotal'));
-  // console.log(cat.theta, itemSuggestion.nextStimulus);
+  console.log("TrialNumBlock", store.session('trialNumBlock'), store.session('trialNumTotal'));
+  console.log(cat.theta, itemSuggestion.nextStimulus);
 }
 
 // set-up screen
@@ -399,7 +430,9 @@ const lexicality_test = {
       store.session.set("response", 0);
     }
 
-    cat.updateAbilityEstimate({a: 1, b:nextStimulus.difficulty, c: 0.5, d: 1}, store.session('response'))
+    if (store.session("demoCounter") !== 0) {
+      cat.updateAbilityEstimate({a: 1, b: nextStimulus.difficulty, c: 0.5, d: 1}, store.session('response'));
+    }
 
     jsPsych.data.addDataToLastTrial({
       block: store.session("currentBlockIndex"),
@@ -474,7 +507,7 @@ async function roarBlocks() {
           store.session.set("currentBlockIndex", i);
           return true;
         },
-        repetitions: stimulusCounts[i] / 2,
+        repetitions: Math.floor(stimulusCounts[i] / 2) + 1,
       };
       /* add second half of block */
       const roar_mainproc_block_half_2 = {
@@ -482,7 +515,7 @@ async function roarBlocks() {
         conditional_function: () => {
           return stimulusCounts[i] !== 0;
         },
-        repetitions: stimulusCounts[i] / 2,
+        repetitions: stimulusCounts[i] - 1 - Math.floor(stimulusCounts[i] / 2),
       };
       const total_roar_mainproc_line = {
         timeline: [

@@ -251,14 +251,14 @@ p  {
 
 .coin{
 	position: relative;
-	top: 5vh;
 	height: 15vh;
+	margin: 10vh;
 }
 
 .cues{
 	position: relative;
 	top: 5vh;
-    margin-bottom: 5vh;
+    margin: 10vh;
 	height: 15vh;
 }
 

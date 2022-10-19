@@ -69,29 +69,18 @@ const makePid = () => {
   return text;
 }
 
-const enter_fullscreen = {
-  type: jsPsychFullScreen,
-  fullscreen_mode: true,
-  message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
-  on_finish: async () => {
-    config.pid = config.pid || makePid();
-    let prefix = config.pid.split("-")[0];
-    if (prefix === config.pid | config.taskVariant !== 'school'){
-       prefix = null;
-    }
-    const userInfo = {
-      id: config.pid,
-      studyId: config.taskVariant + "-" + config.userMode,
-      schoolId: prefix,
-      userMetadata: config.userMetadata,
-    };
-
-    firekit = new RoarFirekit({
-      config: roarConfig,
-      userInfo: userInfo,
-      taskInfo,
-    });
-    await firekit.startRun();
+const getPid = {
+  type: jsPsychSurveyText,
+  questions: [
+    {
+      prompt: 'Participant ID:',
+      name: 'pid',
+      placeholder: '0000',
+      required: true,
+    },
+  ],
+  on_finish: (data) => {
+    config.pid = data.response.pid;
   },
 };
 
@@ -203,7 +192,7 @@ const survey_pid = {
     </div>
     <br>
     <div className="item">
-      <span class = "survey_form_text">Have you taken this demo before?</span>
+      <span class = "survey_form_text">Have you taken this game before?</span>
       <select id = "retake" name = "retake" style = "font-size: 2vh">
         <option value=""></option>
         <option value="0">No</option>
@@ -227,10 +216,43 @@ const survey_pid = {
   },
 };
 
-const if_get_pid = {
+const if_get_survey = {
   timeline: [survey_pid],
   conditional_function: () => {
-    return config.userMode === "demo";
+    return (config.userMode === "demo");
+  },
+};
+
+const if_get_pid = {
+  timeline: [getPid, survey_pid],
+  conditional_function: function () {
+    return config.taskVariant === 'otherLabs';
+  },
+};
+
+const enter_fullscreen = {
+  type: jsPsychFullScreen,
+  fullscreen_mode: true,
+  message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
+  on_finish: async () => {
+    config.pid = config.pid || makePid();
+    let prefix = config.pid.split("-")[0];
+    if (prefix === config.pid | config.taskVariant !== 'school'){
+      prefix = null;
+    }
+    const userInfo = {
+      id: config.pid,
+      studyId: config.taskVariant + "-" + config.userMode,
+      schoolId: prefix,
+      userMetadata: config.userMetadata,
+    };
+
+    firekit = new RoarFirekit({
+      config: roarConfig,
+      userInfo: userInfo,
+      taskInfo,
+    });
+    await firekit.startRun();
   },
 };
 
@@ -286,7 +308,7 @@ const if_debrief_block = {
   },
 };
 
-timeline.push(if_consent_form, if_get_pid, enter_fullscreen, introduction_trials, countdown_trials);
+timeline.push(if_consent_form, if_get_pid, if_get_survey, enter_fullscreen, introduction_trials, countdown_trials);
 
 const checkRealPseudo = (corpus) => {
   let corpusType = (Math.random() < 0.5) ? "corpus_real" : "corpus_pseudo";
@@ -307,28 +329,61 @@ const getStimulus = () => {
   let corpus, corpusType, itemSuggestion;
   if (config.userMode === 'demo') {
     if (demoCounter === 5 ) {
+      // validated corpus
       corpus = store.session("corpusAll");
+      corpusType = checkRealPseudo(corpus);
+      store.session.set("itemSelect", "mfi");
+      itemSuggestion = cat.findNextItem(corpus[corpusType]);
+      store.session.set("demoCounter",0);
+      // update next stimulus
+      store.session.set("nextStimulus", itemSuggestion.nextStimulus);
+      corpus[corpusType] = itemSuggestion.remainingStimuli;
+      store.session.set("corpusAll", corpus);
+    } else {
+      // new corpus
+      corpus = store.session("corpusNew");
       corpusType = checkRealPseudo(corpus);
       store.session.set("itemSelect", "random");
       itemSuggestion = cat.findNextItem(corpus[corpusType], 'random');
-      store.session.set("demoCounter",0);
-    } else {
-      corpus = store.session("corpusNew");
+      store.session.transact("demoCounter", (oldVal) => oldVal + 1);
+      // update next stimulus
+      store.session.set("nextStimulus", itemSuggestion.nextStimulus);
+      corpus[corpusType] = itemSuggestion.remainingStimuli;
+      store.session.set("corpusNew", corpus);
+    }
+  } else if (config.userMode === 'shortAdaptive') {
+    if (demoCounter !== config.adaptive2new) {
+      // validated corpus
+      corpus = store.session("corpusAll");
       corpusType = checkRealPseudo(corpus);
       store.session.set("itemSelect", "mfi");
       itemSuggestion = cat.findNextItem(corpus[corpusType]);
       store.session.transact("demoCounter", (oldVal) => oldVal + 1);
+      // update next stimulus
+      store.session.set("nextStimulus", itemSuggestion.nextStimulus);
+      corpus[corpusType] = itemSuggestion.remainingStimuli;
+      store.session.set("corpusAll", corpus);
+    } else {
+      // new corpus
+      corpus = store.session("corpusNew");
+      corpusType = checkRealPseudo(corpus);
+      store.session.set("itemSelect", "random");
+      itemSuggestion = cat.findNextItem(corpus[corpusType], 'random');
+      store.session.set("demoCounter",0);
+      // update next stimulus
+      store.session.set("nextStimulus", itemSuggestion.nextStimulus);
+      corpus[corpusType] = itemSuggestion.remainingStimuli;
+      store.session.set("corpusNew", corpus);
     }
   } else {
     corpus = store.session("corpusAll");
     corpusType = checkRealPseudo(corpus);
     itemSuggestion = cat.findNextItem(corpus[corpusType]);
+    // update next stimulus
+    store.session.set("nextStimulus", itemSuggestion.nextStimulus);
+    corpus[corpusType] = itemSuggestion.remainingStimuli;
+    store.session.set("corpusAll", corpus);
   }
-
-  // update next stimulus
-  store.session.set("nextStimulus", itemSuggestion.nextStimulus);
-  corpus[corpusType] = itemSuggestion.remainingStimuli;
-  store.session.set("corpusAll", corpus);
 
   // update 2 trackers
   const currentBlockIndex = store.session("currentBlockIndex");
@@ -399,11 +454,13 @@ const lexicality_test = {
       store.session.set("response", 0);
     }
 
-    cat.updateAbilityEstimate({a: 1, b:nextStimulus.difficulty, c: 0.5, d: 1}, store.session('response'))
+    if (nextStimulus.corpus_src !== 'corpusNew') {
+      cat.updateAbilityEstimate({a: 1, b: nextStimulus.difficulty, c: 0.5, d: 1}, store.session('response'));
+    }
 
     jsPsych.data.addDataToLastTrial({
       block: store.session("currentBlockIndex"),
-      corpusId: store.session("nextStimulus").corpus_src,
+      corpusId: nextStimulus.corpus_src,
       word: nextStimulus.stimulus,
       correct: store.session("response"),
       correctResponse: nextStimulus.correct_response,
@@ -474,7 +531,7 @@ async function roarBlocks() {
           store.session.set("currentBlockIndex", i);
           return true;
         },
-        repetitions: stimulusCounts[i] / 2,
+        repetitions: Math.floor(stimulusCounts[i] / 2) + 1,
       };
       /* add second half of block */
       const roar_mainproc_block_half_2 = {
@@ -482,7 +539,7 @@ async function roarBlocks() {
         conditional_function: () => {
           return stimulusCounts[i] !== 0;
         },
-        repetitions: stimulusCounts[i] / 2,
+        repetitions: stimulusCounts[i] - 1 - Math.floor(stimulusCounts[i] / 2),
       };
       const total_roar_mainproc_line = {
         timeline: [

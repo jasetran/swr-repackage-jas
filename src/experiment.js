@@ -243,7 +243,7 @@ const enter_fullscreen = {
     const userInfo = {
       id: config.pid,
       studyId: config.taskVariant + "-" + config.userMode,
-      schoolId: prefix,
+      schoolId: config.schoolId || prefix,
       userMetadata: config.userMetadata,
     };
 

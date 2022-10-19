@@ -33,6 +33,7 @@ const urlParams = new URLSearchParams(queryString);
 const userMode = randomAssignment(urlParams.get("mode")) || randomAssignment("full");
 const taskVariant = urlParams.get("variant") || "pilot";
 const pid = urlParams.get("participant");
+const schoolId = urlParams.get("schoolId");
 const skip = urlParams.get("skip");
 const audioFeedback = urlParams.get("feedback") || "binary";
 const numAdaptive = urlParams.get("numAdaptive") || 85;
@@ -53,7 +54,6 @@ export const stimulusCountLists = {
   shortAdaptive: divideTrial2Block(numAdaptive, numNew, 3),
   demo: [84],
 };
-
 
 const configTaskInfo = () => {
   let taskInfo;
@@ -213,6 +213,7 @@ export const taskInfo = configTaskInfo();
 export const config = {
   userMode: userMode,
   pid: pid,
+  schoolId: schoolId,
   taskVariant: taskVariant,
   userMetadata: {},
   testingOnly: skip === null,

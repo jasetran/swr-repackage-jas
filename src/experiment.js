@@ -396,8 +396,8 @@ const getStimulus = () => {
   store.session.transact("trialNumTotal", (oldVal) => oldVal + 1);
 
   // print for checking
-  console.log("TrialNumBlock", store.session('trialNumBlock'), store.session('trialNumTotal'));
-  console.log(cat.theta, itemSuggestion.nextStimulus);
+  // console.log("TrialNumBlock", store.session('trialNumBlock'), store.session('trialNumTotal'));
+  // console.log(cat.theta, itemSuggestion.nextStimulus);
 }
 
 // set-up screen

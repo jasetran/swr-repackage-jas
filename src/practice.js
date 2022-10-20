@@ -37,11 +37,9 @@ export const lexicality_test_practice = {
   trial_duration: config.timing.trialTime,
   choices: ["ArrowLeft", "ArrowRight"],
   data: {
+    save_trial: true,
     task: "practice_response" /* tag the test trials with this taskname so we can filter data later */,
     word: jsPsych.timelineVariable("stimulus"),
-    start_time: config.startTime.toLocaleString("PST"),
-    start_time_unix: config.startTime.getTime(),
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   },
   on_finish: (data) => {
     data.correct = jsPsych.pluginAPI.compareKeys(

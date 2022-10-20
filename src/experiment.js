@@ -268,12 +268,24 @@ jsPsych.opts.on_finish = extend(jsPsych.opts.on_finish, () => {
   firekit.finishRun();
 });
 
+const timingData = {
+  start_time_utc0: config.startTime.toISOString(),
+  start_time_unix: config.startTime.getTime(),
+  start_time_local: config.startTime.toLocaleString(),
+  timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+};
+
 jsPsych.opts.on_data_update = extend(jsPsych.opts.on_data_update, (data) => {
   /*if (data.trial_index >= 10) {
     firekit?.writeTrial(data);
   }*/
-  if (["test_response", "practice_response"].includes(data.task)) {
-    firekit?.writeTrial(data);
+  if (data.save_trial) {
+    // firekit?.writeTrial(data);
+    firekit?.writeTrial({
+      timingData,
+      userInfo: firekit?.userInfo,
+      ...data,
+    });
   }
 });
 
@@ -435,10 +447,8 @@ const lexicality_test = {
   trial_duration: config.timing.trialTime,
   choices: ["ArrowLeft", "ArrowRight"],
   data: {
+    save_trial: true,
     task: "test_response" /* tag the test trials with this taskname so we can filter data later */,
-    start_time: config.startTime.toLocaleString("PST"),
-    start_time_unix: config.startTime.getTime(),
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
   },
   on_finish: (data) => {
     const nextStimulus = store.session("nextStimulus");

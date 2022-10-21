@@ -5,19 +5,23 @@
   "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "webpack --config webpack.prod.js",
-    "start": "webpack serve --open --config webpack.dev.js"
+    "build": "npx webpack --mode production",
+    "build:dev": "npm run build --silent -- --env dbmode=development",
+    "build:prod": "npm run build --silent -- --env dbmode=production",
+    "start": "npx webpack serve --open --mode development",
+    "start:dev": "npm run start --silent -- --env dbmode=development",
+    "start:prod": "npm run start --silent -- --env dbmode=production"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/yeatmanlab/ROAR3.git"
+    "url": "git+https://github.com/yeatmanlab/roar-swr.git"
   },
   "author": "Wanjing Anya Ma",
   "license": "Stanford Academic Software License for ROAR",
   "bugs": {
-    "url": "https://github.com/yeatmanlab/ROAR3"
+    "url": "https://github.com/yeatmanlab/roar-swr"
   },
-  "homepage": "https://github.com/yeatmanlab/ROAR3",
+  "homepage": "https://github.com/yeatmanlab/roar-swr",
   "dependencies": {
     "@babel/core": "^7.17.8",
     "@babel/preset-env": "^7.16.11",
@@ -32,9 +36,11 @@
     "@jspsych/plugin-survey-text": "^1.1.0",
     "babel-loader": "^8.2.4",
     "file-loader": "^6.2.0",
+    "folder-hash": "^4.0.2",
     "jspsych": "^7.2.1",
     "papaparse": "^5.3.2",
     "regenerator-runtime": "^0.13.9",
+    "roarr": "^7.14.0",
     "store2": "^2.13.2",
     "webpack": "^5.70.0",
     "webpack-cli": "^4.9.2",

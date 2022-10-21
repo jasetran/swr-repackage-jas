@@ -22,10 +22,6 @@ const intro_1 = {
           </div>
         </div>
         <div class="button">Press <span class="yellow">ANY KEY</span> to continue </div>`,
-  data: {
-    start_time: config.startTime.toLocaleString("PST"),
-    start_time_unix: config.startTime.getTime(),
-  },
   on_start: () => {
     document.body.style.cursor = "none";
   },

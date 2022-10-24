@@ -11,13 +11,12 @@ const randomAssignment = (mode) => {
 };
 
 const stimulusRuleLists = {
-  beginner: ["random", "adaptive"],
   fullRandom: ["random", "random", "random"],
   fullAdaptive: ["adaptive", "adaptive", "adaptive"],
-  testRandom: ["adaptive", "random", "random"],
-  testAdaptive: ["adaptive", "adaptive", "adaptive"],
   shortAdaptive: ["adaptive", "adaptive", "adaptive"],
+  longAdaptive: ["adaptive", "adaptive", "adaptive"],
   demo: ["demo"],
+  test: ["adaptive", "adaptive", "adaptive"],
 };
 
 // Stimulus timing options in milliseconds
@@ -30,14 +29,14 @@ const trialTimeOptions = [null, 5000, 8000, 100000];
 /* set user mode */
 const queryString = new URL(window.location).search;
 const urlParams = new URLSearchParams(queryString);
-const userMode = randomAssignment(urlParams.get("mode")) || randomAssignment("full");
+const userMode = randomAssignment(urlParams.get("mode")) || "shortAdaptive";
 const taskVariant = urlParams.get("variant") || "pilot";
 const pid = urlParams.get("participant");
 const schoolId = urlParams.get("schoolId");
 const skip = urlParams.get("skip");
 const audioFeedback = urlParams.get("feedback") || "binary";
-const numAdaptive = urlParams.get("numAdaptive") || 85;
-const numNew = urlParams.get("numNew") || 15;
+const numAdaptive = urlParams.get("numAdaptive") || (userMode === "shortAdaptive" ? 85 : 150);
+const numNew = urlParams.get("numNew") || (userMode === "shortAdaptive" ? 15 : 25);
 
 // eslint-disable-next-line max-len
 const divideTrial2Block = (n1, n2, nBlock) => {
@@ -46,13 +45,12 @@ const divideTrial2Block = (n1, n2, nBlock) => {
 };
 
 export const stimulusCountLists = {
-  beginner: [82, 28],
-  fullAdaptive: [82, 82, 82],
-  fullRandom: [82, 82, 82],
-  testAdaptive: [4, 4, 4],
-  testRandom: [4, 4, 4],
+  fullAdaptive: [82, 82, 81],
+  fullRandom: [82, 82, 81],
   shortAdaptive: divideTrial2Block(numAdaptive, numNew, 3),
+  longAdaptive: divideTrial2Block(numAdaptive, numNew, 3),
   demo: [84],
+  test: [6, 4, 4],
 };
 
 const configTaskInfo = () => {
@@ -70,39 +68,44 @@ const configTaskInfo = () => {
         {
           blockNumber: 0,
           trialMethod: "adaptive",
-          corpus: "full246",
+          corpus: "full245",
         },
         {
           blockNumber: 1,
           trialMethod: "adaptive",
-          corpus: "full246",
+          corpus: "full245",
         },
         {
           blockNumber: 2,
           trialMethod: "adaptive",
-          corpus: "full246",
+          corpus: "full245",
         },
       ],
     };
-  } else if (userMode === "beginner") {
+  } else if (userMode === "longAdaptive") {
     taskInfo = {
       taskId: "swr",
       taskName: "Single Word Recognition",
       variantName: userMode,
       taskDescription:
-          "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
+        "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
       variantDescription:
-          "This variant uses 1 random-ordered full block and 1 random-ordered short block with 28 new words.",
+        "This variant uses 3 short adaptive blocks mixed with validated and new words.",
       blocks: [
         {
           blockNumber: 0,
-          trialMethod: "random",
-          corpus: "randomCorpusId",
+          trialMethod: "adaptive",
+          corpus: "full245",
         },
         {
           blockNumber: 1,
-          trialMethod: "new",
-          corpus: "newCorpusId",
+          trialMethod: "adaptive",
+          corpus: "full245",
+        },
+        {
+          blockNumber: 2,
+          trialMethod: "adaptive",
+          corpus: "full245",
         },
       ],
     };
@@ -136,17 +139,17 @@ const configTaskInfo = () => {
         {
           blockNumber: 0,
           trialMethod: "random",
-          corpus: "full246",
+          corpus: "full245",
         },
         {
           blockNumber: 1,
           trialMethod: "random",
-          corpus: "full246",
+          corpus: "full245",
         },
         {
           blockNumber: 2,
           trialMethod: "random",
-          corpus: "full246",
+          corpus: "full245",
         },
       ],
     };
@@ -163,17 +166,17 @@ const configTaskInfo = () => {
         {
           blockNumber: 0,
           trialMethod: "adaptive",
-          corpus: "full246",
+          corpus: "full245",
         },
         {
           blockNumber: 1,
           trialMethod: "adaptive",
-          corpus: "full246",
+          corpus: "full245",
         },
         {
           blockNumber: 2,
           trialMethod: "adaptive",
-          corpus: "full246",
+          corpus: "full245",
         },
       ],
     };

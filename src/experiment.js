@@ -363,7 +363,7 @@ const getStimulus = () => {
       corpus[corpusType] = itemSuggestion.remainingStimuli;
       store.session.set("corpusNew", corpus);
     }
-  } else if (config.userMode === 'shortAdaptive') {
+  } else if (config.userMode === "shortAdaptive" || "longAdaptive") {
     if (demoCounter !== config.adaptive2new) {
       // validated corpus
       corpus = store.session("corpusAll");

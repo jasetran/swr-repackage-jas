@@ -37,6 +37,8 @@ const skip = urlParams.get("skip");
 const audioFeedback = urlParams.get("feedback") || "binary";
 const numAdaptive = urlParams.get("numAdaptive") || (userMode === "shortAdaptive" ? 85 : 150);
 const numNew = urlParams.get("numNew") || (userMode === "shortAdaptive" ? 15 : 25);
+export const labId = urlParams.get('labId');
+const gameId = urlParams.get('gameId') || null;
 
 // eslint-disable-next-line max-len
 const divideTrial2Block = (n1, n2, nBlock) => {
@@ -51,6 +53,18 @@ export const stimulusCountLists = {
   longAdaptive: divideTrial2Block(numAdaptive, numNew, 3),
   demo: [84],
   test: [6, 4, 4],
+};
+
+const redirect = () => {
+  if (gameId === null) {
+    // If no game token was passed, we refresh the page rather than
+    // redirecting back to the dashboard
+    // window.location.reload();
+  } else {
+    // Else, redirect back to the dashboard with the game token that
+    // was originally provided
+    window.location.href = `https://reading.stanford.edu/?g=${gameId}&c=1`;
+  }
 };
 
 const configTaskInfo = () => {
@@ -216,6 +230,7 @@ export const taskInfo = configTaskInfo();
 export const config = {
   userMode: userMode,
   pid: pid,
+  labId: labId,
   schoolId: schoolId,
   taskVariant: taskVariant,
   userMetadata: {},
@@ -285,26 +300,7 @@ export const jsPsych = initJsPsych({
   show_progress_bar: true,
   auto_update_progress_bar: false,
   message_progress_bar: "Progress Complete",
-  on_finish: () => {
-    // jsPsych.data.displayData();
-    /* set dashboard redirect URLs: school as default */
-    const redirectInfo = {
-      validate: "https://reading.stanford.edu?g=910&c=1",
-      UCSF: "https://reading.stanford.edu?g=937&c=1",
-      RF: "https://reading.stanford.edu?g=940&c=1",
-    };
-    if ((taskVariant !== "demo") && (taskVariant !== "otherLabs")) {
-      if (taskVariant === 'school') {
-        if (userMode === "shortAdaptive") {
-          window.location.href = "https://reading.stanford.edu?g=1154&c=1";
-        } else {
-          window.location.href = "https://reading.stanford.edu?g=901&c=1";
-        }
-      } else {
-        window.location.href = redirectInfo[taskVariant] || "https://reading.stanford.edu?g=901&c=1";
-      }
-    }
-  },
+  on_finish: () => redirect(),
 });
 
 /* simple variable for calculating sum of an array */

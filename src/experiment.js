@@ -69,13 +69,33 @@ const makePid = () => {
   return text;
 }
 
+const getLabId = {
+  type: jsPsychSurveyText,
+  questions: [
+    {
+      prompt: 'Lab ID:',
+      name: 'labId',
+      required: true,
+    },
+  ],
+  on_finish: (data) => {
+    config.labId = data.response.labId;
+  },
+};
+
+const ifGetLabId = {
+  timeline: [getLabId],
+  conditional_function: () => {
+    return (config.labId === null) ? true : false;
+  }
+}
+
 const getPid = {
   type: jsPsychSurveyText,
   questions: [
     {
       prompt: 'Participant ID:',
       name: 'pid',
-      placeholder: '0000',
       required: true,
     },
   ],
@@ -83,6 +103,8 @@ const getPid = {
     config.pid = data.response.pid;
   },
 };
+
+
 
 const consent_form = {
   type: jsPsychSurveyMultiSelect,
@@ -150,7 +172,8 @@ const if_consent_form = {
 const survey_pid = {
   type: jsPsychSurveyHtmlForm,
   preamble:
-    "<div><h1>Please share a bit more to help us understand your data!</h1></div>",
+    "<div><h1>Please share a bit more to help us understand your data!</h1>" +
+    "<p>[Optional]</p></div>",
   html: `
      <div className="item">
       <span htmlFor="instructions" class = "survey_form_text">How old are you? (Please type a number)</span>
@@ -212,6 +235,7 @@ const survey_pid = {
         tmpMetadata[field] = data.response[field];
       }
     }
+    tmpMetadata['labId'] = config.labId;
     config.userMetadata = tmpMetadata;
   },
 };
@@ -224,7 +248,7 @@ const if_get_survey = {
 };
 
 const if_get_pid = {
-  timeline: [getPid, survey_pid],
+  timeline: [ifGetLabId, getPid, survey_pid],
   conditional_function: function () {
     return config.taskVariant === 'otherLabs';
   },

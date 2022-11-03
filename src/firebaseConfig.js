@@ -1,8 +1,10 @@
 /* eslint-disable import/prefer-default-export */
 import { log } from './logger';
+import { labId } from './config';
 
-// eslint-disable-next-line no-self-compare
-const prodDoc = 'yeatmanlab' === 'yeatmanlab' ? ['prod', 'roar-prod'] : ['external', 'yeatmanlab'];
+const setLabId = labId || 'yeatmanlab';
+
+const prodDoc = setLabId === 'yeatmanlab' ? ['prod', 'roar-prod'] : ['external', setLabId];
 // eslint-disable-next-line no-undef
 const rootDoc = ROAR_DB_DOC === 'production' ? prodDoc : ['dev', 'anya-swr'];
 

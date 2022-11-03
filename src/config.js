@@ -37,7 +37,7 @@ const skip = urlParams.get("skip");
 const audioFeedback = urlParams.get("feedback") || "binary";
 const numAdaptive = urlParams.get("numAdaptive") || (userMode === "shortAdaptive" ? 85 : 150);
 const numNew = urlParams.get("numNew") || (userMode === "shortAdaptive" ? 15 : 25);
-export const labId = urlParams.get('labId');
+export const labId = urlParams.get('labId') || null;
 const gameId = urlParams.get('gameId') || null;
 
 // eslint-disable-next-line max-len

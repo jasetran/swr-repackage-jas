@@ -80,6 +80,11 @@ const getLabId = {
   ],
   on_finish: (data) => {
     config.labId = data.response.labId;
+
+    const prodDoc = config.labId === 'yeatmanlab' ? ['prod', 'roar-prod'] : ['external', config.labId];
+    // eslint-disable-next-line no-undef
+
+    roarConfig.rootDoc = ROAR_DB_DOC === 'production' ? prodDoc : ['dev', 'anya-swr'];
   },
 };
 

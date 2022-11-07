@@ -60,6 +60,17 @@ const redirect = () => {
     // If no game token was passed, we refresh the page rather than
     // redirecting back to the dashboard
     // window.location.reload();
+    if (taskVariant === 'school') {
+      if (userMode === 'shortAdaptive') {
+        window.location.href = `https://reading.stanford.edu?g=1154&c=1`;
+      } else {
+        window.location.href = `https://reading.stanford.edu?g=901&c=1`;
+      }
+    } else if (taskVariant === 'UCSF') {
+      window.location.href = `https://reading.stanford.edu?g=937&c=1`;
+    } else if (taskVariant === 'RF') {
+      window.location.href = `https://reading.stanford.edu?g=940&c=1`;
+    }
   } else {
     // Else, redirect back to the dashboard with the game token that
     // was originally provided

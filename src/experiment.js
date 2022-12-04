@@ -109,7 +109,12 @@ const getPid = {
   },
 };
 
-
+const ifGetPid = {
+  timeline: [getPid],
+  conditional_function: () => {
+    return (config.pid === null) ? true : false;
+  }
+}
 
 const consent_form = {
   type: jsPsychSurveyMultiSelect,
@@ -135,10 +140,7 @@ const consent_form = {
         <br>
         <b>COMPENSATION</b>
         <br> 
-        We value your participation in our study. You can receive a $1 Tango gift card upon completion of this study. If you have not done so already, you will have the chance to provide your email address at the end of the study. You may also choose to waive payment by not providing your email address.
-        <br>
-        <br>
-        Please note that the gift card system we use to pay participants is not affiliated with Stanford and we will need to input your name and email into this system to send you the electronic gift card payment. If you feel uncomfortable with this process, please let us know before signing the consent form. Depending on the study, we may be able to look into other forms of payment for you.     
+        Participation in this study is voluntary and you will not receive financial compensation.
         <br>
         <br>
         <b>RISKS, STRESS, OR DISCOMFORT</b>
@@ -169,7 +171,7 @@ const consent_form = {
 const if_consent_form = {
   timeline: [consent_form],
   conditional_function: () => {
-    return Boolean(config.userMode === "demo");
+    return Boolean(config.userMode === "demo" || config.taskVariant === 'otherLabs');
   },
 };
 
@@ -248,12 +250,12 @@ const survey_pid = {
 const if_get_survey = {
   timeline: [survey_pid],
   conditional_function: () => {
-    return (config.userMode === "demo");
+    return (config.userMode === "demo" || config.taskVariant === 'otherLabs');
   },
 };
 
 const if_get_pid = {
-  timeline: [ifGetLabId, getPid, survey_pid],
+  timeline: [ifGetLabId, ifGetPid],
   conditional_function: function () {
     return config.taskVariant === 'otherLabs';
   },
@@ -337,19 +339,17 @@ const debrief_block = {
   <p class = "debrief_text">
   <b>Thank you for your participation!</b>
   <br><br>
-  Click <a href="https://docs.google.com/forms/d/e/1FAIpQLSdw3U6K6YMLf1miWvth36UTl2gxG9r8AbtPKKkrj7B-6acBmg/viewform">here</a> to be redirected to a form if you would like to provide your email to receive a $1 gift card for completing this study. You will only be asked to provide your email if you are requesting payment. 
-  <br><br>
-  Otherwise, you may exit the window or close your browser.</p></div>`,
+  You may exit the window or close your browser.</p></div>`,
 };
 
 const if_debrief_block = {
   timeline: [debrief_block],
   conditional_function: () => {
-    return Boolean(config.userMode === "demo");
+    return Boolean(config.userMode === "demo" ||  config.taskVariant === 'otherLabs');
   },
 };
 
-timeline.push(if_consent_form, if_get_pid, if_get_survey, enter_fullscreen, introduction_trials, countdown_trials);
+timeline.push(if_get_pid, if_consent_form, if_get_survey, enter_fullscreen, introduction_trials, countdown_trials);
 
 const checkRealPseudo = (corpus) => {
   let corpusType = (Math.random() < 0.5) ? "corpus_real" : "corpus_pseudo";

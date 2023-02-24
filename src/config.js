@@ -16,7 +16,8 @@ const stimulusRuleLists = {
   shortAdaptive: ["adaptive", "adaptive", "adaptive"],
   longAdaptive: ["adaptive", "adaptive", "adaptive"],
   demo: ["demo"],
-  test: ["adaptive", "adaptive", "adaptive"],
+  testAdaptive: ["adaptive", "adaptive", "adaptive"],
+  testRandom: ["adaptive", "adaptive", "adaptive"],
 };
 
 // Stimulus timing options in milliseconds
@@ -52,7 +53,8 @@ export const stimulusCountLists = {
   shortAdaptive: divideTrial2Block(numAdaptive, numNew, 3),
   longAdaptive: divideTrial2Block(numAdaptive, numNew, 3),
   demo: [84],
-  test: [6, 4, 4],
+  testAdaptive: [6, 4, 4],
+  testRandom: [6, 4, 4],
 };
 
 const redirect = () => {

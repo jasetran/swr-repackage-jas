@@ -161,6 +161,7 @@ const final_page = {
    <div class="button">Press <span class="yellow">ANY KEY</span> to save your work</div>
       `,
   choices: "ALL_KEYS",
+
   on_finish: function () {
     document.body.style.cursor = "auto";
   },

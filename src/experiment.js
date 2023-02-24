@@ -333,22 +333,6 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
   return false;
 };
 
-const debrief_block = {
-  type: jsPsychHtmlKeyboardResponse,
-  stimulus: `<div class = "stimulus_div">
-  <p class = "debrief_text">
-  <b>Thank you for your participation!</b>
-  <br><br>
-  You may exit the window or close your browser.</p></div>`,
-};
-
-const if_debrief_block = {
-  timeline: [debrief_block],
-  conditional_function: () => {
-    return Boolean(config.userMode === "demo" ||  config.taskVariant === 'otherLabs');
-  },
-};
-
 timeline.push(if_get_pid, if_consent_form, if_get_survey, enter_fullscreen, introduction_trials, countdown_trials);
 
 const checkRealPseudo = (corpus) => {
@@ -558,6 +542,7 @@ async function roarBlocks() {
   };
 
   const pushTrialsTotimeline = (stimulusCounts) => {
+    console.log(stimulusCounts.length)
     for (let i = 0; i < stimulusCounts.length; i++) {
       // for each block: add trials
       /* add first half of block */
@@ -596,7 +581,7 @@ async function roarBlocks() {
     }
   }
   pushTrialsTotimeline(config.stimulusCountList);
-  timeline.push(final_page, exit_fullscreen, if_debrief_block);
+  timeline.push(final_page, exit_fullscreen);
   jsPsych.run(timeline);
 }
 

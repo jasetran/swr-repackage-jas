@@ -376,7 +376,7 @@ const getStimulus = () => {
       corpus[corpusType] = itemSuggestion.remainingStimuli;
       store.session.set("corpusNew", corpus);
     }
-  } else if (config.userMode === "shortAdaptive" || "longAdaptive") {
+  } else if ((config.userMode === "shortAdaptive") || (config.userMode === "longAdaptive")) {
     if (demoCounter !== config.adaptive2new) {
       // validated corpus
       corpus = store.session("corpusAll");
@@ -400,9 +400,31 @@ const getStimulus = () => {
       corpus[corpusType] = itemSuggestion.remainingStimuli;
       store.session.set("corpusNew", corpus);
     }
+  } else if (config.userMode === "fullItemBank") {
+    // new corpus
+    if (config.indexArray[store.session("trialNumTotal")] === 0) {
+      // new corpus
+      corpus = store.session("corpusNew");
+      corpusType = checkRealPseudo(corpus);
+      itemSuggestion = cat.findNextItem(corpus[corpusType]);
+      // update next stimulus
+      store.session.set("nextStimulus", itemSuggestion.nextStimulus);
+      corpus[corpusType] = itemSuggestion.remainingStimuli;
+      store.session.set("corpusNew", corpus);
+    } else {
+      // validated corpus
+      corpus = store.session("corpusAll");
+      corpusType = checkRealPseudo(corpus);
+      itemSuggestion = cat.findNextItem(corpus[corpusType]);
+      // update next stimulus
+      store.session.set("nextStimulus", itemSuggestion.nextStimulus);
+      corpus[corpusType] = itemSuggestion.remainingStimuli;
+      store.session.set("corpusAll", corpus);
+    }
   } else {
     corpus = store.session("corpusAll");
     corpusType = checkRealPseudo(corpus);
+
     itemSuggestion = cat.findNextItem(corpus[corpusType]);
     // update next stimulus
     store.session.set("nextStimulus", itemSuggestion.nextStimulus);
@@ -419,10 +441,6 @@ const getStimulus = () => {
     store.session.transact("trialNumBlock", (oldVal) => oldVal + 1);
   }
   store.session.transact("trialNumTotal", (oldVal) => oldVal + 1);
-
-  // print for checking
-  // console.log("TrialNumBlock", store.session('trialNumBlock'), store.session('trialNumTotal'));
-  // console.log(cat.theta, itemSuggestion.nextStimulus);
 }
 
 // set-up screen
@@ -542,7 +560,6 @@ async function roarBlocks() {
   };
 
   const pushTrialsTotimeline = (stimulusCounts) => {
-    console.log(stimulusCounts.length)
     for (let i = 0; i < stimulusCounts.length; i++) {
       // for each block: add trials
       /* add first half of block */

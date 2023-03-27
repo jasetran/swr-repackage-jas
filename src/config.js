@@ -89,7 +89,7 @@ const redirect = () => {
     } else if (taskVariant === 'RF') {
       window.location.href = `https://reading.stanford.edu?g=940&c=1`;
     } else if (taskVariant === 'prolific') {
-      window.location.href = `https://reading.stanford.edu?g=940&c=1`; // TO DO: change to prolific redirect
+      window.location.href = `https://app.prolific.co/submissions/complete?cc=CK1VQ7DP`; // TO DO: change to prolific redirect
     }
   } else {
     // Else, redirect back to the dashboard with the game token that

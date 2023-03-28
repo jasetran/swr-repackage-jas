@@ -62,6 +62,7 @@ const cat = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store
 // Include new items in thetaEstimate
 const cat2 = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store.session("itemSelect")});
 
+
 preload_trials.forEach((trial) => {
   timeline.push(trial);
 });

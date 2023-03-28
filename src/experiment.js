@@ -7,6 +7,8 @@ import jsPsychFullScreen from "@jspsych/plugin-fullscreen";
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
 import jsPsychSurveyHtmlForm from "@jspsych/plugin-survey-html-form";
 import jsPsychSurveyMultiSelect from "@jspsych/plugin-survey-multi-select";
+import jsPsychBrowserCheck from '@jspsych/plugin-browser-check'
+import { detect } from 'detect-browser'
 import store from "store2";
 
 // Import necessary for async in the top level of the experiment script
@@ -58,6 +60,7 @@ const cat = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store
 
 // Include new items in thetaEstimate
 const cat2 = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store.session("itemSelect")});
+
 
 preload_trials.forEach((trial) => {
   timeline.push(trial);
@@ -268,6 +271,7 @@ const enter_fullscreen = {
   type: jsPsychFullScreen,
   fullscreen_mode: true,
   message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
+  delay_after: 450,
   on_finish: async () => {
     config.pid = config.pid || makePid();
     let prefix = config.pid.split("-")[0];
@@ -336,7 +340,9 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
   return false;
 };
 
-timeline.push(if_get_pid, if_consent_form, if_get_survey, enter_fullscreen, introduction_trials, countdown_trials);
+// Add in introduction_trials after full screen
+
+timeline.push(if_get_pid, if_consent_form, if_get_survey, enter_fullscreen, countdown_trials);
 
 const checkRealPseudo = (corpus) => {
   let corpusType = (Math.random() < 0.5) ? "corpus_real" : "corpus_pseudo";

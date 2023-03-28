@@ -171,7 +171,7 @@ const consent_form = {
 const if_consent_form = {
   timeline: [consent_form],
   conditional_function: () => {
-    return Boolean((config.userMode === "demo") || (config.taskVariant === 'otherLabs') || (config.taskVariant === 'prolific'));
+    return Boolean(((config.userMode === "demo") || (config.taskVariant === 'otherLabs') || (config.taskVariant === 'prolific')) && (config.consent === true));
   },
 };
 
@@ -250,7 +250,7 @@ const survey_pid = {
 const if_get_survey = {
   timeline: [survey_pid],
   conditional_function: () => {
-    return Boolean((config.userMode === "demo") || (config.taskVariant === 'otherLabs') || (config.taskVariant === 'prolific'));
+    return Boolean(((config.userMode === "demo") || (config.taskVariant === 'otherLabs') || (config.taskVariant === 'prolific')) && (config.consent === true));
   },
 };
 

@@ -34,9 +34,10 @@ const urlParams = new URLSearchParams(queryString);
 const userMode = randomAssignment(urlParams.get("mode")) || "shortAdaptive";
 const taskVariant = urlParams.get("variant") || "pilot";
 const pid = urlParams.get("PROLIFIC_PID") || urlParams.get("participant");
-const schoolId = urlParams.get("schoolId");
+const schoolId = urlParams.get("schoolId") || "pilot";
 const skip = urlParams.get("skip");
 const audioFeedback = urlParams.get("feedback") || "binary";
+const consent = urlParams.get("consent") || true;
 const numAdaptive = urlParams.get("numAdaptive") || (userMode === "shortAdaptive" ? 85 : 150);
 const numNew = urlParams.get("numNew") || (userMode === "shortAdaptive" ? 15 : 25);
 const numValidated = urlParams.get("numValidated") || (userMode === "fullItemBank" ? 246 : 100);
@@ -266,6 +267,7 @@ export const config = {
   taskVariant: taskVariant,
   userMetadata: {},
   testingOnly: skip === null,
+  consent: consent,
   audioFeedback: audioFeedback,
 
   // after how many adaptive trials, the test gives 1 new word

@@ -268,8 +268,8 @@ const enter_fullscreen = {
   on_finish: async () => {
     config.pid = config.pid || makePid();
     let prefix = config.pid.split("-")[0];
-    if (prefix === config.pid | config.taskVariant !== 'school'){
-      prefix = null;
+    if (prefix === config.pid ||  config.taskVariant !== 'school'){
+      prefix = "pilot";
     }
     const userInfo = {
       id: config.pid,

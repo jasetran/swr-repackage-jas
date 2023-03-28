@@ -59,6 +59,7 @@ store.session.set("corpusNew", corpusNew);
 const timeline = [];
 const cat = new Cat({method: 'MLE', itemSelect: store.session("itemSelect")});
 
+
 preload_trials.forEach((trial) => {
   timeline.push(trial);
 });
@@ -285,6 +286,7 @@ const enter_fullscreen = {
   type: jsPsychFullScreen,
   fullscreen_mode: true,
   message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
+  delay_after: 450,
   delay_after: 450,
   on_finish: async () => {
     document.body.style.cursor = "none";

@@ -1,5 +1,7 @@
 /* eslint-disable no-plusplus */
-import { config, realpseudo2arrow, readCSV } from "./config";
+import {
+  config, realpseudo2arrow, readCSV, shuffle,
+} from "./config";
 
 // Word corpus imports
 import dataPracticeURL from "./wordlist/ldt-items-practice.csv";
@@ -13,19 +15,6 @@ const addAsset = ([name, assetPromise]) =>
 // loadAll :: {k: Promise a} -> Promise {k: a}
 const loadAll = (assets) =>
   Promise.all(Object.entries(assets).map(addAsset)).then(Object.fromEntries);
-
-function shuffle(array) {
-  const shuffledArray = [...array];
-  for (let i = shuffledArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
-
-    // swap elements array[i] and array[j]
-    // use "destructuring assignment" syntax
-    // eslint-disable-next-line no-param-reassign
-    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
-  }
-  return shuffledArray;
-}
 
 const csvPromises = {
   practice: readCSV(dataPracticeURL),

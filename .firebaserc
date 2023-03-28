@@ -1,5 +1,14 @@
 {
   "projects": {
     "default": "gse-yeatmanlab"
+  },
+  "targets": {
+    "gse-yeatmanlab": {
+      "hosting": {
+        "swr": [
+          "roar-swr"
+        ]
+      }
+    }
   }
 }

@@ -15,6 +15,7 @@ const stimulusRuleLists = {
   fullAdaptive: ["adaptive", "adaptive", "adaptive"],
   shortAdaptive: ["adaptive", "adaptive", "adaptive"],
   longAdaptive: ["adaptive", "adaptive", "adaptive"],
+  fullItemBank: ['random', 'random', 'random'],
   demo: ["demo"],
   testAdaptive: ["adaptive", "adaptive", "adaptive"],
   testRandom: ["adaptive", "adaptive", "adaptive"],
@@ -32,12 +33,13 @@ const queryString = new URL(window.location).search;
 const urlParams = new URLSearchParams(queryString);
 const userMode = randomAssignment(urlParams.get("mode")) || "shortAdaptive";
 const taskVariant = urlParams.get("variant") || "pilot";
-const pid = urlParams.get("participant");
+const pid = urlParams.get("PROLIFIC_PID") || urlParams.get("participant");
 const schoolId = urlParams.get("schoolId");
 const skip = urlParams.get("skip");
 const audioFeedback = urlParams.get("feedback") || "binary";
 const numAdaptive = urlParams.get("numAdaptive") || (userMode === "shortAdaptive" ? 85 : 150);
 const numNew = urlParams.get("numNew") || (userMode === "shortAdaptive" ? 15 : 25);
+const numValidated = urlParams.get("numValidated") || (userMode === "fullItemBank" ? 246 : 100);
 export const labId = urlParams.get('labId') || null;
 const gameId = urlParams.get('gameId') || null;
 
@@ -52,9 +54,23 @@ export const stimulusCountLists = {
   fullRandom: [82, 82, 81],
   shortAdaptive: divideTrial2Block(numAdaptive, numNew, 3),
   longAdaptive: divideTrial2Block(numAdaptive, numNew, 3),
+  fullItemBank: divideTrial2Block(numValidated, numNew, 3),
   demo: [84],
   testAdaptive: [6, 4, 4],
   testRandom: [6, 4, 4],
+};
+
+export const shuffle = (array) => {
+  const shuffledArray = [...array];
+  for (let i = shuffledArray.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
+
+    // swap elements array[i] and array[j]
+    // use "destructuring assignment" syntax
+    // eslint-disable-next-line no-param-reassign
+    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+  }
+  return shuffledArray;
 };
 
 const redirect = () => {
@@ -72,6 +88,8 @@ const redirect = () => {
       window.location.href = `https://reading.stanford.edu?g=937&c=1`;
     } else if (taskVariant === 'RF') {
       window.location.href = `https://reading.stanford.edu?g=940&c=1`;
+    } else if (taskVariant === 'prolific') {
+      window.location.href = `https://app.prolific.co/submissions/complete?cc=CK1VQ7DP`; // TO DO: change to prolific redirect
     }
   } else {
     // Else, redirect back to the dashboard with the game token that
@@ -267,6 +285,10 @@ export const config = {
 
   // set number of trials to keep random in adaptive block
   nRandom: 5,
+
+  // set a binary array to randomly order the new and validated items
+  // eslint-disable-next-line max-len
+  indexArray: shuffle(Array(parseInt(numNew, 10)).fill(0).concat(Array(parseInt(numValidated, 10)).fill(1))),
 
   // TODO: Check use of timing in other js files
   timing: {

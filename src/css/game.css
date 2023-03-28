@@ -209,6 +209,9 @@ p  {
 	position: fixed;
 	display: block;
 	bottom: 0;
+	/* Added for button element */
+	margin: 0;
+	border: 0;
 }
 
 .story-scene{

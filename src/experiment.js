@@ -171,7 +171,7 @@ const consent_form = {
 const if_consent_form = {
   timeline: [consent_form],
   conditional_function: () => {
-    return Boolean(config.userMode === "demo" || config.taskVariant === 'otherLabs');
+    return Boolean((config.userMode === "demo") || (config.taskVariant === 'otherLabs') || (config.taskVariant === 'prolific'));
   },
 };
 
@@ -250,7 +250,7 @@ const survey_pid = {
 const if_get_survey = {
   timeline: [survey_pid],
   conditional_function: () => {
-    return (config.userMode === "demo" || config.taskVariant === 'otherLabs');
+    return Boolean((config.userMode === "demo") || (config.taskVariant === 'otherLabs') || (config.taskVariant === 'prolific'));
   },
 };
 
@@ -508,7 +508,7 @@ const lexicality_test = {
       realpseudo: nextStimulus.realpseudo,
       difficulty: nextStimulus.difficulty,
       thetaEstimate: cat.theta,
-      thetaSE: cat.seMeasurement,
+      thetaSE: (cat.seMeasurement === Infinity ? Number.MAX_VALUE : cat.seMeasurement),
       stimulusRule: store.session("itemSelect"),
       trialNumTotal: store.session("trialNumTotal"),
       trialNumBlock: store.session("trialNumBlock"),

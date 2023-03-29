@@ -28,7 +28,11 @@
     "@bdelab/jscat": "^3.0.3",
     "@bdelab/roar-firekit": "^1.1.2",
     "@jspsych-contrib/plugin-audio-multi-response": "^1.0.0",
+<<<<<<< HEAD
     "@jspsych-contrib/plugin-html-multi-response": "^1.0.2",
+=======
+    "@jspsych-contrib/plugin-audio-swipe-response": "^1.0.0",
+>>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
     "@jspsych-contrib/plugin-html-swipe-response": "^1.0.0",
     "@jspsych/plugin-audio-keyboard-response": "^1.1.0",
     "@jspsych/plugin-call-function": "^1.1.2",

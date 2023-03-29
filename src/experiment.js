@@ -360,6 +360,7 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
 };
 
 
+<<<<<<< HEAD
 timeline.push(
   if_get_pid, 
   if_consent_form, 
@@ -369,6 +370,9 @@ timeline.push(
   if_not_fullscreen, 
   countdown_trials
 );
+=======
+timeline.push(if_get_pid, if_consent_form, if_get_survey, enter_fullscreen, introduction_trials, countdown_trials);
+>>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
 
 const checkRealPseudo = (corpus) => {
   let corpusType = (Math.random() < 0.5) ? "corpus_real" : "corpus_pseudo";
@@ -513,6 +517,7 @@ const setup_fixation = {
   on_finish: () => {
     getStimulus(); // get the current stimuli for the trial
   },
+  on_load: () => console.log('Actual setup fixation')
 };
 
 // This is to track correct trials
@@ -623,8 +628,17 @@ async function roarBlocks() {
         timeline: [
           setup_fixation_practice,
           lexicality_test_practice,
+<<<<<<< HEAD
           audio_response,
           practice_feedback,
+=======
+          if_audio_response_neutral,
+          if_audio_response_correct,
+          if_audio_response_wrong,
+          practice_feedback
+          // if_node_left,
+          // if_node_right,
+>>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
         ],
         timeline_variables: [element],
       };

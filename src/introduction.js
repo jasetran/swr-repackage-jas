@@ -8,12 +8,21 @@ import AudioMultiResponsePlugin from "@jspsych-contrib/plugin-audio-multi-respon
 import jsPsychCallFunction from '@jspsych/plugin-call-function'
 import { deviceType, primaryInput } from 'detect-it';
 
+<<<<<<< HEAD
 
 export let isTouchScreen = false;
 
 // Ex. iPhone or iPad
 const checkMobileDevice = () => {
   if (deviceType === 'touchOnly' || ('hybrid' && primaryInput === 'touch')) {
+=======
+export let isTouchScreen = false;
+// navigator.userAgent.match(/Mac/) && navigator.maxTouchPoints && navigator.maxTouchPoints > 2
+
+// Ex. iPhone or iPad
+const checkMobileDevice = () => {
+  if (navigator.maxTouchPoints && navigator.maxTouchPoints > 2) {
+>>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
       isTouchScreen = true
   }
 }

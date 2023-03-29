@@ -28,6 +28,8 @@
     "@bdelab/jscat": "^3.0.3",
     "@bdelab/roar-firekit": "^1.1.2",
     "@jspsych-contrib/plugin-audio-multi-response": "^1.0.0",
+    "@jspsych-contrib/plugin-audio-swipe-response": "^1.0.0",
+    "@jspsych-contrib/plugin-html-swipe-response": "^1.0.0",
     "@jspsych/plugin-audio-keyboard-response": "^1.1.0",
     "@jspsych/plugin-browser-check": "^1.0.2",
     "@jspsych/plugin-call-function": "^1.1.2",

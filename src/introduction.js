@@ -7,17 +7,13 @@ import { imgContent, audioContent } from "./preload";
 import AudioMultiResponsePlugin from "@jspsych-contrib/plugin-audio-multi-response";
 import jsPsychCallFunction from '@jspsych/plugin-call-function'
 
-let isTouchScreen = false
+export let isTouchScreen = false;
 // navigator.userAgent.match(/Mac/) && navigator.maxTouchPoints && navigator.maxTouchPoints > 2
 
 // Ex. iPhone or iPad
 const checkMobileDevice = () => {
-
   if (navigator.maxTouchPoints && navigator.maxTouchPoints > 2) {
-      console.log('is touchscreen')
       isTouchScreen = true
-  } else {
-      console.log('is NOT touchscreen')
   }
 }
 

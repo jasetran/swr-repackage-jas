@@ -515,6 +515,7 @@ const setup_fixation = {
   on_finish: () => {
     getStimulus(); // get the current stimuli for the trial
   },
+  on_load: () => console.log('Actual setup fixation')
 };
 
 // This is to track correct trials

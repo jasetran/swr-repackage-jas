@@ -39,6 +39,7 @@ import {
   if_node_right,
   setup_fixation_practice,
   lexicality_test_practice,
+  practice_feedback
 } from "./practice";
 import {
   mid_block_page_list,
@@ -339,7 +340,7 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
 
 // Add in introduction_trials after full screen
 
-timeline.push(if_get_pid, if_consent_form, if_get_survey, enter_fullscreen, countdown_trials);
+timeline.push(if_get_pid, if_consent_form, if_get_survey, enter_fullscreen, introduction_trials, countdown_trials);
 
 const checkRealPseudo = (corpus) => {
   let corpusType = (Math.random() < 0.5) ? "corpus_real" : "corpus_pseudo";
@@ -464,6 +465,7 @@ const setup_fixation = {
   on_finish: () => {
     getStimulus(); // get the current stimuli for the trial
   },
+  on_load: () => console.log('Actual setup fixation')
 };
 
 // This is to track correct trials
@@ -542,8 +544,9 @@ async function roarBlocks() {
           if_audio_response_neutral,
           if_audio_response_correct,
           if_audio_response_wrong,
-          if_node_left,
-          if_node_right,
+          practice_feedback
+          // if_node_left,
+          // if_node_right,
         ],
         timeline_variables: [element],
       };

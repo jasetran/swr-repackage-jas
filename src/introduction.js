@@ -38,43 +38,43 @@ const introTrialsContent = [
             <p class="middle"> In order for the guardians to let you pass through the land, you will have to tell the difference between made-up words and real words.&nbsp;</p>
           </div>
         </div>
-        ${!isTouchScreen && '<div class="button">Press <span class="yellow">ANY KEY</span> to continue </div>'}`
+        ${!isTouchScreen ? '<div class="button">Press <span class="yellow">ANY KEY</span> to continue </div>' : ''}`
       )
     } ,
   },
   { stimulus: audioContent.intro2,
     prompt: () => { 
       return (`
-        <h1>A real or made-up word will flash very quickly <br/> at the center of the screen.</h1>
+        <h1>A real or made-up word will flash very quickly at the center of the screen.</h1>
         <div class="row">
           <div class="column_2_upper" style="background-color:#f2f2f2;">
-            <p style = "text-align:left;">The made-up words might look like English words, but they do not mean anything in English. For example, laip, bove, or cigbert are made-up words. <span class="orange"><b>If you see a made-up word, ${isTouchScreen ? 'tap the LEFT ARROW.' : 'press the LEFT ARROW KEY.'}</b></span></p>
+            <p style = "text-align:left;">The made-up words might look like English words, but they do not mean anything in English. For example, laip, bove, or cigbert are made-up words. <span class="orange"><b>If you see a made-up word, ${isTouchScreen ? 'Swipe to the LEFT.' : 'press the LEFT ARROW KEY.'}</b></span></p>
           </div>
           <div class="column_2_upper" style="background-color:#f2f2f2;">
-            <p style = "text-align:left;"> The real words will be ones you recognize. They are real English words like is, and, basket, or lion. <span class="blue"><b> If you see a real word, ${isTouchScreen ? 'tap the RIGHT arrow.' : 'press the RIGHT ARROW KEY.'}</b></span></p>
+            <p style = "text-align:left;"> The real words will be ones you recognize. They are real English words like is, and, basket, or lion. <span class="blue"><b> If you see a real word, ${isTouchScreen ? 'Swipe to the RIGHT.' : 'press the RIGHT ARROW KEY.'}</b></span></p>
           </div>
         </div>
         <div class="row">
           <div class="column_2_lower" style="background-color:#f2f2f2;">
-            ${isTouchScreen ? '<p>TOUCHSCREEN IMAGE GOES HERE</p>' : `<img width="100%" src=${imgContent.arrowLeftP2} alt="Magic Word, Press the Left Arrow Key" align="right">`}
+            <img width="100%" src=${imgContent.arrowLeftP2} alt="Magic Word, Press the Left Arrow Key" align="right">
           </div>
           <div class="column_2_lower" style="background-color:#f2f2f2;">
-            ${isTouchScreen ? '<p>TOUCHSCREEN IMAGE GOES HERE</p>' : `<img width="100%" src=${imgContent.arrowRightP2} alt="Real Word, Press the Right Arrow key">`}
+            <img width="100%" src=${imgContent.arrowRightP2} alt="Real Word, Press the Right Arrow key">
         </div>
-        ${!isTouchScreen && '<div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>'}`
+        ${!isTouchScreen ? '<div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>' : ''}`
       )
     },
   },
   { stimulus: audioContent.intro3,
     prompt: () => {
       return (
-        ` <h1>Let us review which ${isTouchScreen ? 'arrow we tap' : 'key we press'} for made-up words and real words.</h1>
+        ` <h1>Let us review which ${isTouchScreen ? 'way we swipe' : 'key we press'} for made-up words and real words.</h1>
           <div>
             <img class = 'cues' src="${imgContent.keyP3}" alt="arrow keys">
             <p class = "center"> Try to be as accurate as possible.</p>
             <p>Some words will be hard, and that&#39s okay. If you&#39re not sure, just give your best guess!</p>
           </div>
-          ${!isTouchScreen && '<div class="button">Press <span class="yellow">ANY KEY</span> to practice</div>'}`
+          ${!isTouchScreen ? '<div class="button">Press <span class="yellow">ANY KEY</span> to practice</div>' : ''}`
       )
     },
   },
@@ -87,10 +87,11 @@ const introTrialsMapped = introTrialsContent.map(trial => {
       stimulus: trial.stimulus,
       keyboard_choices: () => isTouchScreen ? "NO_KEYS" : "ALL_KEYS",
       button_choices: () => isTouchScreen ? ["HERE"] : [],
-      button_html: "<button class='button'>Tap <span class='yellow'>%choice%</span> to continue</button>",
+      button_html: "<button class='button'>Press <span class='yellow'>%choice%</span> to continue</button>",
       response_allowed_while_playing: config.testingOnly,
       prompt: trial.prompt,
       prompt_above_buttons: true,
+      on_load: () => console.log({isTouchScreen})
     }
   )
 })

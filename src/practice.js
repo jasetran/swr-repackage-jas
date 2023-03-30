@@ -2,7 +2,7 @@
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
 import jsPsychHTMLSwipeResponse from '@jspsych-contrib/plugin-html-swipe-response';
-import jsPsychAudioSwipeResponse from '@jspsych-contrib/plugin-audio-swipe-response'
+import jsPsychAudioMultiResponse from '@jspsych-contrib/plugin-audio-multi-response'
 import store from "store2";
 import { isTouchScreen } from "./introduction";
 
@@ -29,8 +29,18 @@ export const setup_fixation_practice = {
 
 export const lexicality_test_practice = {
   type: jsPsychHTMLSwipeResponse,
-  stimulus: () => `<div class = stimulus_div><p class = 'stimulus'>${jsPsych.timelineVariable("stimulus")}</p></div>`,
-  prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys">`,
+  stimulus: () => {
+    return (
+      `<div class='stimulus_div'>
+        <p class = 'stimulus'>${jsPsych.timelineVariable("stimulus")}</p>
+      </div>`
+    )
+  },
+  prompt: `
+            <div>
+              <img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys">
+            </div>
+          `,
   stimulus_duration: () => {
     store.session.transact("practiceIndex", (oldVal) => oldVal + 1);
     if (store.session("practiceIndex") > config.countSlowPractice) {
@@ -107,21 +117,28 @@ const feedbackStimulus = () => {
 
 
 export const practice_feedback = {
-  type: jsPsychAudioSwipeResponse,
+  type: jsPsychAudioMultiResponse,
   response_allowed_while_playing: config.testingOnly,
   stimulus: () => feedbackStimulus(),
+  prompt_above_buttons: true,
   prompt: () => {
     return (`<div class = stimulus_div>
       <p class="feedback">
         ${isTouchScreen ? `<span class=${store.session("responseColor")}>You swiped ${store.session("responseLR")} which is for ${store.session("answerRP")} words!</span>` : `<span class=${store.session("responseColor")}>You pressed the ${store.session("responseLR")} arrow key, which is for ${store.session("answerRP")} words! </span>`}
         <br></br>
         ${jsPsych.timelineVariable("stimulus")}
-        ${isTouchScreen ? `<span class=${store.session("answerColor")}> is a ${store.session("correctRP")}  word. Swipe ${store.session("correctLR")} to continue.</span>` : `<span class=${store.session("answerColor")}> is a ${store.session("correctRP")}  word. Press the ${store.session("correctLR")} arrow key to continue.</span>`}
+        ${isTouchScreen ? `<span class=${store.session("answerColor")}> is a ${store.session("correctRP")}  word. Press the ${store.session("correctLR")} arrow to continue.</span>` : `<span class=${store.session("answerColor")}> is a ${store.session("correctRP")}  word. Press the ${store.session("correctLR")} arrow key to continue.</span>`}
       </p>
     </div>
-    <img class="lower" src="${store.session("correctRP") === "made-up" ? `${imgContent.arrowkeyLexLeft}` : `${imgContent.arrowkeyLexRight}`}" alt="arrow keys">`)
+    ${!isTouchScreen ? `<img class="lower" src="${store.session("correctRP") === "made-up" ? `${imgContent.arrowkeyLexLeft}` : `${imgContent.arrowkeyLexRight}`}" alt="arrow keys">` : ''}`)
   },
-  keyboard_choices: () => store.session("correctRP") === "made-up" ? ["ArrowLeft"] : ["ArrowRight"]
+  keyboard_choices: () => store.session("correctRP") === "made-up" ? ["ArrowLeft"] : ["ArrowRight"],
+  button_choices: () => isTouchScreen ? store.session("correctRP") === "made-up" ? ["Left"] : ["Right"] : [],
+  button_html: `
+      <button class='practice-feedback-btn'>
+        <img class='practice-feedback-img' src=${store.session("correctRP") === "made-up" ? `${imgContent.arrowkeyLexLeft}` : `${imgContent.arrowkeyLexRight}`} alt="Arrow choices"/>
+      </button
+  `,
 };
 
 export const if_node_left = {

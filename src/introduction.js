@@ -58,10 +58,17 @@ const introTrialsContent = [
         <h1>A real or made-up word will flash very quickly at the center of the screen.</h1>
         <div class="row">
           <div class="column_2_upper" style="background-color:#f2f2f2;">
+<<<<<<< HEAD
             <p style = "text-align:left;">The made-up words might look like English words, but they do not mean anything in English. For example, laip, bove, or cigbert are made-up words. <span class="orange"><b>If you see a made-up word, ${isTouchScreen ? 'press the LEFT ARROW.' : 'press the LEFT ARROW KEY.'}</b></span></p>
           </div>
           <div class="column_2_upper" style="background-color:#f2f2f2;">
             <p style = "text-align:left;"> The real words will be ones you recognize. They are real English words like is, and, basket, or lion. <span class="blue"><b> If you see a real word, ${isTouchScreen ? 'press the RIGHT ARROW.' : 'press the RIGHT ARROW KEY.'}</b></span></p>
+=======
+            <p style = "text-align:left;">The made-up words might look like English words, but they do not mean anything in English. For example, laip, bove, or cigbert are made-up words. <span class="orange"><b>If you see a made-up word, ${isTouchScreen ? 'Swipe to the LEFT.' : 'press the LEFT ARROW KEY.'}</b></span></p>
+          </div>
+          <div class="column_2_upper" style="background-color:#f2f2f2;">
+            <p style = "text-align:left;"> The real words will be ones you recognize. They are real English words like is, and, basket, or lion. <span class="blue"><b> If you see a real word, ${isTouchScreen ? 'Swipe to the RIGHT.' : 'press the RIGHT ARROW KEY.'}</b></span></p>
+>>>>>>> aa45ead8 (CSS changes)
           </div>
         </div>
         <div class="row">
@@ -78,7 +85,11 @@ const introTrialsContent = [
   { stimulus: audioContent.intro3,
     prompt: () => {
       return (
+<<<<<<< HEAD
         ` <h1>Let us review which ${isTouchScreen ? 'arrow we press' : 'key we press'} for made-up words and real words.</h1>
+=======
+        ` <h1>Let us review which ${isTouchScreen ? 'way we swipe' : 'key we press'} for made-up words and real words.</h1>
+>>>>>>> aa45ead8 (CSS changes)
           <div>
             <img class = 'cues' src="${imgContent.keyP3}" alt="arrow keys">
             <p class = "center"> Try to be as accurate as possible.</p>
@@ -101,6 +112,7 @@ const introTrialsMapped = introTrialsContent.map(trial => {
       response_allowed_while_playing: config.testingOnly,
       prompt: trial.prompt,
       prompt_above_buttons: true,
+      on_load: () => console.log({isTouchScreen})
     }
   )
 })

@@ -8,6 +8,7 @@ import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response"
 import jsPsychSurveyHtmlForm from "@jspsych/plugin-survey-html-form";
 import jsPsychSurveyMultiSelect from "@jspsych/plugin-survey-multi-select";
 import jsPsychBrowserCheck from '@jspsych/plugin-browser-check'
+import jsPsychHTMLSwipeResponse from '@jspsych-contrib/plugin-html-swipe-response';
 import { detect } from 'detect-browser'
 import store from "store2";
 
@@ -338,7 +339,7 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
   return false;
 };
 
-// Add in introduction_trials after full screen
+// Add in introduction_trials and countdown_trials after full screen: introduction_trials, 
 
 timeline.push(if_get_pid, if_consent_form, if_get_survey, enter_fullscreen, introduction_trials, countdown_trials);
 
@@ -475,26 +476,48 @@ const updateCorrectChecker = () => {
 }
 
 const lexicality_test = {
-  type: jsPsychHtmlKeyboardResponse,
+  type: jsPsychHTMLSwipeResponse,
   stimulus: () => {
-    return `<div class = stimulus_div><p class = 'stimulus'>${
-      store.session("nextStimulus").stimulus
-    }</p></div>`;
+    return `<div class='stimulus_div'>
+              <p id="stimulus-word" class='stimulus'>${store.session("nextStimulus").stimulus}</p>
+            </div>`;
   },
   prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys"></div>`,
-  stimulus_duration: config.timing.stimulusTime,
   trial_duration: config.timing.trialTime,
-  choices: ["ArrowLeft", "ArrowRight"],
+  keyboard_choices: ["ArrowLeft", "ArrowRight"],
   data: {
     save_trial: true,
     task: "test_response" /* tag the test trials with this taskname so we can filter data later */,
   },
+  on_start: () => {
+    console.log('Real lexicality test')
+    const stimulusDuration = config.timing.stimulusTime
+
+    setTimeout(() => {
+      if (stimulusDuration) {
+        document.getElementById("stimulus-word").style.visibility = 'hidden'
+      }
+    }, stimulusDuration)
+  },
   on_finish: (data) => {
     const nextStimulus = store.session("nextStimulus");
-    data.correct = jsPsych.pluginAPI.compareKeys(
-      data.response,
-      nextStimulus.correct_response
-    );
+
+    console.log('Correct response: ', nextStimulus.correct_response)
+
+    if (data.keyboard_response) {
+      data.correct = jsPsych.pluginAPI.compareKeys(
+        data.keyboard_response,
+        nextStimulus.correct_response,
+      )
+    } else {
+      console.log('Swipe direction: ', data.swipe_response)
+
+      let correctSwipeDirection = nextStimulus.correct_response.toLowerCase().substring(5)
+      data.correct = correctSwipeDirection === data.swipe_response
+    }
+
+    console.log('data.correct: ', data.correct)
+
     store.session.set("currentTrialCorrect", data.correct);
 
     if (data.correct) {
@@ -535,36 +558,36 @@ const exit_fullscreen = {
 
 async function roarBlocks() {
   // the core procedure
-  const pushPracticeTotimeline = (array) => {
-    array.forEach((element) => {
-      const block = {
-        timeline: [
-          setup_fixation_practice,
-          lexicality_test_practice,
-          if_audio_response_neutral,
-          if_audio_response_correct,
-          if_audio_response_wrong,
-          practice_feedback
-          // if_node_left,
-          // if_node_right,
-        ],
-        timeline_variables: [element],
-      };
-      timeline.push(block);
-    });
-  }
+  // const pushPracticeTotimeline = (array) => {
+  //   array.forEach((element) => {
+  //     const block = {
+  //       timeline: [
+  //         setup_fixation_practice,
+  //         lexicality_test_practice,
+  //         if_audio_response_neutral,
+  //         if_audio_response_correct,
+  //         if_audio_response_wrong,
+  //         practice_feedback
+  //         // if_node_left,
+  //         // if_node_right,
+  //       ],
+  //       timeline_variables: [element],
+  //     };
+  //     timeline.push(block);
+  //   });
+  // }
 
-  pushPracticeTotimeline(blockPractice);
-  timeline.push(post_practice_intro);
+  // pushPracticeTotimeline(blockPractice);
+  // timeline.push(post_practice_intro);
 
   const core_procedure = {
     timeline: [
       setup_fixation,
-      lexicality_test,
-      if_audio_response_neutral,
-      if_audio_response_correct,
-      if_audio_response_wrong,
-      if_coin_tracking,
+      // lexicality_test,
+      // if_audio_response_neutral,
+      // if_audio_response_correct,
+      // if_audio_response_wrong,
+      // if_coin_tracking,
     ],
   };
 

@@ -79,10 +79,11 @@ export const lexicality_test_practice = {
   stimulus: () => {
     return (
       `<div class='stimulus_div'>
-        <p class = 'stimulus'>${jsPsych.timelineVariable("stimulus")}</p>
+        <p id="stimulus-word" class='stimulus'>${jsPsych.timelineVariable("stimulus")}</p>
       </div>`
     )
   },
+<<<<<<< HEAD
   prompt: `
             <div>
               <img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys">
@@ -96,6 +97,9 @@ export const lexicality_test_practice = {
     }
     return config.timing.stimulusTimePracticeOnly;
   },
+=======
+  prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys"></div>`,
+>>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
   trial_duration: config.timing.trialTime,
   keyboard_choices: ["ArrowLeft", "ArrowRight"],
 <<<<<<< HEAD
@@ -121,11 +125,30 @@ export const lexicality_test_practice = {
     task: "practice_response" /* tag the test trials with this taskname so we can filter data later */,
     word: jsPsych.timelineVariable("stimulus"),
   },
+<<<<<<< HEAD
   on_load: () => {
     if (isTouchScreen) {
       document.getElementById("jspsych-html-multi-response-button-0").style.margin = '0rem 5rem 0rem 5rem'
       document.getElementById("jspsych-html-multi-response-button-1").style.margin = '0rem 5rem 0rem 5rem'
     }
+=======
+  on_load: () => console.log('Practice lexicality trial'),
+  on_start: () => {
+    let stimulusDuration
+
+    store.session.transact("practiceIndex", (oldVal) => oldVal + 1);
+    if (store.session("practiceIndex") > config.countSlowPractice) {
+      stimulusDuration = config.timing.stimulusTime;
+    } else {
+      stimulusDuration = config.timing.stimulusTimePracticeOnly;
+    }
+
+    setTimeout(() => {
+      if (stimulusDuration) {
+        document.getElementById("stimulus-word").style.visibility = 'hidden'
+      }
+    }, stimulusDuration)
+>>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
   },
   on_finish: (data) => {
 <<<<<<< HEAD
@@ -237,9 +260,13 @@ export const practice_feedback = {
   type: jsPsychAudioMultiResponse,
 >>>>>>> aa45ead8 (CSS changes)
   response_allowed_while_playing: config.testingOnly,
+<<<<<<< HEAD
 >>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
   stimulus: () => feedbackStimulus(),
+=======
+>>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
   prompt_above_buttons: true,
+  stimulus: () => feedbackStimulus(),
   prompt: () => {
     return (`<div class = stimulus_div>
       <p class="feedback">
@@ -274,11 +301,17 @@ export const practice_feedback = {
   },
   keyboard_choices: () => store.session("correctRP") === "made-up" ? ["ArrowLeft"] : ["ArrowRight"],
   button_choices: () => isTouchScreen ? store.session("correctRP") === "made-up" ? ["Left"] : ["Right"] : [],
-  button_html: `
-      <button class='practice-feedback-btn'>
-        <img class='practice-feedback-img' src=${store.session("correctRP") === "made-up" ? `${imgContent.arrowkeyLexLeft}` : `${imgContent.arrowkeyLexRight}`} alt="Arrow choices"/>
-      </button
-  `,
+  button_html: () => {
+    return (
+      `
+      <div class='practice-feedback-btn-container'>
+        <button class='practice-feedback-btn'>
+          <img class='practice-feedback-img' src=${store.session("correctRP") === "made-up" ? `${imgContent.arrowkeyLexLeft}` : `${imgContent.arrowkeyLexRight}`} alt="Arrow choices"/>
+        </button
+      </div>
+      `
+    )
+  },
 };
 
 export const if_node_left = {

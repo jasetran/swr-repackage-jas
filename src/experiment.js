@@ -6,8 +6,14 @@ import jsPsychFullScreen from "@jspsych/plugin-fullscreen";
 import jsPsychSurveyText from "@jspsych/plugin-survey-text";
 import jsPsychSurveyHtmlForm from "@jspsych/plugin-survey-html-form";
 import jsPsychSurveyMultiSelect from "@jspsych/plugin-survey-multi-select";
+<<<<<<< HEAD
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
 import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
+=======
+import jsPsychBrowserCheck from '@jspsych/plugin-browser-check'
+import jsPsychHTMLSwipeResponse from '@jspsych-contrib/plugin-html-swipe-response';
+import { detect } from 'detect-browser'
+>>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
 import store from "store2";
 import { isTouchScreen } from './introduction';
 import fscreen from 'fscreen';
@@ -359,6 +365,10 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
   return false;
 };
 
+<<<<<<< HEAD
+=======
+// Add in introduction_trials and countdown_trials after full screen: introduction_trials, 
+>>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
 
 <<<<<<< HEAD
 timeline.push(
@@ -528,12 +538,17 @@ const updateCorrectChecker = () => {
 
 
 const lexicality_test = {
+<<<<<<< HEAD
   type: jsPsychHTMLMultiResponse,
+=======
+  type: jsPsychHTMLSwipeResponse,
+>>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
   stimulus: () => {
     return `<div class='stimulus_div'>
               <p id="stimulus-word" class='stimulus'>${store.session("nextStimulus").stimulus}</p>
             </div>`;
   },
+<<<<<<< HEAD
   prompt: () => !isTouchScreen ? `<img class="lower" src="${imgContent.arrowkeyLex}" alt = "arrow-key">` : '',
   stimulus_duration: config.timing.stimulusTime,
   trial_duration: config.timing.trialTime,
@@ -553,10 +568,16 @@ const lexicality_test = {
       )
     }
   },
+=======
+  prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys"></div>`,
+  trial_duration: config.timing.trialTime,
+  keyboard_choices: ["ArrowLeft", "ArrowRight"],
+>>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
   data: {
     save_trial: true,
     task: "test_response" /* tag the test trials with this taskname so we can filter data later */,
   },
+<<<<<<< HEAD
   on_load: () => {
     if (isTouchScreen) {
       document.getElementById("jspsych-html-multi-response-button-0").style.margin = '0rem 5rem 0rem 5rem'
@@ -565,6 +586,22 @@ const lexicality_test = {
   },
   on_finish: (data) => {
     const nextStimulus = store.session("nextStimulus")
+=======
+  on_start: () => {
+    console.log('Real lexicality test')
+    const stimulusDuration = config.timing.stimulusTime
+
+    setTimeout(() => {
+      if (stimulusDuration) {
+        document.getElementById("stimulus-word").style.visibility = 'hidden'
+      }
+    }, stimulusDuration)
+  },
+  on_finish: (data) => {
+    const nextStimulus = store.session("nextStimulus");
+
+    console.log('Correct response: ', nextStimulus.correct_response)
+>>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
 
     if (data.keyboard_response) {
       data.correct = jsPsych.pluginAPI.compareKeys(
@@ -572,6 +609,7 @@ const lexicality_test = {
         nextStimulus.correct_response,
       )
     } else {
+<<<<<<< HEAD
       if (nextStimulus.correct_response === 'ArrowLeft' && data.button_response === 0) {
         data.correct = true
       } else if (nextStimulus.correct_response === 'ArrowRight' && data.button_response === 1) {
@@ -581,6 +619,16 @@ const lexicality_test = {
       }
     }
 
+=======
+      console.log('Swipe direction: ', data.swipe_response)
+
+      let correctSwipeDirection = nextStimulus.correct_response.toLowerCase().substring(5)
+      data.correct = correctSwipeDirection === data.swipe_response
+    }
+
+    console.log('data.correct: ', data.correct)
+
+>>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
     store.session.set("currentTrialCorrect", data.correct);
 
     if (data.correct) {
@@ -622,6 +670,7 @@ const exit_fullscreen = {
 
 async function roarBlocks() {
   // the core procedure
+<<<<<<< HEAD
   const pushPracticeTotimeline = (array) => {
     array.forEach((element) => {
       const block = {
@@ -649,13 +698,44 @@ async function roarBlocks() {
   pushPracticeTotimeline(blockPractice);
   timeline.push(post_practice_intro);
   timeline.push(if_not_fullscreen)
+=======
+  // const pushPracticeTotimeline = (array) => {
+  //   array.forEach((element) => {
+  //     const block = {
+  //       timeline: [
+  //         setup_fixation_practice,
+  //         lexicality_test_practice,
+  //         if_audio_response_neutral,
+  //         if_audio_response_correct,
+  //         if_audio_response_wrong,
+  //         practice_feedback
+  //         // if_node_left,
+  //         // if_node_right,
+  //       ],
+  //       timeline_variables: [element],
+  //     };
+  //     timeline.push(block);
+  //   });
+  // }
+
+  // pushPracticeTotimeline(blockPractice);
+  // timeline.push(post_practice_intro);
+>>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
 
   const core_procedure = {
     timeline: [
       setup_fixation,
+<<<<<<< HEAD
       lexicality_test,
       audio_response,
       if_coin_tracking,
+=======
+      // lexicality_test,
+      // if_audio_response_neutral,
+      // if_audio_response_correct,
+      // if_audio_response_wrong,
+      // if_coin_tracking,
+>>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
     ],
   };
 

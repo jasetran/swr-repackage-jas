@@ -32,28 +32,34 @@ export const lexicality_test_practice = {
   stimulus: () => {
     return (
       `<div class='stimulus_div'>
-        <p class = 'stimulus'>${jsPsych.timelineVariable("stimulus")}</p>
+        <p id="stimulus-word" class='stimulus'>${jsPsych.timelineVariable("stimulus")}</p>
       </div>`
     )
   },
-  prompt: `
-            <div>
-              <img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys">
-            </div>
-          `,
-  stimulus_duration: () => {
-    store.session.transact("practiceIndex", (oldVal) => oldVal + 1);
-    if (store.session("practiceIndex") > config.countSlowPractice) {
-      return config.timing.stimulusTime;
-    }
-    return config.timing.stimulusTimePracticeOnly;
-  },
+  prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys"></div>`,
   trial_duration: config.timing.trialTime,
   keyboard_choices: ["ArrowLeft", "ArrowRight"],
   data: {
     save_trial: true,
     task: "practice_response" /* tag the test trials with this taskname so we can filter data later */,
     word: jsPsych.timelineVariable("stimulus"),
+  },
+  on_load: () => console.log('Practice lexicality trial'),
+  on_start: () => {
+    let stimulusDuration
+
+    store.session.transact("practiceIndex", (oldVal) => oldVal + 1);
+    if (store.session("practiceIndex") > config.countSlowPractice) {
+      stimulusDuration = config.timing.stimulusTime;
+    } else {
+      stimulusDuration = config.timing.stimulusTimePracticeOnly;
+    }
+
+    setTimeout(() => {
+      if (stimulusDuration) {
+        document.getElementById("stimulus-word").style.visibility = 'hidden'
+      }
+    }, stimulusDuration)
   },
   on_finish: (data) => {
     if (data.keyboard_response) {
@@ -119,8 +125,8 @@ const feedbackStimulus = () => {
 export const practice_feedback = {
   type: jsPsychAudioMultiResponse,
   response_allowed_while_playing: config.testingOnly,
-  stimulus: () => feedbackStimulus(),
   prompt_above_buttons: true,
+  stimulus: () => feedbackStimulus(),
   prompt: () => {
     return (`<div class = stimulus_div>
       <p class="feedback">
@@ -134,11 +140,17 @@ export const practice_feedback = {
   },
   keyboard_choices: () => store.session("correctRP") === "made-up" ? ["ArrowLeft"] : ["ArrowRight"],
   button_choices: () => isTouchScreen ? store.session("correctRP") === "made-up" ? ["Left"] : ["Right"] : [],
-  button_html: `
-      <button class='practice-feedback-btn'>
-        <img class='practice-feedback-img' src=${store.session("correctRP") === "made-up" ? `${imgContent.arrowkeyLexLeft}` : `${imgContent.arrowkeyLexRight}`} alt="Arrow choices"/>
-      </button
-  `,
+  button_html: () => {
+    return (
+      `
+      <div class='practice-feedback-btn-container'>
+        <button class='practice-feedback-btn'>
+          <img class='practice-feedback-img' src=${store.session("correctRP") === "made-up" ? `${imgContent.arrowkeyLexLeft}` : `${imgContent.arrowkeyLexRight}`} alt="Arrow choices"/>
+        </button
+      </div>
+      `
+    )
+  },
 };
 
 export const if_node_left = {

@@ -27,12 +27,12 @@ export const deviceCheck = {
 const introTrialsContent = [
   { stimulus: audioContent.intro1,
     prompt: () => {
-      return (
-        `<h1>Welcome to the world of Lexicality!</h1>
+      return (`
+        <h1 id='lexicality-intro-header'>Welcome to the world of Lexicality!</h1>
         <div class="row">
           <div class="column_1">
             <img class="characterleft" src="${imgContent.wizardMagic}" alt="animation of a wizard waving a magic wand">
-            </div>
+          </div>
           <div class="column_3">
             <p class="middle"> You are a wizard searching for the gate that will return you to your home on Earth. To reach the gate, you must journey over lands ruled by magical guardians.</p>
             <p class="middle"> In order for the guardians to let you pass through the land, you will have to tell the difference between made-up words and real words.&nbsp;</p>

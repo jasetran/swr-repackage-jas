@@ -168,7 +168,6 @@ export const practice_feedback = {
   response_allowed_while_playing: config.testingOnly,
   prompt_above_buttons: true,
   stimulus: () => feedbackStimulus(),
-  prompt_above_buttons: true,
   prompt: () => {
     return (`<div class = stimulus_div>
       <p class="feedback">

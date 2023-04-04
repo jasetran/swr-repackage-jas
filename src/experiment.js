@@ -290,6 +290,9 @@ const enter_fullscreen = {
   fullscreen_mode: true,
   message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
   delay_after: 450,
+  on_start: () => {
+    document.body.style.cursor = "none";
+  },
   on_finish: async () => {
     document.body.style.cursor = "none";
 
@@ -515,7 +518,6 @@ const setup_fixation = {
   on_finish: () => {
     getStimulus(); // get the current stimuli for the trial
   },
-  on_load: () => console.log('Actual setup fixation')
 };
 
 // This is to track correct trials

@@ -49,12 +49,15 @@ export const setup_fixation_practice = {
     task: "fixation",
   },
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
   on_load: () => console.log('This is setup fixation practice'),
   on_finish: function () {
     jsPsych.setProgressBar(0);
   },
 >>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
+=======
+>>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)
 };
 
 
@@ -103,6 +106,7 @@ export const lexicality_test_practice = {
   trial_duration: config.timing.trialTime,
   keyboard_choices: ["ArrowLeft", "ArrowRight"],
 <<<<<<< HEAD
+<<<<<<< HEAD
   button_choices: () => isTouchScreen ? ["ArrowLeft", "ArrowRight"] : [],
   button_html: () => {
     if (isTouchScreen) {
@@ -120,11 +124,16 @@ export const lexicality_test_practice = {
   },
 =======
 >>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
+=======
+  swipe_animation_duration: 0,
+  swipe_offscreen_coordinate: 0,
+>>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)
   data: {
     save_trial: true,
     task: "practice_response" /* tag the test trials with this taskname so we can filter data later */,
     word: jsPsych.timelineVariable("stimulus"),
   },
+<<<<<<< HEAD
 <<<<<<< HEAD
   on_load: () => {
     if (isTouchScreen) {
@@ -133,6 +142,8 @@ export const lexicality_test_practice = {
     }
 =======
   on_load: () => console.log('Practice lexicality trial'),
+=======
+>>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)
   on_start: () => {
     let stimulusDuration
 
@@ -314,6 +325,7 @@ export const practice_feedback = {
   },
 };
 
+<<<<<<< HEAD
 export const if_node_left = {
   // timeline: [practice_feedback_left],
   conditional_function: () => store.session("correctRP") === "made-up",
@@ -324,3 +336,5 @@ export const if_node_right = {
   conditional_function: () => store.session("correctRP") === "real",
 };
 >>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
+=======
+>>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)

@@ -9,7 +9,7 @@ const randomAssignment = (mode) => {
     return (Math.random() < 0.5) ? 'fullAdaptive' : 'fullRandom';
   } return mode;
 };
-g
+
 const stimulusRuleLists = {
   fullRandom: ["random", "random", "random"],
   fullAdaptive: ["adaptive", "adaptive", "adaptive"],

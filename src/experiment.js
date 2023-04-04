@@ -293,7 +293,13 @@ const enter_fullscreen = {
   fullscreen_mode: true,
   message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
   delay_after: 450,
+<<<<<<< HEAD
   delay_after: 450,
+=======
+  on_start: () => {
+    document.body.style.cursor = "none";
+  },
+>>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)
   on_finish: async () => {
     document.body.style.cursor = "none";
 
@@ -527,7 +533,6 @@ const setup_fixation = {
   on_finish: () => {
     getStimulus(); // get the current stimuli for the trial
   },
-  on_load: () => console.log('Actual setup fixation')
 };
 
 // This is to track correct trials
@@ -572,7 +577,12 @@ const lexicality_test = {
   prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys"></div>`,
   trial_duration: config.timing.trialTime,
   keyboard_choices: ["ArrowLeft", "ArrowRight"],
+<<<<<<< HEAD
 >>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
+=======
+  swipe_animation_duration: 0,
+  swipe_offscreen_coordinate: 0,
+>>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)
   data: {
     save_trial: true,
     task: "test_response" /* tag the test trials with this taskname so we can filter data later */,
@@ -671,12 +681,16 @@ const exit_fullscreen = {
 async function roarBlocks() {
   // the core procedure
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)
   const pushPracticeTotimeline = (array) => {
     array.forEach((element) => {
       const block = {
         timeline: [
           setup_fixation_practice,
           lexicality_test_practice,
+<<<<<<< HEAD
 <<<<<<< HEAD
           audio_response,
           practice_feedback,
@@ -688,6 +702,10 @@ async function roarBlocks() {
           // if_node_left,
           // if_node_right,
 >>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
+=======
+          audio_response,
+          practice_feedback
+>>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)
         ],
         timeline_variables: [element],
       };
@@ -697,6 +715,7 @@ async function roarBlocks() {
 
   pushPracticeTotimeline(blockPractice);
   timeline.push(post_practice_intro);
+<<<<<<< HEAD
   timeline.push(if_not_fullscreen)
 =======
   // const pushPracticeTotimeline = (array) => {
@@ -721,10 +740,13 @@ async function roarBlocks() {
   // pushPracticeTotimeline(blockPractice);
   // timeline.push(post_practice_intro);
 >>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
+=======
+>>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)
 
   const core_procedure = {
     timeline: [
       setup_fixation,
+<<<<<<< HEAD
 <<<<<<< HEAD
       lexicality_test,
       audio_response,
@@ -736,6 +758,11 @@ async function roarBlocks() {
       // if_audio_response_wrong,
       // if_coin_tracking,
 >>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
+=======
+      lexicality_test,
+      audio_response,
+      if_coin_tracking,
+>>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)
     ],
   };
 

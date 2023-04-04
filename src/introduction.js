@@ -91,7 +91,6 @@ const introTrialsMapped = introTrialsContent.map(trial => {
       response_allowed_while_playing: config.testingOnly,
       prompt: trial.prompt,
       prompt_above_buttons: true,
-      on_load: () => console.log({isTouchScreen})
     }
   )
 })
@@ -105,7 +104,7 @@ export const post_practice_intro = {
   stimulus: audioContent.coinIntro,
   keyboard_choices: () => isTouchScreen ? "NO_KEYS" : "ALL_KEYS",
   button_choices: () => isTouchScreen ? ["HERE"] : [],
-  button_html: "<button class='button'>Tap <span class='yellow'>%choice%</span> to begin</button>",
+  button_html: "<button class='button'>Press <span class='yellow'>%choice%</span> to begin</button>",
   response_allowed_while_playing: config.testingOnly,
   prompt: `
     <h1>Great work, you are ready to begin the journey! </h1>

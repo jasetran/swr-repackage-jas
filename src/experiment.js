@@ -27,7 +27,7 @@ import {
   stimulusCountLists,
   taskInfo,
 } from "./config";
-import { if_audio_response_correct, if_audio_response_wrong, if_audio_response_neutral } from "./audio";
+import { audio_response } from "./audioFeedback";
 import { imgContent, preload_trials } from "./preload";
 import {
   introduction_trials,
@@ -36,8 +36,6 @@ import {
   if_coin_tracking,
 } from "./introduction";
 import {
-  if_node_left,
-  if_node_right,
   setup_fixation_practice,
   lexicality_test_practice,
   practice_feedback
@@ -271,6 +269,9 @@ const enter_fullscreen = {
   fullscreen_mode: true,
   message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
   delay_after: 450,
+  on_start: () => {
+    document.body.style.cursor = "none";
+  },
   on_finish: async () => {
     config.pid = config.pid || makePid();
     let prefix = config.pid.split("-")[0];
@@ -466,7 +467,6 @@ const setup_fixation = {
   on_finish: () => {
     getStimulus(); // get the current stimuli for the trial
   },
-  on_load: () => console.log('Actual setup fixation')
 };
 
 // This is to track correct trials
@@ -485,6 +485,8 @@ const lexicality_test = {
   prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys"></div>`,
   trial_duration: config.timing.trialTime,
   keyboard_choices: ["ArrowLeft", "ArrowRight"],
+  swipe_animation_duration: 0,
+  swipe_offscreen_coordinate: 0,
   data: {
     save_trial: true,
     task: "test_response" /* tag the test trials with this taskname so we can filter data later */,
@@ -558,36 +560,30 @@ const exit_fullscreen = {
 
 async function roarBlocks() {
   // the core procedure
-  // const pushPracticeTotimeline = (array) => {
-  //   array.forEach((element) => {
-  //     const block = {
-  //       timeline: [
-  //         setup_fixation_practice,
-  //         lexicality_test_practice,
-  //         if_audio_response_neutral,
-  //         if_audio_response_correct,
-  //         if_audio_response_wrong,
-  //         practice_feedback
-  //         // if_node_left,
-  //         // if_node_right,
-  //       ],
-  //       timeline_variables: [element],
-  //     };
-  //     timeline.push(block);
-  //   });
-  // }
+  const pushPracticeTotimeline = (array) => {
+    array.forEach((element) => {
+      const block = {
+        timeline: [
+          setup_fixation_practice,
+          lexicality_test_practice,
+          audio_response,
+          practice_feedback
+        ],
+        timeline_variables: [element],
+      };
+      timeline.push(block);
+    });
+  }
 
-  // pushPracticeTotimeline(blockPractice);
-  // timeline.push(post_practice_intro);
+  pushPracticeTotimeline(blockPractice);
+  timeline.push(post_practice_intro);
 
   const core_procedure = {
     timeline: [
       setup_fixation,
-      // lexicality_test,
-      // if_audio_response_neutral,
-      // if_audio_response_correct,
-      // if_audio_response_wrong,
-      // if_coin_tracking,
+      lexicality_test,
+      audio_response,
+      if_coin_tracking,
     ],
   };
 

@@ -21,11 +21,8 @@ export const setup_fixation_practice = {
   data: {
     task: "fixation",
   },
-  on_load: () => console.log('This is setup fixation practice'),
-  on_finish: function () {
-    jsPsych.setProgressBar(0);
-  },
 };
+
 
 export const lexicality_test_practice = {
   type: jsPsychHTMLSwipeResponse,
@@ -39,12 +36,13 @@ export const lexicality_test_practice = {
   prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys"></div>`,
   trial_duration: config.timing.trialTime,
   keyboard_choices: ["ArrowLeft", "ArrowRight"],
+  swipe_animation_duration: 0,
+  swipe_offscreen_coordinate: 0,
   data: {
     save_trial: true,
     task: "practice_response" /* tag the test trials with this taskname so we can filter data later */,
     word: jsPsych.timelineVariable("stimulus"),
   },
-  on_load: () => console.log('Practice lexicality trial'),
   on_start: () => {
     let stimulusDuration
 
@@ -153,12 +151,3 @@ export const practice_feedback = {
   },
 };
 
-export const if_node_left = {
-  // timeline: [practice_feedback_left],
-  conditional_function: () => store.session("correctRP") === "made-up",
-};
-
-export const if_node_right = {
-  // timeline: [practice_feedback_right],
-  conditional_function: () => store.session("correctRP") === "real",
-};

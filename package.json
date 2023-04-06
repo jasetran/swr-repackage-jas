@@ -29,10 +29,14 @@
     "@bdelab/roar-firekit": "^1.1.2",
     "@jspsych-contrib/plugin-audio-multi-response": "^1.0.0",
 <<<<<<< HEAD
+<<<<<<< HEAD
     "@jspsych-contrib/plugin-html-multi-response": "^1.0.2",
 =======
     "@jspsych-contrib/plugin-audio-swipe-response": "^1.0.0",
 >>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
+=======
+    "@jspsych-contrib/plugin-html-multi-response": "^1.0.2",
+>>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
     "@jspsych-contrib/plugin-html-swipe-response": "^1.0.0",
     "@jspsych/plugin-audio-keyboard-response": "^1.1.0",
     "@jspsych/plugin-call-function": "^1.1.2",
@@ -43,7 +47,10 @@
     "@jspsych/plugin-survey-multi-select": "^1.1.0",
     "@jspsych/plugin-survey-text": "^1.1.0",
     "babel-loader": "^8.2.4",
+<<<<<<< HEAD
     "detect-it": "^4.0.1",
+=======
+>>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
     "file-loader": "^6.2.0",
     "folder-hash": "^4.0.2",
     "fscreen": "^1.2.0",

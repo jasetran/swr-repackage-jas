@@ -7,6 +7,7 @@ import jsPsychSurveyText from "@jspsych/plugin-survey-text";
 import jsPsychSurveyHtmlForm from "@jspsych/plugin-survey-html-form";
 import jsPsychSurveyMultiSelect from "@jspsych/plugin-survey-multi-select";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
 import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
 =======
@@ -14,6 +15,9 @@ import jsPsychBrowserCheck from '@jspsych/plugin-browser-check'
 import jsPsychHTMLSwipeResponse from '@jspsych-contrib/plugin-html-swipe-response';
 import { detect } from 'detect-browser'
 >>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
+=======
+import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
+>>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
 import store from "store2";
 import { isTouchScreen } from './introduction';
 import fscreen from 'fscreen';
@@ -372,6 +376,7 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
 };
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 // Add in introduction_trials and countdown_trials after full screen: introduction_trials, 
 >>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
@@ -387,6 +392,9 @@ timeline.push(
   countdown_trials
 );
 =======
+=======
+
+>>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
 timeline.push(if_get_pid, if_consent_form, if_get_survey, enter_fullscreen, introduction_trials, countdown_trials);
 >>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
 
@@ -544,15 +552,20 @@ const updateCorrectChecker = () => {
 
 const lexicality_test = {
 <<<<<<< HEAD
+<<<<<<< HEAD
   type: jsPsychHTMLMultiResponse,
 =======
   type: jsPsychHTMLSwipeResponse,
 >>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
+=======
+  type: jsPsychHTMLMultiResponse,
+>>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
   stimulus: () => {
     return `<div class='stimulus_div'>
               <p id="stimulus-word" class='stimulus'>${store.session("nextStimulus").stimulus}</p>
             </div>`;
   },
+<<<<<<< HEAD
 <<<<<<< HEAD
   prompt: () => !isTouchScreen ? `<img class="lower" src="${imgContent.arrowkeyLex}" alt = "arrow-key">` : '',
   stimulus_duration: config.timing.stimulusTime,
@@ -583,10 +596,25 @@ const lexicality_test = {
   swipe_animation_duration: 0,
   swipe_offscreen_coordinate: 0,
 >>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)
+=======
+  stimulus_duration: config.timing.stimulusTime,
+  trial_duration: config.timing.trialTime,
+  keyboard_choices: ["ArrowLeft", "ArrowRight"],
+  button_choices: ["ArrowLeft", "ArrowRight"],
+  button_html: [
+    `<button>
+      <img class="btn-arrows" src=${imgContent.leftArrow} alt='left arrow' />
+    </button>`,
+    `<button>
+      <img class="btn-arrows" src=${imgContent.rightArrow} alt='right arrow' />
+    </button>`
+  ],
+>>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
   data: {
     save_trial: true,
     task: "test_response" /* tag the test trials with this taskname so we can filter data later */,
   },
+<<<<<<< HEAD
 <<<<<<< HEAD
   on_load: () => {
     if (isTouchScreen) {
@@ -612,6 +640,10 @@ const lexicality_test = {
 
     console.log('Correct response: ', nextStimulus.correct_response)
 >>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
+=======
+  on_finish: (data) => {
+    const nextStimulus = store.session("nextStimulus")
+>>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
 
     if (data.keyboard_response) {
       data.correct = jsPsych.pluginAPI.compareKeys(
@@ -620,6 +652,9 @@ const lexicality_test = {
       )
     } else {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
       if (nextStimulus.correct_response === 'ArrowLeft' && data.button_response === 0) {
         data.correct = true
       } else if (nextStimulus.correct_response === 'ArrowRight' && data.button_response === 1) {
@@ -627,6 +662,7 @@ const lexicality_test = {
       } else {
         data.correct = false
       }
+<<<<<<< HEAD
     }
 
 =======
@@ -639,6 +675,10 @@ const lexicality_test = {
     console.log('data.correct: ', data.correct)
 
 >>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
+=======
+    }
+
+>>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
     store.session.set("currentTrialCorrect", data.correct);
 
     if (data.correct) {

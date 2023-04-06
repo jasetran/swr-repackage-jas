@@ -7,9 +7,7 @@ import jsPsychFullScreen from "@jspsych/plugin-fullscreen";
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
 import jsPsychSurveyHtmlForm from "@jspsych/plugin-survey-html-form";
 import jsPsychSurveyMultiSelect from "@jspsych/plugin-survey-multi-select";
-import jsPsychBrowserCheck from '@jspsych/plugin-browser-check'
-import jsPsychHTMLSwipeResponse from '@jspsych-contrib/plugin-html-swipe-response';
-import { detect } from 'detect-browser'
+import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
 import store from "store2";
 
 // Import necessary for async in the top level of the experiment script
@@ -340,7 +338,6 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
   return false;
 };
 
-// Add in introduction_trials and countdown_trials after full screen: introduction_trials, 
 
 timeline.push(if_get_pid, if_consent_form, if_get_survey, enter_fullscreen, introduction_trials, countdown_trials);
 
@@ -476,35 +473,30 @@ const updateCorrectChecker = () => {
 }
 
 const lexicality_test = {
-  type: jsPsychHTMLSwipeResponse,
+  type: jsPsychHTMLMultiResponse,
   stimulus: () => {
     return `<div class='stimulus_div'>
               <p id="stimulus-word" class='stimulus'>${store.session("nextStimulus").stimulus}</p>
             </div>`;
   },
-  prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys"></div>`,
+  stimulus_duration: config.timing.stimulusTime,
   trial_duration: config.timing.trialTime,
   keyboard_choices: ["ArrowLeft", "ArrowRight"],
-  swipe_animation_duration: 0,
-  swipe_offscreen_coordinate: 0,
+  button_choices: ["ArrowLeft", "ArrowRight"],
+  button_html: [
+    `<button>
+      <img class="btn-arrows" src=${imgContent.leftArrow} alt='left arrow' />
+    </button>`,
+    `<button>
+      <img class="btn-arrows" src=${imgContent.rightArrow} alt='right arrow' />
+    </button>`
+  ],
   data: {
     save_trial: true,
     task: "test_response" /* tag the test trials with this taskname so we can filter data later */,
   },
-  on_start: () => {
-    console.log('Real lexicality test')
-    const stimulusDuration = config.timing.stimulusTime
-
-    setTimeout(() => {
-      if (stimulusDuration) {
-        document.getElementById("stimulus-word").style.visibility = 'hidden'
-      }
-    }, stimulusDuration)
-  },
   on_finish: (data) => {
-    const nextStimulus = store.session("nextStimulus");
-
-    console.log('Correct response: ', nextStimulus.correct_response)
+    const nextStimulus = store.session("nextStimulus")
 
     if (data.keyboard_response) {
       data.correct = jsPsych.pluginAPI.compareKeys(
@@ -512,13 +504,14 @@ const lexicality_test = {
         nextStimulus.correct_response,
       )
     } else {
-      console.log('Swipe direction: ', data.swipe_response)
-
-      let correctSwipeDirection = nextStimulus.correct_response.toLowerCase().substring(5)
-      data.correct = correctSwipeDirection === data.swipe_response
+      if (nextStimulus.correct_response === 'ArrowLeft' && data.button_response === 0) {
+        data.correct = true
+      } else if (nextStimulus.correct_response === 'ArrowRight' && data.button_response === 1) {
+        data.correct = true
+      } else {
+        data.correct = false
+      }
     }
-
-    console.log('data.correct: ', data.correct)
 
     store.session.set("currentTrialCorrect", data.correct);
 

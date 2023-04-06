@@ -39,6 +39,8 @@ import keyP3 from "./assets/key_p3.png";
 import goldCoin from "./assets/gold_coin.gif";
 import arrowkeyLexLeft from "./assets/arrowkey_lex_left.gif";
 import arrowkeyLexRight from "./assets/arrowkey_lex_right.gif";
+import leftArrow from './assets/left_arrow.png'
+import rightArrow from './assets/right_arrow.png'
 import arrowkeyLex from "./assets/arrowkey_lex.png";
 import ending from "./assets/ending.png";
 import coinIcon from "./assets/coin_icon.png";
@@ -128,7 +130,7 @@ const preload_audio_trials = Object.entries(audioBlocks).map((element) => {
 
 const imageBlocks = {
   4: [wizardMagic, wizardCoin, arrowLeftP2, arrowRightP2, keyP3],
-  5: [goldCoin, arrowkeyLexLeft, arrowkeyLexRight, arrowkeyLex, ending],
+  5: [goldCoin, arrowkeyLexLeft, arrowkeyLexRight, arrowkeyLex, leftArrow, rightArrow, ending],
   6: [coinIcon, coinBag, adventurer1, adventurer2, adventurer3],
   7: [guardian1, guardian2, guardian3, valley3, valley4],
   8: [endingBackground, valley, valley5, halfValley, endingGateCoinbag],

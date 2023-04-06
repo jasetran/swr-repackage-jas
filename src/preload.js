@@ -130,7 +130,7 @@ const preload_audio_trials = Object.entries(audioBlocks).map((element) => {
 
 const imageBlocks = {
   4: [wizardMagic, wizardCoin, arrowLeftP2, arrowRightP2, keyP3],
-  5: [goldCoin, arrowkeyLexLeft, arrowkeyLexRight, arrowkeyLex, ending],
+  5: [goldCoin, arrowkeyLexLeft, arrowkeyLexRight, arrowkeyLex, leftArrow, rightArrow, ending],
   6: [coinIcon, coinBag, adventurer1, adventurer2, adventurer3],
   7: [guardian1, guardian2, guardian3, valley3, valley4],
   8: [endingBackground, valley, valley5, halfValley, endingGateCoinbag],

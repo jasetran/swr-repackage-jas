@@ -361,7 +361,7 @@ const getStimulus = () => {
       corpus = store.session("corpusAll");
       corpusType = checkRealPseudo(corpus);
       store.session.set("itemSelect", "mfi");
-      itemSuggestion = cat.findNextItem(corpus[corpusType]);
+      itemSuggestion = cat.findNextItem(corpus[corpusType], "mfi");
       store.session.set("demoCounter",0);
       // update next stimulus
       store.session.set("nextStimulus", itemSuggestion.nextStimulus);
@@ -372,7 +372,7 @@ const getStimulus = () => {
       corpus = store.session("corpusNew");
       corpusType = checkRealPseudo(corpus);
       store.session.set("itemSelect", "random");
-      itemSuggestion = cat.findNextItem(corpus[corpusType], 'random');
+      itemSuggestion = cat.findNextItem(corpus[corpusType], "random");
       store.session.transact("demoCounter", (oldVal) => oldVal + 1);
       // update next stimulus
       store.session.set("nextStimulus", itemSuggestion.nextStimulus);
@@ -385,7 +385,7 @@ const getStimulus = () => {
       corpus = store.session("corpusAll");
       corpusType = checkRealPseudo(corpus);
       store.session.set("itemSelect", "mfi");
-      itemSuggestion = cat.findNextItem(corpus[corpusType]);
+      itemSuggestion = cat.findNextItem(corpus[corpusType], "mfi");
       store.session.transact("demoCounter", (oldVal) => oldVal + 1);
       // update next stimulus
       store.session.set("nextStimulus", itemSuggestion.nextStimulus);
@@ -396,7 +396,7 @@ const getStimulus = () => {
       corpus = store.session("corpusNew");
       corpusType = checkRealPseudo(corpus);
       store.session.set("itemSelect", "random");
-      itemSuggestion = cat.findNextItem(corpus[corpusType], 'random');
+      itemSuggestion = cat.findNextItem(corpus[corpusType], "random");
       store.session.set("demoCounter",0);
       // update next stimulus
       store.session.set("nextStimulus", itemSuggestion.nextStimulus);
@@ -516,7 +516,7 @@ const lexicality_test = {
       thetaSE: (cat.seMeasurement === Infinity ? Number.MAX_VALUE : cat.seMeasurement),
       thetaEstimate2: cat2.theta,
       thetaSE2: (cat2.seMeasurement === Infinity ? Number.MAX_VALUE : cat2.seMeasurement),
-      stimulusRule: store.session("itemSelect"),
+      stimulusRule: cat.itemSelect,
       trialNumTotal: store.session("trialNumTotal"),
       trialNumBlock: store.session("trialNumBlock"),
       pid: config.pid,

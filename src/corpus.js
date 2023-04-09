@@ -6,7 +6,7 @@ import {
 // Word corpus imports
 import dataPracticeURL from "./wordlist/ldt-items-practice.csv";
 import dataValidatedURL from "./wordlist/item_bank_new.csv";
-import dataNewURL from "./wordlist/ldt-new-items.csv";
+import dataNewURL from "./wordlist/ldt-new-items-v2.csv";
 
 // addAsset :: (k, Promise a) -> Promise (k, a)
 const addAsset = ([name, assetPromise]) =>
@@ -39,9 +39,10 @@ const transformCSV = (csvInput, isPractice) => csvInput.reduce((accum, row) => {
 const csvTransformed = {
   practice: transformCSV(csvAssets.practice, true),
   validated: transformCSV(csvAssets.validated, false),
-  new: csvAssets.new,
+  new: shuffle(transformCSV(csvAssets.new, false)), // csvAssets.new,
 };
 
+/*
 function transformNewwords(csv_new) {
   const csv_new_transform = csv_new.reduce((accum, row) => {
     const newRow = {
@@ -76,6 +77,8 @@ function transformNewwords(csv_new) {
   return shuffle(splitArray);
 }
 
+ */
+
 export const corpusAll = {
   name: "corpusAll",
   corpus_pseudo: csvTransformed.validated.filter((row) => row.realpseudo === "pseudo"),
@@ -83,9 +86,9 @@ export const corpusAll = {
 };
 
 export const blockPractice = csvTransformed.practice.slice(0, config.totalTrialsPractice);
-const blockNew = shuffle(transformNewwords(csvTransformed.new));
+// const blockNew = shuffle(transformNewwords(csvTransformed.new));
 export const corpusNew = {
   name: "corpusNew",
-  corpus_pseudo: blockNew.filter((row) => row.realpseudo === "pseudo"),
-  corpus_real: blockNew.filter((row) => row.realpseudo === "real"),
+  corpus_pseudo: csvTransformed.new.filter((row) => row.realpseudo === "pseudo"),
+  corpus_real: csvTransformed.new.filter((row) => row.realpseudo === "real"),
 };

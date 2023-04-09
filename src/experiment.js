@@ -54,7 +54,10 @@ store.session.set("corpusAll", corpusAll);
 store.session.set("corpusNew", corpusNew);
 
 const timeline = [];
-const cat = new Cat({method: 'MLE', itemSelect: store.session("itemSelect")});
+const cat = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store.session("itemSelect")});
+
+// Include new items in thetaEstimate
+const cat2 = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store.session("itemSelect")});
 
 preload_trials.forEach((trial) => {
   timeline.push(trial);
@@ -499,6 +502,8 @@ const lexicality_test = {
       cat.updateAbilityEstimate({a: 1, b: nextStimulus.difficulty, c: 0.5, d: 1}, store.session('response'));
     }
 
+    cat2.updateAbilityEstimate({a: 1, b: nextStimulus.difficulty, c: 0.5, d: 1}, store.session('response'));
+
     jsPsych.data.addDataToLastTrial({
       block: store.session("currentBlockIndex"),
       corpusId: nextStimulus.corpus_src,
@@ -509,6 +514,8 @@ const lexicality_test = {
       difficulty: nextStimulus.difficulty,
       thetaEstimate: cat.theta,
       thetaSE: (cat.seMeasurement === Infinity ? Number.MAX_VALUE : cat.seMeasurement),
+      thetaEstimate2: cat2.theta,
+      thetaSE2: (cat2.seMeasurement === Infinity ? Number.MAX_VALUE : cat2.seMeasurement),
       stimulusRule: store.session("itemSelect"),
       trialNumTotal: store.session("trialNumTotal"),
       trialNumBlock: store.session("trialNumBlock"),

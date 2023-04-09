@@ -42,43 +42,6 @@ const csvTransformed = {
   new: shuffle(transformCSV(csvAssets.new, false)), // csvAssets.new,
 };
 
-/*
-function transformNewwords(csv_new) {
-  const csv_new_transform = csv_new.reduce((accum, row) => {
-    const newRow = {
-      realword: row.realword,
-      pseudoword: row.pseudoword,
-    };
-    accum.push(newRow);
-    return accum;
-  }, []);
-
-  const newArray = shuffle(csv_new_transform);
-
-  const splitArray = [];
-  for (let i = 0; i < newArray.length; i++) {
-    const realRow = {
-      stimulus: newArray[i].realword,
-      correct_response: "ArrowRight",
-      difficulty: 0, // default level
-      corpus_src: "corpusNew",
-      realpseudo: "real",
-    };
-    splitArray.push(realRow);
-    const pseudoRow = {
-      stimulus: newArray[i].pseudoword,
-      correct_response: "ArrowLeft",
-      difficulty: 0, // default level
-      corpus_src: "corpusNew",
-      realpseudo: "pseudo",
-    };
-    splitArray.push(pseudoRow);
-  }
-  return shuffle(splitArray);
-}
-
- */
-
 export const corpusAll = {
   name: "corpusAll",
   corpus_pseudo: csvTransformed.validated.filter((row) => row.realpseudo === "pseudo"),
@@ -86,7 +49,7 @@ export const corpusAll = {
 };
 
 export const blockPractice = csvTransformed.practice.slice(0, config.totalTrialsPractice);
-// const blockNew = shuffle(transformNewwords(csvTransformed.new));
+
 export const corpusNew = {
   name: "corpusNew",
   corpus_pseudo: csvTransformed.new.filter((row) => row.realpseudo === "pseudo"),

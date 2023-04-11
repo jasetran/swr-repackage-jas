@@ -4,7 +4,7 @@ import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-respons
 import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
 import jsPsychAudioMultiResponse from '@jspsych-contrib/plugin-audio-multi-response'
 import store from "store2";
-import { isTouchScreen } from "./introduction";
+import { isTouchScreen } from "./introduction"
 
 import { jsPsych, config } from "./config";
 import {
@@ -44,11 +44,11 @@ export const lexicality_test_practice = {
   keyboard_choices: ["ArrowLeft", "ArrowRight"],
   button_choices: ["ArrowLeft", "ArrowRight"],
   button_html: [
-    `<button>
-      <img class="btn-arrows" src=${imgContent.leftArrow} alt='left arrow' />
+    `<button class="lexicality-trial-buttons">
+      <img class="btn-arrows" src=${imgContent.staticLeftKey} alt='left arrow' />
     </button>`,
-    `<button>
-      <img class="btn-arrows" src=${imgContent.rightArrow} alt='right arrow' />
+    `<button class="lexicality-trial-buttons">
+      <img class="btn-arrows" src=${imgContent.staticRightKey} alt='right arrow' />
     </button>`
   ],
   data: {

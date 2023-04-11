@@ -39,6 +39,7 @@
     "@jspsych/plugin-survey-multi-select": "^1.1.0",
     "@jspsych/plugin-survey-text": "^1.1.0",
     "babel-loader": "^8.2.4",
+    "detect-it": "^4.0.1",
     "file-loader": "^6.2.0",
     "folder-hash": "^4.0.2",
     "jspsych": "^7.2.1",

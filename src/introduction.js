@@ -6,12 +6,13 @@ import {
 import { imgContent, audioContent } from "./preload";
 import AudioMultiResponsePlugin from "@jspsych-contrib/plugin-audio-multi-response";
 import jsPsychCallFunction from '@jspsych/plugin-call-function'
+import { deviceType, primaryInput } from 'detect-it';
 
 export let isTouchScreen = false;
 
 // Ex. iPhone or iPad
 const checkMobileDevice = () => {
-  if (navigator.maxTouchPoints && navigator.maxTouchPoints > 2) {
+  if (deviceType === 'touchOnly' || ('hybrid' && primaryInput === 'touch')) {
       isTouchScreen = true
   }
 }

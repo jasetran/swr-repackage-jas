@@ -602,11 +602,11 @@ const lexicality_test = {
   keyboard_choices: ["ArrowLeft", "ArrowRight"],
   button_choices: ["ArrowLeft", "ArrowRight"],
   button_html: [
-    `<button>
-      <img class="btn-arrows" src=${imgContent.leftArrow} alt='left arrow' />
+    `<button class="lexicality-trial-buttons">
+      <img class="btn-arrows" src=${imgContent.staticLeftKey} alt='left arrow' />
     </button>`,
-    `<button>
-      <img class="btn-arrows" src=${imgContent.rightArrow} alt='right arrow' />
+    `<button class="lexicality-trial-buttons">
+      <img class="btn-arrows" src=${imgContent.staticRightKey} alt='right arrow' />
     </button>`
   ],
 >>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)

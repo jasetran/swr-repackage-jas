@@ -20,8 +20,12 @@ export let isTouchScreen = false;
 
 // Ex. iPhone or iPad
 const checkMobileDevice = () => {
+<<<<<<< HEAD
   if (navigator.maxTouchPoints && navigator.maxTouchPoints > 2) {
 >>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
+=======
+  if (deviceType === 'touchOnly' || ('hybrid' && primaryInput === 'touch')) {
+>>>>>>> 5010d376 (Changing arrow button images, rewritting logic to detect device)
       isTouchScreen = true
   }
 }

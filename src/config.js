@@ -308,7 +308,7 @@ export const initStore = () => {
   if (store.session.has("initialized") && store.local("initialized")) {
     return store.session;
   }
-  if ((userMode === 'fullAdaptive') || (userMode === 'testAdaptive')) {
+  if ((userMode === 'fullAdaptive') || (userMode === 'testAdaptive') || (userMode === "shortAdaptive") || ((userMode === "longAdaptive"))) {
     store.session.set("itemSelect", "mfi");
   } else {
     store.session.set("itemSelect", "random");

@@ -8,6 +8,9 @@ import jsPsychSurveyHtmlForm from "@jspsych/plugin-survey-html-form";
 import jsPsychSurveyMultiSelect from "@jspsych/plugin-survey-multi-select";
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
 import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
 =======
@@ -68,7 +71,6 @@ store.session.set("corpusNew", corpusNew);
 
 const timeline = [];
 const cat = new Cat({method: 'MLE', itemSelect: store.session("itemSelect")});
-
 
 preload_trials.forEach((trial) => {
   timeline.push(trial);
@@ -276,6 +278,7 @@ export  const if_get_pid = {
 };
 
 const enter_fs_again = {
+<<<<<<< HEAD
   type: jsPsychFullScreen,
   fullscreen_mode: true,
   message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
@@ -293,10 +296,13 @@ export const if_not_fullscreen = {
 
 
 const enter_fullscreen = {
+=======
+>>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
   type: jsPsychFullScreen,
   fullscreen_mode: true,
   message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
   delay_after: 450,
+<<<<<<< HEAD
 <<<<<<< HEAD
   delay_after: 450,
 =======
@@ -304,6 +310,26 @@ const enter_fullscreen = {
     document.body.style.cursor = "none";
   },
 >>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)
+=======
+  on_finish: () => {
+    document.body.style.cursor = "none";
+  },
+}
+
+export const if_not_fullscreen = {
+  timeline: [enter_fs_again],
+  conditional_function: () => {
+    return fscreen.fullscreenElement === null
+  }
+}
+
+
+const enter_fullscreen = {
+  type: jsPsychFullScreen,
+  fullscreen_mode: true,
+  message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
+  delay_after: 450,
+>>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
   on_finish: async () => {
     document.body.style.cursor = "none";
 
@@ -394,9 +420,21 @@ timeline.push(
 =======
 =======
 
+<<<<<<< HEAD
 >>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
 timeline.push(if_get_pid, if_consent_form, if_get_survey, enter_fullscreen, introduction_trials, countdown_trials);
 >>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
+=======
+timeline.push(
+  if_get_pid, 
+  if_consent_form, 
+  if_get_survey, 
+  enter_fullscreen, 
+  introduction_trials,
+  if_not_fullscreen, 
+  countdown_trials
+);
+>>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
 
 const checkRealPseudo = (corpus) => {
   let corpusType = (Math.random() < 0.5) ? "corpus_real" : "corpus_pseudo";
@@ -567,6 +605,7 @@ const lexicality_test = {
   },
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   prompt: () => !isTouchScreen ? `<img class="lower" src="${imgContent.arrowkeyLex}" alt = "arrow-key">` : '',
   stimulus_duration: config.timing.stimulusTime,
   trial_duration: config.timing.trialTime,
@@ -610,12 +649,36 @@ const lexicality_test = {
     </button>`
   ],
 >>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
+=======
+  prompt: () => !isTouchScreen ? `<img class="lower" src="${imgContent.arrowkeyLex}" alt = "arrow-key">` : '',
+  stimulus_duration: config.timing.stimulusTime,
+  trial_duration: config.timing.trialTime,
+  keyboard_choices: ["ArrowLeft", "ArrowRight"],
+  button_choices: () => isTouchScreen ? ["ArrowLeft", "ArrowRight"] : [],
+  button_html: () => {
+    if (isTouchScreen) {
+      return (
+        [
+        `<button class="lexicality-trial-arrows">
+          <img class='btn-arrows' src=${imgContent.staticLeftKey} alt='left arrow' />
+        </button>`,
+        `<button class="lexicality-trial-arrows">
+          <img class='btn-arrows' src=${imgContent.staticRightKey} alt='right arrow' />
+        </button>`
+        ]
+      )
+    }
+  },
+>>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
   data: {
     save_trial: true,
     task: "test_response" /* tag the test trials with this taskname so we can filter data later */,
   },
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
   on_load: () => {
     if (isTouchScreen) {
       document.getElementById("jspsych-html-multi-response-button-0").style.margin = '0rem 5rem 0rem 5rem'
@@ -744,8 +807,12 @@ async function roarBlocks() {
 >>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
 =======
           audio_response,
+<<<<<<< HEAD
           practice_feedback
 >>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)
+=======
+          practice_feedback,
+>>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
         ],
         timeline_variables: [element],
       };
@@ -755,6 +822,7 @@ async function roarBlocks() {
 
   pushPracticeTotimeline(blockPractice);
   timeline.push(post_practice_intro);
+<<<<<<< HEAD
 <<<<<<< HEAD
   timeline.push(if_not_fullscreen)
 =======
@@ -782,6 +850,9 @@ async function roarBlocks() {
 >>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
 =======
 >>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)
+=======
+  timeline.push(if_not_fullscreen)
+>>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
 
   const core_procedure = {
     timeline: [

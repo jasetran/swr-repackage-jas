@@ -1,12 +1,15 @@
 /* eslint-disable no-param-reassign */
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
 import jsPsychAudioMultiResponse from '@jspsych-contrib/plugin-audio-multi-response'
 import store from "store2";
 import { isTouchScreen } from "./introduction"
 =======
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
+=======
+>>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
 import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
 import jsPsychAudioMultiResponse from '@jspsych-contrib/plugin-audio-multi-response'
 import store from "store2";
@@ -77,6 +80,7 @@ export const lexicality_test_practice = {
     )
   },
   prompt: () => !isTouchScreen ? `<img class="lower" src="${imgContent.arrowkeyLex}" alt = "arrow-key">` : '',
+<<<<<<< HEAD
 =======
   type: jsPsychHTMLSwipeResponse,
 <<<<<<< HEAD
@@ -104,6 +108,8 @@ export const lexicality_test_practice = {
 >>>>>>> aa45ead8 (CSS changes)
 =======
 >>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
+=======
+>>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
   stimulus_duration: () => {
     store.session.transact("practiceIndex", (oldVal) => oldVal + 1);
     if (store.session("practiceIndex") > config.countSlowPractice) {
@@ -143,6 +149,7 @@ export const lexicality_test_practice = {
 =======
   trial_duration: config.timing.trialTime,
   keyboard_choices: ["ArrowLeft", "ArrowRight"],
+<<<<<<< HEAD
   button_choices: ["ArrowLeft", "ArrowRight"],
   button_html: [
     `<button class="lexicality-trial-buttons">
@@ -153,6 +160,23 @@ export const lexicality_test_practice = {
     </button>`
   ],
 >>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
+=======
+  button_choices: () => isTouchScreen ? ["ArrowLeft", "ArrowRight"] : [],
+  button_html: () => {
+    if (isTouchScreen) {
+      return (
+        [
+        `<button class="lexicality-trial-arrows">
+          <img class='btn-arrows' src=${imgContent.staticLeftKey} alt='left arrow' />
+        </button>`,
+        `<button class="lexicality-trial-arrows">
+          <img class='btn-arrows' src=${imgContent.staticRightKey} alt='right arrow' />
+        </button>`
+        ]
+      )
+    }
+  },
+>>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
   data: {
     save_trial: true,
     task: "practice_response" /* tag the test trials with this taskname so we can filter data later */,
@@ -161,11 +185,15 @@ export const lexicality_test_practice = {
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
   on_load: () => {
     if (isTouchScreen) {
       document.getElementById("jspsych-html-multi-response-button-0").style.margin = '0rem 5rem 0rem 5rem'
       document.getElementById("jspsych-html-multi-response-button-1").style.margin = '0rem 5rem 0rem 5rem'
     }
+<<<<<<< HEAD
 =======
   on_load: () => console.log('Practice lexicality trial'),
 =======
@@ -186,6 +214,8 @@ export const lexicality_test_practice = {
       }
     }, stimulusDuration)
 >>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
+=======
+>>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
   },
   on_finish: (data) => {
 <<<<<<< HEAD
@@ -354,6 +384,7 @@ export const practice_feedback = {
       `<button style="background-color: transparent;">
         <img class='lower' src=${store.session("correctRP") === "made-up" ? `${imgContent.arrowkeyLexLeft}` : `${imgContent.arrowkeyLexRight}`} alt="Arrow choices"/>
       </button>`
+<<<<<<< HEAD
     )
   },
 };
@@ -381,6 +412,8 @@ export const practice_feedback = {
         </button
       </div>
       `
+=======
+>>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
     )
   },
 };

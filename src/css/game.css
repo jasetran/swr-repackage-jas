@@ -574,17 +574,6 @@ p  {
 }
 
 
-.stimulus_div {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	position: fixed;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-}
-
 .text_div {
 	display: flex;
 	justify-content: center;
@@ -609,13 +598,6 @@ p  {
 	transform: translate(-50%, -50%);
 }
 
-
-.lower {
-	position: fixed;
-	bottom: 20%;
-	transform: translate(-50%, -50%);
-	height: 7vh;
-}
 
 .orange {
 	color: rgba(219,97,69,1);
@@ -834,7 +816,7 @@ p  {
 	transform: translate(-50%, -50%);
 }
 
-.practice-feedback-btn-container {
+.stimulus_div {
 	display: flex;
 	justify-content: center;
 	align-items: center;
@@ -845,34 +827,27 @@ p  {
 	height: 100%;
 }
 
-.practice-feedback-btn {
-	margin-top: 20rem;
-	width: 23rem;
-	height: 4.4rem;
-	background-color: white;
-
-}
-
-.practice-feedback-img {
-	width: 21rem;
-	height: 3.5rem;
+.lower {
+	position: fixed;
+	bottom: 20%;
+	transform: translate(-50%, -50%);
+	height: 7vh;
 }
 
 .btn-arrows {
-	width: 8.5rem;
+	height: 18vh;
 }
 
 #jspsych-html-multi-response-btngroup {
 	position: fixed;	
 	bottom: 20%;
 	width: 100%;
-	height: 10vh;
-	column-gap: 5.2rem;
 }
 
-.lexicality-trial-buttons {
+.lexicality-trial-arrows {
 	background-color: transparent;
 	border: transparent;
-	padding-right: 1.9rem;
-	padding-left: 1.9rem;
 }
+
+
+

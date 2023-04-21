@@ -1,7 +1,7 @@
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
 import store from "store2";
 import {
-  config, jsPsych,
+  config,
 } from "./config";
 import { imgContent, audioContent } from "./preload";
 import AudioMultiResponsePlugin from "@jspsych-contrib/plugin-audio-multi-response";
@@ -9,6 +9,9 @@ import jsPsychCallFunction from '@jspsych/plugin-call-function'
 import { deviceType, primaryInput } from 'detect-it';
 
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
 
 export let isTouchScreen = false;
 

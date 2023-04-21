@@ -1,12 +1,13 @@
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
 import store from "store2";
 import {
-  config, jsPsych,
+  config,
 } from "./config";
 import { imgContent, audioContent } from "./preload";
 import AudioMultiResponsePlugin from "@jspsych-contrib/plugin-audio-multi-response";
 import jsPsychCallFunction from '@jspsych/plugin-call-function'
 import { deviceType, primaryInput } from 'detect-it';
+
 
 export let isTouchScreen = false;
 
@@ -94,6 +95,13 @@ const introTrialsMapped = introTrialsContent.map(trial => {
     }
   )
 })
+
+// const introTrialsWithCheck = []
+
+// introTrialsMapped.forEach(trial => {
+//   introTrialsWithCheck.push(trial)
+//   introTrialsWithCheck.push(if_not_fullscreen)
+// })
 
 export const introduction_trials = {
   timeline: [deviceCheck, ...introTrialsMapped],

@@ -1,6 +1,5 @@
 /* eslint-disable no-param-reassign */
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
-import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
 import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
 import jsPsychAudioMultiResponse from '@jspsych-contrib/plugin-audio-multi-response'
 import store from "store2";
@@ -33,6 +32,7 @@ export const lexicality_test_practice = {
       </div>`
     )
   },
+  prompt: () => !isTouchScreen ? `<img class="lower" src="${imgContent.arrowkeyLex}" alt = "arrow-key">` : '',
   stimulus_duration: () => {
     store.session.transact("practiceIndex", (oldVal) => oldVal + 1);
     if (store.session("practiceIndex") > config.countSlowPractice) {
@@ -42,19 +42,31 @@ export const lexicality_test_practice = {
   },
   trial_duration: config.timing.trialTime,
   keyboard_choices: ["ArrowLeft", "ArrowRight"],
-  button_choices: ["ArrowLeft", "ArrowRight"],
-  button_html: [
-    `<button class="lexicality-trial-buttons">
-      <img class="btn-arrows" src=${imgContent.staticLeftKey} alt='left arrow' />
-    </button>`,
-    `<button class="lexicality-trial-buttons">
-      <img class="btn-arrows" src=${imgContent.staticRightKey} alt='right arrow' />
-    </button>`
-  ],
+  button_choices: () => isTouchScreen ? ["ArrowLeft", "ArrowRight"] : [],
+  button_html: () => {
+    if (isTouchScreen) {
+      return (
+        [
+        `<button class="lexicality-trial-arrows">
+          <img class='btn-arrows' src=${imgContent.staticLeftKey} alt='left arrow' />
+        </button>`,
+        `<button class="lexicality-trial-arrows">
+          <img class='btn-arrows' src=${imgContent.staticRightKey} alt='right arrow' />
+        </button>`
+        ]
+      )
+    }
+  },
   data: {
     save_trial: true,
     task: "practice_response" /* tag the test trials with this taskname so we can filter data later */,
     word: jsPsych.timelineVariable("stimulus"),
+  },
+  on_load: () => {
+    if (isTouchScreen) {
+      document.getElementById("jspsych-html-multi-response-button-0").style.margin = '0rem 5rem 0rem 5rem'
+      document.getElementById("jspsych-html-multi-response-button-1").style.margin = '0rem 5rem 0rem 5rem'
+    }
   },
   on_finish: (data) => {
     const correctResponse = jsPsych.timelineVariable("correct_response")
@@ -151,13 +163,9 @@ export const practice_feedback = {
   button_choices: () => isTouchScreen ? store.session("correctRP") === "made-up" ? ["Left"] : ["Right"] : [],
   button_html: () => {
     return (
-      `
-      <div class='practice-feedback-btn-container'>
-        <button class='practice-feedback-btn'>
-          <img class='practice-feedback-img' src=${store.session("correctRP") === "made-up" ? `${imgContent.arrowkeyLexLeft}` : `${imgContent.arrowkeyLexRight}`} alt="Arrow choices"/>
-        </button
-      </div>
-      `
+      `<button style="background-color: transparent;">
+        <img class='lower' src=${store.session("correctRP") === "made-up" ? `${imgContent.arrowkeyLexLeft}` : `${imgContent.arrowkeyLexRight}`} alt="Arrow choices"/>
+      </button>`
     )
   },
 };

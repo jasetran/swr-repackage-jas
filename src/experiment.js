@@ -62,7 +62,6 @@ const cat = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store
 // Include new items in thetaEstimate
 const cat2 = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store.session("itemSelect")});
 
-
 preload_trials.forEach((trial) => {
   timeline.push(trial);
 });
@@ -290,7 +289,7 @@ const enter_fullscreen = {
   fullscreen_mode: true,
   message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
   delay_after: 450,
-  on_start: () => {
+  on_finish: async () => {
     document.body.style.cursor = "none";
   },
   on_finish: async () => {

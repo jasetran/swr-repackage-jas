@@ -304,6 +304,7 @@ const enter_fullscreen = {
   delay_after: 450,
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
   delay_after: 450,
 =======
   on_start: () => {
@@ -314,6 +315,10 @@ const enter_fullscreen = {
   on_finish: () => {
     document.body.style.cursor = "none";
   },
+=======
+  on_start: () => document.body.style.cursor = "default",
+  on_finish: () => document.body.style.cursor = "none",
+>>>>>>> 5bc2a6f8 (Making cursor visible when prompted for fullscreen)
 }
 
 export const if_not_fullscreen = {

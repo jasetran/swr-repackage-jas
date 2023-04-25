@@ -1,6 +1,9 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+>>>>>>> 5bc2a6f8 (Making cursor visible when prompted for fullscreen)
 index.03bbf47276d706cca9f2.bundle.js.LICENSE.txt,1682449959685,bbd72e7e493f58650008662ee24af939c8ccaa1df3a9892b322b672f652cee23
 npm.bdelab.53fbe0e83972445c646d.bundle.js,1682449959685,9e5169bb980146133862e044c0a448a076b1b4e7004a6fe9a247498d25070854
 404.html,1682449983454,05cbc6f94d7a69ce2e29646eab13be2c884e61ba93e3094df5028866876d18b3
@@ -76,6 +79,7 @@ img/coin_bag.gif,1682449959681,608e87423f6ebafdd0ba9d04ad14563001216524d10416660
 img/wizard_magic.gif,1682449959684,e0433446418ddb83bf68a77f7fdf4b64ba1bde77d2345f02f8b67607b849791f
 npm.firebase.810e3e1c885d8a0a000d.bundle.js,1682449959685,6d5c5916ade3ddfa317fa65d9336cc14574d3da92ed29142c5061876b5c5eeba
 img/ending_gate_coinbag.gif,1682449959681,e7d279a9a8e83ed559cc06faf4fdb0d032c7430ea47b83945c931da453fb858e
+<<<<<<< HEAD
 =======
 404.html,1680814370536,05cbc6f94d7a69ce2e29646eab13be2c884e61ba93e3094df5028866876d18b3
 index.html,1680813664400,696e60dbfa3b5b1d892b173d7f820278e6c086455c7ececfc7298f1595fcef81
@@ -306,3 +310,5 @@ img/coin_bag.gif,1682115414285,608e87423f6ebafdd0ba9d04ad14563001216524d10416660
 img/wizard_magic.gif,1682115414290,e0433446418ddb83bf68a77f7fdf4b64ba1bde77d2345f02f8b67607b849791f
 img/ending_gate_coinbag.gif,1682115414286,e7d279a9a8e83ed559cc06faf4fdb0d032c7430ea47b83945c931da453fb858e
 >>>>>>> fe861e2d (Changing countdown and fixation to be same size as buttons on mobile)
+=======
+>>>>>>> 5bc2a6f8 (Making cursor visible when prompted for fullscreen)

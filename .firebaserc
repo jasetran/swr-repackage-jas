@@ -1,5 +1,15 @@
+
 {
   "projects": {
-    "default": "roar-swr-demo"
+    "default": "gse-yeatmanlab"
+  },
+  "targets": {
+    "gse-yeatmanlab": {
+      "hosting": {
+        "swr": [
+          "roar-swr"
+        ]
+      }
+    }
   }
 }

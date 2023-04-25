@@ -272,9 +272,8 @@ const enter_fs_again = {
   fullscreen_mode: true,
   message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
   delay_after: 450,
-  on_finish: () => {
-    document.body.style.cursor = "none";
-  },
+  on_start: () => document.body.style.cursor = "default",
+  on_finish: () => document.body.style.cursor = "none",
 }
 
 export const if_not_fullscreen = {

@@ -2,6 +2,7 @@ import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-respons
 import store from "store2";
 import { audioContent, imgContent } from "./preload";
 import { config } from "./config";
+import { isTouchScreen } from "./introduction";
 
 const audio_response = {
   type: jsPsychAudioKeyboardResponse,
@@ -18,9 +19,24 @@ const audio_response = {
   },
   choices: "NO_KEYS",
   trial_ends_after_audio: true,
-  prompt: `<div class = stimulus_div><p class = 'stimulus'><br></p></div> 
-              <img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys">`,
+  prompt: () => {
+    return (`
+        <div id='${isTouchScreen ? 'countdown-wrapper' : ''}'>
+          ${isTouchScreen ? (
+            `<div id='countdown-arrows-wrapper'>
+              <div class="countdown-arrows">
+                <img class='btn-arrows' src=${imgContent.staticLeftKey} alt='left arrow' />
+              </div>
+              <div class="countdown-arrows">
+                <img class='btn-arrows' src=${imgContent.staticRightKey} alt='right arrow' />
+              </div>
+            </div>`
+          ) : (
+            `<img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys">`
+          )}
+        </div>`
+    )
+  },
 };
-
 
 export { audio_response };

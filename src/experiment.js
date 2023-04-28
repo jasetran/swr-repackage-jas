@@ -2,12 +2,15 @@
 /* eslint-disable no-param-reassign */
 import { Cat } from '@bdelab/jscat';
 // jsPsych imports
-import jsPsychSurveyText from "@jspsych/plugin-survey-text";
 import jsPsychFullScreen from "@jspsych/plugin-fullscreen";
-import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
+import jsPsychSurveyText from "@jspsych/plugin-survey-text";
 import jsPsychSurveyHtmlForm from "@jspsych/plugin-survey-html-form";
 import jsPsychSurveyMultiSelect from "@jspsych/plugin-survey-multi-select";
+import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
+import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
 import store from "store2";
+import { isTouchScreen } from './introduction';
+import fscreen from 'fscreen';
 
 // Import necessary for async in the top level of the experiment script
 import "regenerator-runtime/runtime";
@@ -24,7 +27,7 @@ import {
   stimulusCountLists,
   taskInfo,
 } from "./config";
-import { if_audio_response_correct, if_audio_response_wrong, if_audio_response_neutral } from "./audio";
+import { audio_response } from "./audioFeedback";
 import { imgContent, preload_trials } from "./preload";
 import {
   introduction_trials,
@@ -33,10 +36,9 @@ import {
   if_coin_tracking,
 } from "./introduction";
 import {
-  if_node_left,
-  if_node_right,
   setup_fixation_practice,
   lexicality_test_practice,
+  practice_feedback
 } from "./practice";
 import {
   mid_block_page_list,
@@ -48,9 +50,10 @@ import {corpusNew, blockPractice, corpusAll } from "./corpus";
 // CSS imports
 import "./css/game.css";
 
-let firekit;
 
-store.session.set("corpusAll", corpusAll);
+export let firekit;
+
+store.session.set("corpusAll", corpusAll); 
 store.session.set("corpusNew", corpusNew);
 
 const timeline = [];
@@ -60,7 +63,7 @@ preload_trials.forEach((trial) => {
   timeline.push(trial);
 });
 
-const makePid = () => {
+export const makePid = () => {
   let text = "";
   const possible =
     "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
@@ -168,7 +171,7 @@ const consent_form = {
   ],
 };
 
-const if_consent_form = {
+export const if_consent_form = {
   timeline: [consent_form],
   conditional_function: () => {
     return Boolean(((config.userMode === "demo") || (config.taskVariant === 'otherLabs') || (config.taskVariant === 'prolific')) && (config.consent === true));
@@ -247,25 +250,45 @@ const survey_pid = {
   },
 };
 
-const if_get_survey = {
+export const if_get_survey = {
   timeline: [survey_pid],
   conditional_function: () => {
     return Boolean(((config.userMode === "demo") || (config.taskVariant === 'otherLabs') || (config.taskVariant === 'prolific')) && (config.consent === true));
   },
 };
 
-const if_get_pid = {
+export  const if_get_pid = {
   timeline: [ifGetLabId, ifGetPid],
   conditional_function: function () {
     return config.taskVariant === 'otherLabs';
   },
 };
 
+const enter_fs_again = {
+  type: jsPsychFullScreen,
+  fullscreen_mode: true,
+  message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
+  delay_after: 450,
+  on_start: () => document.body.style.cursor = "default",
+  on_finish: () => document.body.style.cursor = "none",
+}
+
+export const if_not_fullscreen = {
+  timeline: [enter_fs_again],
+  conditional_function: () => {
+    return fscreen.fullscreenElement === null
+  }
+}
+
+
 const enter_fullscreen = {
   type: jsPsychFullScreen,
   fullscreen_mode: true,
   message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
+  delay_after: 450,
   on_finish: async () => {
+    document.body.style.cursor = "none";
+
     config.pid = config.pid || makePid();
     let prefix = config.pid.split("-")[0];
     if (prefix === config.pid ||  config.taskVariant !== 'school'){
@@ -306,6 +329,7 @@ const timingData = {
   timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 };
 
+
 jsPsych.opts.on_data_update = extend(jsPsych.opts.on_data_update, (data) => {
   /*if (data.trial_index >= 10) {
     firekit?.writeTrial(data);
@@ -333,7 +357,16 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
   return false;
 };
 
-timeline.push(if_get_pid, if_consent_form, if_get_survey, enter_fullscreen, introduction_trials, countdown_trials);
+
+timeline.push(
+  if_get_pid, 
+  if_consent_form, 
+  if_get_survey, 
+  enter_fullscreen, 
+  introduction_trials,
+  if_not_fullscreen, 
+  countdown_trials
+);
 
 const checkRealPseudo = (corpus) => {
   let corpusType = (Math.random() < 0.5) ? "corpus_real" : "corpus_pseudo";
@@ -443,13 +476,33 @@ const getStimulus = () => {
   store.session.transact("trialNumTotal", (oldVal) => oldVal + 1);
 }
 
+
 // set-up screen
 const setup_fixation = {
   type: jsPsychHtmlKeyboardResponse,
   stimulus: function () {
-    return `<div class = stimulus_div><p class = 'stimulus'>+</p></div>`;
+    return `<div class='stimulus_div'>
+              <p class='stimulus'>+</p>
+            </div>`;
   },
-  prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys"></div>`,
+  prompt: () => {
+    if (isTouchScreen) {
+      return (
+        `<div id='${isTouchScreen ? 'countdown-wrapper' : ''}'>
+            <div id='countdown-arrows-wrapper'>
+              <div class="countdown-arrows">
+                <img class='btn-arrows' src=${imgContent.staticLeftKey} alt='left arrow' />
+              </div>
+              <div class="countdown-arrows">
+                <img class='btn-arrows' src=${imgContent.staticRightKey} alt='right arrow' />
+              </div>
+            </div>
+         </div>`
+      )
+    }
+
+    return `<img class="lower" src="${imgContent.arrowkeyLex}" alt = "arrow-key">`
+  },
   choices: "NO_KEYS",
   trial_duration: config.timing.fixationTime,
   data: {
@@ -466,27 +519,61 @@ const updateCorrectChecker = () => {
   const correct_trials = trials.filter({ correct: true });
 }
 
+
 const lexicality_test = {
-  type: jsPsychHtmlKeyboardResponse,
+  type: jsPsychHTMLMultiResponse,
   stimulus: () => {
-    return `<div class = stimulus_div><p class = 'stimulus'>${
-      store.session("nextStimulus").stimulus
-    }</p></div>`;
+    return `<div class='stimulus_div'>
+              <p id="stimulus-word" class='stimulus'>${store.session("nextStimulus").stimulus}</p>
+            </div>`;
   },
-  prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys"></div>`,
+  prompt: () => !isTouchScreen ? `<img class="lower" src="${imgContent.arrowkeyLex}" alt = "arrow-key">` : '',
   stimulus_duration: config.timing.stimulusTime,
   trial_duration: config.timing.trialTime,
-  choices: ["ArrowLeft", "ArrowRight"],
+  keyboard_choices: ["ArrowLeft", "ArrowRight"],
+  button_choices: () => isTouchScreen ? ["ArrowLeft", "ArrowRight"] : [],
+  button_html: () => {
+    if (isTouchScreen) {
+      return (
+        [
+        `<button class="lexicality-trial-arrows">
+          <img class='btn-arrows' src=${imgContent.staticLeftKey} alt='left arrow' />
+        </button>`,
+        `<button class="lexicality-trial-arrows">
+          <img class='btn-arrows' src=${imgContent.staticRightKey} alt='right arrow' />
+        </button>`
+        ]
+      )
+    }
+  },
   data: {
     save_trial: true,
     task: "test_response" /* tag the test trials with this taskname so we can filter data later */,
   },
+  on_load: () => {
+    if (isTouchScreen) {
+      document.getElementById("jspsych-html-multi-response-button-0").style.margin = '0rem 5rem 0rem 5rem'
+      document.getElementById("jspsych-html-multi-response-button-1").style.margin = '0rem 5rem 0rem 5rem'
+    }
+  },
   on_finish: (data) => {
-    const nextStimulus = store.session("nextStimulus");
-    data.correct = jsPsych.pluginAPI.compareKeys(
-      data.response,
-      nextStimulus.correct_response
-    );
+    const nextStimulus = store.session("nextStimulus")
+
+    if (data.keyboard_response) {
+      data.correct = jsPsych.pluginAPI.compareKeys(
+        data.keyboard_response,
+        nextStimulus.correct_response,
+      )
+    } else {
+      if (nextStimulus.correct_response === 'ArrowLeft' && data.button_response === 0) {
+        data.correct = true
+      } else if (nextStimulus.correct_response === 'ArrowRight' && data.button_response === 1) {
+        data.correct = true
+      } else {
+        data.correct = false
+      }
+    }
+
     store.session.set("currentTrialCorrect", data.correct);
 
     if (data.correct) {
@@ -505,6 +592,7 @@ const lexicality_test = {
       word: nextStimulus.stimulus,
       correct: store.session("response"),
       correctResponse: nextStimulus.correct_response,
+      responseInput: data.keyboard_response ? 'keyboard' : 'touch',
       realpseudo: nextStimulus.realpseudo,
       difficulty: nextStimulus.difficulty,
       thetaEstimate: cat.theta,
@@ -533,11 +621,8 @@ async function roarBlocks() {
         timeline: [
           setup_fixation_practice,
           lexicality_test_practice,
-          if_audio_response_neutral,
-          if_audio_response_correct,
-          if_audio_response_wrong,
-          if_node_left,
-          if_node_right,
+          audio_response,
+          practice_feedback,
         ],
         timeline_variables: [element],
       };
@@ -547,14 +632,13 @@ async function roarBlocks() {
 
   pushPracticeTotimeline(blockPractice);
   timeline.push(post_practice_intro);
+  timeline.push(if_not_fullscreen)
 
   const core_procedure = {
     timeline: [
       setup_fixation,
       lexicality_test,
-      if_audio_response_neutral,
-      if_audio_response_correct,
-      if_audio_response_wrong,
+      audio_response,
       if_coin_tracking,
     ],
   };
@@ -587,6 +671,7 @@ async function roarBlocks() {
           countdown_trials,
           roar_mainproc_block_half_1,
           mid_block_page_list[i],
+          if_not_fullscreen,
           countdown_trials,
           roar_mainproc_block_half_2,
         ],
@@ -594,6 +679,7 @@ async function roarBlocks() {
       timeline.push(total_roar_mainproc_line);
       if (i < stimulusCounts.length - 1) {
         timeline.push(post_block_page_list[i]);
+        timeline.push(if_not_fullscreen)
       }
     }
   }

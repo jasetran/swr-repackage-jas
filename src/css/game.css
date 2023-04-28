@@ -1,4 +1,5 @@
 /* CSS Document */
+
 body {
 	width:60%;
 	margin: auto;
@@ -109,16 +110,6 @@ p  {
 	color: rgba(0,0,0,1);
 }
 
-.stimulus_div {
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	position: fixed;
-	left: 0;
-	top: 0;
-	width: 100%;
-	height: 100%;
-}
 
 .text_div {
 	display: flex;
@@ -144,13 +135,6 @@ p  {
 	transform: translate(-50%, -50%);
 }
 
-.lower {
-	position: fixed;
-	bottom: 20%;
-	left: 50%;
-	transform: translate(-50%, -50%);
-	height: 7vh;
-}
 
 .orange {
 	color: rgba(219,97,69,1);
@@ -209,6 +193,8 @@ p  {
 	position: fixed;
 	display: block;
 	bottom: 0;
+	margin: 0;
+	border: 0;
 }
 
 .story-scene{
@@ -367,5 +353,55 @@ p  {
 	transform: translate(-50%, -50%);
 }
 
+.stimulus_div {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: fixed;
+	left: 0;
+	top: 0;
+	width: 100%;
+	height: 100%;
+}
 
+.lower {
+	position: fixed;
+	bottom: 20%;
+	transform: translate(-50%, -50%);
+	height: 7vh;
+}
+
+.btn-arrows {
+	height: 18vh;
+}
+
+#jspsych-html-multi-response-btngroup {
+	position: fixed;	
+	bottom: 20%;
+	width: 100%;
+}
+
+.lexicality-trial-arrows {
+	background-color: transparent;
+	border: transparent;
+	padding: 0;
+}
+
+.countdown-arrows {
+	background-color: transparent;
+	border: transparent;
+	margin-left: 5rem;
+	margin-right: 5rem;
+}
+
+#countdown-wrapper {
+	position: fixed;	
+	bottom: 20%;
+	width: 100%;
+}
+
+#countdown-arrows-wrapper {
+	display: flex;
+	justify-content: center;
+}
 

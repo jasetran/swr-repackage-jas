@@ -9,7 +9,7 @@ import jsPsychSurveyMultiSelect from "@jspsych/plugin-survey-multi-select";
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
 import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
 import store from "store2";
-import { isTouchScreen, deviceCheck } from './preload';
+import { isTouchScreen } from './preload';
 import fscreen from 'fscreen';
 
 // Import necessary for async in the top level of the experiment script
@@ -56,15 +56,11 @@ export let firekit;
 store.session.set("corpusAll", corpusAll); 
 store.session.set("corpusNew", corpusNew);
 
-const timeline = [];
+const timeline = [...preload_trials];
 const cat = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store.session("itemSelect")});
 
 // Include new items in thetaEstimate
 const cat2 = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store.session("itemSelect")});
-
-preload_trials.forEach((trial) => {
-  timeline.push(trial);
-});
 
 export const makePid = () => {
   let text = "";
@@ -365,7 +361,6 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
 
 
 timeline.push(
-  deviceCheck,
   if_get_pid, 
   if_consent_form, 
   if_get_survey, 

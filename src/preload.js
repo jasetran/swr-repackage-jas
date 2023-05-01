@@ -5,16 +5,16 @@ import { deviceType, primaryInput } from 'detect-it';
 export let isTouchScreen = false;
 
 // Ex. iPhone or iPad
-const checkMobileDevice = () => {
-  if (deviceType === 'touchOnly' || ('hybrid' && primaryInput === 'touch')) {
-      isTouchScreen = true
-  }
-}
+// const checkMobileDevice = () => {
+//   if (deviceType === 'touchOnly' || ('hybrid' && primaryInput === 'touch')) {
+//       isTouchScreen = true
+//   }
+// }
 
-export const deviceCheck = {
-  type: jsPsychCallFunction,
-  func: checkMobileDevice
-};
+// export const deviceCheck = {
+//   type: jsPsychCallFunction,
+//   func: checkMobileDevice
+// };
 
 
 export const camelCase = (str) => str.replace(/_([a-z])/g, (match, letter) => {
@@ -61,9 +61,18 @@ const audioBlocksTablet = {
   2: tabletAudio
 };
 
-export const audioContent = preloadObj2contentObj(isTouchScreen ? audioBlocksTablet : audioBlocksKeyboard);
+const deviceAudio = () => {
+  if (deviceType === 'touchOnly' || ('hybrid' && primaryInput === 'touch')) {
+    isTouchScreen = true
+    return audioBlocksTablet
+  } else {
+    return audioBlocksKeyboard
+  }
+}
 
-const preload_audio_trials = Object.entries(isTouchScreen ? audioBlocksTablet : audioBlocksKeyboard).map((element) => {
+export const audioContent = preloadObj2contentObj(deviceAudio());
+
+const preload_audio_trials = Object.entries(deviceAudio()).map((element) => {
   const idx = element[0];
   const audio_block = element[1];
   return {

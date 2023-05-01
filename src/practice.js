@@ -156,10 +156,10 @@ const feedbackStimulus = () => {
   }
 
   if (isCorrect) {
-    return audioContent[camelCase(`feedback_${jsPsych.timelineVariable("stimulus")}_correct`)];
+    return audioContent[camelCase(`feedback_${jsPsych.timelineVariable("stimulus")}_correct${isTouchScreen ? '_t' : ''}`)];
   }
 
-  return audioContent[camelCase(`feedback_${jsPsych.timelineVariable("stimulus")}_wrong`)];
+  return audioContent[camelCase(`feedback_${jsPsych.timelineVariable("stimulus")}_wrong${isTouchScreen ? '_t' : ''}`)];
 };
 
 

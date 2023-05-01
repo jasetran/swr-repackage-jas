@@ -8,7 +8,7 @@ import AudioMultiResponsePlugin from "@jspsych-contrib/plugin-audio-multi-respon
 
 const midBlockTrialsContent = [
   {
-    stimulus: audioContent.midBlock1,
+    stimulus: () => isTouchScreen ? audioContent.midBlock1T : audioContent.midBlock1,
     prompt: () => {
       return (
         `<div>
@@ -28,7 +28,7 @@ const midBlockTrialsContent = [
     }
   },
   {
-    stimulus: audioContent.midBlock2,
+    stimulus: () => isTouchScreen ? audioContent.midBlock2T : audioContent.midBlock2,
     prompt: () => {
       return (`
         <div>
@@ -48,7 +48,7 @@ const midBlockTrialsContent = [
     }
   },
   {
-    stimulus: audioContent.midBlock3,
+    stimulus: () => isTouchScreen ? audioContent.midBlock3T : audioContent.midBlock3,
     prompt: () => {
       return (`
         <div>
@@ -93,7 +93,7 @@ const mid_block_page_list = [...midBlockTrialsMapped];
 
 const postBlockTrialsContent = [
   {
-    stimulus: audioContent.endBlock1,
+    stimulus: () => isTouchScreen ? audioContent.endBlock1T : audioContent.endBlock1,
     prompt: () => {
       return (
         `
@@ -117,7 +117,7 @@ const postBlockTrialsContent = [
     }
   },
   {
-    stimulus: audioContent.endBlock2,
+    stimulus: () => isTouchScreen ? audioContent.endBlock2T : audioContent.endBlock2,
     prompt: () => {
       return (
         `
@@ -160,7 +160,7 @@ const post_block_page_list = [...postBlockTrialsMapped];
 
 const final_page = {
   type: AudioMultiResponsePlugin,
-  stimulus: audioContent.endGame,
+  stimulus: () => isTouchScreen ? audioContent.endGameT : audioContent.endGame,
   keyboard_choices: () => isTouchScreen ? "NO_KEYS" : "ALL_KEYS",
   button_choices: () => isTouchScreen ? ["HERE"] : [],
   button_html: "<button class='button'>Press <span class='yellow'>%choice%</span> to save your work</button>",

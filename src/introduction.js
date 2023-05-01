@@ -11,7 +11,7 @@ import { isTouchScreen } from "./preload";
 /* define instructions trial */
 
 const introTrialsContent = [
-  { stimulus: () => isTouchScreen ? audioContent.intro1 : audioContent.intro1,
+  { stimulus: () => isTouchScreen ? audioContent.intro1T : audioContent.intro1,
     prompt: () => {
       return (`
         <h1 id='lexicality-intro-header'>Welcome to the world of Lexicality!</h1>
@@ -28,7 +28,7 @@ const introTrialsContent = [
       )
     } ,
   },
-  { stimulus: audioContent.intro2,
+  { stimulus: () => isTouchScreen ? audioContent.intro2T : audioContent.intro2,
     prompt: () => { 
       return (`
         <h1>A real or made-up word will flash very quickly at the center of the screen.</h1>
@@ -51,7 +51,7 @@ const introTrialsContent = [
       )
     },
   },
-  { stimulus: audioContent.intro3,
+  { stimulus: () => isTouchScreen ? audioContent.intro3T : audioContent.intro3,
     prompt: () => {
       return (
         ` <h1>Let us review which ${isTouchScreen ? 'arrow we press' : 'key we press'} for made-up words and real words.</h1>
@@ -66,20 +66,19 @@ const introTrialsContent = [
   },
 ]
 
-const introTrialsMapped = introTrialsContent.map(trial => {
+const introTrialsMapped = introTrialsContent.map((trial, i) => {
   return (
     {
       type: AudioMultiResponsePlugin,
       stimulus: trial.stimulus,
       keyboard_choices: () => isTouchScreen ? "NO_KEYS" : "ALL_KEYS",
       button_choices: () => isTouchScreen ? ["HERE"] : [],
-      button_html: "<button class='button'>Press <span class='yellow'>%choice%</span> to continue</button>",
+      button_html: `<button class='button'>Press <span class='yellow'>%choice%</span> to ${isTouchScreen && i === 2 ? 'practice' : 'continue'}</button>`,
       response_allowed_while_playing: config.testingOnly,
       prompt: trial.prompt,
       prompt_above_buttons: true,
-      on_start: () => console.log({audioContent}),
+      on_start: () => console.log({isTouchScreen}),
       on_load: () => console.log({audioContent}),
-      on_finish: () => console.log('Hi from iPAD')
     }
   )
 })
@@ -97,7 +96,7 @@ export const introduction_trials = {
 
 export const post_practice_intro = {
   type: AudioMultiResponsePlugin,
-  stimulus: audioContent.coinIntro,
+  stimulus: () => isTouchScreen ? audioContent.coinIntroT : audioContent.coinIntro,
   keyboard_choices: () => isTouchScreen ? "NO_KEYS" : "ALL_KEYS",
   button_choices: () => isTouchScreen ? ["HERE"] : [],
   button_html: "<button class='button'>Press <span class='yellow'>%choice%</span> to begin</button>",
@@ -108,7 +107,7 @@ export const post_practice_intro = {
         <p class="center"> You will earn gold coins along the way.</p>
         <img class = "coin" src="${imgContent.goldCoin}" alt="gold">
       </div>
-    ${!isTouchScreen && '<div class="button">Press <span class="yellow">ANY KEY</span> to begin</div>'}`,
+    ${!isTouchScreen ? '<div class="button">Press <span class="yellow">ANY KEY</span> to begin</div>' : ''}`,
   prompt_above_buttons: true
 };
 

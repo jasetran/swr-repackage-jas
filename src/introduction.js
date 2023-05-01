@@ -5,28 +5,13 @@ import {
 } from "./config";
 import { imgContent, audioContent } from "./preload";
 import AudioMultiResponsePlugin from "@jspsych-contrib/plugin-audio-multi-response";
-import jsPsychCallFunction from '@jspsych/plugin-call-function'
-import { deviceType, primaryInput } from 'detect-it';
+import { isTouchScreen } from "./preload";
 
-
-export let isTouchScreen = false;
-
-// Ex. iPhone or iPad
-const checkMobileDevice = () => {
-  if (deviceType === 'touchOnly' || ('hybrid' && primaryInput === 'touch')) {
-      isTouchScreen = true
-  }
-}
-
-export const deviceCheck = {
-  type: jsPsychCallFunction,
-  func: checkMobileDevice
-};
 
 /* define instructions trial */
 
 const introTrialsContent = [
-  { stimulus: audioContent.intro1,
+  { stimulus: () => isTouchScreen ? audioContent.intro1 : audioContent.intro1,
     prompt: () => {
       return (`
         <h1 id='lexicality-intro-header'>Welcome to the world of Lexicality!</h1>
@@ -92,6 +77,9 @@ const introTrialsMapped = introTrialsContent.map(trial => {
       response_allowed_while_playing: config.testingOnly,
       prompt: trial.prompt,
       prompt_above_buttons: true,
+      on_start: () => console.log({audioContent}),
+      on_load: () => console.log({audioContent}),
+      on_finish: () => console.log('Hi from iPAD')
     }
   )
 })
@@ -104,7 +92,7 @@ const introTrialsMapped = introTrialsContent.map(trial => {
 // })
 
 export const introduction_trials = {
-  timeline: [deviceCheck, ...introTrialsMapped],
+  timeline: [...introTrialsMapped],
 };
 
 export const post_practice_intro = {

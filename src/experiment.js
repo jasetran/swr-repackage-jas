@@ -9,7 +9,7 @@ import jsPsychSurveyMultiSelect from "@jspsych/plugin-survey-multi-select";
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
 import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
 import store from "store2";
-import { isTouchScreen } from './introduction';
+import { isTouchScreen, deviceCheck } from './preload';
 import fscreen from 'fscreen';
 
 // Import necessary for async in the top level of the experiment script
@@ -365,6 +365,7 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
 
 
 timeline.push(
+  deviceCheck,
   if_get_pid, 
   if_consent_form, 
   if_get_survey, 

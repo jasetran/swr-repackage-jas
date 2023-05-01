@@ -3,7 +3,7 @@ import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response"
 import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
 import jsPsychAudioMultiResponse from '@jspsych-contrib/plugin-audio-multi-response'
 import store from "store2";
-import { isTouchScreen } from "./introduction"
+import { isTouchScreen } from "./preload"
 
 import { jsPsych, config } from "./config";
 import {

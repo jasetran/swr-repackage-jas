@@ -5,28 +5,12 @@ import {
 } from "./config";
 import { imgContent, audioContent } from "./preload";
 import AudioMultiResponsePlugin from "@jspsych-contrib/plugin-audio-multi-response";
-import jsPsychCallFunction from '@jspsych/plugin-call-function'
-import { deviceType, primaryInput } from 'detect-it';
-
-
-export let isTouchScreen = false;
-
-// Ex. iPhone or iPad
-const checkMobileDevice = () => {
-  if (deviceType === 'touchOnly' || ('hybrid' && primaryInput === 'touch')) {
-      isTouchScreen = true
-  }
-}
-
-export const deviceCheck = {
-  type: jsPsychCallFunction,
-  func: checkMobileDevice
-};
+import { isTouchScreen } from "./preload";
 
 /* define instructions trial */
 
 const introTrialsContent = [
-  { stimulus: audioContent.intro1,
+  { stimulus: () => isTouchScreen ? audioContent.intro1T : audioContent.intro1,
     prompt: () => {
       return (`
         <h1 id='lexicality-intro-header'>Welcome to the world of Lexicality!</h1>
@@ -43,16 +27,16 @@ const introTrialsContent = [
       )
     } ,
   },
-  { stimulus: audioContent.intro2,
+  { stimulus: () => isTouchScreen ? audioContent.intro2T : audioContent.intro2,
     prompt: () => { 
       return (`
         <h1>A real or made-up word will flash very quickly at the center of the screen.</h1>
         <div class="row">
           <div class="column_2_upper" style="background-color:#f2f2f2;">
-            <p style = "text-align:left;">The made-up words might look like English words, but they do not mean anything in English. For example, laip, bove, or cigbert are made-up words. <span class="orange"><b>If you see a made-up word, ${isTouchScreen ? 'press the LEFT ARROW.' : 'press the LEFT ARROW KEY.'}</b></span></p>
+            <p style = "text-align:left;">The made-up words might look like English words, but they do not mean anything in English. For example, laip, bove, or cigbert are made-up words. <span class="orange"><b>If you see a made-up word, press the LEFT ARROW.</b></span></p>
           </div>
           <div class="column_2_upper" style="background-color:#f2f2f2;">
-            <p style = "text-align:left;"> The real words will be ones you recognize. They are real English words like is, and, basket, or lion. <span class="blue"><b> If you see a real word, ${isTouchScreen ? 'press the RIGHT ARROW.' : 'press the RIGHT ARROW KEY.'}</b></span></p>
+            <p style = "text-align:left;"> The real words will be ones you recognize. They are real English words like is, and, basket, or lion. <span class="blue"><b> If you see a real word, press the RIGHT ARROW.</b></span></p>
           </div>
         </div>
         <div class="row">
@@ -66,10 +50,10 @@ const introTrialsContent = [
       )
     },
   },
-  { stimulus: audioContent.intro3,
+  { stimulus: () => isTouchScreen ? audioContent.intro3T : audioContent.intro3,
     prompt: () => {
       return (
-        ` <h1>Let us review which ${isTouchScreen ? 'arrow we press' : 'key we press'} for made-up words and real words.</h1>
+        ` <h1>Let us review which arrow we press for made-up words and real words.</h1>
           <div>
             <img class = 'cues' src="${imgContent.keyP3}" alt="arrow keys">
             <p class = "center"> Try to be as accurate as possible.</p>
@@ -81,35 +65,31 @@ const introTrialsContent = [
   },
 ]
 
-const introTrialsMapped = introTrialsContent.map(trial => {
+const introTrialsMapped = introTrialsContent.map((trial, i) => {
   return (
     {
       type: AudioMultiResponsePlugin,
       stimulus: trial.stimulus,
       keyboard_choices: () => isTouchScreen ? "NO_KEYS" : "ALL_KEYS",
       button_choices: () => isTouchScreen ? ["HERE"] : [],
-      button_html: "<button class='button'>Press <span class='yellow'>%choice%</span> to continue</button>",
+      button_html: `<button class='button'>Press <span class='yellow'>%choice%</span> to ${isTouchScreen && i === 2 ? 'practice' : 'continue'}</button>`,
       response_allowed_while_playing: config.testingOnly,
       prompt: trial.prompt,
       prompt_above_buttons: true,
+      on_start: () => console.log({isTouchScreen}),
+      on_load: () => console.log({audioContent}),
     }
   )
 })
 
-// const introTrialsWithCheck = []
-
-// introTrialsMapped.forEach(trial => {
-//   introTrialsWithCheck.push(trial)
-//   introTrialsWithCheck.push(if_not_fullscreen)
-// })
 
 export const introduction_trials = {
-  timeline: [deviceCheck, ...introTrialsMapped],
-};
+  timeline: [...introTrialsMapped],
+}
 
 export const post_practice_intro = {
   type: AudioMultiResponsePlugin,
-  stimulus: audioContent.coinIntro,
+  stimulus: () => isTouchScreen ? audioContent.coinIntroT : audioContent.coinIntro,
   keyboard_choices: () => isTouchScreen ? "NO_KEYS" : "ALL_KEYS",
   button_choices: () => isTouchScreen ? ["HERE"] : [],
   button_html: "<button class='button'>Press <span class='yellow'>%choice%</span> to begin</button>",
@@ -120,7 +100,7 @@ export const post_practice_intro = {
         <p class="center"> You will earn gold coins along the way.</p>
         <img class = "coin" src="${imgContent.goldCoin}" alt="gold">
       </div>
-    ${!isTouchScreen && '<div class="button">Press <span class="yellow">ANY KEY</span> to begin</div>'}`,
+    ${!isTouchScreen ? '<div class="button">Press <span class="yellow">ANY KEY</span> to begin</div>' : ''}`,
   prompt_above_buttons: true
 };
 

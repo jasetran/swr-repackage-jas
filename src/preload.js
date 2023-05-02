@@ -1,4 +1,8 @@
 import jsPsychPreload from "@jspsych/plugin-preload";
+import jsPsychCallFunction from '@jspsych/plugin-call-function'
+import { deviceType, primaryInput } from 'detect-it';
+
+export let isTouchScreen = false;
 
 export const camelCase = (str) => str.replace(/_([a-z])/g, (match, letter) => {
   return letter.toUpperCase();
@@ -16,8 +20,6 @@ const preloadObj2contentObj = (preloadObj) => {
   }, {});
 };
 
-const importAll = (r) => r.keys().map(r);
-
 const transformAudio = (array) => {
   const list = [];
   function addList(item) {
@@ -27,21 +29,37 @@ const transformAudio = (array) => {
   return list;
 };
 
-const audiosGameFlow = transformAudio(importAll(require.context('./audios/shared_audios', false, /\.(wav|mp3)$/)));
-const audiosKeyboardOnly = transformAudio(importAll(require.context('./audios/eng_keyboard', false, /\.(wav|mp3)$/)));
-const audiosTabletOnly = transformAudio(importAll(require.context('./audios/eng_tablet', false, /\.(wav|mp3)$/)));
+const importAll = (r) => r.keys().map(r);
+
+// Conditionally operate on audio files: keyboard or tablet
+const sharedAudio = transformAudio(importAll(require.context('./audios/shared_audios', false, /\.(wav|mp3)$/)));
+const keyboardAudio = transformAudio(importAll(require.context('./audios/eng_keyboard', false, /\.(wav|mp3)$/)));
+const tabletAudio = transformAudio(importAll(require.context('./audios/eng_tablet', false, /\.(wav|mp3)$/)));
 
 const images = importAll(require.context('./assets', false, /\.(png|jpe?g|svg|gif)$/));
 
-const audioBlocks = {
-  1: audiosGameFlow,
-  2: audiosKeyboardOnly,
-  3: audiosTabletOnly,
+const audioBlocksKeyboard = {
+  1: sharedAudio,
+  2: keyboardAudio
 };
 
-export const audioContent = preloadObj2contentObj(audioBlocks);
+const audioBlocksTablet = {
+  1: sharedAudio,
+  2: tabletAudio
+};
 
-const preload_audio_trials = Object.entries(audioBlocks).map((element) => {
+const deviceAudio = () => {
+  if (deviceType === 'touchOnly' || ('hybrid' && primaryInput === 'touch')) {
+    isTouchScreen = true
+    return audioBlocksTablet
+  } else {
+    return audioBlocksKeyboard
+  }
+}
+
+export const audioContent = preloadObj2contentObj(deviceAudio());
+
+const preload_audio_trials = Object.entries(deviceAudio()).map((element) => {
   const idx = element[0];
   const audio_block = element[1];
   return {

@@ -3,7 +3,7 @@ import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response"
 import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
 import jsPsychAudioMultiResponse from '@jspsych-contrib/plugin-audio-multi-response'
 import store from "store2";
-import { isTouchScreen } from "./introduction"
+import { isTouchScreen } from "./preload"
 
 import { jsPsych, config } from "./config";
 import {
@@ -156,10 +156,10 @@ const feedbackStimulus = () => {
   }
 
   if (isCorrect) {
-    return audioContent[camelCase(`feedback_${jsPsych.timelineVariable("stimulus")}_correct`)];
+    return audioContent[camelCase(`feedback_${jsPsych.timelineVariable("stimulus")}_correct${isTouchScreen ? '_t' : ''}`)];
   }
 
-  return audioContent[camelCase(`feedback_${jsPsych.timelineVariable("stimulus")}_wrong`)];
+  return audioContent[camelCase(`feedback_${jsPsych.timelineVariable("stimulus")}_wrong${isTouchScreen ? '_t' : ''}`)];
 };
 
 
@@ -171,10 +171,10 @@ export const practice_feedback = {
   prompt: () => {
     return (`<div class = stimulus_div>
       <p class="feedback">
-        ${isTouchScreen ? `<span class=${store.session("responseColor")}>You pressed the ${store.session("responseLR")} arrow which is for ${store.session("answerRP")} words!</span>` : `<span class=${store.session("responseColor")}>You pressed the ${store.session("responseLR")} arrow key, which is for ${store.session("answerRP")} words! </span>`}
+        <span class=${store.session("responseColor")}>You pressed the ${store.session("responseLR")} arrow which is for ${store.session("answerRP")} words!</span>
         <br></br>
         ${jsPsych.timelineVariable("stimulus")}
-        ${isTouchScreen ? `<span class=${store.session("answerColor")}> is a ${store.session("correctRP")}  word. Press the ${store.session("correctLR")} arrow to continue.</span>` : `<span class=${store.session("answerColor")}> is a ${store.session("correctRP")}  word. Press the ${store.session("correctLR")} arrow key to continue.</span>`}
+        <span class=${store.session("answerColor")}> is a ${store.session("correctRP")}  word. Press the ${store.session("correctLR")} arrow to continue.</span>
       </p>
     </div>
     ${!isTouchScreen ? `<img class="lower" src="${store.session("correctRP") === "made-up" ? `${imgContent.arrowkeyLexLeft}` : `${imgContent.arrowkeyLexRight}`}" alt="arrow keys">` : ''}`)

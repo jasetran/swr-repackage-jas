@@ -9,7 +9,7 @@ import jsPsychSurveyMultiSelect from "@jspsych/plugin-survey-multi-select";
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
 import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
 import store from "store2";
-import { isTouchScreen } from './introduction';
+import { isTouchScreen } from './preload';
 import fscreen from 'fscreen';
 
 // Import necessary for async in the top level of the experiment script
@@ -56,12 +56,11 @@ export let firekit;
 store.session.set("corpusAll", corpusAll); 
 store.session.set("corpusNew", corpusNew);
 
-const timeline = [];
-const cat = new Cat({method: 'MLE', itemSelect: store.session("itemSelect")});
+const timeline = [...preload_trials];
+const cat = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store.session("itemSelect")});
 
-preload_trials.forEach((trial) => {
-  timeline.push(trial);
-});
+// Include new items in thetaEstimate
+const cat2 = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store.session("itemSelect")});
 
 export const makePid = () => {
   let text = "";
@@ -391,7 +390,7 @@ const getStimulus = () => {
       corpus = store.session("corpusAll");
       corpusType = checkRealPseudo(corpus);
       store.session.set("itemSelect", "mfi");
-      itemSuggestion = cat.findNextItem(corpus[corpusType]);
+      itemSuggestion = cat.findNextItem(corpus[corpusType], "mfi");
       store.session.set("demoCounter",0);
       // update next stimulus
       store.session.set("nextStimulus", itemSuggestion.nextStimulus);
@@ -402,7 +401,7 @@ const getStimulus = () => {
       corpus = store.session("corpusNew");
       corpusType = checkRealPseudo(corpus);
       store.session.set("itemSelect", "random");
-      itemSuggestion = cat.findNextItem(corpus[corpusType], 'random');
+      itemSuggestion = cat.findNextItem(corpus[corpusType], "random");
       store.session.transact("demoCounter", (oldVal) => oldVal + 1);
       // update next stimulus
       store.session.set("nextStimulus", itemSuggestion.nextStimulus);
@@ -415,7 +414,7 @@ const getStimulus = () => {
       corpus = store.session("corpusAll");
       corpusType = checkRealPseudo(corpus);
       store.session.set("itemSelect", "mfi");
-      itemSuggestion = cat.findNextItem(corpus[corpusType]);
+      itemSuggestion = cat.findNextItem(corpus[corpusType], "mfi");
       store.session.transact("demoCounter", (oldVal) => oldVal + 1);
       // update next stimulus
       store.session.set("nextStimulus", itemSuggestion.nextStimulus);
@@ -426,7 +425,7 @@ const getStimulus = () => {
       corpus = store.session("corpusNew");
       corpusType = checkRealPseudo(corpus);
       store.session.set("itemSelect", "random");
-      itemSuggestion = cat.findNextItem(corpus[corpusType], 'random');
+      itemSuggestion = cat.findNextItem(corpus[corpusType], "random");
       store.session.set("demoCounter",0);
       // update next stimulus
       store.session.set("nextStimulus", itemSuggestion.nextStimulus);
@@ -586,6 +585,8 @@ const lexicality_test = {
       cat.updateAbilityEstimate({a: 1, b: nextStimulus.difficulty, c: 0.5, d: 1}, store.session('response'));
     }
 
+    cat2.updateAbilityEstimate({a: 1, b: nextStimulus.difficulty, c: 0.5, d: 1}, store.session('response'));
+
     jsPsych.data.addDataToLastTrial({
       block: store.session("currentBlockIndex"),
       corpusId: nextStimulus.corpus_src,
@@ -597,7 +598,9 @@ const lexicality_test = {
       difficulty: nextStimulus.difficulty,
       thetaEstimate: cat.theta,
       thetaSE: (cat.seMeasurement === Infinity ? Number.MAX_VALUE : cat.seMeasurement),
-      stimulusRule: store.session("itemSelect"),
+      thetaEstimate2: cat2.theta,
+      thetaSE2: (cat2.seMeasurement === Infinity ? Number.MAX_VALUE : cat2.seMeasurement),
+      stimulusRule: cat.itemSelect,
       trialNumTotal: store.session("trialNumTotal"),
       trialNumBlock: store.session("trialNumBlock"),
       pid: config.pid,

@@ -7,7 +7,6 @@ import { imgContent, audioContent } from "./preload";
 import AudioMultiResponsePlugin from "@jspsych-contrib/plugin-audio-multi-response";
 import { isTouchScreen } from "./preload";
 
-
 /* define instructions trial */
 
 const introTrialsContent = [
@@ -83,16 +82,10 @@ const introTrialsMapped = introTrialsContent.map((trial, i) => {
   )
 })
 
-// const introTrialsWithCheck = []
-
-// introTrialsMapped.forEach(trial => {
-//   introTrialsWithCheck.push(trial)
-//   introTrialsWithCheck.push(if_not_fullscreen)
-// })
 
 export const introduction_trials = {
   timeline: [...introTrialsMapped],
-};
+}
 
 export const post_practice_intro = {
   type: AudioMultiResponsePlugin,

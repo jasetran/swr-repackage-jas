@@ -287,9 +287,6 @@ const enter_fullscreen = {
   delay_after: 450,
   on_finish: async () => {
     document.body.style.cursor = "none";
-  },
-  on_finish: async () => {
-    document.body.style.cursor = "none";
 
     config.pid = config.pid || makePid();
     let prefix = config.pid.split("-")[0];

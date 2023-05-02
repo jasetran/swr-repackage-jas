@@ -4,19 +4,6 @@ import { deviceType, primaryInput } from 'detect-it';
 
 export let isTouchScreen = false;
 
-// Ex. iPhone or iPad
-// const checkMobileDevice = () => {
-//   if (deviceType === 'touchOnly' || ('hybrid' && primaryInput === 'touch')) {
-//       isTouchScreen = true
-//   }
-// }
-
-// export const deviceCheck = {
-//   type: jsPsychCallFunction,
-//   func: checkMobileDevice
-// };
-
-
 export const camelCase = (str) => str.replace(/_([a-z])/g, (match, letter) => {
   return letter.toUpperCase();
 }).replace(/_/g, '');

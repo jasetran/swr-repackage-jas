@@ -1,24 +1,9 @@
 /* eslint-disable no-param-reassign */
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
-<<<<<<< HEAD
-<<<<<<< HEAD
 import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
 import jsPsychAudioMultiResponse from '@jspsych-contrib/plugin-audio-multi-response'
 import store from "store2";
 import { isTouchScreen } from "./introduction"
-=======
-import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
-=======
->>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
-import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
-import jsPsychAudioMultiResponse from '@jspsych-contrib/plugin-audio-multi-response'
-import store from "store2";
-<<<<<<< HEAD
-import { isTouchScreen } from "./introduction";
->>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
-=======
-import { isTouchScreen } from "./introduction"
->>>>>>> 5010d376 (Changing arrow button images, rewritting logic to detect device)
 
 import { jsPsych, config } from "./config";
 import {
@@ -55,22 +40,10 @@ export const setup_fixation_practice = {
   data: {
     task: "fixation",
   },
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-  on_load: () => console.log('This is setup fixation practice'),
-  on_finish: function () {
-    jsPsych.setProgressBar(0);
-  },
->>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
-=======
->>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)
 };
 
 
 export const lexicality_test_practice = {
-<<<<<<< HEAD
-<<<<<<< HEAD
   type: jsPsychHTMLMultiResponse,
   stimulus: () => {
     return (
@@ -80,36 +53,6 @@ export const lexicality_test_practice = {
     )
   },
   prompt: () => !isTouchScreen ? `<img class="lower" src="${imgContent.arrowkeyLex}" alt = "arrow-key">` : '',
-<<<<<<< HEAD
-=======
-  type: jsPsychHTMLSwipeResponse,
-<<<<<<< HEAD
-  stimulus: () => `<div class = stimulus_div><p class = 'stimulus'>${jsPsych.timelineVariable("stimulus")}</p></div>`,
-  prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys">`,
->>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
-=======
-=======
-  type: jsPsychHTMLMultiResponse,
->>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
-  stimulus: () => {
-    return (
-      `<div class='stimulus_div'>
-        <p class='stimulus'>${jsPsych.timelineVariable("stimulus")}</p>
-      </div>`
-    )
-  },
-<<<<<<< HEAD
-<<<<<<< HEAD
-  prompt: `
-            <div>
-              <img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys">
-            </div>
-          `,
->>>>>>> aa45ead8 (CSS changes)
-=======
->>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
-=======
->>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
   stimulus_duration: () => {
     store.session.transact("practiceIndex", (oldVal) => oldVal + 1);
     if (store.session("practiceIndex") > config.countSlowPractice) {
@@ -117,14 +60,8 @@ export const lexicality_test_practice = {
     }
     return config.timing.stimulusTimePracticeOnly;
   },
-<<<<<<< HEAD
-=======
-  prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys"></div>`,
->>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
   trial_duration: config.timing.trialTime,
   keyboard_choices: ["ArrowLeft", "ArrowRight"],
-<<<<<<< HEAD
-<<<<<<< HEAD
   button_choices: () => isTouchScreen ? ["ArrowLeft", "ArrowRight"] : [],
   button_html: () => {
     if (isTouchScreen) {
@@ -140,85 +77,18 @@ export const lexicality_test_practice = {
       )
     }
   },
-=======
->>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
-=======
-  swipe_animation_duration: 0,
-  swipe_offscreen_coordinate: 0,
->>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)
-=======
-  trial_duration: config.timing.trialTime,
-  keyboard_choices: ["ArrowLeft", "ArrowRight"],
-<<<<<<< HEAD
-  button_choices: ["ArrowLeft", "ArrowRight"],
-  button_html: [
-    `<button class="lexicality-trial-buttons">
-      <img class="btn-arrows" src=${imgContent.staticLeftKey} alt='left arrow' />
-    </button>`,
-    `<button class="lexicality-trial-buttons">
-      <img class="btn-arrows" src=${imgContent.staticRightKey} alt='right arrow' />
-    </button>`
-  ],
->>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
-=======
-  button_choices: () => isTouchScreen ? ["ArrowLeft", "ArrowRight"] : [],
-  button_html: () => {
-    if (isTouchScreen) {
-      return (
-        [
-        `<button class="lexicality-trial-arrows">
-          <img class='btn-arrows' src=${imgContent.staticLeftKey} alt='left arrow' />
-        </button>`,
-        `<button class="lexicality-trial-arrows">
-          <img class='btn-arrows' src=${imgContent.staticRightKey} alt='right arrow' />
-        </button>`
-        ]
-      )
-    }
-  },
->>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
   data: {
     save_trial: true,
     task: "practice_response" /* tag the test trials with this taskname so we can filter data later */,
     word: jsPsych.timelineVariable("stimulus"),
   },
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
   on_load: () => {
     if (isTouchScreen) {
       document.getElementById("jspsych-html-multi-response-button-0").style.margin = '0rem 5rem 0rem 5rem'
       document.getElementById("jspsych-html-multi-response-button-1").style.margin = '0rem 5rem 0rem 5rem'
     }
-<<<<<<< HEAD
-=======
-  on_load: () => console.log('Practice lexicality trial'),
-=======
->>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)
-  on_start: () => {
-    let stimulusDuration
-
-    store.session.transact("practiceIndex", (oldVal) => oldVal + 1);
-    if (store.session("practiceIndex") > config.countSlowPractice) {
-      stimulusDuration = config.timing.stimulusTime;
-    } else {
-      stimulusDuration = config.timing.stimulusTimePracticeOnly;
-    }
-
-    setTimeout(() => {
-      if (stimulusDuration) {
-        document.getElementById("stimulus-word").style.visibility = 'hidden'
-      }
-    }, stimulusDuration)
->>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
-=======
->>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
   },
   on_finish: (data) => {
-<<<<<<< HEAD
     const correctResponse = jsPsych.timelineVariable("correct_response")
 
     if (data.keyboard_response) {
@@ -237,32 +107,6 @@ export const lexicality_test_practice = {
     }
 
 
-=======
-=======
-  on_finish: (data) => {
-    const correctResponse = jsPsych.timelineVariable("correct_response")
-
->>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
-    if (data.keyboard_response) {
-      data.correct = jsPsych.pluginAPI.compareKeys(
-        data.keyboard_response,
-        correctResponse,
-      )
-    } else {
-      if (correctResponse === 'ArrowLeft' && data.button_response === 0) {
-        data.correct = true
-      } else if (correctResponse === 'ArrowRight' && data.button_response === 1) {
-        data.correct = true
-      } else {
-        data.correct = false
-      }
-    }
-
-<<<<<<< HEAD
->>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
-=======
-
->>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
     if (data.correct) {
       store.session.set("response", 1);
     } else {
@@ -270,15 +114,7 @@ export const lexicality_test_practice = {
     }
     store.session.set("currentTrialCorrect", data.correct);
 
-<<<<<<< HEAD
-<<<<<<< HEAD
     const isLeftResponse = (data.keyboard_response === 'arrowleft' || data.button_response === 0)
-=======
-    const isLeftResponse = data.keyboard_response === 'arrowleft' || data.swipe_response === 'left'   
->>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
-=======
-    const isLeftResponse = (data.keyboard_response === 'arrowleft' || data.button_response === 0)
->>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
     store.session.set("responseLR", isLeftResponse ? "left" : "right");
     store.session.set("answerRP", isLeftResponse ? "made-up" : "real");
     store.session.set("responseColor", isLeftResponse ? "orange" : "blue");
@@ -308,8 +144,6 @@ const feedbackStimulus = () => {
   let isCorrect
 
   if (previousTrialData.keyboard_response) {
-<<<<<<< HEAD
-<<<<<<< HEAD
     isCorrect = previousTrialData.keyboard_response === previousTrialData.correctResponse.toLowerCase()
   } else {
     if (previousTrialData.correctResponse === 'ArrowLeft' && previousTrialData.button_response === 0) {
@@ -319,22 +153,6 @@ const feedbackStimulus = () => {
     } else {
       isCorrect = false
     }
-=======
-    isCorrect = previousTrialData.keyboard_response.toLowerCase() === previousTrialData.correctResponse.toLowerCase()
-  } else {
-    isCorrect = previousTrialData.swipe_response === previousTrialData.correctResponse.toLowerCase().substring(5)
->>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
-=======
-    isCorrect = previousTrialData.keyboard_response === previousTrialData.correctResponse.toLowerCase()
-  } else {
-    if (previousTrialData.correctResponse === 'ArrowLeft' && previousTrialData.button_response === 0) {
-      isCorrect = true
-    } else if (previousTrialData.correctResponse === 'ArrowRight' && previousTrialData.button_response === 1) {
-      isCorrect = true
-    } else {
-      isCorrect = false
-    }
->>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
   }
 
   if (isCorrect) {
@@ -346,29 +164,13 @@ const feedbackStimulus = () => {
 
 
 export const practice_feedback = {
-<<<<<<< HEAD
-<<<<<<< HEAD
   type: jsPsychAudioMultiResponse,
   response_allowed_while_playing: config.testingOnly,
-  prompt_above_buttons: true,
-=======
-  type: jsPsychAudioSwipeResponse,
-=======
-  type: jsPsychAudioMultiResponse,
->>>>>>> aa45ead8 (CSS changes)
-  response_allowed_while_playing: config.testingOnly,
-<<<<<<< HEAD
->>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
-  stimulus: () => feedbackStimulus(),
-=======
->>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
   prompt_above_buttons: true,
   stimulus: () => feedbackStimulus(),
   prompt: () => {
     return (`<div class = stimulus_div>
       <p class="feedback">
-<<<<<<< HEAD
-<<<<<<< HEAD
         ${isTouchScreen ? `<span class=${store.session("responseColor")}>You pressed the ${store.session("responseLR")} arrow which is for ${store.session("answerRP")} words!</span>` : `<span class=${store.session("responseColor")}>You pressed the ${store.session("responseLR")} arrow key, which is for ${store.session("answerRP")} words! </span>`}
         <br></br>
         ${jsPsych.timelineVariable("stimulus")}
@@ -384,50 +186,6 @@ export const practice_feedback = {
       `<button style="background-color: transparent;">
         <img class='lower' src=${store.session("correctRP") === "made-up" ? `${imgContent.arrowkeyLexLeft}` : `${imgContent.arrowkeyLexRight}`} alt="Arrow choices"/>
       </button>`
-<<<<<<< HEAD
     )
   },
 };
-
-=======
-        ${isTouchScreen ? `<span class=${store.session("responseColor")}>You swiped ${store.session("responseLR")} which is for ${store.session("answerRP")} words!</span>` : `<span class=${store.session("responseColor")}>You pressed the ${store.session("responseLR")} arrow key, which is for ${store.session("answerRP")} words! </span>`}
-=======
-        ${isTouchScreen ? `<span class=${store.session("responseColor")}>You pressed the ${store.session("responseLR")} arrow which is for ${store.session("answerRP")} words!</span>` : `<span class=${store.session("responseColor")}>You pressed the ${store.session("responseLR")} arrow key, which is for ${store.session("answerRP")} words! </span>`}
->>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
-        <br></br>
-        ${jsPsych.timelineVariable("stimulus")}
-        ${isTouchScreen ? `<span class=${store.session("answerColor")}> is a ${store.session("correctRP")}  word. Press the ${store.session("correctLR")} arrow to continue.</span>` : `<span class=${store.session("answerColor")}> is a ${store.session("correctRP")}  word. Press the ${store.session("correctLR")} arrow key to continue.</span>`}
-      </p>
-    </div>
-    ${!isTouchScreen ? `<img class="lower" src="${store.session("correctRP") === "made-up" ? `${imgContent.arrowkeyLexLeft}` : `${imgContent.arrowkeyLexRight}`}" alt="arrow keys">` : ''}`)
-  },
-  keyboard_choices: () => store.session("correctRP") === "made-up" ? ["ArrowLeft"] : ["ArrowRight"],
-  button_choices: () => isTouchScreen ? store.session("correctRP") === "made-up" ? ["Left"] : ["Right"] : [],
-  button_html: () => {
-    return (
-      `
-      <div class='practice-feedback-btn-container'>
-        <button class='practice-feedback-btn'>
-          <img class='practice-feedback-img' src=${store.session("correctRP") === "made-up" ? `${imgContent.arrowkeyLexLeft}` : `${imgContent.arrowkeyLexRight}`} alt="Arrow choices"/>
-        </button
-      </div>
-      `
-=======
->>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
-    )
-  },
-};
-
-<<<<<<< HEAD
-export const if_node_left = {
-  // timeline: [practice_feedback_left],
-  conditional_function: () => store.session("correctRP") === "made-up",
-};
-
-export const if_node_right = {
-  // timeline: [practice_feedback_right],
-  conditional_function: () => store.session("correctRP") === "real",
-};
->>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
-=======
->>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)

@@ -6,21 +6,8 @@ import jsPsychFullScreen from "@jspsych/plugin-fullscreen";
 import jsPsychSurveyText from "@jspsych/plugin-survey-text";
 import jsPsychSurveyHtmlForm from "@jspsych/plugin-survey-html-form";
 import jsPsychSurveyMultiSelect from "@jspsych/plugin-survey-multi-select";
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
 import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
-=======
-import jsPsychBrowserCheck from '@jspsych/plugin-browser-check'
-import jsPsychHTMLSwipeResponse from '@jspsych-contrib/plugin-html-swipe-response';
-import { detect } from 'detect-browser'
->>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
-=======
-import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
->>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
 import store from "store2";
 import { isTouchScreen } from './introduction';
 import fscreen from 'fscreen';
@@ -278,7 +265,6 @@ export  const if_get_pid = {
 };
 
 const enter_fs_again = {
-<<<<<<< HEAD
   type: jsPsychFullScreen,
   fullscreen_mode: true,
   message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
@@ -296,45 +282,10 @@ export const if_not_fullscreen = {
 
 
 const enter_fullscreen = {
-=======
->>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
   type: jsPsychFullScreen,
   fullscreen_mode: true,
   message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
   delay_after: 450,
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-  delay_after: 450,
-=======
-  on_start: () => {
-    document.body.style.cursor = "none";
-  },
->>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)
-=======
-  on_finish: () => {
-    document.body.style.cursor = "none";
-  },
-=======
-  on_start: () => document.body.style.cursor = "default",
-  on_finish: () => document.body.style.cursor = "none",
->>>>>>> 5bc2a6f8 (Making cursor visible when prompted for fullscreen)
-}
-
-export const if_not_fullscreen = {
-  timeline: [enter_fs_again],
-  conditional_function: () => {
-    return fscreen.fullscreenElement === null
-  }
-}
-
-
-const enter_fullscreen = {
-  type: jsPsychFullScreen,
-  fullscreen_mode: true,
-  message: `<div class = 'text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
-  delay_after: 450,
->>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
   on_finish: async () => {
     document.body.style.cursor = "none";
 
@@ -406,13 +357,7 @@ window.onerror = function (msg, url, lineNo, columnNo, error) {
   return false;
 };
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-// Add in introduction_trials and countdown_trials after full screen: introduction_trials, 
->>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
 
-<<<<<<< HEAD
 timeline.push(
   if_get_pid, 
   if_consent_form, 
@@ -422,24 +367,6 @@ timeline.push(
   if_not_fullscreen, 
   countdown_trials
 );
-=======
-=======
-
-<<<<<<< HEAD
->>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
-timeline.push(if_get_pid, if_consent_form, if_get_survey, enter_fullscreen, introduction_trials, countdown_trials);
->>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
-=======
-timeline.push(
-  if_get_pid, 
-  if_consent_form, 
-  if_get_survey, 
-  enter_fullscreen, 
-  introduction_trials,
-  if_not_fullscreen, 
-  countdown_trials
-);
->>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
 
 const checkRealPseudo = (corpus) => {
   let corpusType = (Math.random() < 0.5) ? "corpus_real" : "corpus_pseudo";
@@ -594,23 +521,12 @@ const updateCorrectChecker = () => {
 
 
 const lexicality_test = {
-<<<<<<< HEAD
-<<<<<<< HEAD
   type: jsPsychHTMLMultiResponse,
-=======
-  type: jsPsychHTMLSwipeResponse,
->>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
-=======
-  type: jsPsychHTMLMultiResponse,
->>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
   stimulus: () => {
     return `<div class='stimulus_div'>
               <p id="stimulus-word" class='stimulus'>${store.session("nextStimulus").stimulus}</p>
             </div>`;
   },
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
   prompt: () => !isTouchScreen ? `<img class="lower" src="${imgContent.arrowkeyLex}" alt = "arrow-key">` : '',
   stimulus_duration: config.timing.stimulusTime,
   trial_duration: config.timing.trialTime,
@@ -630,60 +546,10 @@ const lexicality_test = {
       )
     }
   },
-=======
-  prompt: `<div><img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys"></div>`,
-  trial_duration: config.timing.trialTime,
-  keyboard_choices: ["ArrowLeft", "ArrowRight"],
-<<<<<<< HEAD
->>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
-=======
-  swipe_animation_duration: 0,
-  swipe_offscreen_coordinate: 0,
->>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)
-=======
-  stimulus_duration: config.timing.stimulusTime,
-  trial_duration: config.timing.trialTime,
-  keyboard_choices: ["ArrowLeft", "ArrowRight"],
-  button_choices: ["ArrowLeft", "ArrowRight"],
-  button_html: [
-    `<button class="lexicality-trial-buttons">
-      <img class="btn-arrows" src=${imgContent.staticLeftKey} alt='left arrow' />
-    </button>`,
-    `<button class="lexicality-trial-buttons">
-      <img class="btn-arrows" src=${imgContent.staticRightKey} alt='right arrow' />
-    </button>`
-  ],
->>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
-=======
-  prompt: () => !isTouchScreen ? `<img class="lower" src="${imgContent.arrowkeyLex}" alt = "arrow-key">` : '',
-  stimulus_duration: config.timing.stimulusTime,
-  trial_duration: config.timing.trialTime,
-  keyboard_choices: ["ArrowLeft", "ArrowRight"],
-  button_choices: () => isTouchScreen ? ["ArrowLeft", "ArrowRight"] : [],
-  button_html: () => {
-    if (isTouchScreen) {
-      return (
-        [
-        `<button class="lexicality-trial-arrows">
-          <img class='btn-arrows' src=${imgContent.staticLeftKey} alt='left arrow' />
-        </button>`,
-        `<button class="lexicality-trial-arrows">
-          <img class='btn-arrows' src=${imgContent.staticRightKey} alt='right arrow' />
-        </button>`
-        ]
-      )
-    }
-  },
->>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
   data: {
     save_trial: true,
     task: "test_response" /* tag the test trials with this taskname so we can filter data later */,
   },
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
   on_load: () => {
     if (isTouchScreen) {
       document.getElementById("jspsych-html-multi-response-button-0").style.margin = '0rem 5rem 0rem 5rem'
@@ -692,26 +558,6 @@ const lexicality_test = {
   },
   on_finish: (data) => {
     const nextStimulus = store.session("nextStimulus")
-=======
-  on_start: () => {
-    console.log('Real lexicality test')
-    const stimulusDuration = config.timing.stimulusTime
-
-    setTimeout(() => {
-      if (stimulusDuration) {
-        document.getElementById("stimulus-word").style.visibility = 'hidden'
-      }
-    }, stimulusDuration)
-  },
-  on_finish: (data) => {
-    const nextStimulus = store.session("nextStimulus");
-
-    console.log('Correct response: ', nextStimulus.correct_response)
->>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
-=======
-  on_finish: (data) => {
-    const nextStimulus = store.session("nextStimulus")
->>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
 
     if (data.keyboard_response) {
       data.correct = jsPsych.pluginAPI.compareKeys(
@@ -719,10 +565,6 @@ const lexicality_test = {
         nextStimulus.correct_response,
       )
     } else {
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
       if (nextStimulus.correct_response === 'ArrowLeft' && data.button_response === 0) {
         data.correct = true
       } else if (nextStimulus.correct_response === 'ArrowRight' && data.button_response === 1) {
@@ -730,23 +572,8 @@ const lexicality_test = {
       } else {
         data.correct = false
       }
-<<<<<<< HEAD
     }
 
-=======
-      console.log('Swipe direction: ', data.swipe_response)
-
-      let correctSwipeDirection = nextStimulus.correct_response.toLowerCase().substring(5)
-      data.correct = correctSwipeDirection === data.swipe_response
-    }
-
-    console.log('data.correct: ', data.correct)
-
->>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
-=======
-    }
-
->>>>>>> bd7fc22d (Changing trials to use button responses for mobile instead of swipe)
     store.session.set("currentTrialCorrect", data.correct);
 
     if (data.correct) {
@@ -788,36 +615,14 @@ const exit_fullscreen = {
 
 async function roarBlocks() {
   // the core procedure
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
->>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)
   const pushPracticeTotimeline = (array) => {
     array.forEach((element) => {
       const block = {
         timeline: [
           setup_fixation_practice,
           lexicality_test_practice,
-<<<<<<< HEAD
-<<<<<<< HEAD
           audio_response,
           practice_feedback,
-=======
-          if_audio_response_neutral,
-          if_audio_response_correct,
-          if_audio_response_wrong,
-          practice_feedback
-          // if_node_left,
-          // if_node_right,
->>>>>>> f02460cc (Rewritting lexicallity practice trial, practice feedback trial, and feedbackStimulus function)
-=======
-          audio_response,
-<<<<<<< HEAD
-          practice_feedback
->>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)
-=======
-          practice_feedback,
->>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
         ],
         timeline_variables: [element],
       };
@@ -827,58 +632,14 @@ async function roarBlocks() {
 
   pushPracticeTotimeline(blockPractice);
   timeline.push(post_practice_intro);
-<<<<<<< HEAD
-<<<<<<< HEAD
   timeline.push(if_not_fullscreen)
-=======
-  // const pushPracticeTotimeline = (array) => {
-  //   array.forEach((element) => {
-  //     const block = {
-  //       timeline: [
-  //         setup_fixation_practice,
-  //         lexicality_test_practice,
-  //         if_audio_response_neutral,
-  //         if_audio_response_correct,
-  //         if_audio_response_wrong,
-  //         practice_feedback
-  //         // if_node_left,
-  //         // if_node_right,
-  //       ],
-  //       timeline_variables: [element],
-  //     };
-  //     timeline.push(block);
-  //   });
-  // }
-
-  // pushPracticeTotimeline(blockPractice);
-  // timeline.push(post_practice_intro);
->>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
-=======
->>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)
-=======
-  timeline.push(if_not_fullscreen)
->>>>>>> 8fed3740 (Adding UI changes, bigger buttons for mobile)
 
   const core_procedure = {
     timeline: [
       setup_fixation,
-<<<<<<< HEAD
-<<<<<<< HEAD
       lexicality_test,
       audio_response,
       if_coin_tracking,
-=======
-      // lexicality_test,
-      // if_audio_response_neutral,
-      // if_audio_response_correct,
-      // if_audio_response_wrong,
-      // if_coin_tracking,
->>>>>>> 69c51abd (Updating lexicality trial to use swipe plugin, updating game break blocks)
-=======
-      lexicality_test,
-      audio_response,
-      if_coin_tracking,
->>>>>>> 383261b6 (Removing unused trials, consolidating audio feedback trial, minor fixes and CSS changes)
     ],
   };
 

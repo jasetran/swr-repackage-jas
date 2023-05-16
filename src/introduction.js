@@ -76,8 +76,6 @@ const introTrialsMapped = introTrialsContent.map((trial, i) => {
       response_allowed_while_playing: config.testingOnly,
       prompt: trial.prompt,
       prompt_above_buttons: true,
-      on_start: () => console.log({isTouchScreen}),
-      on_load: () => console.log({audioContent}),
     }
   )
 })

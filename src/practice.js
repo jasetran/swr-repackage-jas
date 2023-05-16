@@ -1,5 +1,4 @@
 /* eslint-disable no-param-reassign */
-import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
 import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
 import jsPsychAudioMultiResponse from '@jspsych-contrib/plugin-audio-multi-response'
 import store from "store2";
@@ -11,36 +10,6 @@ import {
 } from "./preload";
 
 /* For Practice Trial Only */
-export const setup_fixation_practice = {
-  type: jsPsychHtmlKeyboardResponse,
-  stimulus: () => `<div class='stimulus_div'>
-                      <p class='stimulus'>+</p>
-                   </div>`,             
-  prompt: () => {
-    if (isTouchScreen) {
-      return (
-        `<div id='${isTouchScreen ? 'countdown-wrapper' : ''}'>
-            <div id='countdown-arrows-wrapper'>
-              <div class="countdown-arrows">
-                <img class='btn-arrows' src=${imgContent.staticLeftKey} alt='left arrow' />
-              </div>
-              <div class="countdown-arrows">
-                <img class='btn-arrows' src=${imgContent.staticRightKey} alt='right arrow' />
-              </div>
-            </div>
-         </div>`
-      )
-    }
-
-    return `<img class="lower" src="${imgContent.arrowkeyLex}" alt = "arrow-key">`
-  },
-  choices: "NO_KEYS",
-  //config.timing.fixationTime
-  trial_duration: 1000,
-  data: {
-    task: "fixation",
-  },
-};
 
 
 export const lexicality_test_practice = {

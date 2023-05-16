@@ -4,9 +4,9 @@ import {
 } from "./config";
 
 // Word corpus imports
-import dataPracticeURL from "./wordlist/ldt-items-practice.csv";
-import dataValidatedURL from "./wordlist/item_bank_new.csv";
-import dataNewURL from "./wordlist/ldt-new-items-v2.csv";
+import dataPracticeURL from "../../wordlist/ldt-items-practice.csv";
+import dataValidatedURL from "../../wordlist/item_bank_new.csv";
+import dataNewURL from "../../wordlist/ldt-new-items-v2.csv";
 
 // addAsset :: (k, Promise a) -> Promise (k, a)
 const addAsset = ([name, assetPromise]) =>

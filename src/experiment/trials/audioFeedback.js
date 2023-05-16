@@ -1,8 +1,7 @@
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
 import store from "store2";
-import { audioContent, imgContent } from "../preload";
-import { config } from "../config";
-import { isTouchScreen } from "../preload";
+import { audioContent, imgContent, isTouchScreen } from "../config/preload";
+import { config } from "../config/config";
 
 const audio_response = {
   type: jsPsychAudioKeyboardResponse,

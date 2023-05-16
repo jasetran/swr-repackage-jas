@@ -1,5 +1,4 @@
 import jsPsychPreload from "@jspsych/plugin-preload";
-import jsPsychCallFunction from '@jspsych/plugin-call-function'
 import { deviceType, primaryInput } from 'detect-it';
 
 export let isTouchScreen = false;
@@ -32,11 +31,11 @@ const transformAudio = (array) => {
 const importAll = (r) => r.keys().map(r);
 
 // Conditionally operate on audio files: keyboard or tablet
-const sharedAudio = transformAudio(importAll(require.context('./audios/shared_audios', false, /\.(wav|mp3)$/)));
-const keyboardAudio = transformAudio(importAll(require.context('./audios/eng_keyboard', false, /\.(wav|mp3)$/)));
-const tabletAudio = transformAudio(importAll(require.context('./audios/eng_tablet', false, /\.(wav|mp3)$/)));
+const sharedAudio = transformAudio(importAll(require.context('../../audios/shared_audios', false, /\.(wav|mp3)$/)));
+const keyboardAudio = transformAudio(importAll(require.context('../../audios/eng_keyboard', false, /\.(wav|mp3)$/)));
+const tabletAudio = transformAudio(importAll(require.context('../../audios/eng_tablet', false, /\.(wav|mp3)$/)));
 
-const images = importAll(require.context('./assets', false, /\.(png|jpe?g|svg|gif)$/));
+const images = importAll(require.context('../../assets', false, /\.(png|jpe?g|svg|gif)$/));
 
 const audioBlocksKeyboard = {
   1: sharedAudio,

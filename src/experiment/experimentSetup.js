@@ -1,10 +1,10 @@
 import jsPsychSurveyText from "@jspsych/plugin-survey-text";
 import jsPsychSurveyHtmlForm from "@jspsych/plugin-survey-html-form";
 import jsPsychSurveyMultiSelect from "@jspsych/plugin-survey-multi-select";
-import { config } from "./config";
-import { roarConfig } from "./firebaseConfig";
+import { config } from "./config/config";
+import { roarConfig } from "./config/firebaseConfig";
 import store from "store2";
-import { corpusAll, corpusNew } from "./corpus";
+import { corpusAll, corpusNew } from "./config/corpus";
 import { Cat } from '@bdelab/jscat';
 
 store.session.set("corpusAll", corpusAll); 

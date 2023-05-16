@@ -1,5 +1,5 @@
 import { firekit } from "./trials/fullScreen";
-import { jsPsych, config, stimulusCountLists } from "./config";
+import { jsPsych, config, stimulusCountLists } from "./config/config";
 import store from "store2";
 import { cat } from "./experimentSetup";
 

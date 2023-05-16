@@ -1,9 +1,9 @@
 // Firebase imports
 import { RoarFirekit } from "@bdelab/roar-firekit";
-import { roarConfig } from "../firebaseConfig";
+import { roarConfig } from "../config/firebaseConfig";
 import jsPsychFullScreen from "@jspsych/plugin-fullscreen";
 import fscreen from 'fscreen';
-import { jsPsych, config, taskInfo } from "../config";
+import { jsPsych, config, taskInfo } from "../config/config";
 import { makePid } from "../experimentSetup";
 
 export let firekit;

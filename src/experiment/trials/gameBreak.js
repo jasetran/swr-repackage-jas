@@ -1,7 +1,5 @@
-import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
-import { config } from "./config";
-import { audioContent, imgContent } from "./preload";
-import { isTouchScreen } from "./preload";
+import { config } from "../config/config";
+import { audioContent, imgContent, isTouchScreen } from "../config/preload";
 import AudioMultiResponsePlugin from "@jspsych-contrib/plugin-audio-multi-response";
 
 /* mid block page */

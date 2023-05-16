@@ -1,7 +1,7 @@
 import { getStimulus } from "../expirementHelpers";
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
-import { isTouchScreen, imgContent } from "../preload";
-import { config, jsPsych } from "../config";
+import { isTouchScreen, imgContent } from "../config/preload";
+import { config, jsPsych } from "../config/config";
 
 // set-up screen
 export const setup_fixation = {

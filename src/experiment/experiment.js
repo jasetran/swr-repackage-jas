@@ -6,29 +6,21 @@ import store from "store2";
 import "regenerator-runtime/runtime";
 
 // Local modules
-import {
-  jsPsych,
-  config,
-} from "./config";
-import { audio_response } from "./trials/audioFeedback";
-import { preload_trials } from "./preload";
-import {
-  introduction_trials,
-  post_practice_intro,
-  countdown_trials,
-  if_coin_tracking,
-} from "./introduction";
-import { practice_feedback } from "./practice";
-import {
-  mid_block_page_list,
-  post_block_page_list,
-  final_page,
-} from "./gameBreak";
-import { blockPractice } from "./corpus";
+import { jsPsych, config } from "./config/config";
+import { preload_trials } from "./config/preload";
+import { blockPractice } from "./config/corpus";
 import { if_consent_form, if_get_survey, if_get_pid } from './experimentSetup';
+
+// trials
+import { audio_response } from "./trials/audioFeedback";
+import { introduction_trials, post_practice_intro,} from "./trials/introduction";
+import { practice_feedback } from "./trials/practiceFeedback";
+import { mid_block_page_list, post_block_page_list, final_page, } from "./trials/gameBreak";
 import { if_not_fullscreen, enter_fullscreen, exit_fullscreen } from './trials/fullScreen';
 import { setup_fixation } from './trials/setupFixation';
 import { lexicality, leixcalityPractice } from './trials/lexicality'
+import { countdown_trials } from "./trials/countdown";
+import { if_coin_tracking } from "./trials/coinFeedback";
 
 // CSS imports
 import "./css/game.css";

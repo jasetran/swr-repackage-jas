@@ -1,11 +1,6 @@
-import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
-import store from "store2";
-import {
-  config,
-} from "./config";
-import { imgContent, audioContent } from "./preload";
+import { config } from "../config/config";
+import { imgContent, audioContent, isTouchScreen } from "../config/preload";
 import AudioMultiResponsePlugin from "@jspsych-contrib/plugin-audio-multi-response";
-import { isTouchScreen } from "./preload";
 
 /* define instructions trial */
 
@@ -102,72 +97,4 @@ export const post_practice_intro = {
   prompt_above_buttons: true
 };
 
-const countDownData = [
-  {audio: audioContent.countdown3, count: 3}, 
-  {audio: audioContent.countdown2, count: 2},
-  {audio: audioContent.countdown1, count: 1},
-  {audio: audioContent.countdown0, count: 0},
-]
 
-const countDownTrials = countDownData.map(trial => {
-  return (
-    {
-      type: jsPsychAudioKeyboardResponse,
-      stimulus: trial.audio,
-      prompt: () => {
-        return (`
-          <div id='${isTouchScreen ? 'countdown-wrapper' : ''}'>
-            <div class='stimulus_div'>
-              <p class='stimulus'>${trial.count}</p>
-            </div>
-            ${isTouchScreen ? (
-                `<div id='countdown-arrows-wrapper'>
-                  <div class="countdown-arrows">
-                    <img class='btn-arrows' src=${imgContent.staticLeftKey} alt='left arrow' />
-                  </div>
-                  <div class="countdown-arrows">
-                    <img class='btn-arrows' src=${imgContent.staticRightKey} alt='right arrow' />
-                  </div>
-                </div>`
-            ) : (
-                `<img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys">`
-            )}
-          </div>
-          `
-        )
-      },
-      choices: "NO_KEYS",
-      trial_duration: 1000,
-      data: {
-        task: 'countdown'
-      }
-    }
-  )
-})
-
-
-export const countdown_trials = {
-  timeline: countDownTrials
-};
-
-/* coin tracking trial */
-const coin_tracking_feedback = {
-  type: jsPsychAudioKeyboardResponse,
-  stimulus: audioContent.fairyCoin,
-  prompt: `<div class = "stimulus_div"><img class = "coin_feedback" src="${imgContent.coinBag}" alt="gold"></div>`,
-  choices: "NO_KEYS",
-  trial_duration: 2000,
-};
-
-export const if_coin_tracking = {
-  timeline: [coin_tracking_feedback],
-  conditional_function: () => {
-    const coinTrackingIndex = store.session("coinTrackingIndex");
-    if (store.session("currentTrialCorrect") && coinTrackingIndex >= 10) {
-      store.session.set("coinTrackingIndex", 0);
-      return true;
-    }
-    store.session.set("coinTrackingIndex", coinTrackingIndex + 1);
-    return false;
-  },
-};

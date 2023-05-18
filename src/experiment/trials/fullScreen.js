@@ -1,18 +1,21 @@
-// Firebase imports
+// @ts-check
 import { RoarFirekit } from "@bdelab/roar-firekit";
 import { roarConfig } from "../config/firebaseConfig";
 import jsPsychFullScreen from "@jspsych/plugin-fullscreen";
 import fscreen from 'fscreen';
 import { jsPsych, config, taskInfo } from "../config/config";
 import { makePid } from "../experimentSetup";
+import i18next from "i18next";
+import '../i18n'
 
 export let firekit;
 
 export const enter_fullscreen = {
     type: jsPsychFullScreen,
     fullscreen_mode: true,
-    message: `<div class='text_div'><h1>The experiment will switch to full screen mode. <br> Click the button to continue. </h1></div>`,
+    message: `<div class='text_div'><h1>${i18next.t('fullScreenTrial.prompt')}</h1></div>`,
     delay_after: 450,
+    button_label: `${i18next.t('fullScreenTrial.buttonText')}`,
     on_start: () => {
         if (jsPsych.getProgress().percent_complete > 13) document.body.style.cursor = "default"
     },

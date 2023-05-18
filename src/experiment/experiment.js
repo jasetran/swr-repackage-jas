@@ -38,7 +38,7 @@ const timeline = [
 ];
 
 
-async function roarBlocks() {
+export async function roarBlocks() {
   // the core procedure
   const pushPracticeTotimeline = (array) => {
     array.forEach((element) => {

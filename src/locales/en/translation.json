@@ -1,0 +1,111 @@
+{
+    "preloadTrial": {
+        "messageText": "Please wait while the experiment loads. This may take a few minutes."
+    },
+    "fullScreenTrial": {
+        "prompt": "The experiment will switch to full screen mode. <br/> Click the button to continue.",
+        "buttonText": "Continue"
+    },
+    "navigation": {
+        "continueButtonText": "Press <span class='yellow'>ANY KEY</span> to {{action}}",
+        "continueButtonTextMobile": "Press <span class='yellow'>%choice%</span> to {{action}}"
+    },
+    "introTrials": {
+        "trial1": {
+            "header": "Welcome to the world of Lexicality!",
+            "paragraph1": "You are a wizard searching for the gate that will return you to your home on Earth. To reach the gate, you must journey over lands ruled by magical guardians.",
+            "paragraph2": "In order for the guardians to let you pass through the land, you will have to tell the difference between made-up words and real words.&nbsp;"
+        },
+        "trial2": {
+            "header": "A real or made-up word will flash very quickly at the center of the screen.",
+            "paragraph1": "The made-up words might look like English words, but they do not mean anything in English. For example, laip, bove, or cigbert are made-up words. <span class='orange'><b>If you see a made-up word, press the LEFT ARROW.</b></span>",
+            "paragraph2": "The real words will be ones you recognize. They are real English words like is, and, basket, or lion. <span class='blue'><b> If you see a real word, press the RIGHT ARROW.</b></span>"
+        },
+        "trial3": {
+            "header": "Let us review which arrow we press for made-up words and real words.",
+            "paragraph1": "Try to be as accurate as possible.",
+            "paragraph2": "Some words will be hard, and that&#39s okay. If you&#39re not sure, just give your best guess!"
+        },
+        "postPracticeTrial" : {
+            "header": "Great work, you are ready to begin the journey!",
+            "paragraph1": "You will earn gold coins along the way."
+        }
+    },
+    "practiceFeedbackTrial": {
+        "paragraph1": "You pressed the {{direction}} arrow which is for {{typeWord}} words!",
+        "paragraph2": "is a {{typeWord}}  word. Press the {{direction}} arrow to continue.",
+        "arrowChoicesImgAlt": "arrowChoices"
+    },
+    "gameBreakTrials": {
+        "midBlockTrials": {
+            "trial1": {
+                "header": "Good work!",
+                "paragraph1": "You are halfway through the valley, and you decide to camp near a small village.",
+                "paragraph2": "In the village, you meet another adventurer who joins your journey!"
+            },
+            "trial2": {
+
+                "header": "Amazing!",
+                "paragraph1": "After a few days of traveling, you come across an inn!",
+                "paragraph2": "There, you meet another adventurer who joins your journey!"
+
+            },
+            "trial3": {
+
+                "header": "Fantastic Work!",
+                "paragraph1": "You are halfway through the valley, and you decide to camp near a small village.",
+                "paragraph2": "There, you meet another adventurer who joins your journey!"
+            }
+        },
+        "postBlockTrials": {
+            "trial1": {
+                "header": "Congratulations!",
+                "paragraph1": "With the guardian&#39s help, you made it through the valley.",
+                "paragraph2": "You&#39re getting closer to the gate!"
+            },
+            "trial2": {
+                "header": "Congratulations!",
+                "paragraph1": "With the guardian&#39s help, you made it through the valley.",
+                "paragraph2": "Just one more valley until you reach the gate!"
+
+            }
+        }, 
+        "finalTrial": {
+            "header": "Finally, you found the last guardian and the gate that will bring you home!",
+            "paragraph1": "You use your coins to open the gate.",
+            "paragraph2": "You say farewell to your new friends and leave the land of Lexicality. Until next time!"
+        }
+    },
+    "imagesAlt": {
+        "arrowKeys": "arrow keys",
+        "leftArrow": "left arrow",
+        "rightArrow": "right arrow",
+        "valley": "background image with hills and trees",
+        "adventurer1": "adventurer with harp",
+        "adventurer2": "adventuerer making rainbows",
+        "adventurer3": "adventurer making heart shapes",
+        "wizardCoin": "wizard making coins",
+        "guardian1": "orange dinosaur guardian",
+        "guardian2": "blue dragon guardian",
+        "endingBackground": "landscape with trees",
+        "guardian3": "winking unicorn",
+        "endingGateCoinbag": "gate with coinbag animation",
+        "wizardWand":"wizard waving a magic wand",
+        "leftArrowIntro": "made-up word, press the left arrow key",
+        "rightArrowIntro": "real Word, press the Right Arrow key"
+    },
+    "terms": {
+        "__comment1__": "ex. 'press any key to continue/practice/begin'",
+        "continue": "continue",
+        "practice": "practice",
+        "here": "here",
+        "begin": "begin",
+        "gold": "gold",
+        "left": "left",
+        "right": "right",
+        "__comment2__": "i.e. 'xop is a made-up/real word'",
+        "real": "real",
+        "made-up": "made-up",
+        "save": "save your work"
+    }
+}

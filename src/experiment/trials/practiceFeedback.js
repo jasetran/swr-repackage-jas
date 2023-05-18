@@ -3,7 +3,8 @@ import jsPsychAudioMultiResponse from '@jspsych-contrib/plugin-audio-multi-respo
 import store from "store2";
 import { jsPsych, config } from "../config/config";
 import { audioContent, camelCase, imgContent, isTouchScreen } from "../config/preload";
-
+import i18next from "i18next";
+import '../i18n'
 
 const feedbackStimulus = () => {
   const previousTrialData = jsPsych.data.get().last(2).values()[0]
@@ -38,10 +39,10 @@ export const practice_feedback = {
   prompt: () => {
     return (`<div class = stimulus_div>
       <p class="feedback">
-        <span class=${store.session("responseColor")}>You pressed the ${store.session("responseLR")} arrow which is for ${store.session("answerRP")} words!</span>
+        <span class=${store.session("responseColor")}>${i18next.t('practiceFeedbackTrial.paragraph1', { direction: `${store.session("responseLR") === 'left' ? i18next.t('terms.left') : i18next.t('terms.right')}`, typeWord: `${store.session("answerRP") === 'real' ? i18next.t('terms.real') : i18next.t('terms.made-up')}`})}</span>
         <br></br>
         ${jsPsych.timelineVariable("stimulus")}
-        <span class=${store.session("answerColor")}> is a ${store.session("correctRP")}  word. Press the ${store.session("correctLR")} arrow to continue.</span>
+        <span class=${store.session("answerColor")}>${i18next.t('practiceFeedbackTrial.paragraph2', { direction: `${store.session("correctLR") === 'left' ? i18next.t('terms.left') : i18next.t('terms.right')}`, typeWord: `${store.session("correctRP") === 'real' ? i18next.t('terms.real') : i18next.t('terms.made-up')}`})}</span>
       </p>
     </div>
     ${!isTouchScreen ? `<img class="lower" src="${store.session("correctRP") === "made-up" ? `${imgContent.arrowkeyLexLeft}` : `${imgContent.arrowkeyLexRight}`}" alt="arrow keys">` : ''}`)

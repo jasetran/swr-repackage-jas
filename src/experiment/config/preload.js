@@ -1,5 +1,7 @@
 import jsPsychPreload from "@jspsych/plugin-preload";
 import { deviceType, primaryInput } from 'detect-it';
+import i18next from "i18next";
+import '../i18n'
 
 export let isTouchScreen = false;
 
@@ -65,7 +67,7 @@ const preload_audio_trials = Object.entries(deviceAudio()).map((element) => {
     type: jsPsychPreload,
     audio: audio_block,
     auto_preload: false,
-    message: `${idx} Please wait while the experiment loads. This may take a few minutes.`,
+    message: `${idx} ${i18next.t('preloadTrial.messageText')}`,
     show_progress_bar: true,
     show_detailed_errors: true,
   };
@@ -85,7 +87,7 @@ const preload_img_trials = Object.entries(imageBlocks).map((element) => {
     type: jsPsychPreload,
     images: img_block,
     auto_preload: false,
-    message: `${idx} Please wait while the experiment loads. This may take a few minutes.`,
+    message: `${idx} ${i18next.t('preloadTrial.messageText')}`,
     show_progress_bar: true,
     show_detailed_errors: true,
   };

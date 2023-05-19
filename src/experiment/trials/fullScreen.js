@@ -13,10 +13,11 @@ export let firekit;
 export const enter_fullscreen = {
     type: jsPsychFullScreen,
     fullscreen_mode: true,
-    message: `<div class='text_div'><h1>${i18next.t('fullScreenTrial.prompt')}</h1></div>`,
+    message: () => `<div class='text_div'><h1>${i18next.t('fullScreenTrial.prompt')}</h1></div>`,
     delay_after: 450,
-    button_label: `${i18next.t('fullScreenTrial.buttonText')}`,
+    button_label: () => `${i18next.t('fullScreenTrial.buttonText')}`,
     on_start: () => {
+      console.log('set language: ', i18next.language)
         if (jsPsych.getProgress().percent_complete > 13) document.body.style.cursor = "default"
     },
     on_finish: async () => {

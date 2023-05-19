@@ -8,7 +8,7 @@
     },
     "navigation": {
         "continueButtonText": "Press <span class='yellow'>ANY KEY</span> to {{action}}",
-        "continueButtonTextMobile": "Press <span class='yellow'>%choice%</span> to {{action}}"
+        "continueButtonTextMobile": "Press <span class='yellow'>HERE</span> to {{action}}"
     },
     "introTrials": {
         "trial1": {
@@ -98,7 +98,6 @@
         "__comment1__": "ex. 'press any key to continue/practice/begin'",
         "continue": "continue",
         "practice": "practice",
-        "here": "here",
         "begin": "begin",
         "gold": "gold",
         "left": "left",

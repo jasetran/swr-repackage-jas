@@ -1,8 +1,9 @@
 import { config } from "../config/config";
 import { audioContent, imgContent, isTouchScreen } from "../config/preload";
 import AudioMultiResponsePlugin from "@jspsych-contrib/plugin-audio-multi-response";
+import i18next from "i18next";
+import '../i18n'
 
-/* mid block page */
 
 const midBlockTrialsContent = [
   {
@@ -10,18 +11,17 @@ const midBlockTrialsContent = [
     prompt: () => {
       return (
         `<div>
-            <h1>Good work!</h1>
+            <h1>${i18next.t('gameBreakTrials.midBlockTrials.trial1.header')}</h1>
             <div>
-              <p class="center" style="position: relative; top: 50%; margin-bottom: 1.5rem;">You are halfway through the valley, and you decide to camp near a small village.</p>
-
-              <p class="center" style="position: relative; top: 50%;">In the village, you meet another adventurer who joins your journey!</p>  
+              <p class="center" style="position: relative; top: 50%; margin-bottom: 1.5rem;">${i18next.t('gameBreakTrials.midBlockTrials.trial1.paragraph1')}</p>
+              <p class="center" style="position: relative; top: 50%;">${i18next.t('gameBreakTrials.midBlockTrials.trial1.paragraph2')}</p>  
             </div>
             <div class = "story-scene">
               <img class="scene" src="${imgContent.halfValley}" alt="background image with hills and trees">
               <img class = 'adventure_mid_break' src="${imgContent.adventurer1}" alt="adventurer with harp">
             </div>
           </div>
-    ${!isTouchScreen ? '<div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>' : ''}`
+    ${!isTouchScreen ? `<div class="button">${i18next.t('navigation.continueButtonText', { action: `${i18next.t('terms.continue')}` })}</div>` : ''}`
       )
     }
   },
@@ -30,18 +30,18 @@ const midBlockTrialsContent = [
     prompt: () => {
       return (`
         <div>
-          <h1>Amazing!</h1>
+          <h1>${i18next.t('gameBreakTrials.midBlockTrials.trial2.header')}</h1>
           <div>
-            <p class="center" style="position: relative; top: 50%; margin-bottom: 1.5rem;">After a few days of traveling, you come across an inn! </p>
-            <p class="center" style="position: relative; top: 50%;">There, you meet another adventurer who joins your journey!</p>
+            <p class="center" style="position: relative; top: 50%; margin-bottom: 1.5rem;">${i18next.t('gameBreakTrials.midBlockTrials.trial2.paragraph1')}</p>
+            <p class="center" style="position: relative; top: 50%;">${i18next.t('gameBreakTrials.midBlockTrials.trial2.paragraph2')}</p>
           </div>
           <div class="story-scene">
-            <img class="scene" src="${imgContent.valley4}" alt="backgroun image with hills and trees">
+            <img class="scene" src="${imgContent.valley4}" alt="background with hills and trees">
             <img class = 'adventure_mid_break' src="${imgContent.adventurer1}" alt="adventurer with harp">
             <img class = 'adventure_mid_break' src="${imgContent.adventurer3}" alt="adventurer with making heart shapes">
           </div>
         </div>
-        ${!isTouchScreen ? '<div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>' : ''}`
+        ${!isTouchScreen ? `<div class="button">${i18next.t('navigation.continueButtonText', { action: `${i18next.t('terms.continue')}` })}</div>` : ''}`
       )
     }
   },
@@ -50,11 +50,10 @@ const midBlockTrialsContent = [
     prompt: () => {
       return (`
         <div>
-          <h1>Fantastic Work!</h1>
+          <h1>${i18next.t('gameBreakTrials.midBlockTrials.trial3.header')}</h1>
           <div>
-              <p class="center" style="position: relative; top: 50%; margin-bottom: 1.5rem;">You are halfway through the valley, and you decide to camp near a small village.</p>
-
-              <p class="center" style="position: relative; top: 50%;">In the village, you meet another adventurer who joins your journey!</p>
+              <p class="center" style="position: relative; top: 50%; margin-bottom: 1.5rem;">${i18next.t('gameBreakTrials.midBlockTrials.trial3.paragraph1')}</p>
+              <p class="center" style="position: relative; top: 50%;">${i18next.t('gameBreakTrials.midBlockTrials.trial3.paragraph2')}</p>
           </div>
           <div class="story-scene">
             <img class="scene" src="${imgContent.valley3}" alt="backgroun image with hills and trees">
@@ -63,7 +62,7 @@ const midBlockTrialsContent = [
             <img class = 'adventure_mid_break'  src="${imgContent.adventurer2}" alt="adventurer making heart shapes">
           </div>
         </div>
-        ${!isTouchScreen ? '<div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>' : ''}
+        ${!isTouchScreen ? `<div class="button">${i18next.t('navigation.continueButtonText', { action: `${i18next.t('terms.continue')}` })}</div>` : ''}
       `
       )
     }
@@ -77,7 +76,7 @@ const midBlockTrialsMapped = midBlockTrialsContent.map(trial => {
       stimulus: trial.stimulus,
       keyboard_choices: () => isTouchScreen ? "NO_KEYS" : "ALL_KEYS",
       button_choices: () => isTouchScreen ? ["HERE"] : [],
-      button_html: "<button class='button'>Press <span class='yellow'>%choice%</span> to continue</button>",
+      button_html: () => `<button class='button'>${i18next.t('navigation.continueButtonTextMobile', {  action: `${i18next.t('terms.continue')}` })}</button>`,
       response_allowed_while_playing: config.testingOnly,
       prompt: trial.prompt,
       prompt_above_buttons: true,
@@ -96,12 +95,10 @@ const postBlockTrialsContent = [
       return (
         `
         <div>
-          <h1>Congratulations!</h1>
+          <h1>${i18next.t('gameBreakTrials.postBlockTrials.trial1.header')}</h1>
           <div>
-            <p class="center" style="margin-bottom: 1.5rem;">With the guardian&#39s help, you made it through the valley.</p> 
-
-            <p class="center">You&#39re getting closer to the gate!</p>
-            
+            <p class="center" style="margin-bottom: 1.5rem;">${i18next.t('gameBreakTrials.postBlockTrials.trial1.paragraph1')}</p> 
+            <p class="center">${i18next.t('gameBreakTrials.postBlockTrials.trial1.paragraph2')}</p>
           </div>
           <div class = "story-scene">
             <img class="scene" src="${imgContent.valley}" alt="background image of hills and trees">
@@ -109,7 +106,7 @@ const postBlockTrialsContent = [
             <img class="guardian" src="${imgContent.guardian1}" alt="adventure making heart shapes">
           </div>
         </div>
-        ${!isTouchScreen ? '<div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>' : ''}
+        ${!isTouchScreen ? `<div class="button">${i18next.t('navigation.continueButtonText', { action: `${i18next.t('terms.continue')}` })}</div>` : ''}
         `
       )
     }
@@ -120,11 +117,11 @@ const postBlockTrialsContent = [
       return (
         `
         <div>
-          <h1>Congratulations!</h1>
+          <h1>${i18next.t('gameBreakTrials.postBlockTrials.trial2.header')}</h1>
           <div>
-            <p class="center" style="margin-bottom: 1.5rem;">With the guardian&#39s help, you made it through the valley.</p>
+            <p class="center" style="margin-bottom: 1.5rem;">${i18next.t('gameBreakTrials.postBlockTrials.trial2.paragraph1')}</p>
 
-            <p class="center">Just one more valley until you reach the gate!</p>
+            <p class="center">${i18next.t('gameBreakTrials.postBlockTrials.trial2.paragraph2')}</p>
           </div>
           <div class="story-scene">
             <img class="scene" src="${imgContent.valley5}" alt="background image of hills and trees">
@@ -132,8 +129,7 @@ const postBlockTrialsContent = [
             <img class='guardian' src="${imgContent.guardian2}" alt="adventure making heart shapes">
           </div>
         </div>
-        ${!isTouchScreen ? '<div class="button">Press <span class="yellow">ANY KEY</span> to continue</div>' : ''}
-        `
+        ${!isTouchScreen ? `<div class="button">${i18next.t('navigation.continueButtonText', { action: `${i18next.t('terms.continue')}` })}</div>` : ''}`
       )
     }
   },
@@ -146,7 +142,7 @@ const postBlockTrialsMapped = postBlockTrialsContent.map(trial => {
       stimulus: trial.stimulus,
       keyboard_choices: () => isTouchScreen ? "NO_KEYS" : "ALL_KEYS",
       button_choices: () => isTouchScreen ? ["HERE"] : [],
-      button_html: "<button class='button'>Press <span class='yellow'>%choice%</span> to continue</button>",
+      button_html: () => `<button class='button'>${i18next.t('navigation.continueButtonTextMobile', {  action: `${i18next.t('terms.continue')}` })}</button>`,
       response_allowed_while_playing: config.testingOnly,
       prompt: trial.prompt,
       prompt_above_buttons: true,
@@ -161,25 +157,26 @@ const final_page = {
   stimulus: () => isTouchScreen ? audioContent.endGameT : audioContent.endGame,
   keyboard_choices: () => isTouchScreen ? "NO_KEYS" : "ALL_KEYS",
   button_choices: () => isTouchScreen ? ["HERE"] : [],
-  button_html: "<button class='button'>Press <span class='yellow'>%choice%</span> to save your work</button>",
+  button_html: () => `<button class='button'>${i18next.t('navigation.continueButtonTextMobile', {  action: `${i18next.t('terms.save')}` })}</button>`,
   response_allowed_while_playing: config.testingOnly,
   prompt_above_buttons: true,
-  prompt: `
+  prompt: () => {
+    `
+    <div>
+      <h1>${i18next.t('gameBreakTrials.finalTrial.header')}</h1>
       <div>
-        <h1>Finally, you found the last guardian and the gate that will bring you home!</h1>
-        <div>
-          <p class="center" style="margin-bottom: 1.5rem;"> You use your coins to open the gate.</p>
-
-          <p class="center">You say farewell to your new friends and leave the land of Lexicality. Until next time!</p>
-        </div>
-        <div class="story-scene">
-          <img class="scene" src="${imgContent.endingBackground}" alt="background image of gate">
-          <img class='guardian' src="${imgContent.guardian3}" alt="image of a unicorn winking">
-          <img class='guardian' id = "gate" src="${imgContent.endingGateCoinbag}" alt="gate">
-        </div>
+        <p class="center" style="margin-bottom: 1.5rem;">${i18next.t('gameBreakTrials.finalTrial.paragraph1')}</p>
+        <p class="center">${i18next.t('gameBreakTrials.finalTrial.paragraph2')}</p>
       </div>
-      ${!isTouchScreen ? '<div class="button">Press <span class="yellow">ANY KEY</span> to save your work</div>' : ''}
-      `,
+      <div class="story-scene">
+        <img class="scene" src="${imgContent.endingBackground}" alt="background image of gate">
+        <img class='guardian' src="${imgContent.guardian3}" alt="image of a unicorn winking">
+        <img class='guardian' id = "gate" src="${imgContent.endingGateCoinbag}" alt="gate">
+      </div>
+    </div>
+    ${!isTouchScreen ? `<div class="button">${i18next.t('navigation.continueButtonText', { action: `${i18next.t('terms.save')}` })}</div>` : ''}
+    `
+  },
 
   on_finish: function () {
     document.body.style.cursor = "auto";

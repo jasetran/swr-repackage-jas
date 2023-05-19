@@ -68,7 +68,7 @@ const introTrialsMapped = introTrialsContent.map((trial, i) => {
       stimulus: trial.stimulus,
       keyboard_choices: () => isTouchScreen ? "NO_KEYS" : "ALL_KEYS",
       button_choices: () => isTouchScreen ? ["HERE"] : [],
-      button_html: `<button class='button'>${i18next.t('navigation.continueButtonTextMobile', { action: `${isTouchScreen && i === 2 ? i18next.t('terms.practice') : i18next.t('terms.continue')}`})}</button>`,
+      button_html: () => `<button class='button'>${i18next.t('navigation.continueButtonTextMobile', { action: `${isTouchScreen && i === 2 ? i18next.t('terms.practice') : i18next.t('terms.continue')}`})}</button>`,
       response_allowed_while_playing: config.testingOnly,
       prompt: trial.prompt,
       prompt_above_buttons: true,
@@ -86,15 +86,17 @@ export const post_practice_intro = {
   stimulus: () => isTouchScreen ? audioContent.coinIntroT : audioContent.coinIntro,
   keyboard_choices: () => isTouchScreen ? "NO_KEYS" : "ALL_KEYS",
   button_choices: () => isTouchScreen ? ["HERE"] : [],
-  button_html: `<button class='button'>${i18next.t('navigation.continueButtonTextMobile', { action: `${i18next.t('terms.begin')}` })}</button>`,
+  button_html: () => `<button class='button'>${i18next.t('navigation.continueButtonTextMobile', { action: `${i18next.t('terms.begin')}` })}</button>`,
   response_allowed_while_playing: config.testingOnly,
-  prompt: `
+  prompt: () => {
+    `
     <h1>${i18next.t('introTrials.postPracticeTrial.header')}</h1>
       <div>
         <p class="center">${i18next.t('introTrials.postPracticeTrial.paragraph1')}</p>
         <img class = "coin" src="${imgContent.goldCoin}" alt="gold">
       </div>
-    ${!isTouchScreen ? `<div class="button">${i18next.t('navigation.continueButtonText', { action: `${i18next.t('terms.begin')}` })}</div>` : ''}`,
+    ${!isTouchScreen ? `<div class="button">${i18next.t('navigation.continueButtonText', { action: `${i18next.t('terms.begin')}` })}</div>` : ''}`
+  },
   prompt_above_buttons: true
 };
 

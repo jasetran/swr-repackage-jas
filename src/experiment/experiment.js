@@ -23,14 +23,14 @@ import { countdown_trials } from "./trials/countdown";
 import { if_coin_tracking } from "./trials/coinFeedback";
 
 // testing
-import { languageSelectTrial } from "./trials/languageSelect";
+import { ifLangDetectFail } from "./trials/languageSelect";
 
 // CSS imports
 import "./css/game.css";
 
 
 const timeline = [
-  languageSelectTrial,
+  ifLangDetectFail,
   ...preload_trials,
   if_get_pid, 
   if_consent_form, 

@@ -2,16 +2,19 @@ import i18next from "i18next";
 import LanguageDetector from 'i18next-browser-languagedetector';
 import enTranslations from '../locales/en/translation.json'
 import esTranslations from '../locales/es/translation.json'
+import itTranslations from '../locales/it/translation.json'
+
+export let islangaugeUndefined = false
 
 i18next
     .use(LanguageDetector)
-    .on('initialized', () => console.log('i18 instance init'))
+    .on('initialized', handleLanguageDetection)
     .init({
-        debug: true,
+        // which langauage codes to use. Ex. if 'en-US' detected, will use 'en'
         load: 'languageOnly',
-        fallbackLng: 'poop',
+        fallbackLng: 'en',
         detection: {
-            order: ['querystring', 'navigator',],
+            order: ['querystring', 'navigator'],
         },
         resources: {
             en: {
@@ -21,7 +24,12 @@ i18next
                 translation: esTranslations
             },
             it: {
-                translation: ''
+                translation: itTranslations
             }
         }
     })
+
+
+function handleLanguageDetection() {
+    if (!i18next.language) islangaugeUndefined = true
+}

@@ -76,7 +76,7 @@ export const makePid = () => {
     questions: [
       {
         prompt: () => {
-          ` <div>
+          return (` <div>
               <p class=" consent_form_title">STANFORD UNIVERSITY CONSENT FORM</p>
               <p class=" consent_form_text">
               <b>PURPOSE OF THE STUDY</b> 
@@ -111,8 +111,8 @@ export const makePid = () => {
               <br>
               For general information regarding questions or concerns about [your/your child’s] rights as a research participant, please call 1-866-680-2906 to reach the Administrative Panel on Human Subjects in Medical Research, Stanford University.
               </p>
-            </div>
-       `
+            </div>`
+            )
         } ,
         options: () => {
           return [
@@ -137,11 +137,12 @@ export const if_consent_form = {
   const survey_pid = {
     type: jsPsychSurveyHtmlForm,
     preamble: () => {
-      "<div><h1>Please share a bit more to help us understand your data!</h1>" +
-      "<p>[Optional]</p></div>"
+      return ("<div><h1>Please share a bit more to help us understand your data!</h1>" +
+              "<p>[Optional]</p></div>"
+      )
     },   
     html: () => {
-      `
+      return (`
       <div className="item">
        <span htmlFor="instructions" class = "survey_form_text">How old are you? (Please type a number)</span>
        <input type = "text" id = "age" name="age" style = "font-size: 2vh" value=""/>
@@ -190,7 +191,7 @@ export const if_consent_form = {
        </select>
      </div>
      <br>`
-    },
+    )},
     autocomplete: true,
     on_finish: (data) => {
       let tmpMetadata = {};

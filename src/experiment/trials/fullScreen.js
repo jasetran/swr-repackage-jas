@@ -17,7 +17,6 @@ export const enter_fullscreen = {
     delay_after: 450,
     button_label: () => `${i18next.t('fullScreenTrial.buttonText')}`,
     on_start: () => {
-      console.log('set language: ', i18next.language)
         if (jsPsych.getProgress().percent_complete > 13) document.body.style.cursor = "default"
     },
     on_finish: async () => {

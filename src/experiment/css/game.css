@@ -405,3 +405,11 @@ p  {
 	justify-content: center;
 }
 
+.languageForm {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-direction: column;
+	margin-top: 6rem;
+	gap: 3rem;
+}

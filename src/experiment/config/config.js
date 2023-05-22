@@ -1,6 +1,8 @@
 import { initJsPsych } from "jspsych";
 import Papa from "papaparse";
 import store from "store2";
+import i18next from "i18next";
+import '../i18n'
 
 const randomAssignment = (mode) => {
   if (mode === "test") {
@@ -328,6 +330,8 @@ export const initStore = () => {
 
   store.session.set("initialized", true);
 
+  store.session.set("language", i18next.language)
+
   return store.session;
 };
 
@@ -336,7 +340,7 @@ initStore();
 export const jsPsych = initJsPsych({
   show_progress_bar: true,
   auto_update_progress_bar: false,
-  message_progress_bar: "Progress Complete",
+  message_progress_bar: `${i18next.t('progressBar')}`,
   on_finish: () => redirect(),
 });
 

@@ -1,4 +1,5 @@
 {
+    "progressBar": "Progress Complete",
     "preloadTrial": {
         "messageText": "Please wait while the experiment loads. This may take a few minutes."
     },

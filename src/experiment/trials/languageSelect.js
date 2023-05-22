@@ -2,6 +2,7 @@ import jsPsychSurveyHtmlForm from "@jspsych/plugin-survey-html-form";
 import i18next from "i18next";
 import '../i18n'
 import { islangaugeUndefined } from "../i18n";
+import store from "store2";
 
 const languageSelectTrial = {
     type: jsPsychSurveyHtmlForm,
@@ -27,6 +28,7 @@ const languageSelectTrial = {
     },
     on_finish: async (data) => {
         await i18next.changeLanguage(`${data.response.language}`)
+        store.session.set("language", i18next.language)
     }
 }
 

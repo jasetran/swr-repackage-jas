@@ -1,8 +1,8 @@
 import jsPsychSurveyHtmlForm from "@jspsych/plugin-survey-html-form";
 import i18next from "i18next";
 import '../i18n'
-import { islangaugeUndefined } from "../i18n";
 import store from "store2";
+// import { islangaugeUndefined } from "../i18n";
 
 const languageSelectTrial = {
     type: jsPsychSurveyHtmlForm,
@@ -32,8 +32,8 @@ const languageSelectTrial = {
     }
 }
 
-export const ifLangDetectFail = {
-    timeline: [languageSelectTrial],
-    conditional_function: () => islangaugeUndefined
-}
+// export const ifLangDetectFail = {
+//     timeline: [languageSelectTrial],
+//     conditional_function: () => islangaugeUndefined
+// }
 

@@ -17,20 +17,16 @@ import { introduction_trials, post_practice_intro,} from "./trials/introduction"
 import { practice_feedback } from "./trials/practiceFeedback";
 import { mid_block_page_list, post_block_page_list, final_page, } from "./trials/gameBreak";
 import { if_not_fullscreen, enter_fullscreen, exit_fullscreen } from './trials/fullScreen';
-import { setup_fixation } from './trials/setupFixation';
-import { lexicality, leixcalityPractice } from './trials/lexicality'
+import { setup_fixation_test, setup_fixation_practice } from './trials/setupFixation';
+import { lexicalityTest, leixcalityPractice } from './trials/stimulus'
 import { countdown_trials } from "./trials/countdown";
 import { if_coin_tracking } from "./trials/coinFeedback";
-
-// testing
-import { ifLangDetectFail } from "./trials/languageSelect";
 
 // CSS imports
 import "./css/game.css";
 
 
 const timeline = [
-  ifLangDetectFail,
   ...preload_trials,
   if_get_pid, 
   if_consent_form, 
@@ -48,7 +44,7 @@ export async function roarBlocks() {
     array.forEach((element) => {
       const block = {
         timeline: [
-          setup_fixation,
+          setup_fixation_practice,
           leixcalityPractice,
           audio_response,
           practice_feedback,
@@ -61,12 +57,12 @@ export async function roarBlocks() {
 
   pushPracticeTotimeline(blockPractice);
   timeline.push(post_practice_intro);
-  timeline.push(if_not_fullscreen)
+  timeline.push(if_not_fullscreen);
 
   const core_procedure = {
     timeline: [
-      setup_fixation,
-      lexicality,
+      setup_fixation_test,
+      lexicalityTest,
       audio_response,
       if_coin_tracking,
     ],

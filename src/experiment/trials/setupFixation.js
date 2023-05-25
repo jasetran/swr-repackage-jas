@@ -1,10 +1,20 @@
-import { getStimulus } from "../expirementHelpers";
+import { getStimulus } from "../experimentSetup";
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
 import { isTouchScreen, imgContent } from "../config/preload";
-import { config, jsPsych } from "../config/config";
+import { config, } from "../config/config";
 
 // set-up screen
-export const setup_fixation = {
+const setupFixationData = [
+  {
+    onFinish: () => {}
+  },
+  {
+    onFinish: () => getStimulus()
+  },
+]
+
+const setupFixationTrials = setupFixationData.map((trial, i) => {
+  return {
     type: jsPsychHtmlKeyboardResponse,
     stimulus: function () {
       return `<div class='stimulus_div'>
@@ -34,12 +44,10 @@ export const setup_fixation = {
     data: {
       task: "fixation",
     },
-    on_finish: () => {
-      const trialId = jsPsych.getCurrentTimelineNodeID()
+    on_finish: trial.onFinish
+  }
+})
 
-      // If it's not a practice trial
-      if (trialId !== '0.0-10.0-0.0' && trialId !== '0.0-11.0-0.0' && trialId !== '0.0-12.0-0.0' && trialId !== '0.0-13.0-0.0' && trialId !== '0.0-14.0-0.0') {
-        getStimulus(); // get the current stimuli for the trial
-      }
-    },
-  };
+export const setup_fixation_practice = setupFixationTrials[0]
+export const setup_fixation_test = setupFixationTrials[1]
+

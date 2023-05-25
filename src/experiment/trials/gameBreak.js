@@ -161,21 +161,22 @@ const final_page = {
   response_allowed_while_playing: config.testingOnly,
   prompt_above_buttons: true,
   prompt: () => {
-    `
-    <div>
-      <h1>${i18next.t('gameBreakTrials.finalTrial.header')}</h1>
+    return (`
       <div>
-        <p class="center" style="margin-bottom: 1.5rem;">${i18next.t('gameBreakTrials.finalTrial.paragraph1')}</p>
-        <p class="center">${i18next.t('gameBreakTrials.finalTrial.paragraph2')}</p>
+        <h1>${i18next.t('gameBreakTrials.finalTrial.header')}</h1>
+        <div>
+          <p class="center" style="margin-bottom: 1.5rem;">${i18next.t('gameBreakTrials.finalTrial.paragraph1')}</p>
+          <p class="center">${i18next.t('gameBreakTrials.finalTrial.paragraph2')}</p>
+        </div>
+        <div class="story-scene">
+          <img class="scene" src="${imgContent.endingBackground}" alt="background image of gate">
+          <img class='guardian' src="${imgContent.guardian3}" alt="image of a unicorn winking">
+          <img class='guardian' id = "gate" src="${imgContent.endingGateCoinbag}" alt="gate">
+        </div>
       </div>
-      <div class="story-scene">
-        <img class="scene" src="${imgContent.endingBackground}" alt="background image of gate">
-        <img class='guardian' src="${imgContent.guardian3}" alt="image of a unicorn winking">
-        <img class='guardian' id = "gate" src="${imgContent.endingGateCoinbag}" alt="gate">
-      </div>
-    </div>
-    ${!isTouchScreen ? `<div class="button">${i18next.t('navigation.continueButtonText', { action: `${i18next.t('terms.save')}` })}</div>` : ''}
-    `
+      ${!isTouchScreen ? `<div class="button">${i18next.t('navigation.continueButtonText', { action: `${i18next.t('terms.save')}` })}</div>` : ''}
+      `
+    )
   },
 
   on_finish: function () {

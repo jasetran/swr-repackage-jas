@@ -4,17 +4,25 @@ import enTranslations from '../locales/en/translation.json'
 import esTranslations from '../locales/es/translation.json'
 import itTranslations from '../locales/it/translation.json'
 
-export let islangaugeUndefined = false
+const languageDetector = new LanguageDetector();
+
+languageDetector.addDetector({
+  name: 'defaultToEnglish',
+  lookup(options) {
+    return 'en';
+  },
+});
+
 
 i18next
     .use(LanguageDetector)
-    .on('initialized', handleLanguageDetection)
+    // .on('initialized', handleLanguageDetection)
     .init({
         // which langauage codes to use. Ex. if 'en-US' detected, will use 'en'
         load: 'languageOnly',
         fallbackLng: 'en',
         detection: {
-            order: ['querystring', 'navigator'],
+            order: ['defaultToEnglish', 'querystring', 'navigator'],
         },
         resources: {
             en: {
@@ -30,6 +38,10 @@ i18next
     })
 
 
-function handleLanguageDetection() {
-    if (!i18next.language) islangaugeUndefined = true
-}
+// FOR LANGUAGE SELECT TRIAL    
+
+// export let islangaugeUndefined = false
+
+// function handleLanguageDetection() {
+//     if (!i18next.language) islangaugeUndefined = true
+// }

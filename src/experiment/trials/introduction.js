@@ -89,13 +89,14 @@ export const post_practice_intro = {
   button_html: () => `<button class='button'>${i18next.t('navigation.continueButtonTextMobile', { action: `${i18next.t('terms.begin')}` })}</button>`,
   response_allowed_while_playing: config.testingOnly,
   prompt: () => {
-    `
+    return (`
     <h1>${i18next.t('introTrials.postPracticeTrial.header')}</h1>
       <div>
         <p class="center">${i18next.t('introTrials.postPracticeTrial.paragraph1')}</p>
         <img class = "coin" src="${imgContent.goldCoin}" alt="gold">
       </div>
     ${!isTouchScreen ? `<div class="button">${i18next.t('navigation.continueButtonText', { action: `${i18next.t('terms.begin')}` })}</div>` : ''}`
+    )
   },
   prompt_above_buttons: true
 };

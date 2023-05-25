@@ -271,6 +271,7 @@ export const config = {
   testingOnly: skip === null,
   consent: consent,
   audioFeedback: audioFeedback,
+  language: i18next.language,
 
   // after how many adaptive trials, the test gives 1 new word
   adaptive2new: Math.floor(numAdaptive / numNew),
@@ -329,8 +330,6 @@ export const initStore = () => {
   store.session.set("coinTrackingIndex", 0);
 
   store.session.set("initialized", true);
-
-  store.session.set("language", i18next.language)
 
   return store.session;
 };

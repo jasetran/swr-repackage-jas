@@ -180,4 +180,4 @@ const lexicalityTrialsMapped = lexicalityTrialContent.map((trial, i) => {
 
 // first trial is practice
 export const leixcalityPractice = lexicalityTrialsMapped[0]
-export const lexicality = lexicalityTrialsMapped[1]
+export const lexicalityTest = lexicalityTrialsMapped[1]

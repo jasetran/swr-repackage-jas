@@ -21,17 +21,19 @@ import { setup_fixation_test, setup_fixation_practice } from './trials/setupFixa
 import { lexicalityTest, leixcalityPractice } from './trials/stimulus'
 import { countdown_trials } from "./trials/countdown";
 import { if_coin_tracking } from "./trials/coinFeedback";
+import { importModulesTrial } from "./config/importModules";
 
 // CSS imports
 import "./css/game.css";
 
 
 const timeline = [
+  importModulesTrial,
   ...preload_trials,
   if_get_pid, 
   if_consent_form, 
   if_get_survey, 
-  enter_fullscreen, 
+  enter_fullscreen,
   introduction_trials,
   if_not_fullscreen, 
   countdown_trials
@@ -114,3 +116,5 @@ export async function roarBlocks() {
 }
 
 roarBlocks();
+
+

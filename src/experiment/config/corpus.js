@@ -3,10 +3,9 @@ import {
   config, realpseudo2arrow, readCSV, shuffle,
 } from "./config";
 
-// Word corpus imports
-import dataPracticeURL from "../../wordlist/ldt-items-practice.csv";
-import dataValidatedURL from "../../wordlist/item_bank_new.csv";
-import dataNewURL from "../../wordlist/ldt-new-items-v2.csv";
+import i18next from "i18next";
+import '../i18n'
+import { wordlist } from "../i18n";
 
 // addAsset :: (k, Promise a) -> Promise (k, a)
 const addAsset = ([name, assetPromise]) =>
@@ -14,12 +13,12 @@ const addAsset = ([name, assetPromise]) =>
 
 // loadAll :: {k: Promise a} -> Promise {k: a}
 const loadAll = (assets) =>
-  Promise.all(Object.entries(assets).map(addAsset)).then(Object.fromEntries);
+  Promise.all(Object.entries(assets).map(addAsset)).then(Object.fromEntries);  
 
 const csvPromises = {
-  practice: readCSV(dataPracticeURL),
-  validated: readCSV(dataValidatedURL),
-  new: readCSV(dataNewURL),
+  practice: readCSV(wordlist[i18next.language].dataPracticeURL),
+  validated: readCSV(wordlist[i18next.language].dataValidatedURL),
+  new: readCSV(wordlist[i18next.language].dataNewURL),
 };
 
 const csvAssets = await loadAll(csvPromises);

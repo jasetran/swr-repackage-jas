@@ -1,8 +1,10 @@
 import { config } from "../config/config";
-import { audioContent, imgContent, isTouchScreen } from "../config/preload";
+import { imgContent, isTouchScreen } from "../config/preload";
 import AudioMultiResponsePlugin from "@jspsych-contrib/plugin-audio-multi-response";
 import i18next from "i18next";
 import '../i18n'
+// import { audioContent } from "../config/preload";
+import { audioContent } from "../config/importModules";
 
 
 const midBlockTrialsContent = [
@@ -69,14 +71,14 @@ const midBlockTrialsContent = [
   }
 ]
 
-const midBlockTrialsMapped = midBlockTrialsContent.map(trial => {
+const midBlockTrialsMapped = midBlockTrialsContent.map((trial, i) => {
   return (
     {
       type: AudioMultiResponsePlugin,
       stimulus: trial.stimulus,
       keyboard_choices: () => isTouchScreen ? "NO_KEYS" : "ALL_KEYS",
       button_choices: () => isTouchScreen ? ["HERE"] : [],
-      button_html: () => `<button class='button'>${i18next.t('navigation.continueButtonTextMobile', {  action: `${i18next.t('terms.continue')}` })}</button>`,
+      button_html: () => `<button class='button'>${i18next.t('navigation.continueButtonTextMobile', { action: `${i18next.t('terms.continue')}` })}</button>`,
       response_allowed_while_playing: config.testingOnly,
       prompt: trial.prompt,
       prompt_above_buttons: true,

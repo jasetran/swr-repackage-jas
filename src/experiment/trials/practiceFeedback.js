@@ -2,9 +2,11 @@
 import jsPsychAudioMultiResponse from '@jspsych-contrib/plugin-audio-multi-response'
 import store from "store2";
 import { jsPsych, config } from "../config/config";
-import { audioContent, camelCase, imgContent, isTouchScreen } from "../config/preload";
+import { camelCase, imgContent, isTouchScreen } from "../config/preload";
 import i18next from "i18next";
 import '../i18n'
+// import { audioContent } from '../config/preload';
+import { audioContent } from '../config/importModules';
 
 const feedbackStimulus = () => {
   const previousTrialData = jsPsych.data.get().last(2).values()[0]

@@ -1,8 +1,10 @@
 import { config } from "../config/config";
-import { imgContent, audioContent, isTouchScreen } from "../config/preload";
+import { imgContent, isTouchScreen } from "../config/preload";
 import AudioMultiResponsePlugin from "@jspsych-contrib/plugin-audio-multi-response";
 import i18next from "i18next";
 import '../i18n'
+// import { audioContent } from "../config/preload";
+import { audioContent } from "../config/importModules";
 
 
 const introTrialsContent = [
@@ -72,6 +74,8 @@ const introTrialsMapped = introTrialsContent.map((trial, i) => {
       response_allowed_while_playing: config.testingOnly,
       prompt: trial.prompt,
       prompt_above_buttons: true,
+      // on_load: () => console.log('stimulus on load: ', trial.stimulus),
+      // on_start: () => console.log('stimulus on start: ', trial.stimulus)
     }
   )
 })

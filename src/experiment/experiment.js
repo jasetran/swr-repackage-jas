@@ -7,7 +7,7 @@ import "regenerator-runtime/runtime";
 
 // Local modules
 import { jsPsych, config } from "./config/config";
-import { preload_trials } from "./config/preload";
+import { preload_image_trials, preload_audio_trials } from "./config/preload";
 import { blockPractice } from "./config/corpus";
 import { if_consent_form, if_get_survey, if_get_pid } from './experimentSetup';
 
@@ -21,15 +21,14 @@ import { setup_fixation_test, setup_fixation_practice } from './trials/setupFixa
 import { lexicalityTest, leixcalityPractice } from './trials/stimulus'
 import { countdown_trials } from "./trials/countdown";
 import { if_coin_tracking } from "./trials/coinFeedback";
-import { importModulesTrial } from "./config/importModules";
 
 // CSS imports
 import "./css/game.css";
 
 
 const timeline = [
-  importModulesTrial,
-  ...preload_trials,
+  ...preload_image_trials,
+  ...preload_audio_trials,
   if_get_pid, 
   if_consent_form, 
   if_get_survey, 

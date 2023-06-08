@@ -1,7 +1,6 @@
-import { isTouchScreen, imgContent } from "../config/preload"
+import {  imgContent, audioContent, isTouchScreen, } from "../config/preload"
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
-// import { audioContent } from "../config/preload";
-import { audioContent } from "../config/importModules";
+
 
 const countDownData = [
     {audio: audioContent?.countdown3, count: 3}, 
@@ -14,10 +13,7 @@ const countDownData = [
     return (
       {
         type: jsPsychAudioKeyboardResponse,
-        stimulus: () => {
-          console.log('audio content in countdown: ', audioContent)
-          return audioContent[`countdown${trial.count}`]
-        },
+        stimulus: () => audioContent[`countdown${trial.count}`],
         prompt: () => {
           return (`
             <div id='${isTouchScreen ? 'countdown-wrapper' : ''}'>

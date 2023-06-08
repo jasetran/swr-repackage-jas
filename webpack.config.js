@@ -57,7 +57,7 @@ const commonConfig = {
           {
             loader: 'file-loader',
             options: {
-              name: '[name].[ext]',
+              name: '[path][name].[ext]',
               outputPath: 'audio',
             },
           },

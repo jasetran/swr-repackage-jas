@@ -2,10 +2,7 @@ import jsPsychPreload from "@jspsych/plugin-preload";
 import { deviceType, primaryInput } from 'detect-it';
 import i18next from "i18next";
 import '../i18n'
-import { audioBlocksKeyboard, audioBlocksTablet } from "./importModules";
-import { preload_audio_trials } from "./importModules";
-
-export let isTouchScreen = false;
+import { keyboardPaths, sharedPaths, tabletPaths } from "./audioFileList.js";
 
 export const camelCase = (str) => str.replace(/_([a-z])/g, (match, letter) => {
   return letter.toUpperCase();
@@ -26,55 +23,68 @@ export const preloadObj2contentObj = (preloadObj) => {
   return reducedContent
 };
 
-// const transformAudio = (array) => {
-//   const list = [];
-//   function addList(item) {
-//     list.push(item.default);
-//   }
-//   array.forEach(addList);
-//   return list;
-// };
+export let isTouchScreen = false;
+export let audioContent
+export let preload_audio_trials = []
 
-const importAll = (r) => r.keys().map(r);
+const lng = i18next.language
 
-// let sharedAudio = transformAudio(importAll(require.context('../../audio/en/shared', false, /\.(wav|mp3)$/)));
-// const keyboardAudio = transformAudio(importAll(require.context('../../audio/en/keyboard', false, /\.(wav|mp3)$/)));
-// const tabletAudio = transformAudio(importAll(require.context('../../audio/en/tablet', false, /\.(wav|mp3)$/)));
+// Dynamic import
 
-// const audioBlocksKeyboard = {
-//   1: sharedAudio,
-//   2: keyboardAudio
-// };
+if (lng) {
 
-// const audioBlocksTablet = {
-//   1: sharedAudio,
-//   2: tabletAudio
-// };
-
-export const deviceAudio = () => {
   if (deviceType === 'touchOnly' || ('hybrid' && primaryInput === 'touch')) {
     isTouchScreen = true
-    return audioBlocksTablet
-  } else {
-    return audioBlocksKeyboard
   }
+
+  async function preloadFunc() {
+    const audioDirectories = ['shared/', isTouchScreen ? `${lng}/tablet/` : `${lng}/keyboard/`]
+    const audioPaths = [sharedPaths, isTouchScreen ? tabletPaths : keyboardPaths]
+
+    const sharedAudio = []
+    const deviceAudio = []
+
+    const promises = audioPaths.flatMap((files, i) => {
+        return files.map(async (file) => {
+          const module = await import(`../../audio/${audioDirectories[i]}${file}`);
+      
+          if (i === 0) {
+            sharedAudio.push(module.default);
+          } else {
+            deviceAudio.push(module.default)
+          }
+        });
+    });
+    
+    await Promise.all(promises);
+
+    const audioBlock = {
+        1: sharedAudio,
+        2: deviceAudio
+    };
+
+    audioContent = preloadObj2contentObj(audioBlock)
+
+    preload_audio_trials = Object.entries(audioBlock).map((element) => {
+      const idx = element[0];
+      const audio_block = element[1];
+      return {
+        type: jsPsychPreload,
+        audio: audio_block,
+        auto_preload: false,
+        message: () => `${idx} ${i18next.t('preloadTrial.messageText')}`,
+        show_progress_bar: true,
+        show_detailed_errors: true,
+      };
+    });
+  }
+
+  preloadFunc()
 }
 
-// export const audioContent = preloadObj2contentObj(deviceAudio());
+// Static import
 
-
-// const preload_audio_trials = Object.entries(deviceAudio()).map((element) => {
-//   const idx = element[0];
-//   const audio_block = element[1];
-//   return {
-//     type: jsPsychPreload,
-//     audio: audio_block,
-//     auto_preload: false,
-//     message: () => `${idx} ${i18next.t('preloadTrial.messageText')}`,
-//     show_progress_bar: true,
-//     show_detailed_errors: true,
-//   };
-// });
+const importAll = (r) => r.keys().map(r);
 
 const images = importAll(require.context('../../assets', false, /\.(png|jpe?g|svg|gif)$/));
 
@@ -98,4 +108,5 @@ const preload_img_trials = Object.entries(imageBlocks).map((element) => {
   };
 });
 
-export const preload_trials = [...preload_audio_trials, ...preload_img_trials];
+
+export const preload_image_trials = [ ...preload_img_trials];

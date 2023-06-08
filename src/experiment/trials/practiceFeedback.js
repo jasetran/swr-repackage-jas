@@ -2,11 +2,12 @@
 import jsPsychAudioMultiResponse from '@jspsych-contrib/plugin-audio-multi-response'
 import store from "store2";
 import { jsPsych, config } from "../config/config";
-import { camelCase, imgContent, isTouchScreen } from "../config/preload";
+import { camelCase, imgContent, audioContent, isTouchScreen } from "../config/preload";
 import i18next from "i18next";
 import '../i18n'
-// import { audioContent } from '../config/preload';
-import { audioContent } from '../config/importModules';
+
+
+let count = 0
 
 const feedbackStimulus = () => {
   const previousTrialData = jsPsych.data.get().last(2).values()[0]
@@ -25,11 +26,13 @@ const feedbackStimulus = () => {
     }
   }
 
+  count++
+
   if (isCorrect) {
-    return audioContent[camelCase(`feedback_${jsPsych.timelineVariable("stimulus")}_correct${isTouchScreen ? '_t' : ''}`)];
+    return audioContent[`feedback${count}Correct${isTouchScreen ? 'T' : ''}`];
   }
 
-  return audioContent[camelCase(`feedback_${jsPsych.timelineVariable("stimulus")}_wrong${isTouchScreen ? '_t' : ''}`)];
+  return audioContent[`feedback${count}Wrong${isTouchScreen ? 'T' : ''}`];
 };
 
 

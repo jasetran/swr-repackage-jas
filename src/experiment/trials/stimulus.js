@@ -1,9 +1,10 @@
 import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
-import { isTouchScreen, imgContent } from '../config/preload';
+import { imgContent, isTouchScreen } from '../config/preload';
 import { jsPsych, config, updateProgressBar } from '../config/config';
 import store from 'store2';
 import { cat, cat2 } from '../experimentSetup';
 import { updateCorrectChecker } from '../expirementHelpers';
+
 
 const lexicalityTrialContent = [
     {

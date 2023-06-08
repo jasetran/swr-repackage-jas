@@ -26,7 +26,7 @@ const fullScreenTrials = fullScreenTrialData.map(trial => {
     type: jsPsychFullScreen,
     fullscreen_mode: true,
     message: () => `<div class='text_div'><h1>${i18next.t('fullScreenTrial.prompt')}</h1></div>`,
-    delay_after: 450,
+    delay_after: 0,
     button_label: () => `${i18next.t('fullScreenTrial.buttonText')}`,
     on_start: () => {
       document.body.style.cursor = "default"

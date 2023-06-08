@@ -1,10 +1,8 @@
 import { config } from "../config/config";
-import { imgContent, isTouchScreen } from "../config/preload";
+import { imgContent, audioContent, isTouchScreen } from "../config/preload";
 import AudioMultiResponsePlugin from "@jspsych-contrib/plugin-audio-multi-response";
 import i18next from "i18next";
 import '../i18n'
-// import { audioContent } from "../config/preload";
-import { audioContent } from "../config/importModules";
 
 
 const midBlockTrialsContent = [

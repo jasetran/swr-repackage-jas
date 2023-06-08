@@ -1,8 +1,7 @@
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
 import store from "store2";
-import { imgContent } from "../config/preload";
-// import { audioContent } from "../config/preload";
-import { audioContent } from "../config/importModules";
+import { imgContent, audioContent } from "../config/preload";
+
 
 /* coin tracking trial */
 const coin_tracking_feedback = {

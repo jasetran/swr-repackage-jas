@@ -2,7 +2,7 @@ import { initJsPsych } from "jspsych";
 import Papa from "papaparse";
 import store from "store2";
 import i18next from "i18next";
-import '../i18n'
+import '../i18n';
 
 const randomAssignment = (mode) => {
   if (mode === "test") {
@@ -54,7 +54,7 @@ const divideTrial2Block = (n1, n2, nBlock) => {
 
 export const stimulusCountLists = {
   fullAdaptive: [82, 82, 81],
-  fullRandom: [82, 82, 81],
+  fullRandom: [25, 25, 25],
   shortAdaptive: divideTrial2Block(numAdaptive, numNew, 3),
   longAdaptive: divideTrial2Block(numAdaptive, numNew, 3),
   fullItemBank: divideTrial2Block(numValidated, numNew, 3),

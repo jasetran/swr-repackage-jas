@@ -1,12 +1,13 @@
 import i18next from "i18next";
 import LanguageDetector from 'i18next-browser-languagedetector';
-import enTranslations from '../locales/en/translation.json'
-import esTranslations from '../locales/es/translation.json'
-import itTranslations from '../locales/it/translation.json'
-import enDataPracticeURL from '../wordlist/en/ldt-items-practice.csv'
-import enDataValidatedURL from '../wordlist/en/item_bank_new.csv'
-import enDataNewURL from '../wordlist/en/ldt-new-items-v2.csv'
-
+import enTranslations from '../locales/en/translation.json';
+import esTranslations from '../locales/es/translation.json';
+import itTranslations from '../locales/it/translation.json';
+import enDataPracticeURL from '../wordlist/en/ldt-items-practice.csv';
+import enDataValidatedURL from '../wordlist/en/item_bank_new.csv';
+import enDataNewURL from '../wordlist/en/ldt-new-items-v2.csv';
+import esDataPracticeURL from '../wordlist/es/ldt-items-practice_esp.csv';
+import esDataValidatedURL from '../wordlist/es/preliminary-item-bank_esp.csv';
 
 const languageDetector = new LanguageDetector();
 
@@ -31,7 +32,7 @@ i18next
         load: 'languageOnly',
         fallbackLng: 'en',
         detection: {
-            order: ['defaultToEnglish', 'querystring',],
+            order: ['defaultToEnglish', 'querystring'],
         },
         resources: {
             en: {
@@ -51,22 +52,22 @@ export const wordlist = {
     en: {
         dataPracticeURL: enDataPracticeURL,
         dataValidatedURL: enDataValidatedURL,
-        dataNewURL: enDataNewURL
-    }, 
+        dataNewURL: enDataNewURL,
+    },
     es: {
-        dataPracticeURL: '',
-        dataValidatedURL: '',
+        dataPracticeURL: esDataPracticeURL,
+        dataValidatedURL: esDataValidatedURL,
         dataNewURL: ''
-    }, 
+    },
     it: {
         dataPracticeURL: '',
         dataValidatedURL: '',
         dataNewURL: ''
-    }, 
+    },
 }
 
-
-// FOR LANGUAGE SELECT TRIAL    
+console.log(wordlist);
+// FOR LANGUAGE SELECT TRIAL
 
 // export let islangaugeUndefined = false
 

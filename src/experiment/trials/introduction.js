@@ -37,10 +37,10 @@ const introTrialsContent = [
         </div>
         <div class="row">
           <div class="column_2_lower" style="background-color:#f2f2f2;">
-            <img width="100%" src=${imgContent.arrowLeftP2} alt="Magic Word, Press the Left Arrow Key" align="right">
+            <img width="100%" src=${i18next.language === 'en' ? imgContent.arrowLeftP2 : imgContent[`${i18next.language}ArrowLeftP2`]} alt="Magic Word, Press the Left Arrow Key" align="right">
           </div>
           <div class="column_2_lower" style="background-color:#f2f2f2;">
-            <img width="100%" src=${imgContent.arrowRightP2} alt="Real Word, Press the Right Arrow key">
+            <img width="100%" src=${i18next.language === 'en' ? imgContent.arrowRightP2 : imgContent[`${i18next.language}ArrowRightP2`]} alt="Real Word, Press the Right Arrow key">
         </div>
         ${!isTouchScreen ? `<div class="button">${i18next.t('navigation.continueButtonText', { action: `${i18next.t('terms.continue')}` })}</div>` : ''}`
       )
@@ -51,7 +51,7 @@ const introTrialsContent = [
       return (
         ` <h1>${i18next.t('introTrials.trial3.header')}</h1>
           <div>
-            <img class='cues' src="${imgContent.keyP3}" alt="arrow keys">
+            <img class='cues' src="${i18next.language === 'en' ? imgContent.arrowP3 : imgContent[`${i18next.language}ArrowP3`]}" alt="arrow keys">
             <p class="center">${i18next.t('introTrials.trial3.paragraph1')}</p>
             <p>${i18next.t('introTrials.trial3.paragraph2')}</p>
           </div>

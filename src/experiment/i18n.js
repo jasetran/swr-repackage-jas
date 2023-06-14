@@ -66,7 +66,6 @@ export const wordlist = {
     },
 }
 
-console.log(wordlist);
 // FOR LANGUAGE SELECT TRIAL
 
 // export let islangaugeUndefined = false

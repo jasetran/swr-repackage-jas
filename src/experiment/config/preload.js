@@ -3,7 +3,7 @@ import { deviceType, primaryInput } from 'detect-it';
 import i18next from "i18next";
 import '../i18n'
 import { keyboardPaths, sharedPaths, tabletPaths } from "./audioFileList.js";
-
+import { fetchAllFileNamesGCS, fetchAllFileNamesAWS } from "../expirementHelpers";
 export const camelCase = (str) => str.replace(/_([a-z])/g, (match, letter) => {
   return letter.toUpperCase();
 }).replace(/_/g, '');
@@ -31,37 +31,96 @@ const lng = i18next.language
 
 // Dynamic import
 
+// if (lng) {
+
+//   if (deviceType === 'touchOnly' || ('hybrid' && primaryInput === 'touch')) {
+//     isTouchScreen = true
+//   }
+
+//   async function preloadFunc() {
+//     const audioDirectories = ['shared/', isTouchScreen ? `${lng}/tablet/` : `${lng}/keyboard/`]
+//     const audioPaths = [sharedPaths, isTouchScreen ? tabletPaths : keyboardPaths]
+
+//     const sharedAudio = []
+//     const deviceAudio = []
+
+//     const promises = audioPaths.flatMap((files, i) => {
+//         return files.map(async (file) => {
+//           const module = await import(`../../audio/${audioDirectories[i]}${file}`);
+      
+//           if (i === 0) {
+//             sharedAudio.push(module.default);
+//           } else {
+//             deviceAudio.push(module.default)
+//           }
+//         });
+//     });
+    
+//     await Promise.all(promises);
+
+//     const audioBlock = {
+//         1: sharedAudio,
+//         2: deviceAudio
+//     };
+
+//     audioContent = preloadObj2contentObj(audioBlock)
+
+//     preload_audio_trials = Object.entries(audioBlock).map((element) => {
+//       const idx = element[0];
+//       const audio_block = element[1];
+//       return {
+//         type: jsPsychPreload,
+//         audio: audio_block,
+//         auto_preload: false,
+//         message: () => `${idx} ${i18next.t('preloadTrial.messageText')}`,
+//         show_progress_bar: true,
+//         show_detailed_errors: true,
+//       };
+//     });
+//   }
+
+//   preloadFunc()
+// }
+
+const url = 'something Here'
+const path = 'https://storage.googleapis.com/storage/v1/b/'
+
 if (lng) {
 
   if (deviceType === 'touchOnly' || ('hybrid' && primaryInput === 'touch')) {
     isTouchScreen = true
   }
 
-  async function preloadFunc() {
-    const audioDirectories = ['shared/', isTouchScreen ? `${lng}/tablet/` : `${lng}/keyboard/`]
-    const audioPaths = [sharedPaths, isTouchScreen ? tabletPaths : keyboardPaths]
+  if (url) {
+    let bucketName = 'roar-test-bucket';
+    let language = lng;
 
-    const sharedAudio = []
-    const deviceAudio = []
+    // {
+    //   keyboard: {
+    //     audio: [ '', 'audio1.png', '', 'sharedAudio1.png' ],
+    //     images: [ '', 'image1.png', '', 'sharedImage1.png' ],
+    //     video: [ '', 'video1.png', '', 'sharedVideo1.png' ]
+    //   },
+    //   tablet: { audio: [], images: [], video: [] }
+    // }
+    let allFiles
 
-    const promises = audioPaths.flatMap((files, i) => {
-        return files.map(async (file) => {
-          const module = await import(`../../audio/${audioDirectories[i]}${file}`);
-      
-          if (i === 0) {
-            sharedAudio.push(module.default);
-          } else {
-            deviceAudio.push(module.default)
-          }
-        });
-    });
-    
-    await Promise.all(promises);
+    try {
+      // allFiles = await fetchAllFileNamesGCS(bucketName, [lng, 'shared']);
+      allFiles = await fetchAllFileNamesAWS(bucketName, 'us-west-1')
+    } catch (error) {
+      console.error(error)
+    }
+
+    console.log('allFiles: ', allFiles)
 
     const audioBlock = {
-        1: sharedAudio,
-        2: deviceAudio
-    };
+      1: isTouchScreen ? allFiles.tablet.audio : allFiles.keyboard.audio
+    }
+
+    const images = {
+      1: isTouchScreen ? allFiles.tablet.images : allFiles.keyboard.images
+    }
 
     audioContent = preloadObj2contentObj(audioBlock)
 
@@ -77,9 +136,55 @@ if (lng) {
         show_detailed_errors: true,
       };
     });
-  }
 
-  preloadFunc()
+    console.log('audioContent: ', audioContent)
+
+  } else {
+    async function preloadFunc() {
+        const audioDirectories = ['shared/', isTouchScreen ? `${lng}/tablet/` : `${lng}/keyboard/`]
+        const audioPaths = [sharedPaths, isTouchScreen ? tabletPaths : keyboardPaths]
+
+        const sharedAudio = []
+        const deviceAudio = []
+
+        const promises = audioPaths.flatMap((files, i) => {
+            return files.map(async (file) => {
+              const module = await import(`../../audio/${audioDirectories[i]}${file}`);
+          
+              if (i === 0) {
+                sharedAudio.push(module.default);
+              } else {
+                deviceAudio.push(module.default)
+              }
+            });
+        });
+        
+        await Promise.all(promises);
+
+        const audioBlock = {
+            1: sharedAudio,
+            2: deviceAudio
+        };
+
+        audioContent = preloadObj2contentObj(audioBlock)
+
+        preload_audio_trials = Object.entries(audioBlock).map((element) => {
+          const idx = element[0];
+          const audio_block = element[1];
+          return {
+            type: jsPsychPreload,
+            audio: audio_block,
+            auto_preload: false,
+            message: () => `${idx} ${i18next.t('preloadTrial.messageText')}`,
+            show_progress_bar: true,
+            show_detailed_errors: true,
+          };
+        });
+      }
+
+    preloadFunc()
+  }
+  
 }
 
 // Static import

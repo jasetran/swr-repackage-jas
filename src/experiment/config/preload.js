@@ -3,7 +3,7 @@ import { deviceType, primaryInput } from 'detect-it';
 import i18next from "i18next";
 import '../i18n'
 import { keyboardPaths, sharedPaths, tabletPaths } from "./audioFileList.js";
-import { fetchAllFileNamesGCS, fetchAllFileNamesAWS } from "../expirementHelpers";
+import { fetchAllFileNamesGCS, fetchAllFileNamesAWS, fetchMediaFiles } from "../expirementHelpers";
 export const camelCase = (str) => str.replace(/_([a-z])/g, (match, letter) => {
   return letter.toUpperCase();
 }).replace(/_/g, '');
@@ -23,67 +23,64 @@ export const preloadObj2contentObj = (preloadObj) => {
   return reducedContent
 };
 
+
+    // preload_audio_trials = Object.entries(audioBlock).map((element) => {
+    //   const idx = element[0];
+    //   const audio_block = element[1];
+    //   return {
+    //     type: jsPsychPreload,
+    //     audio: audio_block,
+    //     auto_preload: false,
+    //     message: () => `${idx} ${i18next.t('preloadTrial.messageText')}`,
+    //     show_progress_bar: true,
+    //     show_detailed_errors: true,
+    //   };
+    // });
+
+function preloadMediaTrials(mediaTrials) {
+  // [{1: []}, {2: []},]
+  const allTrials = []
+
+  mediaTrials.forEach((mediaArr, i) => {
+    const trials = mediaArr.map((file) => {
+      if (i == 0) {
+        return {
+          type: jsPsychPreload,
+          audio: file,
+          auto_preload: false,
+          message: () => `${i18next.t('preloadTrial.messageText')}`,
+          show_progress_bar: true,
+          show_detailed_errors: true,
+        };
+      } else {
+        return {
+          type: jsPsychPreload,
+          images: file,
+          auto_preload: false,
+          message: () => `${i18next.t('preloadTrial.messageText')}`,
+          show_progress_bar: true,
+          show_detailed_errors: true,
+        };
+      }
+    })
+
+    allTrials.push(trials)
+  });
+  
+  const flattenedAllTrials = [...allTrials[0], ...allTrials[1]]
+  return flattenedAllTrials
+}
+
 export let isTouchScreen = false;
 export let audioContent
+export let imgContent
 export let preload_audio_trials = []
 
 const lng = i18next.language
 
-// Dynamic import
 
-// if (lng) {
-
-//   if (deviceType === 'touchOnly' || ('hybrid' && primaryInput === 'touch')) {
-//     isTouchScreen = true
-//   }
-
-//   async function preloadFunc() {
-//     const audioDirectories = ['shared/', isTouchScreen ? `${lng}/tablet/` : `${lng}/keyboard/`]
-//     const audioPaths = [sharedPaths, isTouchScreen ? tabletPaths : keyboardPaths]
-
-//     const sharedAudio = []
-//     const deviceAudio = []
-
-//     const promises = audioPaths.flatMap((files, i) => {
-//         return files.map(async (file) => {
-//           const module = await import(`../../audio/${audioDirectories[i]}${file}`);
-      
-//           if (i === 0) {
-//             sharedAudio.push(module.default);
-//           } else {
-//             deviceAudio.push(module.default)
-//           }
-//         });
-//     });
-    
-//     await Promise.all(promises);
-
-//     const audioBlock = {
-//         1: sharedAudio,
-//         2: deviceAudio
-//     };
-
-//     audioContent = preloadObj2contentObj(audioBlock)
-
-//     preload_audio_trials = Object.entries(audioBlock).map((element) => {
-//       const idx = element[0];
-//       const audio_block = element[1];
-//       return {
-//         type: jsPsychPreload,
-//         audio: audio_block,
-//         auto_preload: false,
-//         message: () => `${idx} ${i18next.t('preloadTrial.messageText')}`,
-//         show_progress_bar: true,
-//         show_detailed_errors: true,
-//       };
-//     });
-//   }
-
-//   preloadFunc()
-// }
-
-const url = 'something Here'
-const path = 'https://storage.googleapis.com/storage/v1/b/'
+const bucketUrl = 'https://storage.googleapis.com/storage/v1/b/roar-test-bucket/o'; // https://storage.googleapis.com/storage/v1/b/roar-test-bucket/o https://roar-test-bucket.s3.amazonaws.com
+const prefixes = [lng, 'shared'];
 
 if (lng) {
 
@@ -91,52 +88,35 @@ if (lng) {
     isTouchScreen = true
   }
 
-  if (url) {
-    let bucketName = 'roar-test-bucket';
-    let language = lng;
+  if (bucketUrl) {
 
-    // {
-    //   keyboard: {
-    //     audio: [ '', 'audio1.png', '', 'sharedAudio1.png' ],
-    //     images: [ '', 'image1.png', '', 'sharedImage1.png' ],
-    //     video: [ '', 'video1.png', '', 'sharedVideo1.png' ]
-    //   },
-    //   tablet: { audio: [], images: [], video: [] }
-    // }
     let allFiles
 
     try {
-      // allFiles = await fetchAllFileNamesGCS(bucketName, [lng, 'shared']);
-      allFiles = await fetchAllFileNamesAWS(bucketName, 'us-west-1')
+      allFiles = await fetchMediaFiles(bucketUrl, prefixes, 'google')
+
+      {
+        audio: ['/en/keyboard/audio/aduio.mp3', ]
+      }
     } catch (error) {
       console.error(error)
     }
 
-    console.log('allFiles: ', allFiles)
-
     const audioBlock = {
-      1: isTouchScreen ? allFiles.tablet.audio : allFiles.keyboard.audio
+      1: allFiles.audio
     }
 
-    const images = {
-      1: isTouchScreen ? allFiles.tablet.images : allFiles.keyboard.images
+    const imgBlock = {
+      1: allFiles.images
     }
 
     audioContent = preloadObj2contentObj(audioBlock)
+    imgContent = preloadObj2contentObj(imgBlock)
 
-    preload_audio_trials = Object.entries(audioBlock).map((element) => {
-      const idx = element[0];
-      const audio_block = element[1];
-      return {
-        type: jsPsychPreload,
-        audio: audio_block,
-        auto_preload: false,
-        message: () => `${idx} ${i18next.t('preloadTrial.messageText')}`,
-        show_progress_bar: true,
-        show_detailed_errors: true,
-      };
-    });
+    const preloadedTrials = preloadMediaTrials([allFiles.audio, allFiles.images])
+    // returns [[], []], arrays need to be spread out
 
+    console.log('preloaded Trials: ', preloadedTrials)
     console.log('audioContent: ', audioContent)
 
   } else {
@@ -198,7 +178,7 @@ const imageBlocks = {
 };
 
 // Automatically populate the audioContent object with the audio files
-export const imgContent = preloadObj2contentObj(imageBlocks);
+// export const imgContent = preloadObj2contentObj(imageBlocks);
 
 const preload_img_trials = Object.entries(imageBlocks).map((element) => {
   const idx = element[0];
@@ -212,6 +192,8 @@ const preload_img_trials = Object.entries(imageBlocks).map((element) => {
     show_detailed_errors: true,
   };
 });
+
+console.log('preloaded img trials: ', preload_img_trials)
 
 
 export const preload_image_trials = [ ...preload_img_trials];

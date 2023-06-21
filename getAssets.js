@@ -63,55 +63,63 @@
 const bucketName = 'roar-test-bucket';
 const awsRegion = 'us-west-1'; // Replace with your AWS region, e.g., 'us-east-1'
 
-function fetchAllFileNamesFromBucketSync(prefix = '') {
-  return new Promise((resolve, reject) => {
-    const url = `https://${bucketName}.s3.${awsRegion}.amazonaws.com/?list-type=2&prefix=${encodeURIComponent(prefix)}`;
-
-    fetch(url)
-      .then((response) => response.text())
-      .then((data) => {
-        const parser = new DOMParser();
-        const xmlData = parser.parseFromString(data, 'application/xml');
-
-        const contents = xmlData.querySelectorAll('Contents');
-        const fileNames = Array.from(contents).map((item) => item.querySelector('Key').textContent);
-
-        const commonPrefixes = xmlData.querySelectorAll('CommonPrefixes');
-        const subfolderPromises = Array.from(commonPrefixes).map((commonPrefix) => {
-          const subfolder = commonPrefix.querySelector('Prefix').textContent;
-          return fetchAllFileNamesFromBucketSync(subfolder);
-        });
-
-        Promise.all(subfolderPromises)
-          .then((subfolderFileNames) => {
-            for (const subfolderNames of subfolderFileNames) {
-              fileNames.push(...subfolderNames);
-            }
-            resolve(fileNames);
-          })
-          .catch(reject);
-      })
-      .catch(reject);
-  });
-}
-
-async function fetchAllFileNames() {
-  const topLevelFolders = ['keyboard', 'tablet'];
-  const fileTypeFolders = ['audio', 'images', 'video'];
-
-  const allFileNames = {};
-
-  for (const topLevelFolder of topLevelFolders) {
-    allFileNames[topLevelFolder] = {};
-
-    for (const fileTypeFolder of fileTypeFolders) {
-      const prefix = `${topLevelFolder}/${fileTypeFolder}/`;
-      const fileNames = await fetchAllFileNamesFromBucketSync(prefix);
-      allFileNames[topLevelFolder][fileTypeFolder] = fileNames;
-    }
+function fetchAllFileNamesFromBucketSync(prefix = '', delimiter = '/', bucketName, awsRegion) {
+    return new Promise((resolve, reject) => {
+      const url = `https://${bucketName}.s3.${awsRegion}.amazonaws.com/?list-type=2&prefix=${encodeURIComponent(prefix)}${delimiter ? '&delimiter=' + encodeURIComponent(delimiter) : ''}`;
+  
+      fetch(url)
+        .then((response) => response.text())
+        .then((data) => {
+          const parser = new DOMParser();
+          const xmlData = parser.parseFromString(data, 'application/xml');
+  
+          const contents = xmlData.querySelectorAll('Contents');
+          const fileNames = Array.from(contents).map((item) => item.querySelector('Key').textContent);
+  
+          const commonPrefixes = xmlData.querySelectorAll('CommonPrefixes');
+          const subfolderPromises = Array.from(commonPrefixes).map((commonPrefix) => {
+            const subfolder = commonPrefix.querySelector('Prefix').textContent;
+            // First, recurse with delimiter to find subfolders
+            return fetchAllFileNamesFromBucketSync(subfolder, '/').then((subfolderFileNames) => {
+              // Then, recurse without delimiter to explore the contents of subfolders
+              return fetchAllFileNamesFromBucketSync(subfolder, null).then((subfolderContents) => {
+                return subfolderFileNames.concat(subfolderContents);
+              });
+            });
+          });
+  
+          Promise.all(subfolderPromises)
+            .then((subfolderFileNames) => {
+              for (const subfolderNames of subfolderFileNames) {
+                fileNames.push(...subfolderNames);
+              }
+              resolve(fileNames);
+            })
+            .catch(reject);
+        })
+        .catch(reject);
+    });
   }
+  
+  async function fetchAllFileNames(bucketName, region) {
+    const topLevelFolders = ['keyboard', 'tablet'];
+    const fileTypeFolders = ['audio', 'images', 'video'];
+  
+    const allFileNames = {};
+  
+    for (const topLevelFolder of topLevelFolders) {
+      allFileNames[topLevelFolder] = {};
+  
+      for (const fileTypeFolder of fileTypeFolders) {
+        const prefix = `${topLevelFolder}/${fileTypeFolder}/`;
+        const fileNames = await fetchAllFileNamesFromBucketSync(prefix, '/', bucketName, region);
+        allFileNames[topLevelFolder][fileTypeFolder] = fileNames;
+      }
+    }
+  
+    console.log(allFileNames);
+  }
+  
+  fetchAllFileNames();
 
-  console.log(allFileNames);
-}
-
-fetchAllFileNames();
+  

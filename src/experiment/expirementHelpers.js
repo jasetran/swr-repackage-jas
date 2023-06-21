@@ -113,61 +113,126 @@ export function fetchAllFileNamesGCS(bucketName, languageFolders) {
 }
 
 
-function fetchAllFileNamesFromBucketSync(prefix = '', delimiter = '/', bucketName, awsRegion) {
-  return new Promise((resolve, reject) => {
-    const url = `https://${bucketName}.s3.${awsRegion}.amazonaws.com/?list-type=2&prefix=${encodeURIComponent(prefix)}${delimiter ? '&delimiter=' + encodeURIComponent(delimiter) : ''}`;
+export async function fetchAllFileNamesAWS(bucketUrl, prefixes) {
+  try {
+    const media = {
+      audio: [],
+      images: [],
+      video: []
+    };
 
-    fetch(url)
-      .then((response) => response.text())
-      .then((data) => {
-        console.log(data)
+    const response = await fetch(bucketUrl);
+    const text = await response.text();
 
-        const parser = new DOMParser();
-        const xmlData = parser.parseFromString(data, 'application/xml');
+    const parser = new DOMParser();
+    const xml = parser.parseFromString(text, "application/xml");
 
-        const contents = xmlData.querySelectorAll('Contents');
-        const fileNames = Array.from(contents).map((item) => item.querySelector('Key').textContent);
+    const contents = xml.getElementsByTagName("Contents");
 
-        const commonPrefixes = xmlData.querySelectorAll('CommonPrefixes');
-        const subfolderPromises = Array.from(commonPrefixes).map((commonPrefix) => {
-          const subfolder = commonPrefix.querySelector('Prefix').textContent;
-          // First, recurse with delimiter to find subfolders
-          return fetchAllFileNamesFromBucketSync(subfolder, '/').then((subfolderFileNames) => {
-            // Then, recurse without delimiter to explore the contents of subfolders
-            return fetchAllFileNamesFromBucketSync(subfolder, null).then((subfolderContents) => {
-              return subfolderFileNames.concat(subfolderContents);
-            });
-          });
-        });
+    for (let i = 0; i < contents.length; i++) {
+      const key = contents[i].getElementsByTagName("Key")[0].textContent;
 
-        Promise.all(subfolderPromises)
-          .then((subfolderFileNames) => {
-            for (const subfolderNames of subfolderFileNames) {
-              fileNames.push(...subfolderNames);
-            }
-            resolve(fileNames);
-          })
-          .catch(reject);
-      })
-      .catch(reject);
-  });
+      const hasDesiredPrefix = prefixes.some(prefix => key.startsWith(`${prefix}/`));
+
+      if (hasDesiredPrefix) {
+        const extension = key.split('.').pop();
+
+        switch (extension) {
+          case 'mp3':
+            media.audio.push(key);
+            break;
+          case 'jpg':
+          case 'png':
+            media.images.push(key);
+            break;
+          case 'mp4':
+            media.video.push(key);
+            break;
+        }
+      }
+    }
+
+    return media;
+
+  } catch (error) {
+    console.error('Error fetching files from S3:', error);
+    return null;
+  }
 }
 
-export async function fetchAllFileNamesAWS(bucketName, region) {
-  const topLevelFolders = ['keyboard',];
-  const fileTypeFolders = ['audio', 'images', 'video'];
 
-  const allFileNames = {};
+// GCS: https://storage.googleapis.com/your-bucket-name
+// AWS: https://your-bucket-name.s3.amazonaws.com
 
-  for (const topLevelFolder of topLevelFolders) {
-    allFileNames[topLevelFolder] = {};
+// prefixes = ['en', 'shared'];
 
-    for (const fileTypeFolder of fileTypeFolders) {
-      const prefix = `${topLevelFolder}/${fileTypeFolder}/`;
-      const fileNames = await fetchAllFileNamesFromBucketSync(prefix, '/', bucketName, region);
-      allFileNames[topLevelFolder][fileTypeFolder] = fileNames;
+export async function fetchMediaFiles(bucketUrl, prefixes, provider) {
+  try {
+    const media = {
+      audio: [],
+      images: [],
+      video: []
+    };
+
+    const response = await fetch(bucketUrl);
+    const text = await response.text();
+
+    if (provider === 'aws') {
+      // Parse as XML for AWS S3
+      const parser = new DOMParser();
+      const xml = parser.parseFromString(text, "application/xml");
+      
+      const contents = xml.getElementsByTagName("Contents");
+      
+      for (let i = 0; i < contents.length; i++) {
+        const key = contents[i].getElementsByTagName("Key")[0].textContent;
+
+        addMediaToFileList(provider, bucketUrl, key, media, prefixes);
+      }
+    } else if (provider === 'google') {
+      // Parse as JSON for Google Cloud Storage
+      const json = JSON.parse(text);
+      
+      const items = json.items || [];
+      
+      for (let item of items) {
+        const key = item.name;
+
+        addMediaToFileList(provider, bucketUrl, key, media, prefixes);
+      }
+    } else {
+      console.error('Unknown provider:', provider);
+      return null;
+    }
+
+    console.log('media: ', media);
+    return media;
+
+  } catch (error) {
+    console.error('Error fetching files from bucket:', error);
+    return null;
+  }
+}
+
+function addMediaToFileList(provider, bucketUrl, key, media, prefixes) {
+  const hasDesiredPrefix = prefixes.some(prefix => key.startsWith(`${prefix}/`));
+
+  if (hasDesiredPrefix) {
+    const extension = key.split('.').pop();
+
+    switch (extension) {
+      case 'mp3':
+        media.audio.push(`${bucketUrl}/${key}`);
+        break;
+      case 'jpg':
+      case 'png':
+        media.audio.push(`${bucketUrl}/${key}`);
+        break;
+      case 'mp4':
+        media.audio.push(`${bucketUrl}/${key}`);
+        break;
     }
   }
-
-  console.log(allFileNames);
 }
+
+

@@ -1,5 +1,5 @@
 import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
-import { imgContent, isTouchScreen } from '../config/preload';
+import { mediaAssets, isTouchScreen } from '../config/preload';
 import { jsPsych, config, updateProgressBar } from '../config/config';
 import store from 'store2';
 import { cat, cat2 } from '../experimentSetup';
@@ -148,7 +148,7 @@ const lexicalityTrialsMapped = lexicalityTrialContent.map((trial, i) => {
         {
             type: jsPsychHTMLMultiResponse,
             stimulus: trial.stimulus,
-            prompt: () => !isTouchScreen ? `<img class="lower" src="${imgContent.arrowkeyLex}" alt = "arrow-key">` : '',
+            prompt: () => !isTouchScreen ? `<img class="lower" src="${mediaAssets.images.arrowkeyLex}" alt = "arrow-key">` : '',
             stimulus_duration: trial.stimulus_duration,
             trial_duration: config.timing.trialTime,
             keyboard_choices: ["ArrowLeft", "ArrowRight"],
@@ -158,10 +158,10 @@ const lexicalityTrialsMapped = lexicalityTrialContent.map((trial, i) => {
                 return (
                     [
                     `<button class="lexicality-trial-arrows">
-                    <img class='btn-arrows' src=${imgContent.staticLeftKey} alt='left arrow' />
+                    <img class='btn-arrows' src=${mediaAssets.images.staticLeftKey} alt='left arrow' />
                     </button>`,
                     `<button class="lexicality-trial-arrows">
-                    <img class='btn-arrows' src=${imgContent.staticRightKey} alt='right arrow' />
+                    <img class='btn-arrows' src=${mediaAssets.images.staticRightKey} alt='right arrow' />
                     </button>`
                     ]
                 )

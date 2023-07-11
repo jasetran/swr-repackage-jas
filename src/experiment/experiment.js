@@ -7,7 +7,7 @@ import "regenerator-runtime/runtime";
 
 // Local modules
 import { jsPsych, config } from "./config/config";
-import { preload_image_trials, preload_audio_trials } from "./config/preload";
+import { preloadTrials } from "./config/preload";
 import { blockPractice } from "./config/corpus";
 import { if_consent_form, if_get_survey, if_get_pid } from './experimentSetup';
 
@@ -27,8 +27,7 @@ import "./css/game.css";
 
 
 const timeline = [
-  ...preload_image_trials,
-  ...preload_audio_trials,
+  preloadTrials,
   if_get_pid, 
   if_consent_form, 
   if_get_survey, 

@@ -2,7 +2,7 @@
 import jsPsychAudioMultiResponse from '@jspsych-contrib/plugin-audio-multi-response'
 import store from "store2";
 import { jsPsych, config } from "../config/config";
-import { camelCase, imgContent, audioContent, isTouchScreen } from "../config/preload";
+import { mediaAssets, isTouchScreen } from "../config/preload";
 import i18next from "i18next";
 import '../i18n'
 
@@ -29,10 +29,10 @@ const feedbackStimulus = () => {
   count++
 
   if (isCorrect) {
-    return audioContent[`feedback${count}Correct${isTouchScreen ? 'T' : ''}`];
+    return mediaAssets.audio[`feedback${count}Correct`];
   }
 
-  return audioContent[`feedback${count}Wrong${isTouchScreen ? 'T' : ''}`];
+  return mediaAssets.audio[`feedback${count}Wrong`];
 };
 
 
@@ -50,14 +50,14 @@ export const practice_feedback = {
         <span class=${store.session("answerColor")}>${i18next.t('practiceFeedbackTrial.paragraph2', { direction: `${store.session("correctLR") === 'left' ? i18next.t('terms.left') : i18next.t('terms.right')}`, typeWord: `${store.session("correctRP") === 'real' ? i18next.t('terms.real') : i18next.t('terms.made-up')}`})}</span>
       </p>
     </div>
-    ${!isTouchScreen ? `<img class="lower" src="${store.session("correctRP") === "made-up" ? `${imgContent.arrowkeyLexLeft}` : `${imgContent.arrowkeyLexRight}`}" alt="arrow keys">` : ''}`)
+    ${!isTouchScreen ? `<img class="lower" src="${store.session("correctRP") === "made-up" ? `${mediaAssets.images.arrowkeyLexLeft}` : `${mediaAssets.images.arrowkeyLexRight}`}" alt="arrow keys">` : ''}`)
   },
   keyboard_choices: () => store.session("correctRP") === "made-up" ? ["ArrowLeft"] : ["ArrowRight"],
   button_choices: () => isTouchScreen ? store.session("correctRP") === "made-up" ? ["Left"] : ["Right"] : [],
   button_html: () => {
     return (
       `<button style="background-color: transparent;">
-        <img class='lower' src=${store.session("correctRP") === "made-up" ? `${imgContent.arrowkeyLexLeft}` : `${imgContent.arrowkeyLexRight}`} alt="Arrow choices"/>
+        <img class='lower' src=${store.session("correctRP") === "made-up" ? `${mediaAssets.images.arrowkeyLexLeft}` : `${mediaAssets.images.arrowkeyLexRight}`} alt="Arrow choices"/>
       </button>`
     )
   },

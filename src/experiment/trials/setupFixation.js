@@ -1,6 +1,6 @@
 import { getStimulus } from "../experimentSetup";
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
-import { imgContent, isTouchScreen} from "../config/preload";
+import { mediaAssets, isTouchScreen} from "../config/preload";
 import { config, } from "../config/config";
 
 
@@ -28,17 +28,17 @@ const setupFixationTrials = setupFixationData.map((trial, i) => {
           `<div id='${isTouchScreen ? 'countdown-wrapper' : ''}'>
               <div id='countdown-arrows-wrapper'>
                 <div class="countdown-arrows">
-                  <img class='btn-arrows' src=${imgContent.staticLeftKey} alt='left arrow' />
+                  <img class='btn-arrows' src=${mediaAssets.images.staticLeftKey} alt='left arrow' />
                 </div>
                 <div class="countdown-arrows">
-                  <img class='btn-arrows' src=${imgContent.staticRightKey} alt='right arrow' />
+                  <img class='btn-arrows' src=${mediaAssets.images.staticRightKey} alt='right arrow' />
                 </div>
               </div>
            </div>`
         )
       }
   
-      return `<img class="lower" src="${imgContent.arrowkeyLex}" alt = "arrow-key">`
+      return `<img class="lower" src="${mediaAssets.images.arrowkeyLex}" alt = "arrow-key">`
     },
     choices: "NO_KEYS",
     trial_duration: config.timing.fixationTime,

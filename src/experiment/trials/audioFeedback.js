@@ -1,18 +1,18 @@
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
 import store from "store2";
-import { imgContent, audioContent, isTouchScreen } from "../config/preload";
+import { mediaAssets, isTouchScreen } from "../config/preload";
 import { config } from "../config/config";
 
 const audio_response = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: () => {
     if (config.audioFeedback === "binary" && store.session("currentTrialCorrect")) {
-      return audioContent.coin
+      return mediaAssets.audio.coin
     } else if (config.audioFeedback === "binary" && !store.session("currentTrialCorrect")) {
-      return audioContent.fail
+      return mediaAssets.audio.fail
     } else {
       // neutral case
-      return audioContent.select
+      return mediaAssets.audio.select
     }
 
   },
@@ -24,14 +24,14 @@ const audio_response = {
           ${isTouchScreen ? (
             `<div id='countdown-arrows-wrapper'>
               <div class="countdown-arrows">
-                <img class='btn-arrows' src=${imgContent.staticLeftKey} alt='left arrow' />
+                <img class='btn-arrows' src=${mediaAssets.images.staticLeftKey} alt='left arrow' />
               </div>
               <div class="countdown-arrows">
-                <img class='btn-arrows' src=${imgContent.staticRightKey} alt='right arrow' />
+                <img class='btn-arrows' src=${mediaAssets.images.staticRightKey} alt='right arrow' />
               </div>
             </div>`
           ) : (
-            `<img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys">`
+            `<img class="lower" src="${mediaAssets.images.arrowkeyLex}" alt="arrow keys">`
           )}
         </div>`
     )

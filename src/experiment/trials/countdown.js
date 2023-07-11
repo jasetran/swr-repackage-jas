@@ -1,12 +1,12 @@
-import {  imgContent, audioContent, isTouchScreen, } from "../config/preload"
+import {  mediaAssets, isTouchScreen, } from "../config/preload"
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
 
 
 const countDownData = [
-    {audio: audioContent?.countdown3, count: 3}, 
-    {audio: audioContent?.countdown2, count: 2},
-    {audio: audioContent?.countdown1, count: 1},
-    {audio: audioContent?.countdown0, count: 0},
+    {audio: mediaAssets.audio.countdown3, count: 3}, 
+    {audio: mediaAssets.audio.countdown2, count: 2},
+    {audio: mediaAssets.audio.countdown1, count: 1},
+    {audio: mediaAssets.audio.countdown0, count: 0},
   ]
   
   const countDownTrials = countDownData.map(trial => {
@@ -23,14 +23,14 @@ const countDownData = [
               ${isTouchScreen ? (
                   `<div id='countdown-arrows-wrapper'>
                     <div class="countdown-arrows">
-                      <img class='btn-arrows' src=${imgContent.staticLeftKey} alt='left arrow' />
+                      <img class='btn-arrows' src=${mediaAssets.images.staticLeftKey} alt='left arrow' />
                     </div>
                     <div class="countdown-arrows">
-                      <img class='btn-arrows' src=${imgContent.staticRightKey} alt='right arrow' />
+                      <img class='btn-arrows' src=${mediaAssets.images.staticRightKey} alt='right arrow' />
                     </div>
                   </div>`
               ) : (
-                  `<img class="lower" src="${imgContent.arrowkeyLex}" alt="arrow keys">`
+                  `<img class="lower" src="${mediaAssets.images.arrowkeyLex}" alt="arrow keys">`
               )}
             </div>
             `

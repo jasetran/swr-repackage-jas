@@ -1,13 +1,13 @@
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
 import store from "store2";
-import { imgContent, audioContent } from "../config/preload";
+import { mediaAssets } from "../config/preload";
 
 
 /* coin tracking trial */
 const coin_tracking_feedback = {
     type: jsPsychAudioKeyboardResponse,
-    stimulus: () => audioContent?.fairyCoin,
-    prompt: `<div class = "stimulus_div"><img class = "coin_feedback" src="${imgContent.coinBag}" alt="gold"></div>`,
+    stimulus: () => mediaAssets.audio.fairyCoin,
+    prompt: `<div class = "stimulus_div"><img class = "coin_feedback" src="${mediaAssets.images.coinBag}" alt="gold"></div>`,
     choices: "NO_KEYS",
     trial_duration: 2000,
   };

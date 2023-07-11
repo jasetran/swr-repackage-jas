@@ -7,6 +7,7 @@ const { merge } = require('webpack-merge');
 // eslint-disable-next-line import/no-extraneous-dependencies
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
+
 const commonConfig = {
   entry: {
     index: path.resolve(__dirname, 'src/experiment', 'experiment.js'),
@@ -37,6 +38,11 @@ const commonConfig = {
         },
       },
     },
+  },
+  resolve: {
+    fallback: {
+      path: require.resolve("path-browserify")
+    }
   },
   module: {
     rules: [
@@ -134,6 +140,9 @@ module.exports = async (env, args) => {
       new webpack.DefinePlugin({
         ROAR_DB_DOC: JSON.stringify(roarDbDoc),
         SRC_HASH: JSON.stringify(srcHash),
+      }),
+      new webpack.ProvidePlugin({
+        process: 'process/browser',
       }),
     ],
   });

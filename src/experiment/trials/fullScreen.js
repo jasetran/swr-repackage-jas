@@ -3,14 +3,12 @@ import jsPsychFullScreen from "@jspsych/plugin-fullscreen";
 import fscreen from 'fscreen';
 import i18next from "i18next";
 import '../i18n'
-import { initializeRoarFireKit } from "../experimentSetup";
 
 
 const fullScreenTrialData = [
   {
     onFinish: () => {
       document.body.style.cursor = "none";
-      initializeRoarFireKit()
     },
   },
   {

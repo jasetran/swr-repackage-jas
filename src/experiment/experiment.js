@@ -6,39 +6,34 @@ import store from "store2";
 import "regenerator-runtime/runtime";
 
 // Local modules
-import { jsPsych, config } from "./config/config";
-import { preloadTrials } from "./config/preload";
 import { blockPractice } from "./config/corpus";
-import { if_consent_form, if_get_survey, if_get_pid } from './experimentSetup';
 
 // trials
 import { audio_response } from "./trials/audioFeedback";
 import { introduction_trials, post_practice_intro,} from "./trials/introduction";
 import { practice_feedback } from "./trials/practiceFeedback";
 import { mid_block_page_list, post_block_page_list, final_page, } from "./trials/gameBreak";
-import { if_not_fullscreen, enter_fullscreen, exit_fullscreen } from './trials/fullScreen';
+import { if_not_fullscreen, exit_fullscreen } from './trials/fullScreen';
 import { setup_fixation_test, setup_fixation_practice } from './trials/setupFixation';
 import { lexicalityTest, leixcalityPractice } from './trials/stimulus'
 import { countdown_trials } from "./trials/countdown";
 import { if_coin_tracking } from "./trials/coinFeedback";
 
+// Create these functions
+import { initRoarJsPsych, initRoarTimeline } from './config';
+
 // CSS imports
-import "./css/game.css";
+// import "./css/game.css";
 
 
-const timeline = [
-  preloadTrials,
-  if_get_pid, 
-  if_consent_form, 
-  if_get_survey, 
-  enter_fullscreen,
-  introduction_trials,
-  if_not_fullscreen, 
-  countdown_trials
-];
+export function buildExperiment(config) {
 
+  // Initialize jsPsych and timeline
+  const jsPsych = initRoarJsPsych(config);
+  let timeline = initRoarTimeline(config);
 
-export async function roarBlocks() {
+  timeline = [...timeline, introduction_trials, if_not_fullscreen, countdown_trials]
+
   // the core procedure
   const pushPracticeTotimeline = (array) => {
     array.forEach((element) => {
@@ -110,9 +105,8 @@ export async function roarBlocks() {
   }
   pushTrialsTotimeline(config.stimulusCountList);
   timeline.push(final_page, exit_fullscreen);
-  jsPsych.run(timeline);
-}
 
-roarBlocks();
+  return { jsPsych, timeline }
+}
 
 

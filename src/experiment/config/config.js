@@ -3,13 +3,55 @@ import Papa from "papaparse";
 import store from "store2";
 import i18next from "i18next";
 import '../i18n';
+// import { firekit } from "../experimentSetup";
+import { getUserDataTimeline } from "../trials/getUserData";
+import { preloadTrials } from "./preload";
+import { enter_fullscreen } from "../trials/fullScreen";
 
-const randomAssignment = (mode) => {
+
+const makePid = () => {
+  let text = "";
+  const possible =
+    "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+  for (let i = 0; i < 16; i++)
+    text += possible.charAt(Math.floor(Math.random() * possible.length));
+  return text;
+}
+
+const initStore = (config) => {
+  if (store.session.has("initialized") && store.local("initialized")) {
+    return store.session;
+  }
+  if ((userMode === 'fullAdaptive') || (userMode === 'testAdaptive') || (userMode === "shortAdaptive") || ((userMode === "longAdaptive"))) {
+    store.session.set("itemSelect", "mfi");
+  } else {
+    store.session.set("itemSelect", "random");
+  }
+  store.session.set("practiceIndex", 0);
+  // Counting variables
+  store.session.set("currentBlockIndex", 0);
+  store.session.set("trialNumBlock", 0); // counter for trials in block
+  store.session.set("trialNumTotal", 0); // counter for trials in experiment
+  store.session.set("demoCounter", 0);
+  store.session.set("nextStimulus", null);
+  store.session.set("response", "");
+
+  // variables to track current state of the experiment
+  store.session.set("currentTrialCorrect", true); // return true or false
+  store.session.set("coinTrackingIndex", 0);
+
+  store.session.set("initialized", true);
+
+  return store.session;
+};
+
+const setRandomUserMode = (mode) => {
   if (mode === "test") {
     return (Math.random() < 0.5) ? 'testAdaptive' : 'testRandom';
   } if (mode === "full") {
     return (Math.random() < 0.5) ? 'fullAdaptive' : 'fullRandom';
-  } return mode;
+  } 
+  return mode;
 };
 
 const stimulusRuleLists = {
@@ -30,21 +72,6 @@ const fixationTimeOptions = [1000, 2000, 25000];
 // Trial completion time options in milliseconds
 const trialTimeOptions = [null, 5000, 8000, 100000];
 
-/* set user mode */
-const queryString = new URL(window.location).search;
-const urlParams = new URLSearchParams(queryString);
-const userMode = randomAssignment(urlParams.get("mode")) || "shortAdaptive";
-const taskVariant = urlParams.get("variant") || "pilot";
-const pid = urlParams.get("PROLIFIC_PID") || urlParams.get("participant");
-const schoolId = urlParams.get("schoolId");
-const skip = urlParams.get("skip");
-const audioFeedback = urlParams.get("feedback") || "binary";
-const consent = urlParams.get("consent") || true;
-const numAdaptive = urlParams.get("numAdaptive") || (userMode === "shortAdaptive" ? 85 : 150);
-const numNew = urlParams.get("numNew") || (userMode === "shortAdaptive" ? 15 : 25);
-const numValidated = urlParams.get("numValidated") || (userMode === "fullItemBank" ? 246 : 100);
-export const labId = urlParams.get('labId') || null;
-const gameId = urlParams.get('gameId') || null;
 
 // eslint-disable-next-line max-len
 const divideTrial2Block = (n1, n2, nBlock) => {
@@ -76,295 +103,220 @@ export const shuffle = (array) => {
   return shuffledArray;
 };
 
-const redirect = () => {
-  if (gameId === null) {
-    // If no game token was passed, we refresh the page rather than
-    // redirecting back to the dashboard
-    // window.location.reload();
-    if (taskVariant === 'school') {
-      if (userMode === 'shortAdaptive') {
-        window.location.href = `https://reading.stanford.edu?g=1154&c=1`;
-      } else {
-        window.location.href = `https://reading.stanford.edu?g=901&c=1`;
+
+export const initConfig = async (firekit, params, displayElement) => {
+  const { userMode,
+          pid, 
+          labId, 
+          schoolId, 
+          taskVariant, 
+          userMetadata, 
+          testingOnly, 
+          studyId, 
+          classId, 
+          urlParams,
+          consent,
+          audioFeedback,
+          language,
+          numAdaptive,
+          numNew,
+          numValidated,
+  } = params
+
+  const config = {
+          userMode: setRandomUserMode(userMode) || 'shortAdaptive',
+          pid, 
+          labId, 
+          schoolId, 
+          taskVariant: taskVariant || "pilot", 
+          userMetadata, 
+          testingOnly, 
+          studyId, 
+          classId, 
+          urlParams,
+          consent: consent || true,
+          audioFeedback: audioFeedback || 'binary',
+          language,
+          // using somewhere else?
+          numAdaptive: numAdaptive || (userMode === "shortAdaptive" ? 85 : 150),
+          numNew: numNew || (userMode === "shortAdaptive" ? 15 : 25),
+          numValidated: numValidated || (userMode === "fullItemBank" ? 246 : 100),
+          //
+          adaptive2new: Math.floor(numAdaptive / numNew),
+          stimulusRuleList: stimulusRuleLists[userMode],
+          stimulusCountList: stimulusCountLists[userMode],
+          totalTrialsPractice: 5,
+          countSlowPractice: 2,
+          nRandom: 5,
+
+          timing: {
+            stimulusTimePracticeOnly: stimulusTimeOptions[0], // null as default for practice trial only
+            stimulusTime: stimulusTimeOptions[1],
+            fixationTime: fixationTimeOptions[0],
+            trialTimePracticeOnly: trialTimeOptions[0],
+            trialTime: trialTimeOptions[0],
+          },
+          startTime: new Date(),
+          userMetadata: {},
+          firekit,
+          displayElement: displayElement || null
+  }
+
+  if (config.pid !== null) {
+    // const userInfo = {
+    //   id: config.pid,
+    //   studyId: config.studyId || null,
+    //   classId: config.classId || null,
+    //   schoolId: config.schoolId || null,
+    //   userMetadata: config.userMetadata,
+    // };
+
+    await config.firekit.updateUser({ assessmentPid: config.pid, ...userMetadata });
+  }
+
+  return config;
+}
+
+export const initRoarJsPsych = (config) => {
+  // ROAR apps communicate with the participant dashboard by passing parameters
+  // through the URL. The dashboard can be made to append a "gameId"
+  // parameter, e.g., https://my-roar-app.web.app?gameId=1234.
+  // Similarly, at the end of the assessment the ROAR app communicates with the
+  // dashboard to let it know that the participant has finished the assessment.
+  // The dashboard expects a game token, "g", and a completion
+  // status, "c", e.g., https://reading.stanford.edu/?g=1234&c=1. Here we inspect
+  // the "gameId" parameter that was passed through the URL query string and
+  // construct the appropriate redirect URL.
+  const queryString = new URL(window.location).search;
+  const urlParams = new URLSearchParams(queryString);
+  const gameId = urlParams.get('gameId') || null;
+
+  const redirect = () => {
+    if (gameId === null) {
+      // If no game token was passed, we refresh the page rather than
+      // redirecting back to the dashboard
+      // window.location.reload();
+      if (taskVariant === 'school') {
+        if (userMode === 'shortAdaptive') {
+          window.location.href = `https://reading.stanford.edu?g=1154&c=1`;
+        } else {
+          window.location.href = `https://reading.stanford.edu?g=901&c=1`;
+        }
+      } else if (taskVariant === 'UCSF') {
+        window.location.href = `https://reading.stanford.edu?g=937&c=1`;
+      } else if (taskVariant === 'RF') {
+        window.location.href = `https://reading.stanford.edu?g=940&c=1`;
+      } else if (taskVariant === 'prolific') {
+        window.location.href = `https://app.prolific.co/submissions/complete?cc=CK1VQ7DP`; // TO DO: change to prolific redirect
       }
-    } else if (taskVariant === 'UCSF') {
-      window.location.href = `https://reading.stanford.edu?g=937&c=1`;
-    } else if (taskVariant === 'RF') {
-      window.location.href = `https://reading.stanford.edu?g=940&c=1`;
-    } else if (taskVariant === 'prolific') {
-      window.location.href = `https://app.prolific.co/submissions/complete?cc=CK1VQ7DP`; // TO DO: change to prolific redirect
+    } else {
+      // Else, redirect back to the dashboard with the game token that
+      // was originally provided
+      window.location.href = `https://reading.stanford.edu/?g=${gameId}&c=1`;
     }
-  } else {
-    // Else, redirect back to the dashboard with the game token that
-    // was originally provided
-    window.location.href = `https://reading.stanford.edu/?g=${gameId}&c=1`;
+  };
+
+  const jsPsych = initJsPsych({
+    show_progress_bar: true,
+    auto_update_progress_bar: false,
+    message_progress_bar: `${i18next.t('progressBar')}`,
+    on_finish: () => {
+      redirect();
+    },
+  });
+
+  if (config.displayElement) {
+    jsPsych.opts.display_element = config.display_element
   }
-};
 
-const configTaskInfo = () => {
-  let taskInfo;
-  if (userMode === "shortAdaptive") {
-    taskInfo = {
-      taskId: "swr",
-      taskName: "Single Word Recognition",
-      variantName: userMode,
-      taskDescription:
-        "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
-      variantDescription:
-        "This variant uses 3 short adaptive blocks mixed with validated and new words.",
-      blocks: [
-        {
-          blockNumber: 0,
-          trialMethod: "adaptive",
-          corpus: "full245",
-        },
-        {
-          blockNumber: 1,
-          trialMethod: "adaptive",
-          corpus: "full245",
-        },
-        {
-          blockNumber: 2,
-          trialMethod: "adaptive",
-          corpus: "full245",
-        },
-      ],
+  // Extend jsPsych's on_finish and on_data_update lifecycle functions to mark the
+  // run as completed and write data to Firestore, respectively.
+  const extend = (fn, code) =>
+    function () {
+      // eslint-disable-next-line prefer-rest-params
+      fn.apply(fn, arguments);
+      // eslint-disable-next-line prefer-rest-params
+      code.apply(fn, arguments);
     };
-  } else if (userMode === "longAdaptive") {
-    taskInfo = {
-      taskId: "swr",
-      taskName: "Single Word Recognition",
-      variantName: userMode,
-      taskDescription:
-        "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
-      variantDescription:
-        "This variant uses 3 short adaptive blocks mixed with validated and new words.",
-      blocks: [
-        {
-          blockNumber: 0,
-          trialMethod: "adaptive",
-          corpus: "full245",
-        },
-        {
-          blockNumber: 1,
-          trialMethod: "adaptive",
-          corpus: "full245",
-        },
-        {
-          blockNumber: 2,
-          trialMethod: "adaptive",
-          corpus: "full245",
-        },
-      ],
-    };
-  } else if (userMode === "demo") {
-    taskInfo = {
-      taskId: "swr",
-      taskName: "Single Word Recognition",
-      variantName: userMode,
-      taskDescription:
-          "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
-      variantDescription:
-          "This variant uses 1 random-ordered full with 60 new words and 24 adaptive-ordered words, each cat-suggested word will be followed by 5 new words.",
-      blocks: [
-        {
-          blockNumber: 0,
-          trialMethod: "random",
-          corpus: "newCorpusId",
-        },
-      ],
-    };
-  } else if (userMode === "fullRandom") {
-    taskInfo = {
-      taskId: "swr",
-      taskName: "Single Word Recognition",
-      variantName: userMode,
-      taskDescription:
-        "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
-      variantDescription:
-        "This variant uses fully random design split into 3 game blocks (82 each).",
-      blocks: [
-        {
-          blockNumber: 0,
-          trialMethod: "random",
-          corpus: "full245",
-        },
-        {
-          blockNumber: 1,
-          trialMethod: "random",
-          corpus: "full245",
-        },
-        {
-          blockNumber: 2,
-          trialMethod: "random",
-          corpus: "full245",
-        },
-      ],
-    };
-  } else if (userMode === "fullAdaptive") {
-    taskInfo = {
-      taskId: "swr",
-      taskName: "Single Word Recognition",
-      variantName: userMode,
-      taskDescription:
-        "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
-      variantDescription:
-        "This variant uses fully adaptive design split into 3 game blocks (82 each).",
-      blocks: [
-        {
-          blockNumber: 0,
-          trialMethod: "adaptive",
-          corpus: "full245",
-        },
-        {
-          blockNumber: 1,
-          trialMethod: "adaptive",
-          corpus: "full245",
-        },
-        {
-          blockNumber: 2,
-          trialMethod: "adaptive",
-          corpus: "full245",
-        },
-      ],
-    };
-  } else {
-    taskInfo = {
-      taskId: "swr",
-      taskName: "Single Word Recognition",
-      variantName: userMode,
-      taskDescription:
-          "This is a simple, two-alternative forced choice, time limited lexical decision task measuring the automaticity of word recognition. ROAR-SWR is described in further detail at https://doi.org/10.1038/s41598-021-85907-x",
-      variantDescription:
-          "This variant is in test mode with 1 adaptive block (10 words), 2 random blocks (4 words each).",
-      blocks: [
-        {
-          blockNumber: 0,
-          trialMethod: "adaptive/random",
-          corpus: "adaptiveCorpusId/randomCorpusId",
-        },
-        {
-          blockNumber: 1,
-          trialMethod: "adaptive/random",
-          corpus: "adaptiveCorpusId/randomCorpusId",
-        },
-        {
-          blockNumber: 2,
-          trialMethod: "adaptive/random",
-          corpus: "adaptiveCorpusId/randomCorpusId",
-        },
-      ],
-    };
-  }
-  return taskInfo;
-};
 
-export const taskInfo = configTaskInfo();
+  jsPsych.opts.on_finish = extend(jsPsych.opts.on_finish, () => {
+    config.firekit.finishRun();
+  });
 
-export const config = {
-  userMode: userMode,
-  pid: pid,
-  labId: labId,
-  schoolId: schoolId,
-  taskVariant: taskVariant,
-  userMetadata: {},
-  testingOnly: skip === null,
-  consent: consent,
-  audioFeedback: audioFeedback,
-  language: i18next.language,
+  const timingData = {
+    start_time_utc0: config.startTime.toISOString(),
+    start_time_unix: config.startTime.getTime(),
+    start_time_local: config.startTime.toLocaleString(),
+    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
+  };
 
-  // after how many adaptive trials, the test gives 1 new word
-  adaptive2new: Math.floor(numAdaptive / numNew),
+  jsPsych.opts.on_data_update = extend(jsPsych.opts.on_data_update, (data) => {
+    if (data.save_trial) {
+      config.firekit.writeTrial({
+        timingData,
+        userInfo: config.firekit.userInfo,
+        ...data,
+      });
+    }
+  });
 
-  // set order and rule for the experiment
-  stimulusRuleList: stimulusRuleLists[userMode],
+  // Add a special error handler that writes javascript errors to a special trial
+  // type in the Firestore database
+  window.addEventListener('error', (e) => {
+    const { msg, url, lineNo, columnNo, error } = e;
 
-  // Number of trials in each block of the experiment
-  stimulusCountList: stimulusCountLists[userMode],
-
-  // set number of trials for practice block
-  totalTrialsPractice: 5,
-
-  // The number of practice trials that will keep stimulus on screen untill participant's input
-  countSlowPractice: 2,
-
-  // set number of trials to keep random in adaptive block
-  nRandom: 5,
-
-  // set a binary array to randomly order the new and validated items
-  // eslint-disable-next-line max-len
-  indexArray: shuffle(Array(parseInt(numNew, 10)).fill(0).concat(Array(parseInt(numValidated, 10)).fill(1))),
-
-  // TODO: Check use of timing in other js files
-  timing: {
-    stimulusTimePracticeOnly: stimulusTimeOptions[0], // null as default for practice trial only
-    stimulusTime: stimulusTimeOptions[1],
-    fixationTime: fixationTimeOptions[0],
-    trialTimePracticeOnly: trialTimeOptions[0],
-    trialTime: trialTimeOptions[0],
-  },
-  /* record date */
-  startTime: new Date(),
-};
-
-export const initStore = () => {
-  if (store.session.has("initialized") && store.local("initialized")) {
-    return store.session;
-  }
-  if ((userMode === 'fullAdaptive') || (userMode === 'testAdaptive') || (userMode === "shortAdaptive") || ((userMode === "longAdaptive"))) {
-    store.session.set("itemSelect", "mfi");
-  } else {
-    store.session.set("itemSelect", "random");
-  }
-  store.session.set("practiceIndex", 0);
-  // Counting variables
-  store.session.set("currentBlockIndex", 0);
-  store.session.set("trialNumBlock", 0); // counter for trials in block
-  store.session.set("trialNumTotal", 0); // counter for trials in experiment
-  store.session.set("demoCounter", 0);
-  store.session.set("nextStimulus", null);
-  store.session.set("response", "");
-
-  // variables to track current state of the experiment
-  store.session.set("currentTrialCorrect", true); // return true or false
-  store.session.set("coinTrackingIndex", 0);
-
-  store.session.set("initialized", true);
-
-  return store.session;
-};
-
-initStore();
-
-export const jsPsych = initJsPsych({
-  show_progress_bar: true,
-  auto_update_progress_bar: false,
-  message_progress_bar: `${i18next.t('progressBar')}`,
-  on_finish: () => redirect(),
-});
-
-/* simple variable for calculating sum of an array */
-const arrSum = (arr) => arr.reduce((a, b) => a + b, 0);
-
-/* csv helper function */
-export const readCSV = (url) =>
-  new Promise((resolve) => {
-    Papa.parse(url, {
-      download: true,
-      header: true,
-      dynamicTyping: true,
-      skipEmptyLines: true,
-      complete: function (results) {
-        const csv_stimuli = results.data;
-        resolve(csv_stimuli);
-      },
+    config.firekit?.writeTrial({
+      task: 'error',
+      lastTrial: jsPsych.data.getLastTrialData().trials[0],
+      message: String(msg),
+      source: url || null,
+      lineNo: String(lineNo || null),
+      colNo: String(columnNo || null),
+      error: JSON.stringify(error || null),
+      timeStamp: new Date().toISOString(),
     });
   });
 
-export const updateProgressBar = () => {
-  const curr_progress_bar_value = jsPsych.getProgressBarCompleted();
-  jsPsych.setProgressBar(curr_progress_bar_value + 1 / arrSum(config.stimulusCountList));
+  initStore(config);
+
+  return jsPsych;
 };
 
-export const realpseudo2arrow = (realpseudo) =>
-  (realpseudo === "real" ? "ArrowRight" : "ArrowLeft");
+export const initRoarTimeline = (config) => {
+  // If the participant's ID was **not** supplied through the query string, then
+  // ask the user to fill out a form with their ID, class and school.
+  const initialTimeline = [ preloadTrials, enter_fullscreen, ...getUserDataTimeline]
+  
+  const beginningTimeline = {
+    timeline: initialTimeline,
+    on_timeline_finish: async () => {
+      // eslint-disable-next-line no-param-reassign
+      config.pid = config.pid || makePid();
+      await config.firekit.updateUser({ assessmentPid: config.pid, labId: config.labId, ...config.userMetadata });
+    },
+  };
+
+  return beginningTimeline;
+};
+
+
+// export const initializeRoarFireKit = async () => {
+//   config.pid = config.pid || makePid();
+//   let prefix = config.pid.split("-")[0];
+//   if (prefix === config.pid || config.taskVariant !== 'school'){
+//     prefix = "pilot";
+//   }
+//   const userInfo = {
+//     id: config.pid,
+//     studyId: config.taskVariant + "-" + config.userMode,
+//     schoolId: config.schoolId || prefix,
+//     userMetadata: config.userMetadata,
+//   };
+
+//   firekit = new RoarFirekit({
+//     config: roarConfig,
+//     userInfo: userInfo,
+//     taskInfo,
+//   });
+//   await firekit.startRun();
+// }

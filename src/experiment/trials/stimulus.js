@@ -1,9 +1,8 @@
 import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
 import { mediaAssets, isTouchScreen } from '../config/preload';
-import { jsPsych, config, updateProgressBar } from '../config/config';
 import store from 'store2';
-import { cat, cat2 } from '../experimentSetup';
-import { updateCorrectChecker } from '../expirementHelpers';
+// import { cat, cat2 } from '../experimentSetup';
+import { cat, cat2 } from '../experiment';
 
 
 const lexicalityTrialContent = [
@@ -11,7 +10,7 @@ const lexicalityTrialContent = [
         stimulus: () => {
           return (
             `<div class='stimulus_div'>
-              <p class='stimulus'>${jsPsych.timelineVariable("stimulus")}</p>
+              <p class='stimulus'>${store.get('jsPsych').timelineVariable("stimulus")}</p>
             </div>`
           )
         },
@@ -25,9 +24,14 @@ const lexicalityTrialContent = [
         data: {
             save_trial: true,
             task: "practice_response" /* tag the test trials with this taskname so we can filter data later */,
-            word: jsPsych.timelineVariable("stimulus"),
+            word: () => {
+              console.log('Does this function actually run?')
+              store.get('jsPsych').timelineVariable("stimulus")
+            },
         },
         on_finish: (data) => {
+            const jsPsych = store.get('jsPsych')
+
             const correctResponse = jsPsych.timelineVariable("correct_response")
         
             if (data.keyboard_response) {
@@ -82,13 +86,15 @@ const lexicalityTrialContent = [
                     <p id="stimulus-word" class='stimulus'>${store.session("nextStimulus").stimulus}</p>
                   </div>`;
         },
-        stimulus_duration: config.timing.stimulusTime,
+        stimulus_duration: () => store.get('config').timing.stimulusTime,
         data: {
             save_trial: true,
             task: "test_response" /* tag the test trials with this taskname so we can filter data later */,
         },
         on_finish: (data) => {
             const nextStimulus = store.session("nextStimulus")
+
+            const jsPsych = store.get('jsPsych')
         
             if (data.keyboard_response) {
               data.correct = jsPsych.pluginAPI.compareKeys(
@@ -137,8 +143,15 @@ const lexicalityTrialContent = [
               trialNumBlock: store.session("trialNumBlock"),
               pid: config.pid,
             });
-            updateCorrectChecker();
-            updateProgressBar();
+
+            const config = store.get('config')
+            
+            // Does this do anything?
+            const trials = jsPsych.data.get().filter({ task: "test_response" });
+            trials.filter({ correct: true });
+
+            const currProgressBar = jsPsych.getProgressBarCompleted();
+            jsPsych.setProgressBar(currProgressBar + 1 / arrSum(config.stimulusCountList));
           },
     }
 ]
@@ -150,7 +163,7 @@ const lexicalityTrialsMapped = lexicalityTrialContent.map((trial, i) => {
             stimulus: trial.stimulus,
             prompt: () => !isTouchScreen ? `<img class="lower" src="${mediaAssets.images.arrowkeyLex}" alt = "arrow-key">` : '',
             stimulus_duration: trial.stimulus_duration,
-            trial_duration: config.timing.trialTime,
+            trial_duration: () => store.get('config').timing.trialTime,
             keyboard_choices: ["ArrowLeft", "ArrowRight"],
             button_choices: () => isTouchScreen ? ["ArrowLeft", "ArrowRight"] : [],
             button_html: () => {

@@ -1,18 +1,20 @@
-import { HotDogApp } from "./index";
+import { RoarSWR } from "./index";
 import { RoarAppkit, initializeFirebaseProject } from '@bdelab/roar-firekit';
-import { roarConfig } from "./firebaseConfig";
+import { roarConfig } from "./config/firebaseConfig";
 import { onAuthStateChanged, signInAnonymously } from 'firebase/auth'
+import { setRandomUserMode } from "./config/config";
+
 
 //@ts-ignore
 const queryString = new URL(window.location).search;
 const urlParams = new URLSearchParams(queryString);
-const userMode = randomAssignment(urlParams.get("mode"));
+const userMode = setRandomUserMode(urlParams.get("mode"));
 const taskVariant = urlParams.get("variant");
 const pid = urlParams.get("PROLIFIC_PID") || urlParams.get("participant");
 const schoolId = urlParams.get("schoolId");
 const studyId = urlParams.get('studyId');
 const classId = urlParams.get('classId');
-const skip = urlParams.get("skip");
+const skipInstructions = urlParams.get("skip");
 const audioFeedback = urlParams.get("feedback");
 const consent = urlParams.get("consent");
 const numAdaptive = urlParams.get("numAdaptive");
@@ -25,6 +27,7 @@ const gameId = urlParams.get('gameId');
 const appKit = await initializeFirebaseProject(roarConfig.firebaseConfig, 'assessmentApp', 'none');
 
 onAuthStateChanged(appKit.auth, (user) => {
+
     if (user) {
         const userInfo = {
             assessmentPid: pid || "test-pid",
@@ -37,13 +40,24 @@ onAuthStateChanged(appKit.auth, (user) => {
             },
         };
 
-        const params = { userMode, 
-                         pid, 
-                         studyId, 
-                         classId, 
-                         schoolId, 
-                         randomField: 42 
-                       };
+        const params = { 
+            userMode, 
+            pid, 
+            studyId, 
+            classId, 
+            schoolId, 
+            taskVariant,
+            skipInstructions,
+            audioFeedback,
+            consent,
+            numAdaptive,
+            numNew,
+            numValidated,
+            labId,
+            gameId,
+            randomField: 42 
+        };
+        
         const taskInfo = {
             taskId: 'roar-repackage',
             variantParams: params,
@@ -55,7 +69,7 @@ onAuthStateChanged(appKit.auth, (user) => {
             userInfo,
         })
 
-        const roarApp = new HotDogApp(firekit, params);
+        const roarApp = new RoarSWR(firekit, params);
 
         roarApp.run();
     }

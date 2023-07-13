@@ -5,8 +5,6 @@ import store from "store2";
 // Import necessary for async in the top level of the experiment script
 import "regenerator-runtime/runtime";
 
-// Local modules
-import { blockPractice } from "./config/corpus";
 
 // trials
 import { audio_response } from "./trials/audioFeedback";
@@ -20,10 +18,14 @@ import { countdown_trials } from "./trials/countdown";
 import { if_coin_tracking } from "./trials/coinFeedback";
 
 // Create these functions
-import { initRoarJsPsych, initRoarTimeline } from './config';
+import { initRoarJsPsych, initRoarTimeline } from './config/config';
 
 // CSS imports
 // import "./css/game.css";
+import { Cat } from '@bdelab/jscat';
+
+export let cat
+export let cat2
 
 
 export function buildExperiment(config) {
@@ -31,6 +33,13 @@ export function buildExperiment(config) {
   // Initialize jsPsych and timeline
   const jsPsych = initRoarJsPsych(config);
   let timeline = initRoarTimeline(config);
+
+  store.session.set('jsPsych', jsPsych)
+
+  cat = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store.session("itemSelect")});
+
+  // Include new items in thetaEstimate
+  cat2 = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store.session("itemSelect")});
 
   timeline = [...timeline, introduction_trials, if_not_fullscreen, countdown_trials]
 
@@ -50,7 +59,9 @@ export function buildExperiment(config) {
     });
   }
 
-  pushPracticeTotimeline(blockPractice);
+  const blockPracticeTrials = csvTransformed.practice.slice(0, config.totalTrialsPractice);
+
+  pushPracticeTotimeline(blockPracticeTrials);
   timeline.push(post_practice_intro);
   timeline.push(if_not_fullscreen);
 

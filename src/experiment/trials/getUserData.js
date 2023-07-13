@@ -106,7 +106,7 @@ const consent_form = {
     ],
 };
   
-export const if_consent_form = {
+export const ifConsentForm = {
     timeline: [consent_form],
     conditional_function: () => {
       return Boolean(((config.userMode === "demo") || (config.taskVariant === 'otherLabs') || (config.taskVariant === 'prolific')) && (config.consent === true));
@@ -189,7 +189,7 @@ const survey_pid = {
     },
 };
   
-export const if_get_survey = {
+export const ifGetSurvey = {
     timeline: [survey_pid],
     conditional_function: () => {
         return Boolean(((config.userMode === "demo") || (config.taskVariant === 'otherLabs') || (config.taskVariant === 'prolific')) && (config.consent === true));
@@ -203,4 +203,4 @@ export  const if_get_pid = {
     },
 };
 
-export const getUserDataTimeline = [ifGetLabId, ifGetPid, if_consent_form, if_survey]
+export const getUserDataTimeline = [ifGetLabId, ifGetPid, ifConsentForm, ifGetSurvey]

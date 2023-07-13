@@ -1,18 +1,15 @@
-import { config, stimulusCountLists, taskInfo } from "./config/config";
-import { roarConfig } from "./config/firebaseConfig";
-import { RoarFirekit } from "@bdelab/roar-firekit";
+import { getStimulusCount, taskInfo } from "./config/config";
 import store from "store2";
 import { corpusAll, corpusNew } from "./config/corpus";
-import { Cat } from '@bdelab/jscat';
+// import { Cat } from '@bdelab/jscat';
 
 store.session.set("corpusAll", corpusAll); 
 store.session.set("corpusNew", corpusNew);
 
-export const cat = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store.session("itemSelect")});
+// export const cat = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store.session("itemSelect")});
 
-// Include new items in thetaEstimate
-export const cat2 = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store.session("itemSelect")});
-
+// // Include new items in thetaEstimate
+// export const cat2 = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store.session("itemSelect")});
 
 const checkRealPseudo = (corpus) => {
   let corpusType = (Math.random() < 0.5) ? "corpus_real" : "corpus_pseudo";
@@ -114,7 +111,7 @@ export const getStimulus = () => {
   // update 2 trackers
   const currentBlockIndex = store.session("currentBlockIndex");
   const tracker = store.session("trialNumBlock");
-  if (tracker === 0 | tracker === stimulusCountLists[config.userMode][currentBlockIndex]) {
+  if (tracker === 0 | tracker === getStimulusCount(config.userMode)[currentBlockIndex]) {
     store.session.set("trialNumBlock", 1);
   } else {
     store.session.transact("trialNumBlock", (oldVal) => oldVal + 1);

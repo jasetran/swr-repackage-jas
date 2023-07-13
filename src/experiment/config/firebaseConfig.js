@@ -1,8 +1,15 @@
 /* eslint-disable import/prefer-default-export */
 import { log } from './logger';
-import { labId } from './config';
+import store from 'store2'
+import configStore from '../configStore';
+// import { labId } from './config';
 
-const setLabId = labId || 'yeatmanlab';
+let configValues = configStore.getConfig();
+
+// console.log('store: ', store.get('config'))
+// console.log('configStore: ', configValues)
+
+const setLabId = store.get('config')?.labId || 'yeatmanlab';
 
 const prodDoc = setLabId === 'yeatmanlab' ? ['prod', 'roar-prod'] : ['external', setLabId];
 // eslint-disable-next-line no-undef

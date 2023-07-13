@@ -1,15 +1,15 @@
 /* eslint-disable no-param-reassign */
 import jsPsychAudioMultiResponse from '@jspsych-contrib/plugin-audio-multi-response'
 import store from "store2";
-import { jsPsych, config } from "../config/config";
 import { mediaAssets, isTouchScreen } from "../config/preload";
 import i18next from "i18next";
 import '../i18n'
 
-
 let count = 0
 
 const feedbackStimulus = () => {
+  const jsPsych = store.get('jsPsych')
+
   const previousTrialData = jsPsych.data.get().last(2).values()[0]
 
   let isCorrect
@@ -38,7 +38,7 @@ const feedbackStimulus = () => {
 
 export const practice_feedback = {
   type: jsPsychAudioMultiResponse,
-  response_allowed_while_playing: config.testingOnly,
+  response_allowed_while_playing: () => store.get('config').skipInstructions,
   prompt_above_buttons: true,
   stimulus: () => feedbackStimulus(),
   prompt: () => {
@@ -46,7 +46,7 @@ export const practice_feedback = {
       <p class="feedback">
         <span class=${store.session("responseColor")}>${i18next.t('practiceFeedbackTrial.paragraph1', { direction: `${store.session("responseLR") === 'left' ? i18next.t('terms.left') : i18next.t('terms.right')}`, typeWord: `${store.session("answerRP") === 'real' ? i18next.t('terms.real') : i18next.t('terms.made-up')}`})}</span>
         <br></br>
-        ${jsPsych.timelineVariable("stimulus")}
+        ${store.get('jsPsych').timelineVariable("stimulus")}
         <span class=${store.session("answerColor")}>${i18next.t('practiceFeedbackTrial.paragraph2', { direction: `${store.session("correctLR") === 'left' ? i18next.t('terms.left') : i18next.t('terms.right')}`, typeWord: `${store.session("correctRP") === 'real' ? i18next.t('terms.real') : i18next.t('terms.made-up')}`})}</span>
       </p>
     </div>

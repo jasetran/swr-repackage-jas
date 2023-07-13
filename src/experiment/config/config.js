@@ -1,5 +1,4 @@
 import { initJsPsych } from "jspsych";
-import Papa from "papaparse";
 import store from "store2";
 import i18next from "i18next";
 import '../i18n';
@@ -19,6 +18,8 @@ const makePid = () => {
 }
 
 const initStore = (config) => {
+  console.log('config in initStore: ', config)
+
   if (store.session.has("initialized") && store.local("initialized")) {
     return store.session;
   }
@@ -45,7 +46,7 @@ const initStore = (config) => {
   return store.session;
 };
 
-const setRandomUserMode = (mode) => {
+export const setRandomUserMode = (mode) => {
   if (mode === "test") {
     return (Math.random() < 0.5) ? 'testAdaptive' : 'testRandom';
   } if (mode === "full") {
@@ -79,15 +80,19 @@ const divideTrial2Block = (n1, n2, nBlock) => {
   return [Math.floor(n / nBlock), Math.floor(n / nBlock), n - (2 * Math.floor(n / nBlock))];
 };
 
-export const stimulusCountLists = {
-  fullAdaptive: [82, 82, 81],
-  fullRandom: [25, 25, 25],
-  shortAdaptive: divideTrial2Block(numAdaptive, numNew, 3),
-  longAdaptive: divideTrial2Block(numAdaptive, numNew, 3),
-  fullItemBank: divideTrial2Block(numValidated, numNew, 3),
-  demo: [84],
-  testAdaptive: [6, 4, 4],
-  testRandom: [6, 4, 4],
+export const getStimulusCount = (userMode, numAdaptive, numNew) => {
+  const stimulusCountMap = {
+    fullAdaptive: [82, 82, 81],
+    fullRandom: [25, 25, 25],
+    shortAdaptive: divideTrial2Block(numAdaptive, numNew, 3),
+    longAdaptive: divideTrial2Block(numAdaptive, numNew, 3),
+    fullItemBank: divideTrial2Block(numValidated, numNew, 3),
+    demo: [84],
+    testAdaptive: [6, 4, 4],
+    testRandom: [6, 4, 4],
+  }
+
+  return stimulusCountMap[userMode]
 };
 
 export const shuffle = (array) => {
@@ -121,6 +126,7 @@ export const initConfig = async (firekit, params, displayElement) => {
           numAdaptive,
           numNew,
           numValidated,
+          skipInstructions
   } = params
 
   const config = {
@@ -137,6 +143,7 @@ export const initConfig = async (firekit, params, displayElement) => {
           consent: consent || true,
           audioFeedback: audioFeedback || 'binary',
           language,
+          skipInstructions,
           // using somewhere else?
           numAdaptive: numAdaptive || (userMode === "shortAdaptive" ? 85 : 150),
           numNew: numNew || (userMode === "shortAdaptive" ? 15 : 25),
@@ -144,7 +151,7 @@ export const initConfig = async (firekit, params, displayElement) => {
           //
           adaptive2new: Math.floor(numAdaptive / numNew),
           stimulusRuleList: stimulusRuleLists[userMode],
-          stimulusCountList: stimulusCountLists[userMode],
+          stimulusCountList: getStimulusCount(userMode, numAdaptive, numNew),
           totalTrialsPractice: 5,
           countSlowPractice: 2,
           nRandom: 5,

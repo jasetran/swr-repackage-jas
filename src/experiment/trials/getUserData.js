@@ -1,6 +1,7 @@
 import jsPsychSurveyText from "@jspsych/plugin-survey-text";
 import jsPsychSurveyHtmlForm from "@jspsych/plugin-survey-html-form";
 import jsPsychSurveyMultiSelect from "@jspsych/plugin-survey-multi-select";
+import store from "store2";
   
 const getLabId = {
     type: jsPsychSurveyText,
@@ -12,20 +13,20 @@ const getLabId = {
       },
     ],
     on_finish: (data) => {
-      config.labId = data.response.labId;
+      store.session.get('config').labId = data.response.labId;
   
-      const prodDoc = config.labId === 'yeatmanlab' ? ['prod', 'roar-prod'] : ['external', config.labId];
+      const prodDoc = store.session.get('config').labId === 'yeatmanlab' ? ['prod', 'roar-prod'] : ['external', store.session.get('config').labId];
       // eslint-disable-next-line no-undef
         
       // Define ROAR_DB_DOC
-      roarConfig.rootDoc = ROAR_DB_DOC === 'production' ? prodDoc : ['dev', 'anya-swr'];
+    //   roarstore.session.get('config').rootDoc = ROAR_DB_DOC === 'production' ? prodDoc : ['dev', 'anya-swr'];
     },
 };
   
 const ifGetLabId = {
     timeline: [getLabId],
     conditional_function: () => {
-        return (config.labId === null) ? true : false;
+        return (store.session.get('config').labId === null) ? true : false;
     }
 }
   
@@ -39,14 +40,14 @@ const getPid = {
         },
     ],
     on_finish: (data) => {
-        config.pid = data.response.pid;
+        store.session.get('config').pid = data.response.pid;
     },
 };
   
 const ifGetPid = {
     timeline: [getPid],
     conditional_function: () => {
-        return (config.pid === null) ? true : false;
+        return (store.session.get('config').pid === null) ? true : false;
     }
 }
   
@@ -109,7 +110,7 @@ const consent_form = {
 export const ifConsentForm = {
     timeline: [consent_form],
     conditional_function: () => {
-      return Boolean(((config.userMode === "demo") || (config.taskVariant === 'otherLabs') || (config.taskVariant === 'prolific')) && (config.consent === true));
+      return Boolean(((store.session.get('config').userMode === "demo") || (store.session.get('config').taskVariant === 'otherLabs') || (store.session.get('config').taskVariant === 'prolific')) && (store.session.get('config').consent === true));
     },
 };
   
@@ -184,22 +185,22 @@ const survey_pid = {
             tmpMetadata[field] = data.response[field];
         }
         }
-        tmpMetadata['labId'] = config.labId;
-        config.userMetadata = tmpMetadata;
+        tmpMetadata['labId'] = store.session.get('config').labId;
+        store.session.get('config').userMetadata = tmpMetadata;
     },
 };
   
 export const ifGetSurvey = {
     timeline: [survey_pid],
     conditional_function: () => {
-        return Boolean(((config.userMode === "demo") || (config.taskVariant === 'otherLabs') || (config.taskVariant === 'prolific')) && (config.consent === true));
+        return Boolean(((store.session.get('config').userMode === "demo") || (store.session.get('config').taskVariant === 'otherLabs') || (store.session.get('config').taskVariant === 'prolific')) && (store.session.get('config').consent === true));
     },
 };
   
 export  const if_get_pid = {
     timeline: [ifGetLabId, ifGetPid],
     conditional_function: function () {
-        return config.taskVariant === 'otherLabs';
+        return store.session.get('config').taskVariant === 'otherLabs';
     },
 };
 

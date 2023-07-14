@@ -1,7 +1,8 @@
 import { getStimulus } from "../experimentSetup";
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
-import { mediaAssets, isTouchScreen } from "../config/preload";
+import { isTouchScreen } from "../experimentSetup";
 import store from "store2";
+import { mediaAssets } from "../experiment";
 
 // set-up screen
 const setupFixationData = [
@@ -40,7 +41,7 @@ const setupFixationTrials = setupFixationData.map((trial, i) => {
       return `<img class="lower" src="${mediaAssets.images.arrowkeyLex}" alt = "arrow-key">`
     },
     choices: "NO_KEYS",
-    trial_duration: () => store.get('config').timing.fixationTime,
+    trial_duration: () => store.session.get('config').timing.fixationTime,
     data: {
       task: "fixation",
     },

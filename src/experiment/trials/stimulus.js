@@ -1,8 +1,9 @@
 import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
-import { mediaAssets, isTouchScreen } from '../config/preload';
+import { isTouchScreen } from '../experimentSetup';
 import store from 'store2';
-// import { cat, cat2 } from '../experimentSetup';
 import { cat, cat2 } from '../experiment';
+import { jsPsych } from '../jsPsych';
+import { mediaAssets } from '../experiment';
 
 
 const lexicalityTrialContent = [
@@ -10,28 +11,25 @@ const lexicalityTrialContent = [
         stimulus: () => {
           return (
             `<div class='stimulus_div'>
-              <p class='stimulus'>${store.get('jsPsych').timelineVariable("stimulus")}</p>
+              <p class='stimulus'>${jsPsych.timelineVariable("stimulus")}</p>
             </div>`
           )
         },
         stimulus_duration: () => {
             store.session.transact("practiceIndex", (oldVal) => oldVal + 1);
-            if (store.session("practiceIndex") > config.countSlowPractice) {
-                return config.timing.stimulusTime;
+            if (store.session("practiceIndex") > store.session.get('config').countSlowPractice) {
+                return store.session.get('config').timing.stimulusTime;
             }
-            return config.timing.stimulusTimePracticeOnly;
+            return store.session.get('config').timing.stimulusTimePracticeOnly;
         },
         data: {
             save_trial: true,
             task: "practice_response" /* tag the test trials with this taskname so we can filter data later */,
             word: () => {
-              console.log('Does this function actually run?')
-              store.get('jsPsych').timelineVariable("stimulus")
+              jsPsych.timelineVariable("stimulus")
             },
         },
         on_finish: (data) => {
-            const jsPsych = store.get('jsPsych')
-
             const correctResponse = jsPsych.timelineVariable("correct_response")
         
             if (data.keyboard_response) {
@@ -74,7 +72,7 @@ const lexicalityTrialContent = [
               block: "Practice",
               corpusId: "Practice",
               trialNumPractice: store.session("practiceIndex"),
-              pid: config.pid,
+              pid: store.session.get('config').pid,
             });
         
             jsPsych.setProgressBar(0);
@@ -86,15 +84,13 @@ const lexicalityTrialContent = [
                     <p id="stimulus-word" class='stimulus'>${store.session("nextStimulus").stimulus}</p>
                   </div>`;
         },
-        stimulus_duration: () => store.get('config').timing.stimulusTime,
+        stimulus_duration: () => store.session.get('config').timing.stimulusTime,
         data: {
             save_trial: true,
             task: "test_response" /* tag the test trials with this taskname so we can filter data later */,
         },
         on_finish: (data) => {
             const nextStimulus = store.session("nextStimulus")
-
-            const jsPsych = store.get('jsPsych')
         
             if (data.keyboard_response) {
               data.correct = jsPsych.pluginAPI.compareKeys(
@@ -141,17 +137,17 @@ const lexicalityTrialContent = [
               stimulusRule: cat.itemSelect,
               trialNumTotal: store.session("trialNumTotal"),
               trialNumBlock: store.session("trialNumBlock"),
-              pid: config.pid,
+              pid: store.session.get('config').pid,
             });
 
-            const config = store.get('config')
+            const config = store.session.get('config')
             
             // Does this do anything?
-            const trials = jsPsych.data.get().filter({ task: "test_response" });
-            trials.filter({ correct: true });
+            // const trials = jsPsych.data.get().filter({ task: "test_response" });
+            // trials.filter({ correct: true });
 
             const currProgressBar = jsPsych.getProgressBarCompleted();
-            jsPsych.setProgressBar(currProgressBar + 1 / arrSum(config.stimulusCountList));
+            jsPsych.setProgressBar(currProgressBar + 1 / (config.stimulusCountList.reduce((a, b) => a + b, 0)));
           },
     }
 ]
@@ -163,7 +159,7 @@ const lexicalityTrialsMapped = lexicalityTrialContent.map((trial, i) => {
             stimulus: trial.stimulus,
             prompt: () => !isTouchScreen ? `<img class="lower" src="${mediaAssets.images.arrowkeyLex}" alt = "arrow-key">` : '',
             stimulus_duration: trial.stimulus_duration,
-            trial_duration: () => store.get('config').timing.trialTime,
+            trial_duration: () => store.session.get('config').timing.trialTime,
             keyboard_choices: ["ArrowLeft", "ArrowRight"],
             button_choices: () => isTouchScreen ? ["ArrowLeft", "ArrowRight"] : [],
             button_html: () => {
@@ -192,6 +188,5 @@ const lexicalityTrialsMapped = lexicalityTrialContent.map((trial, i) => {
     )
 })
 
-// first trial is practice
 export const leixcalityPractice = lexicalityTrialsMapped[0]
 export const lexicalityTest = lexicalityTrialsMapped[1]

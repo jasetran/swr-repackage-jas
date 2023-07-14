@@ -5,6 +5,12 @@ import store from "store2";
 // Import necessary for async in the top level of the experiment script
 import "regenerator-runtime/runtime";
 
+// setup
+import { initRoarJsPsych, initRoarTimeline } from './config/config';
+import { csvTransformed } from "./config/corpus";
+import { generateAssetObject, createPreloadTrials } from "@bdelab/roar-utils";
+import { Cat } from '@bdelab/jscat';
+import { jsPsych } from "./jsPsych";
 
 // trials
 import { audio_response } from "./trials/audioFeedback";
@@ -17,31 +23,28 @@ import { lexicalityTest, leixcalityPractice } from './trials/stimulus'
 import { countdown_trials } from "./trials/countdown";
 import { if_coin_tracking } from "./trials/coinFeedback";
 
-// Create these functions
-import { initRoarJsPsych, initRoarTimeline } from './config/config';
-
-// CSS imports
-// import "./css/game.css";
-import { Cat } from '@bdelab/jscat';
 
 export let cat
 export let cat2
 
+export let mediaAssets
+export let preloadTrials
+
 
 export function buildExperiment(config) {
+  mediaAssets = generateAssetObject(config.assets, config.bucketURI)
+  preloadTrials = createPreloadTrials(config.assets, config.bucketURI).default
 
   // Initialize jsPsych and timeline
-  const jsPsych = initRoarJsPsych(config);
-  let timeline = initRoarTimeline(config);
-
-  store.session.set('jsPsych', jsPsych)
+  initRoarJsPsych(config);
+  const initialTimeline = initRoarTimeline(config);
 
   cat = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store.session("itemSelect")});
 
   // Include new items in thetaEstimate
   cat2 = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store.session("itemSelect")});
 
-  timeline = [...timeline, introduction_trials, if_not_fullscreen, countdown_trials]
+  const timeline = [preloadTrials, ...initialTimeline.timeline, introduction_trials, if_not_fullscreen, countdown_trials]
 
   // the core procedure
   const pushPracticeTotimeline = (array) => {
@@ -114,6 +117,7 @@ export function buildExperiment(config) {
       }
     }
   }
+
   pushTrialsTotimeline(config.stimulusCountList);
   timeline.push(final_page, exit_fullscreen);
 

@@ -1,15 +1,10 @@
-import { getStimulusCount, taskInfo } from "./config/config";
+import { getStimulusCount } from "./config/config";
 import store from "store2";
-import { corpusAll, corpusNew } from "./config/corpus";
-// import { Cat } from '@bdelab/jscat';
+import { cat } from "./experiment";
+import { getDevice } from "@bdelab/roar-utils";
 
-store.session.set("corpusAll", corpusAll); 
-store.session.set("corpusNew", corpusNew);
 
-// export const cat = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store.session("itemSelect")});
-
-// // Include new items in thetaEstimate
-// export const cat2 = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store.session("itemSelect")});
+export const isTouchScreen = getDevice() === 'mobile'
 
 const checkRealPseudo = (corpus) => {
   let corpusType = (Math.random() < 0.5) ? "corpus_real" : "corpus_pseudo";
@@ -28,7 +23,7 @@ export const getStimulus = () => {
   // decide which corpus to use
   const demoCounter = store.session("demoCounter");
   let corpus, corpusType, itemSuggestion;
-  if (config.userMode === 'demo') {
+  if (store.session.get('config').userMode === 'demo') {
     if (demoCounter === 5 ) {
       // validated corpus
       corpus = store.session("corpusAll");
@@ -52,8 +47,8 @@ export const getStimulus = () => {
       corpus[corpusType] = itemSuggestion.remainingStimuli;
       store.session.set("corpusNew", corpus);
     }
-  } else if ((config.userMode === "shortAdaptive") || (config.userMode === "longAdaptive")) {
-    if (demoCounter !== config.adaptive2new) {
+  } else if ((store.session.get('config').userMode === "shortAdaptive") || (store.session.get('config').userMode === "longAdaptive")) {
+    if (demoCounter !== store.session.get('config').adaptive2new) {
       // validated corpus
       corpus = store.session("corpusAll");
       corpusType = checkRealPseudo(corpus);
@@ -76,9 +71,9 @@ export const getStimulus = () => {
       corpus[corpusType] = itemSuggestion.remainingStimuli;
       store.session.set("corpusNew", corpus);
     }
-  } else if (config.userMode === "fullItemBank") {
+  } else if (store.session.get('config').userMode === "fullItemBank") {
     // new corpus
-    if (config.indexArray[store.session("trialNumTotal")] === 0) {
+    if (store.session.get('config').indexArray[store.session("trialNumTotal")] === 0) {
       // new corpus
       corpus = store.session("corpusNew");
       corpusType = checkRealPseudo(corpus);
@@ -111,7 +106,7 @@ export const getStimulus = () => {
   // update 2 trackers
   const currentBlockIndex = store.session("currentBlockIndex");
   const tracker = store.session("trialNumBlock");
-  if (tracker === 0 | tracker === getStimulusCount(config.userMode)[currentBlockIndex]) {
+  if (tracker === 0 | tracker === getStimulusCount(store.session.get('config').userMode)[currentBlockIndex]) {
     store.session.set("trialNumBlock", 1);
   } else {
     store.session.transact("trialNumBlock", (oldVal) => oldVal + 1);

@@ -1,20 +1,19 @@
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
 import store from "store2";
-import { mediaAssets, isTouchScreen } from "../config/preload";
-// import { config } from "../config/config";
+import { mediaAssets, } from "../experiment";
+import { isTouchScreen } from "../experimentSetup";
 
 const audio_response = {
   type: jsPsychAudioKeyboardResponse,
   stimulus: () => {
-    if (store.get('config').audioFeedback === "binary" && store.session("currentTrialCorrect")) {
+    if (store.session.get('config').audioFeedback === "binary" && store.session("currentTrialCorrect")) {
       return mediaAssets.audio.coin
-    } else if (store.get('config').audioFeedback === "binary" && !store.session("currentTrialCorrect")) {
+    } else if (store.session.get('config').audioFeedback === "binary" && !store.session("currentTrialCorrect")) {
       return mediaAssets.audio.fail
     } else {
       // neutral case
       return mediaAssets.audio.select
     }
-
   },
   choices: "NO_KEYS",
   trial_ends_after_audio: true,

@@ -113,13 +113,8 @@ const developmentConfig = {
 };
 
 module.exports = async (env, args) => {
-  const hashOptions = {
-    folders: { exclude: ['.*', 'node_modules', 'test_coverage'] },
-    files: { include: ['*.js', '*.json'] },
-  };
-  const srcHash = await hashElement('./src', hashOptions);
 
-  const roarDbDoc = env.dbmode === 'production' ? 'production' : 'development';
+  const roarDB = env.dbmode === 'production' ? 'production' : 'development';
 
   let merged;
   switch (args.mode) {
@@ -138,8 +133,7 @@ module.exports = async (env, args) => {
       new HtmlWebpackPlugin({ title: 'Rapid Online Assessment of Reading - SWR' }),
       new webpack.ids.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
       new webpack.DefinePlugin({
-        ROAR_DB_DOC: JSON.stringify(roarDbDoc),
-        SRC_HASH: JSON.stringify(srcHash),
+        ROAR_DB: JSON.stringify(roarDB)
       }),
       new webpack.ProvidePlugin({
         process: 'process/browser',

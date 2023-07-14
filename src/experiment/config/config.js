@@ -1,12 +1,11 @@
-import { initJsPsych } from "jspsych";
 import store from "store2";
-import i18next from "i18next";
-import '../i18n';
-// import { firekit } from "../experimentSetup";
 import { getUserDataTimeline } from "../trials/getUserData";
-import { preloadTrials } from "./preload";
 import { enter_fullscreen } from "../trials/fullScreen";
-
+import { corpusAll, corpusNew } from "./corpus";
+import _omitBy from "lodash/omitBy";
+import _isNull from "lodash/isNull";
+import _isUndefined from "lodash/isUndefined";
+import { jsPsych } from "../jsPsych";
 
 const makePid = () => {
   let text = "";
@@ -18,12 +17,10 @@ const makePid = () => {
 }
 
 const initStore = (config) => {
-  console.log('config in initStore: ', config)
-
   if (store.session.has("initialized") && store.local("initialized")) {
     return store.session;
   }
-  if ((userMode === 'fullAdaptive') || (userMode === 'testAdaptive') || (userMode === "shortAdaptive") || ((userMode === "longAdaptive"))) {
+  if ((config.userMode === 'fullAdaptive') || (config.userMode === 'testAdaptive') || (config.userMode === "shortAdaptive") || ((config.userMode === "longAdaptive"))) {
     store.session.set("itemSelect", "mfi");
   } else {
     store.session.set("itemSelect", "random");
@@ -42,6 +39,9 @@ const initStore = (config) => {
   store.session.set("coinTrackingIndex", 0);
 
   store.session.set("initialized", true);
+
+  store.session.set("corpusAll", corpusAll); 
+  store.session.set("corpusNew", corpusNew);
 
   return store.session;
 };
@@ -80,7 +80,7 @@ const divideTrial2Block = (n1, n2, nBlock) => {
   return [Math.floor(n / nBlock), Math.floor(n / nBlock), n - (2 * Math.floor(n / nBlock))];
 };
 
-export const getStimulusCount = (userMode, numAdaptive, numNew) => {
+export const getStimulusCount = (userMode, numAdaptive, numNew, numValidated) => {
   const stimulusCountMap = {
     fullAdaptive: [82, 82, 81],
     fullRandom: [25, 25, 25],
@@ -95,22 +95,11 @@ export const getStimulusCount = (userMode, numAdaptive, numNew) => {
   return stimulusCountMap[userMode]
 };
 
-export const shuffle = (array) => {
-  const shuffledArray = [...array];
-  for (let i = shuffledArray.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1)); // random index from 0 to i
-
-    // swap elements array[i] and array[j]
-    // use "destructuring assignment" syntax
-    // eslint-disable-next-line no-param-reassign
-    [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
-  }
-  return shuffledArray;
-};
-
 
 export const initConfig = async (firekit, params, displayElement) => {
-  const { userMode,
+  const cleanParams = _omitBy(_omitBy(params, _isNull), _isUndefined);
+
+  const { userMode = 'shortAdaptive',
           pid, 
           labId, 
           schoolId, 
@@ -123,14 +112,16 @@ export const initConfig = async (firekit, params, displayElement) => {
           consent,
           audioFeedback,
           language,
-          numAdaptive,
-          numNew,
-          numValidated,
-          skipInstructions
-  } = params
+          numAdaptive = (userMode === "shortAdaptive" ? 85 : 150),
+          numNew = (userMode === "shortAdaptive" ? 15 : 25),
+          numValidated = (userMode === "fullItemBank" ? 246 : 100),
+          skipInstructions,
+          assets,
+          bucketURI
+  } = cleanParams
 
   const config = {
-          userMode: setRandomUserMode(userMode) || 'shortAdaptive',
+          userMode,
           pid, 
           labId, 
           schoolId, 
@@ -144,14 +135,12 @@ export const initConfig = async (firekit, params, displayElement) => {
           audioFeedback: audioFeedback || 'binary',
           language,
           skipInstructions,
-          // using somewhere else?
-          numAdaptive: numAdaptive || (userMode === "shortAdaptive" ? 85 : 150),
-          numNew: numNew || (userMode === "shortAdaptive" ? 15 : 25),
-          numValidated: numValidated || (userMode === "fullItemBank" ? 246 : 100),
-          //
+          numAdaptive,
+          numNew,
+          numValidated,
           adaptive2new: Math.floor(numAdaptive / numNew),
           stimulusRuleList: stimulusRuleLists[userMode],
-          stimulusCountList: getStimulusCount(userMode, numAdaptive, numNew),
+          stimulusCountList: getStimulusCount(userMode, numAdaptive, numNew, numValidated),
           totalTrialsPractice: 5,
           countSlowPractice: 2,
           nRandom: 5,
@@ -166,8 +155,11 @@ export const initConfig = async (firekit, params, displayElement) => {
           startTime: new Date(),
           userMetadata: {},
           firekit,
-          displayElement: displayElement || null
+          displayElement: displayElement || null,
+          assets,
+          bucketURI
   }
+
 
   if (config.pid !== null) {
     // const userInfo = {
@@ -185,52 +177,6 @@ export const initConfig = async (firekit, params, displayElement) => {
 }
 
 export const initRoarJsPsych = (config) => {
-  // ROAR apps communicate with the participant dashboard by passing parameters
-  // through the URL. The dashboard can be made to append a "gameId"
-  // parameter, e.g., https://my-roar-app.web.app?gameId=1234.
-  // Similarly, at the end of the assessment the ROAR app communicates with the
-  // dashboard to let it know that the participant has finished the assessment.
-  // The dashboard expects a game token, "g", and a completion
-  // status, "c", e.g., https://reading.stanford.edu/?g=1234&c=1. Here we inspect
-  // the "gameId" parameter that was passed through the URL query string and
-  // construct the appropriate redirect URL.
-  const queryString = new URL(window.location).search;
-  const urlParams = new URLSearchParams(queryString);
-  const gameId = urlParams.get('gameId') || null;
-
-  const redirect = () => {
-    if (gameId === null) {
-      // If no game token was passed, we refresh the page rather than
-      // redirecting back to the dashboard
-      // window.location.reload();
-      if (taskVariant === 'school') {
-        if (userMode === 'shortAdaptive') {
-          window.location.href = `https://reading.stanford.edu?g=1154&c=1`;
-        } else {
-          window.location.href = `https://reading.stanford.edu?g=901&c=1`;
-        }
-      } else if (taskVariant === 'UCSF') {
-        window.location.href = `https://reading.stanford.edu?g=937&c=1`;
-      } else if (taskVariant === 'RF') {
-        window.location.href = `https://reading.stanford.edu?g=940&c=1`;
-      } else if (taskVariant === 'prolific') {
-        window.location.href = `https://app.prolific.co/submissions/complete?cc=CK1VQ7DP`; // TO DO: change to prolific redirect
-      }
-    } else {
-      // Else, redirect back to the dashboard with the game token that
-      // was originally provided
-      window.location.href = `https://reading.stanford.edu/?g=${gameId}&c=1`;
-    }
-  };
-
-  const jsPsych = initJsPsych({
-    show_progress_bar: true,
-    auto_update_progress_bar: false,
-    message_progress_bar: `${i18next.t('progressBar')}`,
-    on_finish: () => {
-      redirect();
-    },
-  });
 
   if (config.displayElement) {
     jsPsych.opts.display_element = config.display_element
@@ -286,13 +232,14 @@ export const initRoarJsPsych = (config) => {
 
   initStore(config);
 
-  return jsPsych;
+  // return jsPsych;
 };
 
 export const initRoarTimeline = (config) => {
   // If the participant's ID was **not** supplied through the query string, then
   // ask the user to fill out a form with their ID, class and school.
-  const initialTimeline = [ preloadTrials, enter_fullscreen, ...getUserDataTimeline]
+
+  const initialTimeline = [ enter_fullscreen, ...getUserDataTimeline]
   
   const beginningTimeline = {
     timeline: initialTimeline,

@@ -1,5 +1,5 @@
-// import { config } from "../config/config";
-import { isTouchScreen, mediaAssets } from "../config/preload";
+import { isTouchScreen, } from "../experimentSetup";
+import { mediaAssets } from "../experiment";
 import AudioMultiResponsePlugin from "@jspsych-contrib/plugin-audio-multi-response";
 import i18next from "i18next";
 import '../i18n'
@@ -78,7 +78,7 @@ const midBlockTrialsMapped = midBlockTrialsContent.map((trial, i) => {
       keyboard_choices: () => isTouchScreen ? "NO_KEYS" : "ALL_KEYS",
       button_choices: () => isTouchScreen ? ["HERE"] : [],
       button_html: () => `<button class='button'>${i18next.t('navigation.continueButtonTextMobile', { action: `${i18next.t('terms.continue')}` })}</button>`,
-      response_allowed_while_playing: () => store.get('config').skipInstructions,
+      response_allowed_while_playing: () => store.session.get('config').skipInstructions,
       prompt: trial.prompt,
       prompt_above_buttons: true,
     }
@@ -144,7 +144,7 @@ const postBlockTrialsMapped = postBlockTrialsContent.map(trial => {
       keyboard_choices: () => isTouchScreen ? "NO_KEYS" : "ALL_KEYS",
       button_choices: () => isTouchScreen ? ["HERE"] : [],
       button_html: () => `<button class='button'>${i18next.t('navigation.continueButtonTextMobile', {  action: `${i18next.t('terms.continue')}` })}</button>`,
-      response_allowed_while_playing: () => store.get('config').skipInstructions,
+      response_allowed_while_playing: () => store.session.get('config').skipInstructions,
       prompt: trial.prompt,
       prompt_above_buttons: true,
     }
@@ -159,7 +159,7 @@ const final_page = {
   keyboard_choices: () => isTouchScreen ? "NO_KEYS" : "ALL_KEYS",
   button_choices: () => isTouchScreen ? ["HERE"] : [],
   button_html: () => `<button class='button'>${i18next.t('navigation.continueButtonTextMobile', {  action: `${i18next.t('terms.save')}` })}</button>`,
-  response_allowed_while_playing: () => store.get('config').skipInstructions,
+  response_allowed_while_playing: () => store.session.get('config').skipInstructions,
   prompt_above_buttons: true,
   prompt: () => {
     return (`

@@ -1,13 +1,10 @@
 /* eslint-disable no-plusplus */
-import {
-  shuffle,
-} from "./config";
-
+import { shuffle } from "../helperFunctions";
 import i18next from "i18next";
 import '../i18n'
 import { wordlist } from "../i18n";
 import Papa from 'papaparse'
-import store from 'store2'
+
 
 /* csv helper function */
 const readCSV = (url) =>
@@ -55,7 +52,7 @@ const transformCSV = (csvInput, isPractice) => csvInput.reduce((accum, row) => {
   return accum;
 }, []);
 
-const csvTransformed = {
+export const csvTransformed = {
   practice: transformCSV(csvAssets.practice, true),
   validated: transformCSV(csvAssets.validated, false),
   new: shuffle(transformCSV(csvAssets.new, false)), // csvAssets.new,

@@ -1,8 +1,9 @@
 {
-  "name": "roar-swr",
+  "name": "@bdelab/roar-swr",
   "version": "1.0.0",
   "description": "",
   "private": true,
+  "main": "dist/index.b71629f3dd723a70a185.bundle.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx webpack --mode production",
@@ -47,6 +48,7 @@
     "i18next": "^22.4.15",
     "i18next-browser-languagedetector": "^7.0.1",
     "jspsych": "^7.2.1",
+    "lodash": "^4.17.21",
     "mime-types": "^2.1.35",
     "papaparse": "^5.3.2",
     "path-browserify": "^1.0.1",

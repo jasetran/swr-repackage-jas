@@ -3,6 +3,7 @@ import { RoarAppkit, initializeFirebaseProject } from '@bdelab/roar-firekit';
 import { roarConfig } from "./config/firebaseConfig";
 import { onAuthStateChanged, signInAnonymously } from 'firebase/auth'
 import { setRandomUserMode } from "./config/config";
+import assets from '../../assets.json'
 
 
 //@ts-ignore
@@ -55,11 +56,12 @@ onAuthStateChanged(appKit.auth, (user) => {
             numValidated,
             labId,
             gameId,
-            randomField: 42 
+            assets: assets,
+            bucketURI:'https://storage.googleapis.com/roar-swr'
         };
         
         const taskInfo = {
-            taskId: 'roar-repackage',
+            taskId: 'swr',
             variantParams: params,
         }
 
@@ -68,6 +70,8 @@ onAuthStateChanged(appKit.auth, (user) => {
             taskInfo,
             userInfo,
         })
+
+        console.log(params)
 
         const roarApp = new RoarSWR(firekit, params);
 

@@ -1,22 +1,23 @@
-import {  mediaAssets, isTouchScreen, } from "../config/preload"
+import { isTouchScreen, } from "../experimentSetup"
+import { mediaAssets } from "../experiment";
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
 
 
 const countDownData = [
-    {audio: mediaAssets.audio.countdown3, count: 3}, 
-    {audio: mediaAssets.audio.countdown2, count: 2},
-    {audio: mediaAssets.audio.countdown1, count: 1},
-    {audio: mediaAssets.audio.countdown0, count: 0},
+    { count: 3}, 
+    { count: 2},
+    { count: 1},
+    { count: 0},
   ]
   
   const countDownTrials = countDownData.map(trial => {
     return (
       {
         type: jsPsychAudioKeyboardResponse,
-        stimulus: () => audioContent[`countdown${trial.count}`],
+        stimulus: () => mediaAssets.audio[`countdown${trial.count}`],
         prompt: () => {
-          return (`
-            <div id='${isTouchScreen ? 'countdown-wrapper' : ''}'>
+          return (
+            `<div id='${isTouchScreen ? 'countdown-wrapper' : ''}'>
               <div class='stimulus_div'>
                 <p class='stimulus'>${trial.count}</p>
               </div>
@@ -32,8 +33,7 @@ const countDownData = [
               ) : (
                   `<img class="lower" src="${mediaAssets.images.arrowkeyLex}" alt="arrow keys">`
               )}
-            </div>
-            `
+            </div>`
           )
         },
         choices: "NO_KEYS",

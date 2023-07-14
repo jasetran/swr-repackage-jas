@@ -1,6 +1,6 @@
 {
   "name": "@bdelab/roar-swr",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "",
   "main": "dist/index.b71629f3dd723a70a185.bundle.js",
   "scripts": {

@@ -1,11 +1,11 @@
 /* eslint-disable no-param-reassign */
 import jsPsychAudioMultiResponse from '@jspsych-contrib/plugin-audio-multi-response'
 import store from "store2";
-import { isTouchScreen } from "../experimentSetup";
-import { mediaAssets } from '../experiment';
+import { isTouchScreen } from "../experimentSetup.js";
+import { mediaAssets } from '../experiment.js';
 import i18next from "i18next";
-import '../i18n'
-import { jsPsych } from '../jsPsych';
+import '../i18n.js'
+import { jsPsych } from '../jsPsych.js';
 
 let count = 0
 

@@ -1,6 +1,6 @@
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
 import store from "store2";
-import { mediaAssets } from "../experiment";
+import { mediaAssets } from "../experiment.js";
 
 
 /* coin tracking trial */

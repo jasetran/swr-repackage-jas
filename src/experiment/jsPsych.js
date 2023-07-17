@@ -1,6 +1,6 @@
 import { initJsPsych } from "jspsych";
 import i18next from "i18next";
-import './i18n';
+import './i18n.js';
 import store from "store2";
 
 

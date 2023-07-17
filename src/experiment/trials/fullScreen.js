@@ -2,7 +2,7 @@
 import jsPsychFullScreen from "@jspsych/plugin-fullscreen";
 import fscreen from 'fscreen';
 import i18next from "i18next";
-import '../i18n'
+import '../i18n.js'
 
 
 const fullScreenTrialData = [

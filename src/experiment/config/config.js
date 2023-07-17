@@ -1,11 +1,11 @@
 import store from "store2";
-import { getUserDataTimeline } from "../trials/getUserData";
-import { enter_fullscreen } from "../trials/fullScreen";
-import { corpusAll, corpusNew } from "./corpus";
-import _omitBy from "lodash/omitBy";
-import _isNull from "lodash/isNull";
-import _isUndefined from "lodash/isUndefined";
-import { jsPsych } from "../jsPsych";
+import { getUserDataTimeline } from "../trials/getUserData.js";
+import { enter_fullscreen } from "../trials/fullScreen.js";
+import { corpusAll, corpusNew } from "./corpus.js";
+import _omitBy from "lodash/omitBy.js";
+import _isNull from "lodash/isNull.js";
+import _isUndefined from "lodash/isUndefined.js";
+import { jsPsych } from "../jsPsych.js";
 
 const makePid = () => {
   let text = "";

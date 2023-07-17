@@ -1,5 +1,5 @@
-import { initConfig } from './config/config';
-import { buildExperiment } from './experiment';
+import { initConfig } from './config/config.js';
+import { buildExperiment } from './experiment.js';
 import './css/game.css';
 import store from 'store2'
 export class RoarSWR {

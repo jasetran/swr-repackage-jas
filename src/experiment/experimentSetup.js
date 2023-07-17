@@ -1,6 +1,6 @@
-import { getStimulusCount } from "./config/config";
+import { getStimulusCount } from "./config/config.js";
 import store from "store2";
-import { cat } from "./experiment";
+import { cat } from "./experiment.js";
 import { getDevice } from "@bdelab/roar-utils";
 
 

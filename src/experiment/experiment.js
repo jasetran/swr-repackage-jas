@@ -2,26 +2,26 @@
 /* eslint-disable no-param-reassign */
 import store from "store2";
 
-// Import necessary for async in the top level of the experiment script
-import "regenerator-runtime/runtime";
+// // Import necessary for async in the top level of the experiment script
+// import "regenerator-runtime/runtime.js";
 
 // setup
-import { initRoarJsPsych, initRoarTimeline } from './config/config';
-import { csvTransformed } from "./config/corpus";
+import { initRoarJsPsych, initRoarTimeline } from './config/config.js';
+import { csvTransformed } from "./config/corpus.js";
 import { generateAssetObject, createPreloadTrials } from "@bdelab/roar-utils";
 import { Cat } from '@bdelab/jscat';
-import { jsPsych } from "./jsPsych";
+import { jsPsych } from "./jsPsych.js";
 
 // trials
-import { audio_response } from "./trials/audioFeedback";
-import { introduction_trials, post_practice_intro,} from "./trials/introduction";
-import { practice_feedback } from "./trials/practiceFeedback";
-import { mid_block_page_list, post_block_page_list, final_page, } from "./trials/gameBreak";
-import { if_not_fullscreen, exit_fullscreen } from './trials/fullScreen';
-import { setup_fixation_test, setup_fixation_practice } from './trials/setupFixation';
-import { lexicalityTest, leixcalityPractice } from './trials/stimulus'
-import { countdown_trials } from "./trials/countdown";
-import { if_coin_tracking } from "./trials/coinFeedback";
+import { audio_response } from "./trials/audioFeedback.js";
+import { introduction_trials, post_practice_intro,} from "./trials/introduction.js";
+import { practice_feedback } from "./trials/practiceFeedback.js";
+import { mid_block_page_list, post_block_page_list, final_page, } from "./trials/gameBreak.js";
+import { if_not_fullscreen, exit_fullscreen } from './trials/fullScreen.js';
+import { setup_fixation_test, setup_fixation_practice } from './trials/setupFixation.js';
+import { lexicalityTest, leixcalityPractice } from './trials/stimulus.js'
+import { countdown_trials } from "./trials/countdown.js";
+import { if_coin_tracking } from "./trials/coinFeedback.js";
 
 
 export let cat

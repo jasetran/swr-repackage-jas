@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import { log } from './logger';
+import { log } from './logger.js';
 import store from 'store2'
 // import { labId } from './config';
 

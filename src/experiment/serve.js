@@ -1,9 +1,12 @@
-import { RoarSWR } from "./index";
+import { RoarSWR } from "./index.js";
 import { RoarAppkit, initializeFirebaseProject } from '@bdelab/roar-firekit';
-import { roarConfig } from "./config/firebaseConfig";
+import { roarConfig } from "./config/firebaseConfig.js";
 import { onAuthStateChanged, signInAnonymously } from 'firebase/auth'
-import { setRandomUserMode } from "./config/config";
+import { setRandomUserMode } from "./config/config.js";
 import assets from '../../assets.json'
+
+// Import necessary for async in the top level of the experiment script
+import "regenerator-runtime/runtime.js";
 
 
 //@ts-ignore
@@ -70,8 +73,6 @@ onAuthStateChanged(appKit.auth, (user) => {
             taskInfo,
             userInfo,
         })
-
-        console.log(params)
 
         const roarApp = new RoarSWR(firekit, params);
 

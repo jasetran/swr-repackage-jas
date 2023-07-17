@@ -1,5 +1,5 @@
-import { isTouchScreen, } from "../experimentSetup"
-import { mediaAssets } from "../experiment";
+import { isTouchScreen, } from "../experimentSetup.js"
+import { mediaAssets } from "../experiment.js";
 import jsPsychAudioKeyboardResponse from "@jspsych/plugin-audio-keyboard-response";
 
 

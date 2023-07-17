@@ -2,7 +2,8 @@
   "name": "@bdelab/roar-swr",
   "version": "1.0.1",
   "description": "",
-  "main": "dist/index.b71629f3dd723a70a185.bundle.js",
+  "main": "dist/index.cfe52f74be06dc673570.bundle.js",
+  "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npx webpack --mode production",
@@ -39,7 +40,7 @@
     "@jspsych/plugin-survey-html-form": "^1.0.0",
     "@jspsych/plugin-survey-multi-select": "^1.1.0",
     "@jspsych/plugin-survey-text": "^1.1.0",
-    "babel-loader": "^8.2.4",
+    "babel-loader": "^8.3.0",
     "detect-it": "^4.0.1",
     "file-loader": "^6.2.0",
     "folder-hash": "^4.0.2",
@@ -61,6 +62,7 @@
   },
   "devDependencies": {
     "css-loader": "^6.7.1",
+    "esbuild-loader": "^3.0.1",
     "eslint": "^8.12.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.4",

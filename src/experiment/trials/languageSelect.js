@@ -1,6 +1,6 @@
 import jsPsychSurveyHtmlForm from "@jspsych/plugin-survey-html-form";
 import i18next from "i18next";
-import '../i18n'
+import '../i18n.js'
 import store from "store2";
 // import { islangaugeUndefined } from "../i18n";
 

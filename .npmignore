@@ -12,3 +12,4 @@ eslintrc.json
 assets.json
 firebase.json
 webpack.config.js
+.babelrc

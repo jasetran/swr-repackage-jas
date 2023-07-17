@@ -1,9 +1,9 @@
 import jsPsychHTMLMultiResponse from '@jspsych-contrib/plugin-html-multi-response';
-import { isTouchScreen } from '../experimentSetup';
+import { isTouchScreen } from '../experimentSetup.js';
 import store from 'store2';
-import { cat, cat2 } from '../experiment';
-import { jsPsych } from '../jsPsych';
-import { mediaAssets } from '../experiment';
+import { cat, cat2 } from '../experiment.js';
+import { jsPsych } from '../jsPsych.js';
+import { mediaAssets } from '../experiment.js';
 
 
 const lexicalityTrialContent = [

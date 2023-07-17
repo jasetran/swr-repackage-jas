@@ -1,12 +1,12 @@
 /* eslint-disable quote-props */
-const { hashElement } = require('folder-hash');
 const path = require('path');
 const webpack = require('webpack');
-// eslint-disable-next-line import/no-extraneous-dependencies
+// // eslint-disable-next-line import/no-extraneous-dependencies
 const { merge } = require('webpack-merge');
-// eslint-disable-next-line import/no-extraneous-dependencies
+// // eslint-disable-next-line import/no-extraneous-dependencies
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-
+const TerserPlugin = require("terser-webpack-plugin");
+const { EsbuildPlugin } = require('esbuild-loader')
 
 const commonConfig = {
   entry: {
@@ -18,8 +18,16 @@ const commonConfig = {
     clean: {
       keep: /\.git/,
     },
+    library: {
+      type: 'module',
+    },
   },
   optimization: {
+    minimizer: [
+      new EsbuildPlugin({
+        target: 'es2015'
+      }),
+    ],
     moduleIds: 'deterministic',
     runtimeChunk: 'single',
     splitChunks: {
@@ -46,6 +54,14 @@ const commonConfig = {
   },
   module: {
     rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        loader: 'esbuild-loader',
+        options: {
+          target: 'es2015'
+        }
+      },
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
@@ -97,6 +113,7 @@ const commonConfig = {
   },
   experiments: {
     topLevelAwait: true,
+    outputModule: true
   },
 };
 
@@ -113,7 +130,6 @@ const developmentConfig = {
 };
 
 module.exports = async (env, args) => {
-
   const roarDB = env.dbmode === 'production' ? 'production' : 'development';
 
   let merged;
@@ -130,7 +146,7 @@ module.exports = async (env, args) => {
 
   return merge(merged, {
     plugins: [
-      new HtmlWebpackPlugin({ title: 'Rapid Online Assessment of Reading - SWR' }),
+      new HtmlWebpackPlugin({ title: 'Rapid Online Assessment of Reading - SWR'}),
       new webpack.ids.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
       new webpack.DefinePlugin({
         ROAR_DB: JSON.stringify(roarDB)

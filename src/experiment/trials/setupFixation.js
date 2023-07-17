@@ -1,8 +1,8 @@
-import { getStimulus } from "../experimentSetup";
+import { getStimulus } from "../experimentSetup.js";
 import jsPsychHtmlKeyboardResponse from "@jspsych/plugin-html-keyboard-response";
-import { isTouchScreen } from "../experimentSetup";
+import { isTouchScreen } from "../experimentSetup.js";
 import store from "store2";
-import { mediaAssets } from "../experiment";
+import { mediaAssets } from "../experiment.js";
 
 // set-up screen
 const setupFixationData = [

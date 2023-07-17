@@ -1,8 +1,8 @@
-import { isTouchScreen, } from "../experimentSetup";
-import { mediaAssets } from "../experiment";
+import { isTouchScreen, } from "../experimentSetup.js";
+import { mediaAssets } from "../experiment.js";
 import AudioMultiResponsePlugin from "@jspsych-contrib/plugin-audio-multi-response";
 import i18next from "i18next";
-import '../i18n'
+import '../i18n.js'
 import store from 'store2'
 
 

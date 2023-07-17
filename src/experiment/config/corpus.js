@@ -1,8 +1,8 @@
 /* eslint-disable no-plusplus */
-import { shuffle } from "../helperFunctions";
+import { shuffle } from "../helperFunctions.js";
 import i18next from "i18next";
-import '../i18n'
-import { wordlist } from "../i18n";
+import '../i18n.js'
+import { wordlist } from "../i18n.js";
 import Papa from 'papaparse'
 
 

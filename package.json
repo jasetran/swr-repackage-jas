@@ -2,16 +2,16 @@
   "name": "@bdelab/roar-swr",
   "version": "1.0.1",
   "description": "",
-  "main": "dist/index.cfe52f74be06dc673570.bundle.js",
+  "main": "lib/index.bundle.js",
   "type": "module",
+  "files": ["lib"],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "npx webpack --mode production",
-    "build:dev": "npm run build --silent -- --env dbmode=development",
-    "build:prod": "npm run build --silent -- --env dbmode=production",
-    "start": "npx webpack serve --open --mode development",
-    "start:dev": "npm run start --silent -- --env dbmode=development",
-    "start:prod": "npm run start --silent -- --env dbmode=production"
+    "build:dev": "npx webpack --mode production --silent --env dbmode=development",
+    "build:prod": "npx webpack --mode production --silent --env dbmode=production",
+    "build:package": "npx webpack --mode none",
+    "serve:dev": "npx webpack --open --mode development --silent --env dbmode=development",
+    "serve:prod": "npm webpack serve --open --mode development --silent --env dbmode=production"
   },
   "repository": {
     "type": "git",
@@ -24,8 +24,6 @@
   },
   "homepage": "https://github.com/yeatmanlab/roar-swr",
   "dependencies": {
-    "@babel/core": "^7.17.8",
-    "@babel/preset-env": "^7.16.11",
     "@bdelab/jscat": "^3.0.3",
     "@bdelab/roar-firekit": "^3.4.6",
     "@bdelab/roar-utils": "^1.0.10",
@@ -40,10 +38,8 @@
     "@jspsych/plugin-survey-html-form": "^1.0.0",
     "@jspsych/plugin-survey-multi-select": "^1.1.0",
     "@jspsych/plugin-survey-text": "^1.1.0",
-    "babel-loader": "^8.3.0",
     "detect-it": "^4.0.1",
     "file-loader": "^6.2.0",
-    "folder-hash": "^4.0.2",
     "fscreen": "^1.2.0",
     "i18next": "^22.4.15",
     "i18next-browser-languagedetector": "^7.0.1",
@@ -57,17 +53,20 @@
     "roarr": "^7.14.0",
     "store2": "^2.13.2",
     "webpack": "^5.70.0",
-    "webpack-cli": "^4.9.2",
     "webpack-dev-server": "^4.7.4"
   },
   "devDependencies": {
+    "@babel/cli": "^7.22.5",
+    "@babel/core": "^7.22.5",
+    "@babel/preset-env": "^7.22.5",
+    "babel-loader": "^9.1.2",
     "css-loader": "^6.7.1",
-    "esbuild-loader": "^3.0.1",
     "eslint": "^8.12.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.4",
     "html-webpack-plugin": "^5.5.0",
     "style-loader": "^3.3.1",
+    "webpack-cli": "^5.1.4",
     "webpack-merge": "^5.8.0"
   }
 }

@@ -5,8 +5,8 @@ const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 // // eslint-disable-next-line import/no-extraneous-dependencies
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const TerserPlugin = require("terser-webpack-plugin");
-const { EsbuildPlugin } = require('esbuild-loader')
+// const TerserPlugin = require("terser-webpack-plugin");
+// const { EsbuildPlugin } = require('esbuild-loader')
 
 const commonConfig = {
   entry: {
@@ -18,16 +18,11 @@ const commonConfig = {
     clean: {
       keep: /\.git/,
     },
-    library: {
-      type: 'module',
-    },
+    // library: {
+    //   type: 'module',
+    // },
   },
   optimization: {
-    minimizer: [
-      new EsbuildPlugin({
-        target: 'es2015'
-      }),
-    ],
     moduleIds: 'deterministic',
     runtimeChunk: 'single',
     splitChunks: {
@@ -57,9 +52,11 @@ const commonConfig = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: 'esbuild-loader',
+        loader: 'babel-loader',
         options: {
-          target: 'es2015'
+          presets: [
+            ['@babel/preset-env', { targets: "defaults" }]
+          ]
         }
       },
       {
@@ -113,7 +110,7 @@ const commonConfig = {
   },
   experiments: {
     topLevelAwait: true,
-    outputModule: true
+    // outputModule: true
   },
 };
 
@@ -129,6 +126,24 @@ const developmentConfig = {
   },
 };
 
+const libraryConfig = {
+  mode: 'production',
+  output: {
+    filename: '[name].[contenthash].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    clean: {
+      keep: /\.git/,
+    },
+    library: {
+      type: 'module',
+    },
+  },
+  experiments: {
+    topLevelAwait: true,
+    outputModule: true
+  },
+}
+
 module.exports = async (env, args) => {
   const roarDB = env.dbmode === 'production' ? 'production' : 'development';
 
@@ -140,6 +155,8 @@ module.exports = async (env, args) => {
     case 'production':
       merged = merge(commonConfig, productionConfig);
       break;
+    case 'none':
+      merged = merge(commonConfig, libraryConfig)
     default:
       throw new Error('No matching configuration was found!');
   }

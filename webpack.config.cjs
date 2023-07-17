@@ -5,29 +5,9 @@ const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 // // eslint-disable-next-line import/no-extraneous-dependencies
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const TerserPlugin = require("terser-webpack-plugin");
-const { EsbuildPlugin } = require('esbuild-loader')
 
 const commonConfig = {
-  entry: {
-    index: path.resolve(__dirname, 'src/experiment', 'serve.js'),
-  },
-  output: {
-    filename: '[name].[contenthash].bundle.js',
-    path: path.resolve(__dirname, 'dist'),
-    clean: {
-      keep: /\.git/,
-    },
-    library: {
-      type: 'module',
-    },
-  },
   optimization: {
-    minimizer: [
-      new EsbuildPlugin({
-        target: 'es2015'
-      }),
-    ],
     moduleIds: 'deterministic',
     runtimeChunk: 'single',
     splitChunks: {
@@ -50,18 +30,10 @@ const commonConfig = {
   resolve: {
     fallback: {
       path: require.resolve("path-browserify")
-    }
+    },
   },
   module: {
     rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'esbuild-loader',
-        options: {
-          target: 'es2015'
-        }
-      },
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
@@ -113,47 +85,83 @@ const commonConfig = {
   },
   experiments: {
     topLevelAwait: true,
-    outputModule: true
   },
 };
 
-const productionConfig = {
-  mode: 'production',
-};
+const webConfig = merge(commonConfig, {
+  entry: {
+    index: path.resolve(__dirname, 'src', 'experiment', 'serve.js'),
+  },
+  output: {
+    filename: '[name].[contenthash].bundle.js',
+    path: path.resolve(__dirname, 'dist'),
+    clean: {
+      keep: /\.git/,
+    },
+  },
+  plugins: [
+    new HtmlWebpackPlugin({ title: 'Rapid Online Assessment of Reading - SWR' }),
+  ]
+});
 
-const developmentConfig = {
+const productionConfig = merge(webConfig, {
+  mode: 'production',
+});
+
+const developmentConfig = merge(webConfig, {
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {
     static: './dist',
   },
-};
+});
+
+const packageConfig = merge(commonConfig, {
+  mode: 'production',
+  entry: {
+    index: path.resolve(__dirname, 'src', 'experiment', 'index.js'),
+  },
+  output: {
+    filename: '[name].bundle.js',
+    path: path.resolve(__dirname, 'lib'),
+    clean: {
+      keep: /\.git/,
+    },
+    library: {
+      // name: 'RoarSWR', // Only valid for type: 'umd'
+      type: 'module', // maybe this should be 'umd'
+      // umdNamedDefine: true, // uncomment this line if we switch to type: 'umd'
+    },
+    // globalObject: 'this', // uncomment this if we switch to type: 'umd'
+  },
+  experiments: {
+    outputModule: true,
+  },
+});
 
 module.exports = async (env, args) => {
   const roarDB = env.dbmode === 'production' ? 'production' : 'development';
 
-  let merged;
-  switch (args.mode) {
-    case 'development':
-      merged = merge(commonConfig, developmentConfig);
-      break;
-    case 'production':
-      merged = merge(commonConfig, productionConfig);
-      break;
-    default:
-      throw new Error('No matching configuration was found!');
-  }
-
-  return merge(merged, {
+  const envDependentConfig = {
     plugins: [
-      new HtmlWebpackPlugin({ title: 'Rapid Online Assessment of Reading - SWR'}),
       new webpack.ids.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
       new webpack.DefinePlugin({
-        ROAR_DB: JSON.stringify(roarDB)
+        ROAR_DB: JSON.stringify(roarDB),
       }),
       new webpack.ProvidePlugin({
         process: 'process/browser',
       }),
     ],
-  });
+  };
+
+  switch (args.mode) {
+    case 'development':
+      return merge(developmentConfig, envDependentConfig);
+    case 'production':
+      return merge(productionConfig, envDependentConfig);
+    case 'none':
+      return merge(packageConfig, envDependentConfig);
+    default:
+      throw new Error('No matching configuration was found!');
+  }
 };

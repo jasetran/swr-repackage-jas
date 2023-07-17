@@ -2,17 +2,16 @@
   "name": "@bdelab/roar-swr",
   "version": "1.0.1",
   "description": "",
-  "main": "dist/index.cfe52f74be06dc673570.bundle.js",
+  "main": "lib/index.bundle.js",
   "type": "module",
+  "files": ["lib"],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "bundle": "npx webpack --mode production",
-    "bundle:dev": "npm run bundle --silent -- --env dbmode=development",
-    "bundle:prod": "npm run bundle --silent -- --env dbmode=production",
-    "serve": "npx webpack serve --open --mode development",
-    "serve:dev": "npm run serve --silent -- --env dbmode=development",
-    "serve:prod": "npm run serve --silent -- --env dbmode=production",
-    "build": "babel src -d lib"
+    "build:dev": "npx webpack --mode production --silent --env dbmode=development",
+    "build:prod": "npx webpack --mode production --silent --env dbmode=production",
+    "build:package": "npx webpack --mode none",
+    "serve:dev": "npx webpack --open --mode development --silent --env dbmode=development",
+    "serve:prod": "npm webpack serve --open --mode development --silent --env dbmode=production"
   },
   "repository": {
     "type": "git",

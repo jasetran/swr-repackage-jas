@@ -8,7 +8,6 @@ import assets from '../../assets.json'
 // Import necessary for async in the top level of the experiment script
 import "regenerator-runtime/runtime.js";
 
-
 //@ts-ignore
 const queryString = new URL(window.location).search;
 const urlParams = new URLSearchParams(queryString);
@@ -31,53 +30,52 @@ const gameId = urlParams.get('gameId');
 const appKit = await initializeFirebaseProject(roarConfig.firebaseConfig, 'assessmentApp', 'none');
 
 onAuthStateChanged(appKit.auth, (user) => {
+  if (user) {
+    const userInfo = {
+      assessmentPid: pid || "test-pid",
+      assessmentUid: user.uid,
+      userMetadata: {
+        classId,
+        schoolId,
+        districtId: '',
+        studyId,
+      },
+    };
 
-    if (user) {
-        const userInfo = {
-            assessmentPid: pid || "test-pid",
-            assessmentUid: user.uid,
-            userMetadata: {
-                classId,
-                schoolId,
-                districtId: '',
-                studyId
-            },
-        };
-
-        const params = { 
-            userMode, 
-            pid, 
-            studyId, 
-            classId, 
-            schoolId, 
-            taskVariant,
-            skipInstructions,
-            audioFeedback,
-            consent,
-            numAdaptive,
-            numNew,
-            numValidated,
-            labId,
-            gameId,
-            assets: assets,
-            bucketURI:'https://storage.googleapis.com/roar-swr'
-        };
+    const params = {
+      userMode, 
+      pid, 
+      studyId, 
+      classId, 
+      schoolId, 
+      taskVariant,
+      skipInstructions,
+      audioFeedback,
+      consent,
+      numAdaptive,
+      numNew,
+      numValidated,
+      labId,
+      gameId,
+      assets: assets,
+      bucketURI:'https://storage.googleapis.com/roar-swr'
+    };
         
-        const taskInfo = {
-            taskId: 'swr',
-            variantParams: params,
-        }
-
-        const firekit = new RoarAppkit({
-            firebaseProject: appKit,
-            taskInfo,
-            userInfo,
-        })
-
-        const roarApp = new RoarSWR(firekit, params);
-
-        roarApp.run();
+    const taskInfo = {
+      taskId: 'swr',
+      variantParams: params,
     }
+
+    const firekit = new RoarAppkit({
+      firebaseProject: appKit,
+      taskInfo,
+      userInfo,
+    })
+
+    const roarApp = new RoarSWR(firekit, params);
+
+    roarApp.run();
+  }
 });
 
 await signInAnonymously(appKit.auth);

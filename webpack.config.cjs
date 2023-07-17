@@ -5,8 +5,6 @@ const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 // // eslint-disable-next-line import/no-extraneous-dependencies
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const TerserPlugin = require("terser-webpack-plugin");
-const { EsbuildPlugin } = require('esbuild-loader')
 
 const commonConfig = {
   entry: {
@@ -18,16 +16,8 @@ const commonConfig = {
     clean: {
       keep: /\.git/,
     },
-    library: {
-      type: 'module',
-    },
   },
   optimization: {
-    minimizer: [
-      new EsbuildPlugin({
-        target: 'es2015'
-      }),
-    ],
     moduleIds: 'deterministic',
     runtimeChunk: 'single',
     splitChunks: {
@@ -54,14 +44,6 @@ const commonConfig = {
   },
   module: {
     rules: [
-      {
-        test: /\.js$/,
-        exclude: /node_modules/,
-        loader: 'esbuild-loader',
-        options: {
-          target: 'es2015'
-        }
-      },
       {
         test: /\.css$/i,
         use: ['style-loader', 'css-loader'],
@@ -113,7 +95,6 @@ const commonConfig = {
   },
   experiments: {
     topLevelAwait: true,
-    outputModule: true
   },
 };
 
@@ -146,7 +127,7 @@ module.exports = async (env, args) => {
 
   return merge(merged, {
     plugins: [
-      new HtmlWebpackPlugin({ title: 'Rapid Online Assessment of Reading - SWR'}),
+      new HtmlWebpackPlugin({ title: 'Rapid Online Assessment of Reading - SWR' }),
       new webpack.ids.HashedModuleIdsPlugin(), // so that file hashes don't change unexpectedly
       new webpack.DefinePlugin({
         ROAR_DB: JSON.stringify(roarDB)

@@ -2,6 +2,7 @@ import { initConfig } from './config/config.js';
 import { buildExperiment } from './experiment.js';
 import './css/game.css';
 import store from 'store2'
+
 export class RoarSWR {
     constructor (firekit, params, displayElement) {
       // TODO: Add validation of params so that if any are missing, we throw an error

@@ -5,6 +5,7 @@ const webpack = require('webpack');
 const { merge } = require('webpack-merge');
 // // eslint-disable-next-line import/no-extraneous-dependencies
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const { EsbuildPlugin } = require('esbuild-loader')
 
 const commonConfig = {
   optimization: {
@@ -119,7 +120,7 @@ const developmentConfig = merge(webConfig, {
 const packageConfig = merge(commonConfig, {
   mode: 'production',
   entry: {
-    index: path.resolve(__dirname, 'src', 'experiment', 'index.js'),
+    index: path.resolve(__dirname, 'src', 'index.js'),
   },
   output: {
     filename: '[name].bundle.js',
@@ -131,8 +132,30 @@ const packageConfig = merge(commonConfig, {
       // name: 'RoarSWR', // Only valid for type: 'umd'
       type: 'module', // maybe this should be 'umd'
       // umdNamedDefine: true, // uncomment this line if we switch to type: 'umd'
+      export: 'default'
     },
     // globalObject: 'this', // uncomment this if we switch to type: 'umd'
+  },
+  optimization: {
+         minimizer: [
+           new EsbuildPlugin({
+             target: 'esnext'  // Syntax to compile to (see options below for possible values)
+           })
+         ]
+  },
+  module: {
+    rules: [
+      {
+        test: /\.js$/,
+        exclude: /node_modules/,
+        use: {
+          loader: 'esbuild-loader',
+          options: {
+            target: 'esnext'
+          },
+        },
+      },
+    ],
   },
   experiments: {
     outputModule: true,

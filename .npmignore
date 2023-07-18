@@ -11,5 +11,4 @@ eslintrc.json
 .gitignore
 assets.json
 firebase.json
-webpack.config.js
-.babelrc
+webpack.config.cjs

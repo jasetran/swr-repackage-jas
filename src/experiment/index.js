@@ -3,6 +3,9 @@ import { buildExperiment } from './experiment.js';
 import './css/game.css';
 import store from 'store2'
 
+// Import necessary for async in the top level of the experiment script
+import "regenerator-runtime/runtime.js";
+
 export class RoarSWR {
     constructor (firekit, params, displayElement) {
       // TODO: Add validation of params so that if any are missing, we throw an error

@@ -4,14 +4,16 @@
   "description": "",
   "main": "lib/index.bundle.js",
   "type": "module",
-  "files": ["lib"],
+  "files": [
+    "lib"
+  ],
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build:dev": "npx webpack --mode production --silent --env dbmode=development",
     "build:prod": "npx webpack --mode production --silent --env dbmode=production",
     "build:package": "npx webpack --mode none",
     "serve:dev": "npx webpack --open --mode development --silent --env dbmode=development",
-    "serve:prod": "npm webpack serve --open --mode development --silent --env dbmode=production"
+    "serve:prod": "npx webpack serve --open --mode development --env dbmode=production"
   },
   "repository": {
     "type": "git",
@@ -61,6 +63,7 @@
     "@babel/preset-env": "^7.22.5",
     "babel-loader": "^9.1.2",
     "css-loader": "^6.7.1",
+    "esbuild-loader": "^3.0.1",
     "eslint": "^8.12.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-plugin-import": "^2.25.4",

@@ -1,4 +1,4 @@
-import { Roarr as log } from 'roarr';
+import { Roarr as log } from "roarr";
 
 const getLogLevel = (level) => {
   let prettyLevel;
@@ -33,6 +33,7 @@ globalThis.ROARR.write = (message) => {
 
   if (payload.context.logLevel >= 30) {
     const logLevel = getLogLevel(payload.context.logLevel);
+    // eslint-disable-next-line no-console
     console.log(`${logLevel} ${payload.message}`);
   }
 };

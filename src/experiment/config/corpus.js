@@ -1,10 +1,11 @@
 /* eslint-disable no-plusplus */
-import { shuffle } from "../helperFunctions.js";
+import Papa from "papaparse";
 import i18next from "i18next";
-import '../i18n.js'
-import { wordlist } from "../i18n.js";
-import Papa from 'papaparse'
-
+// eslint-disable-next-line import/no-duplicates
+import "../i18n";
+// eslint-disable-next-line import/no-duplicates
+import { wordlist } from "../i18n";
+import { shuffle } from "../helperFunctions";
 
 /* csv helper function */
 const readCSV = (url) =>
@@ -22,7 +23,7 @@ const readCSV = (url) =>
   });
 
 const realpseudo2arrow = (realpseudo) =>
-  (realpseudo === "real" ? "ArrowRight" : "ArrowLeft");
+  realpseudo === "real" ? "ArrowRight" : "ArrowLeft";
 
 // addAsset :: (k, Promise a) -> Promise (k, a)
 const addAsset = ([name, assetPromise]) =>
@@ -30,7 +31,7 @@ const addAsset = ([name, assetPromise]) =>
 
 // loadAll :: {k: Promise a} -> Promise {k: a}
 const loadAll = (assets) =>
-  Promise.all(Object.entries(assets).map(addAsset)).then(Object.fromEntries);  
+  Promise.all(Object.entries(assets).map(addAsset)).then(Object.fromEntries);
 
 const csvPromises = {
   practice: readCSV(wordlist[i18next.language].dataPracticeURL),
@@ -40,17 +41,18 @@ const csvPromises = {
 
 const csvAssets = await loadAll(csvPromises);
 
-const transformCSV = (csvInput, isPractice) => csvInput.reduce((accum, row) => {
-  const newRow = {
-    stimulus: row.word,
-    correct_response: realpseudo2arrow(row.realpseudo),
-    difficulty: isPractice ? row.difficulty : row.b,
-    corpus_src: isPractice ? row.block : row.corpusId,
-    realpseudo: row.realpseudo,
-  };
-  accum.push(newRow);
-  return accum;
-}, []);
+const transformCSV = (csvInput, isPractice) =>
+  csvInput.reduce((accum, row) => {
+    const newRow = {
+      stimulus: row.word,
+      correct_response: realpseudo2arrow(row.realpseudo),
+      difficulty: isPractice ? row.difficulty : row.b,
+      corpus_src: isPractice ? row.block : row.corpusId,
+      realpseudo: row.realpseudo,
+    };
+    accum.push(newRow);
+    return accum;
+  }, []);
 
 export const csvTransformed = {
   practice: transformCSV(csvAssets.practice, true),
@@ -60,13 +62,18 @@ export const csvTransformed = {
 
 export const corpusAll = {
   name: "corpusAll",
-  corpus_pseudo: csvTransformed.validated.filter((row) => row.realpseudo === "pseudo"),
-  corpus_real: csvTransformed.validated.filter((row) => row.realpseudo === "real"),
+  corpus_pseudo: csvTransformed.validated.filter(
+    (row) => row.realpseudo === "pseudo",
+  ),
+  corpus_real: csvTransformed.validated.filter(
+    (row) => row.realpseudo === "real",
+  ),
 };
 
 export const corpusNew = {
   name: "corpusNew",
-  corpus_pseudo: csvTransformed.new.filter((row) => row.realpseudo === "pseudo"),
+  corpus_pseudo: csvTransformed.new.filter(
+    (row) => row.realpseudo === "pseudo",
+  ),
   corpus_real: csvTransformed.new.filter((row) => row.realpseudo === "real"),
 };
-

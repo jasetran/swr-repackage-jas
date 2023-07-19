@@ -1,8 +1,7 @@
 import { initJsPsych } from "jspsych";
 import i18next from "i18next";
-import './i18n.js';
+import "./i18n";
 import store from "store2";
-
 
 // ROAR apps communicate with the participant dashboard by passing parameters
 // through the URL. The dashboard can be made to append a "gameId"
@@ -15,23 +14,23 @@ import store from "store2";
 // construct the appropriate redirect URL.
 
 const redirect = () => {
-  const config = store.session.get('config')
+  const config = store.session.get("config");
 
   if (config.gameId === null) {
     // If no game token was passed, we refresh the page rather than
     // redirecting back to the dashboard
     // window.location.reload();
-    if (config.taskVariant === 'school') {
-      if (config.userMode === 'shortAdaptive') {
+    if (config.taskVariant === "school") {
+      if (config.userMode === "shortAdaptive") {
         window.location.href = `https://reading.stanford.edu?g=1154&c=1`;
       } else {
         window.location.href = `https://reading.stanford.edu?g=901&c=1`;
       }
-    } else if (config.taskVariant === 'UCSF') {
+    } else if (config.taskVariant === "UCSF") {
       window.location.href = `https://reading.stanford.edu?g=937&c=1`;
-    } else if (config.taskVariant === 'RF') {
+    } else if (config.taskVariant === "RF") {
       window.location.href = `https://reading.stanford.edu?g=940&c=1`;
-    } else if (config.taskVariant === 'prolific') {
+    } else if (config.taskVariant === "prolific") {
       window.location.href = `https://app.prolific.co/submissions/complete?cc=CK1VQ7DP`; // TO DO: change to prolific redirect
     }
   } else {
@@ -44,7 +43,7 @@ const redirect = () => {
 export const jsPsych = initJsPsych({
   show_progress_bar: true,
   auto_update_progress_bar: false,
-  message_progress_bar: `${i18next.t('progressBar')}`,
+  message_progress_bar: `${i18next.t("progressBar")}`,
   on_finish: () => {
     redirect();
   },

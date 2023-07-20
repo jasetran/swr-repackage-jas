@@ -43,6 +43,7 @@
     "@jspsych/plugin-survey-html-form": "^1.0.0",
     "@jspsych/plugin-survey-multi-select": "^1.1.0",
     "@jspsych/plugin-survey-text": "^1.1.0",
+    "csv-loader": "^3.0.5",
     "detect-it": "^4.0.1",
     "file-loader": "^6.2.0",
     "fscreen": "^1.2.0",

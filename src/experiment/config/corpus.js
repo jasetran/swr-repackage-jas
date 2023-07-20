@@ -8,38 +8,44 @@ import { wordlist } from "../i18n";
 import { shuffle } from "../helperFunctions";
 
 /* csv helper function */
-const readCSV = (url) =>
+
+
+const readCSV = (path) =>
   new Promise((resolve) => {
-    Papa.parse(url, {
-      download: true,
-      header: true,
-      dynamicTyping: true,
-      skipEmptyLines: true,
-      complete: function (results) {
-        const csv_stimuli = results.data;
-        resolve(csv_stimuli);
-      },
-    });
+    // Papa.parse(path, {
+    //   download: true,
+    //   header: true,
+    //   dynamicTyping: true,
+    //   skipEmptyLines: true,
+    //   complete: function (results) {
+    //     const csvStimuli = results.data;
+    //     resolve(csvStimuli);
+    //   },
+    // });
+
+    resolve(path)
   });
 
 const realpseudo2arrow = (realpseudo) =>
   realpseudo === "real" ? "ArrowRight" : "ArrowLeft";
 
 // addAsset :: (k, Promise a) -> Promise (k, a)
-const addAsset = ([name, assetPromise]) =>
-  assetPromise.then((asset) => [name, asset]);
+// const addAsset = ([name, assetPromise]) =>
+//   assetPromise.then((asset) => [name, asset]);
 
 // loadAll :: {k: Promise a} -> Promise {k: a}
-const loadAll = (assets) =>
-  Promise.all(Object.entries(assets).map(addAsset)).then(Object.fromEntries);
+// const loadAll = (assets) =>
+//   Promise.all(Object.entries(assets).map(addAsset)).then(Object.fromEntries);
 
-const csvPromises = {
-  practice: readCSV(wordlist[i18next.language].dataPracticeURL),
-  validated: readCSV(wordlist[i18next.language].dataValidatedURL),
-  new: readCSV(wordlist[i18next.language].dataNewURL),
+const csvAssets = {
+  practice: wordlist[i18next.language].dataPracticeURL,
+  validated: wordlist[i18next.language].dataValidatedURL,
+  new: wordlist[i18next.language].dataNewURL,
 };
 
-const csvAssets = await loadAll(csvPromises);
+// const csvAssets = await loadAll(csvPromises);
+
+
 
 const transformCSV = (csvInput, isPractice) =>
   csvInput.reduce((accum, row) => {

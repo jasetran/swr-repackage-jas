@@ -81,10 +81,14 @@ const commonConfig = {
         test: /\.csv$/,
         use: [
           {
-            loader: "file-loader",
+            loader: "csv-loader",
             options: {
-              name: "[name].[ext]",
-              outputPath: "corpora",
+              // download: true,
+              header: true,
+              dynamicTyping: true,
+              skipEmptyLines: true,
+              // name: "[name].[ext]",
+              // outputPath: "corpora",
             },
           },
         ],

@@ -30,6 +30,7 @@ import {
 import { lexicalityTest, leixcalityPractice } from "./trials/stimulus";
 import { countdown_trials } from "./trials/countdown";
 import { if_coin_tracking } from "./trials/coinFeedback";
+import "./css/game.css";
 
 // eslint-disable-next-line import/no-mutable-exports
 export let cat;

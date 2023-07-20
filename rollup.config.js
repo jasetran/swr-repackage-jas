@@ -10,14 +10,14 @@ import pkg from "./package.json" assert { type: "json" };
 export default {
   input: "src/index.js",
   plugins: [
-    commonjs(),
     css(),
     dsv(),
     json(),
     nodeResolve({
       preferBuiltins: true,
     }),
-    terser(),
+    terser(),     
+    commonjs(),
   ],
   output: [
     {

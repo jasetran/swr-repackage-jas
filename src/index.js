@@ -1,3 +1,4 @@
-// import { RoarSWR } from "./experiment/index.js";
+/* eslint-disable import/extensions */
+import RoarSWR from "./experiment/index.js";
 
-// module.exports = RoarSWR
+export default RoarSWR;

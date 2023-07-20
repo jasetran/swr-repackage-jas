@@ -105,7 +105,6 @@ export const initConfig = async (firekit, params, displayElement) => {
           schoolId, 
           taskVariant, 
           userMetadata, 
-          testingOnly, 
           studyId, 
           classId, 
           urlParams,
@@ -162,14 +161,6 @@ export const initConfig = async (firekit, params, displayElement) => {
 
 
   if (config.pid !== null) {
-    // const userInfo = {
-    //   id: config.pid,
-    //   studyId: config.studyId || null,
-    //   classId: config.classId || null,
-    //   schoolId: config.schoolId || null,
-    //   userMetadata: config.userMetadata,
-    // };
-
     await config.firekit.updateUser({ assessmentPid: config.pid, ...userMetadata });
   }
 
@@ -177,7 +168,6 @@ export const initConfig = async (firekit, params, displayElement) => {
 }
 
 export const initRoarJsPsych = (config) => {
-
   if (config.displayElement) {
     jsPsych.opts.display_element = config.display_element
   }
@@ -234,14 +224,9 @@ export const initRoarJsPsych = (config) => {
   });
 
   initStore(config);
-
-  // return jsPsych;
 };
 
 export const initRoarTimeline = (config) => {
-  // If the participant's ID was **not** supplied through the query string, then
-  // ask the user to fill out a form with their ID, class and school.
-
   const initialTimeline = [ enter_fullscreen, ...getUserDataTimeline]
   
   const beginningTimeline = {
@@ -256,24 +241,3 @@ export const initRoarTimeline = (config) => {
   return beginningTimeline;
 };
 
-
-// export const initializeRoarFireKit = async () => {
-//   config.pid = config.pid || makePid();
-//   let prefix = config.pid.split("-")[0];
-//   if (prefix === config.pid || config.taskVariant !== 'school'){
-//     prefix = "pilot";
-//   }
-//   const userInfo = {
-//     id: config.pid,
-//     studyId: config.taskVariant + "-" + config.userMode,
-//     schoolId: config.schoolId || prefix,
-//     userMetadata: config.userMetadata,
-//   };
-
-//   firekit = new RoarFirekit({
-//     config: roarConfig,
-//     userInfo: userInfo,
-//     taskInfo,
-//   });
-//   await firekit.startRun();
-// }

@@ -229,7 +229,7 @@ export const initRoarJsPsych = (config) => {
     if (data.save_trial) {
       config.firekit.writeTrial({
         timingData,
-        userInfo: config.firekit.userInfo,
+        userInfo: config.firekit.user.userData,
         ...data,
       });
     }

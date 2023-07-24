@@ -213,9 +213,6 @@ export const initRoarJsPsych = (config) => {
 
   jsPsych.opts.on_finish = extend(jsPsych.opts.on_finish, () => {
     config.firekit.finishRun();
-    if (config.experimentFinished) {
-      config.experimentFinished();
-    }
   });
 
   const timingData = {

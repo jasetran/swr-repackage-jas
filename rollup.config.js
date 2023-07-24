@@ -8,7 +8,7 @@ import { nodeResolve } from "@rollup/plugin-node-resolve";
 import pkg from "./package.json" assert { type: "json" };
 
 export default {
-  input: "src/index.js",
+  input: "src/experiment/index.js",
   plugins: [
     commonjs(),
     css(),

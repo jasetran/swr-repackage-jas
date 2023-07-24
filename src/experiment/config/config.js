@@ -215,13 +215,6 @@ export const initRoarJsPsych = (config) => {
     config.firekit.finishRun();
   });
 
-  const timingData = {
-    start_time_utc0: config.startTime.toISOString(),
-    start_time_unix: config.startTime.getTime(),
-    start_time_local: config.startTime.toLocaleString(),
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-  };
-
   jsPsych.opts.on_data_update = extend(jsPsych.opts.on_data_update, (data) => {
     if (data.save_trial) {
       config.firekit.writeTrial(data);

@@ -15,7 +15,7 @@
     "build:package": "npx rollup -c",
     "serve:dev": "npx webpack --open --mode development --env dbmode=development",
     "serve:prod": "npx webpack serve --open --mode development --env dbmode=production",
-    "lint": "npx eslint package/**",
+    "lint": "npx eslint src/**",
     "format": "npx prettier . --write"
   },
   "repository": {

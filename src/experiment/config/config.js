@@ -5,6 +5,7 @@ import _isUndefined from "lodash/isUndefined";
 import { getUserDataTimeline } from "../trials/getUserData";
 import { enter_fullscreen } from "../trials/fullScreen";
 import { corpusAll, corpusNew } from "./corpus";
+import { computedScoreCallback, normedScoreCallback } from "../scores";
 import { jsPsych } from "../jsPsych";
 
 const makePid = () => {
@@ -213,25 +214,15 @@ export const initRoarJsPsych = (config) => {
 
   jsPsych.opts.on_finish = extend(jsPsych.opts.on_finish, () => {
     config.firekit.finishRun();
-    if (config.experimentFinished) {
-      config.experimentFinished();
-    }
   });
-
-  const timingData = {
-    start_time_utc0: config.startTime.toISOString(),
-    start_time_unix: config.startTime.getTime(),
-    start_time_local: config.startTime.toLocaleString(),
-    timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
-  };
 
   jsPsych.opts.on_data_update = extend(jsPsych.opts.on_data_update, (data) => {
     if (data.save_trial) {
-      config.firekit.writeTrial({
-        timingData,
-        userInfo: config.firekit.user.userData,
-        ...data,
-      });
+      config.firekit.writeTrial(
+        data,
+        computedScoreCallback,
+        normedScoreCallback,
+      );
     }
   });
 

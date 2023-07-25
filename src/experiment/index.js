@@ -1,7 +1,8 @@
 /* eslint-disable import/extensions */
 import store from "store2";
-import { initConfig } from "./config/config.js";
-import { buildExperiment } from "./experiment.js";
+import { initConfig } from "./config/config";
+import { buildExperiment } from "./experiment";
+import { waitFor } from "./helperFunctions";
 import "./css/game.css";
 
 class RoarSWR {
@@ -27,6 +28,7 @@ class RoarSWR {
   async run() {
     const { jsPsych, timeline } = await this.init();
     jsPsych.run(timeline);
+    await waitFor(() => this.firekit.run.completed === true);
   }
 }
 

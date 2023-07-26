@@ -1,50 +1,81 @@
+/* eslint-disable import/no-cycle */
 /* eslint-disable no-plusplus */
 /* eslint-disable no-param-reassign */
 import store from "store2";
-
-// // Import necessary for async in the top level of the experiment script
-// import "regenerator-runtime/runtime.js";
+import { generateAssetObject, createPreloadTrials } from "@bdelab/roar-utils";
+import { Cat } from "@bdelab/jscat";
 
 // setup
-import { initRoarJsPsych, initRoarTimeline } from './config/config.js';
-import { csvTransformed } from "./config/corpus.js";
-import { generateAssetObject, createPreloadTrials } from "@bdelab/roar-utils";
-import { Cat } from '@bdelab/jscat';
-import { jsPsych } from "./jsPsych.js";
+import { initRoarJsPsych, initRoarTimeline } from "./config/config";
+import { csvTransformed } from "./config/corpus";
+import { jsPsych } from "./jsPsych";
+import assets from '../../assets.json'
 
 // trials
-import { audio_response } from "./trials/audioFeedback.js";
-import { introduction_trials, post_practice_intro,} from "./trials/introduction.js";
-import { practice_feedback } from "./trials/practiceFeedback.js";
-import { mid_block_page_list, post_block_page_list, final_page, } from "./trials/gameBreak.js";
-import { if_not_fullscreen, exit_fullscreen } from './trials/fullScreen.js';
-import { setup_fixation_test, setup_fixation_practice } from './trials/setupFixation.js';
-import { lexicalityTest, leixcalityPractice } from './trials/stimulus.js'
-import { countdown_trials } from "./trials/countdown.js";
-import { if_coin_tracking } from "./trials/coinFeedback.js";
+import { audio_response } from "./trials/audioFeedback";
+import {
+  introduction_trials,
+  post_practice_intro,
+} from "./trials/introduction";
+import { practice_feedback } from "./trials/practiceFeedback";
+import {
+  mid_block_page_list,
+  post_block_page_list,
+  final_page,
+} from "./trials/gameBreak";
+import { if_not_fullscreen, exit_fullscreen } from "./trials/fullScreen";
+import {
+  setup_fixation_test,
+  setup_fixation_practice,
+} from "./trials/setupFixation";
+import { lexicalityTest, leixcalityPractice } from "./trials/stimulus";
+import { countdown_trials } from "./trials/countdown";
+import { if_coin_tracking } from "./trials/coinFeedback";
+import "./css/game.css";
 
+const bucketURI = 'https://storage.googleapis.com/roar-swr'
 
-export let cat
-export let cat2
+// eslint-disable-next-line import/no-mutable-exports
+export let cat;
+// eslint-disable-next-line import/no-mutable-exports
+export let cat2;
 
-export let mediaAssets
-export let preloadTrials
-
+// eslint-disable-next-line import/no-mutable-exports
+export let mediaAssets;
+// eslint-disable-next-line import/no-mutable-exports
+export let preloadTrials;
 
 export function buildExperiment(config) {
-  mediaAssets = generateAssetObject(config.assets, config.bucketURI)
-  preloadTrials = createPreloadTrials(config.assets, config.bucketURI).default
+  // These functions can be moved out in the future since both arguments will be defined now
+  mediaAssets = generateAssetObject(assets, bucketURI);
+  preloadTrials = createPreloadTrials(assets, bucketURI).default;
 
   // Initialize jsPsych and timeline
   initRoarJsPsych(config);
   const initialTimeline = initRoarTimeline(config);
 
-  cat = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store.session("itemSelect")});
+  cat = new Cat({
+    method: "MLE",
+    minTheta: -6,
+    maxTheta: 6,
+    itemSelect: store.session("itemSelect"),
+  });
 
   // Include new items in thetaEstimate
-  cat2 = new Cat({method: 'MLE', minTheta: -6, maxTheta: 6, itemSelect: store.session("itemSelect")});
+  cat2 = new Cat({
+    method: "MLE",
+    minTheta: -6,
+    maxTheta: 6,
+    itemSelect: store.session("itemSelect"),
+  });
 
-  const timeline = [preloadTrials, ...initialTimeline.timeline, introduction_trials, if_not_fullscreen, countdown_trials]
+  const timeline = [
+    preloadTrials,
+    ...initialTimeline.timeline,
+    introduction_trials,
+    if_not_fullscreen,
+    countdown_trials,
+  ];
 
   // the core procedure
   const pushPracticeTotimeline = (array) => {
@@ -60,9 +91,12 @@ export function buildExperiment(config) {
       };
       timeline.push(block);
     });
-  }
+  };
 
-  const blockPracticeTrials = csvTransformed.practice.slice(0, config.totalTrialsPractice);
+  const blockPracticeTrials = csvTransformed.practice.slice(
+    0,
+    config.totalTrialsPractice,
+  );
 
   pushPracticeTotimeline(blockPracticeTrials);
   timeline.push(post_practice_intro);
@@ -95,9 +129,7 @@ export function buildExperiment(config) {
       /* add second half of block */
       const roar_mainproc_block_half_2 = {
         timeline: [core_procedure],
-        conditional_function: () => {
-          return stimulusCounts[i] !== 0;
-        },
+        conditional_function: () => stimulusCounts[i] !== 0,
         repetitions: stimulusCounts[i] - 1 - Math.floor(stimulusCounts[i] / 2),
       };
       const total_roar_mainproc_line = {
@@ -113,15 +145,13 @@ export function buildExperiment(config) {
       timeline.push(total_roar_mainproc_line);
       if (i < stimulusCounts.length - 1) {
         timeline.push(post_block_page_list[i]);
-        timeline.push(if_not_fullscreen)
+        timeline.push(if_not_fullscreen);
       }
     }
-  }
+  };
 
   pushTrialsTotimeline(config.stimulusCountList);
   timeline.push(final_page, exit_fullscreen);
 
-  return { jsPsych, timeline }
+  return { jsPsych, timeline };
 }
-
-

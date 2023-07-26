@@ -9,6 +9,7 @@ import { Cat } from "@bdelab/jscat";
 import { initRoarJsPsych, initRoarTimeline } from "./config/config";
 import { csvTransformed } from "./config/corpus";
 import { jsPsych } from "./jsPsych";
+import assets from '../../assets.json'
 
 // trials
 import { audio_response } from "./trials/audioFeedback";
@@ -32,6 +33,8 @@ import { countdown_trials } from "./trials/countdown";
 import { if_coin_tracking } from "./trials/coinFeedback";
 import "./css/game.css";
 
+const bucketURI = 'https://storage.googleapis.com/roar-swr'
+
 // eslint-disable-next-line import/no-mutable-exports
 export let cat;
 // eslint-disable-next-line import/no-mutable-exports
@@ -43,8 +46,9 @@ export let mediaAssets;
 export let preloadTrials;
 
 export function buildExperiment(config) {
-  mediaAssets = generateAssetObject(config.assets, config.bucketURI);
-  preloadTrials = createPreloadTrials(config.assets, config.bucketURI).default;
+  // These functions can be moved out in the future since both arguments will be defined now
+  mediaAssets = generateAssetObject(assets, bucketURI);
+  preloadTrials = createPreloadTrials(assets, bucketURI).default;
 
   // Initialize jsPsych and timeline
   initRoarJsPsych(config);

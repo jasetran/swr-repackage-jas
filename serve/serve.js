@@ -23,7 +23,6 @@ const numAdaptive = urlParams.get("numAdaptive");
 const numNew = urlParams.get("numNew");
 const numValidated = urlParams.get("numValidated");
 export const labId = urlParams.get("labId");
-const gameId = urlParams.get("gameId");
 
 // @ts-ignore
 const appKit = await initializeFirebaseProject(
@@ -45,28 +44,28 @@ onAuthStateChanged(appKit.auth, (user) => {
       },
     };
 
-    const params = {
-      userMode,
+    const userParams = {
       pid,
       studyId,
       classId,
       schoolId,
+      labId,
+    }
+
+    const gameParams = {
+      userMode,
       taskVariant,
       skipInstructions,
-      audioFeedback,
       consent,
+      audioFeedback,
       numAdaptive,
       numNew,
       numValidated,
-      labId,
-      gameId,
-      assets: assets,
-      bucketURI: "https://storage.googleapis.com/roar-swr",
     };
 
     const taskInfo = {
       taskId: "swr",
-      variantParams: params,
+      variantParams: gameParams,
     };
 
     const firekit = new RoarAppkit({
@@ -75,7 +74,7 @@ onAuthStateChanged(appKit.auth, (user) => {
       userInfo,
     });
 
-    const roarApp = new RoarSWR(firekit, params);
+    const roarApp = new RoarSWR(firekit, gameParams, userParams);
 
     roarApp.run();
   }

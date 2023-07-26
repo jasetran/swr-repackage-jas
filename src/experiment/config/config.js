@@ -123,7 +123,6 @@ export const initConfig = async (firekit, params, displayElement) => {
     testingOnly,
     studyId,
     classId,
-    urlParams,
     consent,
     audioFeedback,
     language,
@@ -145,7 +144,6 @@ export const initConfig = async (firekit, params, displayElement) => {
     testingOnly,
     studyId,
     classId,
-    urlParams,
     consent: consent || true,
     audioFeedback: audioFeedback || "binary",
     language,
@@ -175,8 +173,6 @@ export const initConfig = async (firekit, params, displayElement) => {
     startTime: new Date(),
     firekit,
     displayElement: displayElement || null,
-    assets,
-    bucketURI,
   };
 
   if (config.pid !== null) {

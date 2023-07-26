@@ -6,9 +6,10 @@ import { waitFor } from "./helperFunctions";
 import "./css/game.css";
 
 class RoarSWR {
-  constructor(firekit, params, displayElement) {
+  constructor(firekit, gameParams, userParams, displayElement) {
     // TODO: Add validation of params so that if any are missing, we throw an error
-    this.params = params;
+    this.gameParams = gameParams;
+    this.userParams = userParams;
     this.firekit = firekit;
     this.displayElement = displayElement;
   }
@@ -17,7 +18,7 @@ class RoarSWR {
     await this.firekit.startRun();
     const config = await initConfig(
       this.firekit,
-      this.params,
+      {...this.gameParams, ...this.userParams},
       this.displayElement,
     );
     // configStore.updateConfig(newConfigValues);

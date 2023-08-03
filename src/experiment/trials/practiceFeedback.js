@@ -38,10 +38,13 @@ const feedbackStimulus = () => {
   count += 1;
 
   if (isCorrect) {
-    return mediaAssets.audio[`feedback${count}Correct`];
+    if (store.session.get("config").story) {
+      return mediaAssets.audio[`feedback${count}Correct`] }
+    return mediaAssets.audio[`feedback${count}CorrectNs`]
   }
-
-  return mediaAssets.audio[`feedback${count}Wrong`];
+  if (store.session.get("config").story) { 
+    return mediaAssets.audio[`feedback${count}Wrong`] }
+  return mediaAssets.audio[`feedback${count}WrongNs`];
 };
 
 export const practice_feedback = {

@@ -265,6 +265,12 @@ p {
   bottom: 4vh;
 }
 
+.charactercenter {
+  position: relative;
+  height: 35vh;
+  display: inline-block;
+}
+
 .guardian {
   position: relative;
   height: 30vh;

@@ -13,9 +13,12 @@
   },
   "introTrials": {
     "trial1": {
-      "header": "Welcome to the world of Lexicality!",
+      "header1": "Welcome to the world of Lexicality!",
       "paragraph1": "You are a wizard searching for the gate that will return you to your home on Earth. To reach the gate, you must journey over lands ruled by magical guardians.",
-      "paragraph2": "In order for the guardians to let you pass through the land, you will have to tell the difference between made-up words and real words.&nbsp;"
+      "paragraph2": "In order for the guardians to let you pass through the land, you will have to tell the difference between made-up words and real words.&nbsp;",
+      "header2": "Welcome to the Single Word Recognition activity!",
+      "paragraph3": "In this activity, you will look at words that show up on the screen.",
+      "paragraph4": "You will then need to tell the difference between made-up words and real words.&nbsp;"
     },
     "trial2": {
       "header": "A real or made-up word will flash very quickly at the center of the screen.",
@@ -28,8 +31,10 @@
       "paragraph2": "Some words will be hard, and that&#39s okay. If you&#39re not sure, just give your best guess!"
     },
     "postPracticeTrial": {
-      "header": "Great work, you are ready to begin the journey!",
-      "paragraph1": "You will earn gold coins along the way."
+      "header1": "Great work, you are ready to begin the journey!",
+      "header2": "Great work, you are ready to begin the real activity!",
+      "paragraph1": "You will earn gold coins along the way.",
+      "paragraph2": "Good luck!"
     }
   },
   "practiceFeedbackTrial": {
@@ -40,37 +45,55 @@
   "gameBreakTrials": {
     "midBlockTrials": {
       "trial1": {
-        "header": "Good work!",
+        "header1": "Good work!",
         "paragraph1": "You are halfway through the valley, and you decide to camp near a small village.",
-        "paragraph2": "In the village, you meet another adventurer who joins your journey!"
+        "paragraph2": "In the village, you meet another adventurer who joins your journey!",
+        "header2": "Good work!",
+        "paragraph3": "You are halfway through the first block.",
+        "paragraph4": "Feel free to take a short break and continue when you are ready."
       },
       "trial2": {
-        "header": "Amazing!",
+        "header1": "Amazing!",
         "paragraph1": "After a few days of traveling, you come across an inn!",
-        "paragraph2": "There, you meet another adventurer who joins your journey!"
+        "paragraph2": "There, you meet another adventurer who joins your journey!",
+        "header2": "Amazing!",
+        "paragraph3": "You are halfway through the second block.",
+        "paragraph4": "Feel free to take a short break and continue when you are ready."
       },
       "trial3": {
-        "header": "Fantastic Work!",
+        "header1": "Fantastic work!",
         "paragraph1": "You are halfway through the valley, and you decide to camp near a small village.",
-        "paragraph2": "There, you meet another adventurer who joins your journey!"
+        "paragraph2": "There, you meet another adventurer who joins your journey!",
+        "header2": "Fantastic work!",
+        "paragraph3": "You are halfway through the third block.",
+        "paragraph4": "Feel free to take a short break and continue when you are ready."
       }
     },
     "postBlockTrials": {
       "trial1": {
-        "header": "Congratulations!",
+        "header1": "Congratulations!",
         "paragraph1": "With the guardian&#39s help, you made it through the valley.",
-        "paragraph2": "You&#39re getting closer to the gate!"
+        "paragraph2": "You&#39re getting closer to the gate!",
+        "header2": "Congratulations!",
+        "paragraph3": "You have completed the first block.",
+        "paragraph4": "Feel free to take a short break and continue when you are ready."
       },
       "trial2": {
-        "header": "Congratulations!",
+        "header1": "Congratulations!",
         "paragraph1": "With the guardian&#39s help, you made it through the valley.",
-        "paragraph2": "Just one more valley until you reach the gate!"
+        "paragraph2": "Just one more valley until you reach the gate!",
+        "header2": "Congratulations!",
+        "paragraph3": "You have completed the second block.",
+        "paragraph4": "Feel free to take a short break and continue when you are ready."
       }
     },
     "finalTrial": {
-      "header": "Finally, you found the last guardian and the gate that will bring you home!",
+      "header1": "Finally, you found the last guardian and the gate that will bring you home!",
       "paragraph1": "You use your coins to open the gate.",
-      "paragraph2": "You say farewell to your new friends and leave the land of Lexicality. Until next time!"
+      "paragraph2": "You say farewell to your new friends and leave the land of Lexicality. Until next time!",
+      "header2": "Congratulations!",
+      "paragraph3": "You have completed the Single Word Recognition activity.",
+      "paragraph4": "Thank you for your amazing work!"
     }
   },
   "imagesAlt": {

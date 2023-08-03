@@ -8,32 +8,40 @@ import { mediaAssets } from "../experiment";
 
 const introTrialsContent = [
   {
-    stimulus: () => mediaAssets.audio.intro1,
-    prompt: () => `
-    <h1 id='lexicality-intro-header'>${i18next.t(
-      "introTrials.trial1.header",
-    )}</h1>
-    <div class="row">
-      <div class="column_1">
-        <img class="characterleft" src="${
-          mediaAssets.images.wizardMagic
-        }" alt="animation of a wizard waving a magic wand">
-      </div>
-      <div class="column_3">
+    stimulus: () => { // TO DO: replace audio file with AI for no story mode
+      if (store.session.get("config").story) {
+        return mediaAssets.audio.intro1 }
+      return mediaAssets.audio.intro1Ns
+    },
+    prompt: () => {
+      if (store.session.get("config").story) {
+        return `<h1 id='lexicality-intro-header'>${i18next.t("introTrials.trial1.header1",)}</h1>
+        <div class="row">
+        <div class="column_1">
+        <img class="characterleft" src="${mediaAssets.images.wizardMagic}" alt="animation of a wizard waving a magic wand">
+        </div>
+        <div class="column_3">
         <p class="middle">${i18next.t("introTrials.trial1.paragraph1")}</p>
         <p class="middle">${i18next.t("introTrials.trial1.paragraph2")}</p>
-      </div>
-    </div>
-    ${
-      !isTouchScreen
-        ? `<div class="button">${i18next.t("navigation.continueButtonText", {
-            action: `${i18next.t("terms.continue")}`,
-          })}</div>`
-        : ""
-    }`,
+        </div>
+        </div>
+        ${!isTouchScreen ? `<div class="button">${i18next.t("navigation.continueButtonText", {
+          action: `${i18next.t("terms.continue")}`, })}</div>`: "" }`
+        } // TO DO: replace wizard gif with different gif
+      return `<h1 id='lexicality-intro-header'>${i18next.t("introTrials.trial1.header2",)}</h1>
+        <p>${i18next.t("introTrials.trial1.paragraph3")}</p>
+        <p>${i18next.t("introTrials.trial1.paragraph4")}</p>
+        <img class="charactercenter" src="${mediaAssets.images.swrLaptop}" alt="animation of a wizard waving a magic wand">
+        ${!isTouchScreen ? `<div class="button">${i18next.t("navigation.continueButtonText", {
+          action: `${i18next.t("terms.continue")}`, })} </div>`: "" }`
+    },
   },
   {
-    stimulus: () => mediaAssets.audio.intro2,
+    stimulus: () => {
+      if (store.session.get("config").story) { // TO DO: replace audio file with AI for no story mode
+        return mediaAssets.audio.intro2 }
+      return mediaAssets.audio.intro2Ns
+    },
     prompt: () => `
     <h1>${i18next.t("introTrials.trial2.header")}</h1>
     <div class="row">
@@ -51,12 +59,12 @@ const introTrialsContent = [
     <div class="row">
       <div class="column_2_lower" style="background-color:#f2f2f2;">
         <img width="100%" src=${
-          mediaAssets.images.arrowLeftP2
+          mediaAssets.images.arrowStaticLeftP2
         } alt="Magic Word, Press the Left Arrow Key" align="right">
       </div>
       <div class="column_2_lower" style="background-color:#f2f2f2;">
         <img width="100%" src=${
-          mediaAssets.images.arrowRightP2
+          mediaAssets.images.arrowStaticRightP2
         } alt="Real Word, Press the Right Arrow key">
     </div>
     ${
@@ -68,7 +76,11 @@ const introTrialsContent = [
     }`,
   },
   {
-    stimulus: () => mediaAssets.audio.intro3,
+    stimulus: () => {
+      if (store.session.get("config").story) { // TO DO: replace audio file with AI for no story mode
+        return mediaAssets.audio.intro3 } 
+      return mediaAssets.audio.intro3Ns
+    },
     prompt: () => `
     <h1>${i18next.t("introTrials.trial3.header")}</h1>
     <div>
@@ -109,9 +121,13 @@ export const introduction_trials = {
   timeline: [...introTrialsMapped],
 };
 
-export const post_practice_intro = {
+export const post_practice_intro = { 
   type: AudioMultiResponsePlugin,
-  stimulus: () => mediaAssets.audio.coinIntro,
+  stimulus: () => {
+    if (store.session.get("config").story) {
+      return mediaAssets.audio.coinIntro }
+    return mediaAssets.audio.postPracticeNs
+  }, // TO DO: replace audio file with AI for no story mode
   keyboard_choices: () => (isTouchScreen ? "NO_KEYS" : "ALL_KEYS"),
   button_choices: () => (isTouchScreen ? ["HERE"] : []),
   button_html: () =>
@@ -120,20 +136,20 @@ export const post_practice_intro = {
     })}</button>`,
   response_allowed_while_playing: () =>
     store.session.get("config").skipInstructions,
-  prompt: () => `
-  <h1>${i18next.t("introTrials.postPracticeTrial.header")}</h1>
-    <div>
-      <p class="center">${i18next.t(
-        "introTrials.postPracticeTrial.paragraph1",
-      )}</p>
+  prompt: () => {
+    if (store.session.get("config").story) {
+      return `<h1>${i18next.t("introTrials.postPracticeTrial.header1")}</h1> <div>
+      <p class="center">${i18next.t("introTrials.postPracticeTrial.paragraph1",)}</p>
       <img class = "coin" src="${mediaAssets.images.goldCoin}" alt="gold">
-    </div>
-  ${
-    !isTouchScreen
-      ? `<div class="button">${i18next.t("navigation.continueButtonText", {
-          action: `${i18next.t("terms.begin")}`,
-        })}</div>`
-      : ""
-  }`,
+      </div>
+      ${!isTouchScreen ? `<div class="button">${i18next.t("navigation.continueButtonText", {
+        action: `${i18next.t("terms.begin")}`, })}</div>`: ""}`
+    } // TO DO: replace wizard gif with different gif
+    return `<h1 id='lexicality-intro-header'>${i18next.t("introTrials.postPracticeTrial.header2",)}</h1>
+    <p>${i18next.t("introTrials.postPracticeTrial.paragraph2")}</p>
+    <img class="charactercenter" src="${mediaAssets.images.swrLaptop}" alt="animation of a wizard waving a magic wand">
+    ${!isTouchScreen ? `<div class="button">${i18next.t("navigation.continueButtonText", {
+      action: `${i18next.t("terms.continue")}`, })}</div>`: "" }`
+  },
   prompt_above_buttons: true,
 };

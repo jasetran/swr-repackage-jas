@@ -19,6 +19,7 @@ const classId = urlParams.get("classId");
 const skipInstructions = urlParams.get("skip");
 const audioFeedback = urlParams.get("feedback");
 const consent = urlParams.get("consent");
+const story = urlParams.get("story");
 const numAdaptive = urlParams.get("numAdaptive");
 const numNew = urlParams.get("numNew");
 const numValidated = urlParams.get("numValidated");
@@ -56,7 +57,8 @@ onAuthStateChanged(appKit.auth, (user) => {
       userMode,
       taskVariant,
       skipInstructions,
-      consent,
+      consent: (consent === "true"),
+      story: (story !== "false"),
       audioFeedback,
       numAdaptive,
       numNew,

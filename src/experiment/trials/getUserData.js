@@ -38,7 +38,8 @@ const getPid = {
 
 const ifGetPid = {
   timeline: [getPid],
-  conditional_function: () => store.session.get("config").pid === null,
+  conditional_function: () => 
+  store.session.get("config").pid === null,
 };
 
 const consent_form = {
@@ -88,6 +89,7 @@ const consent_form = {
       required: true,
       required_message: "You must check the box to continue",
       name: "Agree",
+      on_finish: () => console.log("this is consent:", store.session.get("config").consent),
     },
   ],
 };
@@ -99,7 +101,8 @@ export const ifConsentForm = {
       (store.session.get("config").userMode === "demo" ||
         store.session.get("config").taskVariant === "otherLabs" ||
         store.session.get("config").taskVariant === "prolific") &&
-        store.session.get("config").consent === true,
+        store.session.get("config").consent === true ||
+        (store.session.get("config").consent)
     ),
 };
 
